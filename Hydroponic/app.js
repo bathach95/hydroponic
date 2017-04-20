@@ -7,8 +7,13 @@ var expressLayouts = require('express-ejs-layouts');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var models = require('./models');
+
+//-----router-----
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var user = require('./routes/user');
+var device = require('./routes/device');
+//----------------
+
 var cors = require('cors');
 
 var app = express();
@@ -30,7 +35,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
 app.use('/', routes);
-app.use('/users', users.router);
+app.use('/user', user.router);
+app.use('/device', device.router)
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());

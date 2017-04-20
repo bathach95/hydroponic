@@ -7,7 +7,7 @@ router.get("/login", function(req, res){
 });
 
 router.get("/", function(req, res){
-  res.json({data: "index file"});
+  res.render("index", {title: 'Hydroponic'});
 });
 
 /* GET register page */

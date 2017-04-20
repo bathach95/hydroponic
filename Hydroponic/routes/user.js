@@ -8,22 +8,19 @@ var models = require('../models');
 var jwt = require('jsonwebtoken');
 var Cookies = require('cookies');
 var opts = {
-  secretOrKey: 'football',
+  secretOrKey: 'hydroponic',
   jwtFromRequest: ExtractJwt.fromHeader('token')
 }
 
+/* set up jwt Strategy for passport */
 passport.use(new Strategy(opts, function(jwt_payload, done){
   return done(null, jwt_payload);
 }));
 
+/* ensure authentication */
 var authenticate = function(){
   return passport.authenticate('jwt', {session: false});
 }
-
-/* test GET */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
 
 /* register action */
 router.post('/register', function(req, res){
@@ -56,15 +53,11 @@ router.post('/register', function(req, res){
     }
   });
 });
-
-/* test ensure authenticate*/
-router.get('/ensure', authenticate(), function(req,res){
-  res.send('ok');
-});
+/* end register action*/
 
 /* login action */
 router.post('/login',function(req, res){
-  models.User.getUserByUsename(req.body.name, function(user){
+  models.User.getUserByEmail(req.body.email, function(user){
     if (user){
       models.User.comparePassword(req.body.password, user.password, function(isMatch){
         if (isMatch){
@@ -72,7 +65,7 @@ router.post('/login',function(req, res){
             name: user.name,
             email: user.email
           }
-          var token = jwt.sign(usr,'football',{expiresIn:30000});
+          var token = jwt.sign(usr,'hydroponic',{expiresIn:30000});
           res.json({
             success: true,
             data: {
@@ -100,8 +93,14 @@ router.post('/login',function(req, res){
     });
   });
 });
+/* end login action */
 
-module.exports.authenticate = function() {
-  return authenticate();
-};
+
+router.get('/profile', function(req, res){
+  // TODO: ensure authentication here and render profile page
+  res.render('profile');
+})
+
+
+module.exports.authenticate = authenticate;
 module.exports.router = router;
