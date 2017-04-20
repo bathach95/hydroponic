@@ -1,10 +1,10 @@
 {
     "development": {
-        "dialect": "mysql",
-        "username": "root",
-        "password": "bathach1995",
-        "database": "hydroponic",
-        "host": "127.0.0.1",
+        "dialect": "postgres",
+        "username": "rrvetulriqlhnz",
+        "password": "31a1e62a8abc9674a4678a7c7cd6134588121fbdd67478c662cb2e74a5bcd316",
+        "database": "ds6aqmrjm18ec",
+        "host": "ec2-107-22-236-252.compute-1.amazonaws.com",
         "pool": {
             "max": 5,
             "min": 0,
