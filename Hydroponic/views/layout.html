@@ -16,7 +16,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="/css/tttn.css" rel="stylesheet" type="text/css" media="all" />
 
-	<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/css/image-gallery/themes.css">
 
 
@@ -267,7 +267,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				$('#reg_message').html("Password does not match !");
 			} else {
 				$.ajax({
-					url: 'http://localhost:3000/user/register',
+					url: '/user/register',
 					type: 'post',
 					dataType: 'json',
 					cache: false,
