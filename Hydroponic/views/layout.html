@@ -4,7 +4,7 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE HTML>
-<html>
+<html ng-app="myApp">
 
 <head>
 	<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
@@ -90,24 +90,25 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 				<div class="header-right">
 					<div class="logo">
-						<h1><a href="index.html">Agrom</a></h1>
+						<h1><a href="/">Agrom</a></h1>
 					</div>
 
-					<div class="header-login">
+					<!-- before login -->
+					<div ng-hide="loggedIn" class="header-login">
 						<div class="top-nav-right">
 							<div id="loginContainer"><a href="#" id="loginButton"><span>Login</span></a>
 								<div id="loginBox">
-									<form id="loginForm">
+									<form id="loginForm" ng-controller="Login">
 										<fieldset id="body">
 											<fieldset>
 												<label for="email" >Email Address</label>
-												<input type="email" name="email" id="email">
+												<input type="email" ng-model="user.email" name="email" id="email">
 											</fieldset>
 											<fieldset>
 												<label for="password">Password</label>
-												<input type="password" name="password" id="password">
+												<input type="password" ng-model="user.password" name="password" id="password">
 											</fieldset>
-											<input type="button" id="login" onclick="loginFnc()" value="Sign in">
+											<input type="button" id="login" ng-click="login()" value="Sign in">
 											<label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
 										</fieldset>
 										<span><a href="#">Forgot your password?</a></span>
@@ -117,34 +118,34 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 					</div>
 
-					<div class="header-login">
+					<div ng-hide="loggedIn" class="header-login">
 						<div class="top-nav-right">
 							<div id="registerContainer"><a href="#" id="registerButton"><span>Register</span></a>
 								<div id="registerBox">
-									<form id="registerForm">
+									<form id="registerForm" ng-controller="Register">
 										<fieldset id="body">
 											<fieldset>
 												<label for="reg_name">Name</label>
-												<input type="text" name="reg_name" id="reg_name">
+												<input type="text" ng-model="user.name" name="reg_name" id="reg_name">
 											</fieldset>
 											<fieldset>
 												<label for="reg_name">Phone number</label>
-												<input type="number" name="reg_phone" id="reg_phone">
+												<input type="number" ng-model="user.phone" name="reg_phone" id="reg_phone">
 											</fieldset>
 											<fieldset>
 												<label for="reg_email">Email Address</label>
-												<input type="email" name="reg_email" id="reg_email">
+												<input type="email" ng-model="user.email" name="reg_email" id="reg_email">
 											</fieldset>
 											<fieldset>
 												<label for="reg_password">Password</label>
-												<input type="password" name="reg_password" id="reg_password">
+												<input type="password" ng-model="user.password" name="reg_password" id="reg_password">
 											</fieldset>
 
 											<fieldset>
 												<label for="confirm_password">Confirm password</label>
-												<input type="password" name="confirm_password" id="confirm_password">
+												<input type="password" ng-model="user.confirm_password" name="confirm_password" id="confirm_password">
 											</fieldset>
-											<input type="button" onclick="registerFunc()" id="register" value="Register">
+											<input type="button" ng-click="register()" id="register" value="Register">
 											<br>
 											<br>
 											<p id="reg_message"></p>
@@ -155,7 +156,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							</div>
 						</div>
 					</div>
+					<!-- end before login -->
 
+					<!-- after login -->
+					<div ng-show="loggedIn" class="header-login">
+						<div class="top-nav-right">
+							<button type="button" class="btn" name="button">{{userLogin}}</button>
+						</div>
+					</div>
+					<!-- end after login -->
 
 					<div class="clearfix"> </div>
 				</div>
@@ -170,12 +179,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="top-navg">
 				<span class="menu"> <img src="/images/icon.png" alt=""/></span>
 				<ul class="res">
-					<li><a href="index.html" class="active hvr-sweep-to-bottom">Home</a></li>
-					<li><a class="hvr-sweep-to-bottom" href="services.html">System</a></li>
-					<li><a class="hvr-sweep-to-bottom" href="single.html">Article</a></li>
-					<li><a class="hvr-sweep-to-bottom" href="profile.html">Profile</a></li>
-					<li><a class="hvr-sweep-to-bottom" href="gallery.html">Forum</a></li>
-					<li><a class="hvr-sweep-to-bottom" href="about.html">About</a></li>
+					<li><a href="/" class="active hvr-sweep-to-bottom">Home</a></li>
+					<li><a class="hvr-sweep-to-bottom" href="/system">System</a></li>
+					<li><a class="hvr-sweep-to-bottom" href="/article">Article</a></li>
+					<li><a class="hvr-sweep-to-bottom" href="/forum">Forum</a></li>
+					<li><a class="hvr-sweep-to-bottom" href="/about">About</a></li>
 				</ul>
 				<!-- script-for-menu -->
 				<script>

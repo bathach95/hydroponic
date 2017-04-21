@@ -16,15 +16,16 @@ myApp.factory('headerInterceptor',['$cookies',function($cookies){
 myApp.config(['$httpProvider', function($httpProvider){
   $httpProvider.interceptors.push('headerInterceptor');
 }]);
+
 myApp.controller('Register', function($http,$scope){
   $scope.user = {
-        username: '',
+        name: '',
         password: '',
-        email: ''
+        email: '',
+        phone: ''
   };
   $scope.register = function(){
-    console.log($scope.user);
-    $http.post('/users/register',$scope.user).then(function(result){
+    $http.post('/user/register',$scope.user).then(function(result){
       console.log(result.data);
       if(result.data.success){
         window.alert('Register success!');
@@ -36,13 +37,14 @@ myApp.controller('Register', function($http,$scope){
 
 myApp.controller('Login', function($http,$scope,$rootScope,$cookies){
   $scope.user = {
-        username: '',
+        email: '',
         password: ''
   };
   $scope.login = function(){
-    $http.post('/users/login',$scope.user).then(function(result){
+    $http.post('/user/login',$scope.user).then(function(result){
       if(result.data.success==true){
-        $rootScope.userLogin = result.data.data.username;
+        $rootScope.userLogin = result.data.data.name;
+        $rootScope.loggedIn = true;
         var day = new Date();
         day.setDate(day.getDay()+30);
         $cookies.put('token',result.data.token,{expires:day});
@@ -51,4 +53,12 @@ myApp.controller('Login', function($http,$scope,$rootScope,$cookies){
       else window.alert('Login failed!');
     });
   }
+});
+
+myApp.controller('TestLogin', function($http, $scope, $rootScope){
+    $scope.test = function(){
+      $http.get('/device/test').then(function(res){
+        console.log(res);
+      });
+    }
 });
