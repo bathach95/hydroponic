@@ -49,12 +49,17 @@ a:hover {
 
 .head-left {
     float: left;
-    width: 45%;
+    width: 20%;
+}
+
+.header-center{
+  display: table;
+  margin:0 auto;
 }
 
 .header-right {
     float: right;
-    width: 55%;
+    width: 20%;
 }
 
 .head-left p {
@@ -84,7 +89,8 @@ span.menu {
 }
 
 .logo {
-    float: left;
+  text-align: center;
+  margin:0 auto;
 }
 
 .header-login {
@@ -118,7 +124,7 @@ span.menu {
 }
 
 .logo h1 a {
-    color: #956295;
+    color: #428bca;/*#956295;*/
     text-decoration: none;
 }
 
@@ -155,7 +161,7 @@ span.menu {
 }
 
 #loginContainer a span:hover {
-    background: #956295;
+    background: #428bca;/*#956295;*/
     transition: 0.5s all;
     -webkit-transition: 0.5s all;
     -moz-transition: 0.5s all;
@@ -200,7 +206,7 @@ span.menu {
 #loginForm {
     width: 300px;
     background: #fff;
-    border: 2px solid #956295;
+    border: 2px solid #428bca;/*#956295;*/
     border-radius: 35px 5px 35px 5px;
 }
 
@@ -268,7 +274,7 @@ fieldset#body {
 #loginForm #login {
     width: auto;
     float: left;
-    background: #351136;
+    background: #428bca;/*#351136;*/
     color: #fff;
     font-size: 0.8725em;
     padding: 8px 20px;
@@ -405,7 +411,7 @@ input:focus {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #956295;
+    background: #428bca;
     -webkit-transform: scaleY(0);
     transform: scaleY(0);
     -webkit-transform-origin: 50% 0;
@@ -792,7 +798,7 @@ span.glyphicon.glyphicon-circle-arrow-right:hover {
 
 .footer {
     padding: 3em 0em;
-    background: #202020;
+    background: 	#428bca;/*#202020;*/
 }
 
 .ftr-grd h3 {
@@ -805,7 +811,7 @@ span.glyphicon.glyphicon-circle-arrow-right:hover {
 .ftr-grd p {
     font-size: 0.95em;
     font-weight: 400;
-    color: #A0A0A0;
+    color: #fff;
     line-height: 1.9em;
 }
 
@@ -2490,4 +2496,12 @@ h3.typo1 {
         width: 30%;
         font-size: 14px;
     }
+}
+
+
+
+
+.centered-items{
+  text-align: center;
+  margin: 0 auto;
 }
