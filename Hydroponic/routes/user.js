@@ -6,6 +6,7 @@ var ExtractJwt = passportJWT.ExtractJwt;
 var Strategy = passportJWT.Strategy;
 var models = require('../models');
 var jwt = require('jsonwebtoken');
+var flash = require('req-flash');
 var Cookies = require('cookies');
 var opts = {
   secretOrKey: 'hydroponic',
@@ -96,7 +97,7 @@ router.post('/login',function(req, res){
 /* end login action */
 
 
-router.get('/profile', function(req, res){
+router.get('/profile', authenticate, function(req, res){
   // TODO: ensure authentication here and render profile page
   res.render('profile');
 })

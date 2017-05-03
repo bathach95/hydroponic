@@ -249,15 +249,15 @@ used to vertically center elements, may need modification if you're not using de
 
   /********** Register *************/
 
-  #registerContainer {
+  #registerContainer, #loggedInContainer {
       position: relative;
   }
 
-  #registerContainer a {
+  #registerContainer a, #loggedInContainer a {
       text-decoration: none;
   }
 
-  #registerContainer a span {
+  #registerContainer a span, #loggedInContainer a span {
       display: block;
       color: #fff;
       background: #f4d638;
@@ -270,7 +270,7 @@ used to vertically center elements, may need modification if you're not using de
       font-size: 1.1em;
   }
 
-  #registerContainer a span:hover {
+  #registerContainer a span:hover, #loggedInContainer a span:hover {
       background: #956295;
       transition: 0.5s all;
       -webkit-transition: 0.5s all;
@@ -281,7 +281,7 @@ used to vertically center elements, may need modification if you're not using de
 
   /* register Button */
 
-  #registerButton {
+  #registerButton, #loggedInButton, .logged-in-btn {
       margin-right: 5px;
       display: inline-block;
       position: relative;
@@ -289,10 +289,15 @@ used to vertically center elements, may need modification if you're not using de
       cursor: pointer;
   }
 
+  .logged-in-btn {
+    border-radius: 35px 5px 35px 5px;
+  }
+
+
 
   /* register Box */
 
-  #registerBox {
+  #registerBox, #loggedInBox {
       position: absolute;
       top: 45px;
       right: 27px;
@@ -300,7 +305,7 @@ used to vertically center elements, may need modification if you're not using de
       z-index: 29;
   }
 
-  #registerForm:after {
+  #registerForm:after, #loggedInForm:after {
       content: '';
       position: absolute;
       right: 25px;
@@ -313,14 +318,21 @@ used to vertically center elements, may need modification if you're not using de
 
   /* register Form */
 
-  #registerForm {
-      width: 300px;
+  #registerForm, #loggedInForm {
       background: #fff;
       border: 2px solid #956295;
       border-radius: 35px 5px 35px 5px;
   }
 
-  #registerForm fieldset {
+  #registerForm {
+    width: 300px;
+  }
+
+  #loggedInForm {
+      width: 100px;
+  }
+
+  #registerForm fieldset, #loggedInForm fieldset {
       margin: 0 0 15px 0;
       display: block;
       border: 0;
@@ -336,14 +348,6 @@ used to vertically center elements, may need modification if you're not using de
       margin: 0;
   }
 
-  #registerForm #checkbox {
-      width: auto;
-      margin: 3px 6px 0 0;
-      float: left;
-      padding: 0;
-      border: 0;
-  }
-
   #body label {
       color: #000;
       margin: 10px 0 0 0;
@@ -353,7 +357,7 @@ used to vertically center elements, may need modification if you're not using de
       font-weight: 400;
   }
 
-  #registerForm #body fieldset label {
+  #body fieldset label {
       display: block;
       float: none;
       margin: 0 0 6px 0;
@@ -368,7 +372,7 @@ used to vertically center elements, may need modification if you're not using de
 
   /* Default Input */
 
-  #registerForm input {
+  #registerForm input, #loggedInForm input {
       width: 92%;
       border: 1px solid #DADADA;
       color: #222;
@@ -381,7 +385,7 @@ used to vertically center elements, may need modification if you're not using de
 
   /* Sign In Button */
 
-  #registerForm #register {
+  #registerForm #register, #loggedInForm #logout {
       width: auto;
       float: left;
       background: #351136;
@@ -398,32 +402,6 @@ used to vertically center elements, may need modification if you're not using de
       -o-transition: all .5s;
   }
 
-  #registerForm #register:hover {
+  #registerForm #register:hover, #loggedInForm #logout:hover {
       background: #f4d638;
-  }
-
-
-  /* Forgot your password */
-
-  #registerForm span {
-      display: block;
-      padding: 0px 0px 15px 0px;
-  }
-
-  #registerForm span a {
-      color: #000;
-      font-size: 0.85em;
-      font-weight: 400;
-      background: none;
-      border: none;
-      box-shadow: none;
-      padding: 0 16px;
-  }
-
-  #registerForm span a:hover {
-      text-decoration: underline;
-  }
-
-  input:focus {
-      outline: none;
   }
