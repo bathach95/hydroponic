@@ -22,7 +22,7 @@
 }
 
 .modal-header {
-  background-color: #956295;
+  background-color: #428bca;/*#956295;*/
   color: white;
 }
 
@@ -41,7 +41,11 @@
   margin:0 auto;
   text-align: center;
 }
-
+.model-table-center{
+  width:100%;
+  margin:0 auto;
+  text-align: center;
+}
 .form-first-name, .form-last-name {
   width: 46%;
 }
@@ -270,8 +274,8 @@ used to vertically center elements, may need modification if you're not using de
       font-size: 1.1em;
   }
 
-  #registerContainer a span:hover, #loggedInContainer a span:hover {
-      background: #956295;
+  #registerContainer a span:hover, #loggedInContainer a span:hover  {
+      background: #428bca;/*#956295;*/
       transition: 0.5s all;
       -webkit-transition: 0.5s all;
       -moz-transition: 0.5s all;
@@ -320,7 +324,7 @@ used to vertically center elements, may need modification if you're not using de
 
   #registerForm, #loggedInForm {
       background: #fff;
-      border: 2px solid #956295;
+      border: 2px solid #428bca;/*#956295;*/
       border-radius: 35px 5px 35px 5px;
   }
 
@@ -388,7 +392,7 @@ used to vertically center elements, may need modification if you're not using de
   #registerForm #register, #loggedInForm #logout {
       width: auto;
       float: left;
-      background: #351136;
+      background: #428bca; /*#351136;*/
       color: #fff;
       font-size: 0.8725em;
       padding: 8px 20px;
@@ -405,3 +409,59 @@ used to vertically center elements, may need modification if you're not using de
   #registerForm #register:hover, #loggedInForm #logout:hover {
       background: #f4d638;
   }
+
+  /* Forgot your password */
+
+  #registerForm span {
+      display: block;
+      padding: 0px 0px 15px 0px;
+  }
+
+  #registerForm span a {
+      color: #000;
+      font-size: 0.85em;
+      font-weight: 400;
+      background: none;
+      border: none;
+      box-shadow: none;
+      padding: 0 16px;
+  }
+
+  #registerForm span a:hover {
+      text-decoration: underline;
+  }
+
+  input:focus {
+      outline: none;
+  }
+
+  .button {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+      cursor: pointer;
+      border-radius: 50%;
+  }
+.add-item-button {
+    background-color: white;
+    color: black;
+    border: 2px solid #008CBA;
+}
+
+.add-item-button:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+.modal-footer-left-align{
+  text-align:left;
+}
+>>>>>>> abf78648ad2bbe74614e5a159d988466a4b68cad
