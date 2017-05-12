@@ -19,10 +19,9 @@ var cors = require('cors');
 var app = express();
 
 // view engine setup
-app.use(expressLayouts);
+// app.use(expressLayouts);
 app.set('views', path.join(__dirname, 'views'));
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -31,8 +30,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/angular',express.static(path.join(__dirname, 'angularjs')));
-
 
 app.use(cors());
 app.use('/', routes);

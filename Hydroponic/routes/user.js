@@ -96,11 +96,11 @@ router.post('/login',function(req, res){
 });
 /* end login action */
 
-
-router.get('/profile', authenticate, function(req, res){
-  // TODO: ensure authentication here and render profile page
-  res.render('profile');
-})
+// 
+// router.get('/profile', authenticate, function(req, res){
+//   // TODO: ensure authentication here and render profile page
+//   res.render('profile');
+// })
 
 
 module.exports.authenticate = authenticate;
