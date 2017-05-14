@@ -2,6 +2,14 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Device = sequelize.define('Device', {
+    mac: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
@@ -10,33 +18,30 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    description: {
-      type: DataTypes.TEXT,
+    status: {
+      type: DataTypes.STRING,
       allowNull: true
     }
   }, {
     classMethods: {
-      createClub: function(newClub){
-        Device.create(newClub);
+      createDevice: function(device, callback, err){
+        Device.create(device).then(callback).catch(err);
       },
-      getClubByName: function(name, callback){
+      getDeviceByMac: function(mac, callback, err){
         var query = {
           where: {
-            name: name
+            mac: mac
           }
         };
-        Device.findOne(query).then(callback);
+        Device.findOne(query).then(callback).catch(err);
       },
-      getClubById: function(id, callback){
-        User.findById(id, callback);
-      },
-      getClubsByNation: function(nation, callback){
+      getDevicesByUserEmail: function(email, callback, err){
         var query = {
           where: {
-            nation: nation
+            UserEmail: email
           }
-        };
-        Device.findAll(query).then(callback);
+        }
+        Device.findAll(query).then(callback).catch(err);
       },
       // association N:M with User
       associate: function(models){

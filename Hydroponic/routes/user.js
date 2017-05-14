@@ -71,7 +71,9 @@ router.post('/login',function(req, res){
             success: true,
             data: {
               message: 'Login success!',
-              name: user.name
+              name: user.name,
+              email: user.email,
+              phone: user.phone
             },
             token: token
           });
@@ -96,12 +98,19 @@ router.post('/login',function(req, res){
 });
 /* end login action */
 
-// 
-// router.get('/profile', authenticate, function(req, res){
-//   // TODO: ensure authentication here and render profile page
-//   res.render('profile');
-// })
+/* update action*/
+router.post('/update', authenticate(), function(req, res){
 
+  models.User.getUserByEmail(req.body.email, function(user){
+    user.update({
+      name: req.body.name,
+      phone: req.body.phone
+    }).then(function(){
+      res.send("Update success!");
+    });
+  })
+})
+/* end update action*/
 
 module.exports.authenticate = authenticate;
 module.exports.router = router;

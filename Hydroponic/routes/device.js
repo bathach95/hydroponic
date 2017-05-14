@@ -1,28 +1,35 @@
 var express = require('express');
 var router = express.Router();
 var user = require('./user.js')
+var models = require('../models');
 
-// router.get("/", function(req, res){
-//   // TODO: ensure authenticattion, get device id here, query database and return device info
-//   res.render('device-detail');
-// })
-//
-// router.get("/crop", function(req, res){
-//   // TODO: ensure authenticattion, get crop id here, query database and return crop info
-//   res.render('crop-detail');
-// })
-//
-// router.get("/crop/log", function(req, res){
-//   // TODO: ensure authenticattion, get crop id here, query database and return crop info
-//   res.render('all-logs');
-// })
+router.get('/all', user.authenticate(), function(req, res){
+  var userEmail = req.query.email;
+  models.Device.getDevicesByUserEmail(userEmail,
+    function(result){
+      var deviceList = [];
+      result.forEach(function(item, index){
+        deviceList.push(item.dataValues);
+      });
+      res.send(deviceList);
+    },
+    function(err){
+      res.send(err);
+    }
+  );
+})
 
-// test ensure auth
+router.get('/one', user.authenticate(), function(req, res){
+    var mac = req.query.mac;
 
-router.get('/test', user.authenticate(), function(req, res){
-  res.json({
-    data: "success"
-  });
+    models.Device.getDeviceByMac(mac,
+      function(result){
+        res.send(result);
+      },
+      function(err){
+        res.send(err);
+      }
+    );
 })
 
 module.exports.router = router;

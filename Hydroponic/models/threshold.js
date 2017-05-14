@@ -6,47 +6,52 @@ module.exports = function(sequelize, DataTypes) {
     //   type: DataTypes.DATE,
     //   allowNull: false
     // },
-    ph: {
+    phLower: {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    ppm: {
+    phUpper: {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    humidity: {
+    ppmLower: {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    temperature: {
+    ppmUpper: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    humidityLower: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    humidityUpper: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    temperatureLower: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    temperatureUpper: {
       type: DataTypes.FLOAT,
       allowNull: false
     }
   }, {
     classMethods: {
-      createClub: function(newClub){
-        Threshold.create(newClub);
+      createThreshold: function(threshold, callback){
+        Threshold.create(threshold).then(callback);
       },
-      getClubByName: function(name, callback){
+      getNewestThresholdByCropId: function(cropId, callback){
         var query = {
           where: {
-            name: name
-          }
+            CropId: cropId
+          },
+          order: [['createdAt', 'DESC']]
         };
         Threshold.findOne(query).then(callback);
       },
-      getClubById: function(id, callback){
-        User.findById(id, callback);
-      },
-      getClubsByNation: function(nation, callback){
-        var query = {
-          where: {
-            nation: nation
-          }
-        };
-        Threshold.findAll(query).then(callback);
-      },
-      // association N:M with User
       associate: function(models){
       }
     },

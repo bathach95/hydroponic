@@ -1,0 +1,188 @@
+<!--Author: W3layouts
+  Author URL: http://w3layouts.com
+  License: Creative Commons Attribution 3.0 Unported
+  License URL: http://creativecommons.org/licenses/by/3.0/
+  -->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hydroponic</title>
+</head>
+
+<body>
+
+    <div class="banner-two">
+    </div>
+    <!--banner end here-->
+    <!--services start here-->
+    <div class="services">
+        <div class="container">
+            <!-- User avatar -->
+            <div class="row">
+                <!-- <div class="col-sm-2 col-md-2 col-md-offset-6 col-sm-offset-6">
+            <img src="http://thetransformedmale.files.wordpress.com/2011/06/bruce-wayne-armani.jpg" alt="" class="img-rounded img-responsive" />
+          </div> -->
+                <div class="col-sm-3 col-md-3 col-md-offset-7 col-sm-offset-7">
+                    <blockquote>
+                        <p>{{user.name}}</p>
+                    </blockquote>
+                    <p>
+                        <i class="glyphicon glyphicon-envelope"></i> {{user.email}}
+                        <br>
+                        <i class="glyphicon glyphicon-phone"></i> {{user.phone}}
+                    </p>
+                    </p>
+                </div>
+                <div class="row">
+                    <button class="btn btn-1 btn-primary btn-customize col-md-offset-9 col-sm-offset-9" type="button" data-toggle="modal" data-target="#editModal">Edit</button>
+                    <button class="btn btn-1 btn-primary btn-customize" type="button" data-toggle="modal" data-target="#changePassModal">Change pass</button>
+                </div>
+            </div>
+
+            <!-- Edit user profile modal -->
+            <div class="modal fade" id="editModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Edit profile</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <label for="username" class="col-md-4 col-sm-4">Name:</label>
+                                <input id="username" ng-value="user.name" ng-model="userUpdate.name" class="col-md-7 col-sm-7" type="text" name="username" />
+                            </div>
+                            <br>
+                            <div class="row">
+                                <label for="phonenumber" class="col-md-4 col-sm-4">Phone number:</label>
+                                <input id="phonenumber" ng-value="user.phone" ng-model="userUpdate.phone" class="col-md-7 col-sm-7" type="text" name="phonenumber" />
+                            </div>
+                            <br>
+                            <div class="row">
+                                <p ng-model="updateMessage"></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" ng-click="update()" class="btn btn-1 btn-primary">OK</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- End edit profile modal-->
+            <!-- Change pass modal-->
+            <div class="modal fade" id="changePassModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Edit profile</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <label for="curr_pass" class="col-md-4 col-sm-4">Current password:</label>
+                                <input id="curr_pass" ng-model="pass.currPass" class="col-md-7 col-sm-7" type="text" name="curr_pass" />
+                            </div>
+                            <br>
+                            <div class="row">
+                                <label for="new_pass" class="col-md-4 col-sm-4">New password:</label>
+                                <input id="new_pass" ng-model="pass.newPass" class="col-md-7 col-sm-7" type="text" name="new_pass" />
+                            </div>
+                            <br>
+                            <div class="row">
+                                <label for="conf_new_pass" class="col-md-4 col-sm-4">Confirm new password:</label>
+                                <input id="conf_new_pass" ng-model="pass.confNewPass" class="col-md-7 col-sm-7" type="text" name="conf_new_pass" />
+                            </div>
+                            <br>
+                            <div class="row">
+                                <p ng-model="changePassMessage"></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" ng-click="changePass()" class="btn btn-1 btn-primary">OK</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- End change pass modal-->
+            <br>
+            <div class="row table-of-devices">
+                <h3 class="">Table of Devices</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">
+                    <button type="button" class="btn btn-1 btn-primary btn-customize" data-toggle="modal" data-target="#addDeviceModal">Add new device</button>
+
+                    <table class="table table-hover table-customize">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>MAC</th>
+                                <th>Name</th>
+                                <th>Installation Date</th>
+                                <th>Status</th>
+                                <th>Manufacturer</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="device in listDevice">
+                                <td>{{$index + 1}}</td>
+                                <td><a ng-href="#/device/{{device.mac}}">{{device.mac}}</a></td>
+                                <td>{{device.name}}</td>
+                                <td>{{device.createdAt}}</td>
+                                <td>{{device.status}}</td>
+                                <td>{{device.manufacturer}}</td>
+                                <td><a href="#"><i class="glyphicon glyphicon-trash"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add device modal -->
+            <div class="modal fade" id="addDeviceModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add device</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <label for="username" class="col-md-4 col-sm-4">Name:</label>
+                                <input id="username" class="col-md-7 col-sm-7" type="text" name="username" />
+                            </div>
+                            <br>
+                            <div class="row">
+                                <label for="phonenumber" class="col-md-4 col-sm-4">Phone number:</label>
+                                <input id="phonenumber" class="col-md-7 col-sm-7" type="text" name="phonenumber" />
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-1 btn-primary">OK</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--services end here-->
+
+</body>
+
+</html>

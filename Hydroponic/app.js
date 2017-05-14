@@ -12,6 +12,9 @@ var models = require('./models');
 var routes = require('./routes/index');
 var user = require('./routes/user');
 var device = require('./routes/device');
+var crop = require('./routes/crop');
+var threshold = require('./routes/threshold');
+var data = require('./routes/data');
 //----------------
 
 var cors = require('cors');
@@ -19,7 +22,6 @@ var cors = require('cors');
 var app = express();
 
 // view engine setup
-// app.use(expressLayouts);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -34,7 +36,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use('/', routes);
 app.use('/user', user.router);
-app.use('/device', device.router)
+app.use('/device', device.router);
+app.use('/crop', crop.router);
+app.use('/threshold', threshold.router);
+app.use('/data', data.router);
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());

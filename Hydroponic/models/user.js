@@ -13,13 +13,16 @@ module.exports = function(sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      primaryKey: true
     },
     phone: {
       type: DataTypes.STRING,
       allowNull: false
     }
   }, {
+    instanceMethods:{
+
+    },
     classMethods: {
       createUser: function(newUser){
         bcrypt.genSalt(10, function(err,salt){

@@ -24,29 +24,27 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     classMethods: {
-      createClub: function(newClub){
-        Data.create(newClub);
+      createData: function(data, callback){
+        Data.create(data).then(callback);
       },
-      getClubByName: function(name, callback){
+      getNewestDataByCropId: function(cropId, callback){
         var query = {
           where: {
-            name: name
-          }
+            CropId: cropId
+          },
+          order: [['createdAt', 'DESC']]
         };
         Data.findOne(query).then(callback);
       },
-      getClubById: function(id, callback){
-        User.findById(id, callback);
-      },
-      getClubsByNation: function(nation, callback){
+      getAllDataByCropId: function(cropId, callback){
         var query = {
           where: {
-            nation: nation
-          }
-        };
+            CropId: cropId
+          },
+          order: [['createdAt', 'DESC']]
+        }
         Data.findAll(query).then(callback);
       },
-      // association N:M with User
       associate: function(models){
       }
     },

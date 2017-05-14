@@ -2,6 +2,10 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Crop = sequelize.define('Crop', {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     treetype: {
       type: DataTypes.STRING,
       allowNull: false
@@ -18,33 +22,25 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true
+    reporttime: {
+      type: DataTypes.FLOAT,
+      allowNull: false
     }
   }, {
     classMethods: {
-      createClub: function(newClub){
-        Crop.create(newClub);
+      createCrop: function(crop, callback){
+        Crop.create(crop).then(callback);
       },
-      getClubByName: function(name, callback){
+      getCropsByDeviceMac: function(deviceMac, callback){
         var query = {
           where: {
-            name: name
-          }
-        };
-        Crop.findOne(query).then(callback);
-      },
-      getClubById: function(id, callback){
-        User.findById(id, callback);
-      },
-      getClubsByNation: function(nation, callback){
-        var query = {
-          where: {
-            nation: nation
+            DeviceMac: deviceMac
           }
         };
         Crop.findAll(query).then(callback);
+      },
+      getCropById: function(id, callback){
+        Crop.findById(id).then(callback);
       },
       associate: function(models){
         Crop.hasMany(models.Schedule);

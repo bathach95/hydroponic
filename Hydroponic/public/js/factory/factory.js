@@ -11,7 +11,7 @@ factory.factory('AuthInterceptor', function AuthInterceptor($cookies) {
     var token = $cookies.get('token');
     if (token) {
       config.headers = config.headers || {};
-      config.headers.Authorization = 'Bearer ' + token;
+      config.headers['token'] = token;
     }
     return config;
   }

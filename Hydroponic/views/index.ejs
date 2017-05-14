@@ -64,10 +64,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<script src="/js/libs/angular.min.js" type="text/javascript"></script>
 	<script src="/js/libs/angular-cookies.js" type="text/javascript"></script>
 	<script src="/js/libs/angular-route.js" type="text/javascript"></script>
-	<script src="/js/app.js" type="text/javascript"></script>
-	<script src="/js/controller/controller.js" type="text/javascript"></script>
 	<script src="/js/factory/factory.js" type="text/javascript"></script>
 	<script src="/js/service/service.js" type="text/javascript"></script>
+	<script src="/js/controller/controller.js" type="text/javascript"></script>
+	<script src="/js/app.js" type="text/javascript"></script>
+
 </head>
 
 <body>
@@ -103,7 +104,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="top-nav-right">
 							<div id="loginContainer"><a href="#" id="loginButton"><span>Login</span></a>
 								<div id="loginBox">
-									<form id="loginForm" ng-controller="Login">
+									<form id="loginForm" ng-controller="LoginCtrl">
 										<fieldset id="body">
 											<fieldset>
 												<label for="email" >Email Address</label>
@@ -127,7 +128,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<div class="top-nav-right">
 							<div id="registerContainer"><a href="#" id="registerButton"><span>Register</span></a>
 								<div id="registerBox">
-									<form id="registerForm" ng-controller="Register">
+									<form id="registerForm" ng-controller="RegisterCtrl">
 										<fieldset id="body">
 											<fieldset>
 												<label for="reg_name">Name</label>
@@ -169,14 +170,15 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<div id="loggedInContainer">
 								<button type="button" class="btn-customize btn btn-primary" id="loggedInButton" name="button"><span>Hello! {{userLogin}}</span></button>
 								<div id="loggedInBox">
-									<form id="loggedInForm" ng-controller="Login">
+									<form id="loggedInForm">
 										<fieldset id="body">
 
 											<fieldset>
-												<a href="/user/profile" class="btn-customize btn btn-primary logged-in-btn">Profile</a>
+												<!-- test() -->
+												<a ng-href="#/profile" class="btn-customize btn btn-primary logged-in-btn">Profile</a>
 											</fieldset>
 
-											<fieldset>
+											<fieldset  ng-controller="LoginCtrl">
 												<a href="" ng-click="logout()" class="btn-customize btn btn-primary logged-in-btn" >Logout</a>
 											</fieldset>
 

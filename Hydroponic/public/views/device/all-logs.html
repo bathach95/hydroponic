@@ -1,0 +1,83 @@
+<!--Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Hydroponic</title>
+</head>
+
+<body>
+	<!--header start here-->
+	<div class="container margin-container">
+		<div class="page-heading">
+			<h2>All data</h2>
+		</div>
+		<div class="panel panel-success panel-table">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col col-xs-6">
+						Diary Log
+					</div>
+
+				</div>
+			</div>
+			<div class="panel-body">
+				<div ng-repeat="item in data" class="row current-condition-table">
+					<div class="col-md-2">
+						<div class="time-stamp status-normal">
+							<table class="table table-remove-bottom-margin">
+								<tr>
+									<td>{{item.date}}</td>
+								</tr>
+								<tr>
+									<td>{{item.time}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Temperature (&#8451;) </th>
+									<th>Humidity (%)</th>
+									<th>ppm</th>
+									<th>pH</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{{item.temperature}}</td>
+									<td>{{item.humidity}}</td>
+									<td>{{item.ppm}}</td>
+									<td>{{item.ph}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-2">
+						<div class="current-condition-status">
+							<table class="table">
+								<tr>
+									<td>
+										<em class="glyphicon glyphicon-ok"></em>
+									</td>
+								</tr>
+								<tr>
+									<td>Normal</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--//footer-->
+</body>
+
+</html>

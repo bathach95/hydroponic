@@ -1,0 +1,479 @@
+<!--Author: W3layouts
+  Author URL: http://w3layouts.com
+  License: Creative Commons Attribution 3.0 Unported
+  License URL: http://creativecommons.org/licenses/by/3.0/
+  -->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Hydroponic</title>
+</head>
+
+<body>
+    <!--banner start here-->
+    <div class="banner-two">
+    </div>
+    <!--banner end here-->
+    <div class="container margin-container" ng-controller="CropCtrl">
+        <div class="page-heading">
+            <h2>Crop Overview </h2>
+        </div>
+        <div class="panel panel-info panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h3 class="panel-title">Crop ID - Crop Name</h3>
+                    </div>
+                    <div class="col col-xs-6 text-right">
+                        <button class="button-diary button-blue-diary" data-toggle="modal" data-target="#crop-overview"><i class="glyphicon glyphicon-cog"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="table-center">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <td><i class="glyphicon glyphicon-pencil"></i></td>
+                                <td>Crop Name</td>
+                                <td><input type="text" class="form-control" id="crop-name" ng-value="crop.name" readonly></td>
+                            </tr>
+                            <tr>
+                                <td><i class="glyphicon glyphicon-tree-deciduous"></i></td>
+                                <td>Tree Species</td>
+                                <td><input type="text" class="form-control" id="tree-species" ng-value="crop.treetype" readonly></td>
+                            </tr>
+                            <tr>
+                                <td><i class="glyphicon glyphicon-play"></i></td>
+                                <td>Starting Date:</td>
+                                <td><input type="text" class="form-control" id="starting-date" ng-value="crop.startdate" readonly></td>
+                            </tr>
+                            <tr>
+                                <td><i class="glyphicon glyphicon-stop"></i></td>
+                                <td>Closing Date:</td>
+                                <td><input type="text" class="form-control" id="closing-date" ng-value="crop.closedate" readonly></td>
+                            </tr>
+                            <tr>
+                                <td><i class="glyphicon glyphicon-time"></i></td>
+                                <td>Reporting time:</td>
+                                <td>
+                                    <div class="table-center">
+                                        <input type="text" name="first-name" class=" form-control form-first-name" ng-value="crop.reporttime" style="float:left; width:40%;" readonly/>&nbsp;
+                                        <input type="text" name="last-name" class=" form-control form-last-name" value="min" style="float:right; width:40%;" readonly/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container margin-container" ng-controller="ScheduleCtrl">
+        <div class="page-heading">
+            <h2>Program Settings </h2>
+        </div>
+        <div class="panel panel-info panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h3 class="panel-title">Crop ID - Crop Name</h3>
+                    </div>
+                    <div class="col col-xs-6 text-right">
+                        <button class="button-diary button-blue-diary" data-toggle="modal" data-target="#program-settings"><i class="glyphicon glyphicon-cog"></i></button>
+                        <button class="button-diary button-blue-diary"><i class="glyphicon glyphicon-open"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active"><a data-toggle="tab" href="#water">Water</a></li>
+                    <li><a data-toggle="tab" href="#fan">Fan</a></li>
+                    <li><a data-toggle="tab" href="#lighting">Lighting</a></li>
+                    <li><a data-toggle="tab" href="#oxygen">Oxygen</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="water" class="tab-pane fade in active">
+                        <div class="tab-title">
+                            <h3>WATERING</h3>
+                        </div>
+
+                        <div class="table-center">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Select actuator:
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="sel1">
+                  <option class="actuator-selection">1</option>
+                  <option class="actuator-selection">2</option>
+                  <option class="actuator-selection">3</option>
+                  <option class="actuator-selection">4</option>
+                </select>
+                                </div>
+                                <div class="col-md-4">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Turn on every:
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="number" class="form-control" id="days-turn-on" value="1" readonly>
+                                </div>
+                                <div class="col-md-1" style="text-align:left; vertical-align: text-bottom">
+                                    days
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+
+                            <table class="table table-hover program-settings-table">
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Start time</td>
+                                        <td>End time</td>
+                                        <td>Last time</td>
+                                        <td>Delay time</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="glyphicon glyphicon-ok-circle"></i></td>
+                                        <td>Time </td>
+                                        <td><input type="time" class="form-control" id="start-time" placeholder="start time" readonly></td>
+                                        <td><input type="time" class="form-control" id="end-time" placeholder="end time" readonly></td>
+                                        <td><input type="number" class="form-control" id="last-time" placeholder="last time" readonly></td>
+                                        <td><input type="number" class="form-control" id="delay-time" placeholder="delay time" readonly></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="fan" class="tab-pane fade">
+                        <div class="tab-title">
+                            <h3>FAN</h3>
+                        </div>
+                    </div>
+                    <div id="lighting" class="tab-pane fade">
+                        <div class="tab-title">
+                            <h3>LIGHTING</h3>
+                        </div>
+                    </div>
+                    <div id="oxygen" class="tab-pane fade">
+                        <div class="tab-title">
+                            <h3>OXYGEN</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container margin-container" ng-controller="ThresholdCtrl">
+        <div class="page-heading">
+            <h2>Threshold</h2>
+        </div>
+        <div class="panel panel-success panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <!-- <div class="col col-xs-6">
+            Diary Log
+          </div> -->
+                    <div class="col col-xs-12 text-right">
+                        <button class="button-diary button-blue-diary">Edit</i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row current-condition-table">
+                    <div class="col-md-2">
+                        <div class="time-stamp status-normal">
+                            <table class="table table-remove-bottom-margin">
+                                <tr>
+                                    <td>{{threshold.date}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{threshold.time}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Temperature (&#8451;) </th>
+                                    <th>Humidity (%)</th>
+                                    <th>ppm</th>
+                                    <th>pH</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{threshold.temperatureLower}} - {{threshold.temperatureUpper}}</td>
+                                    <td>{{threshold.humidityLower}} - {{threshold.humidityUpper}}</td>
+                                    <td>{{threshold.ppmLower}} - {{threshold.ppmUpper}}</td>
+                                    <td>{{threshold.phLower}} - {{threshold.phUpper}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="col-md-2">
+            <div class="current-condition-status">
+              <table class="table">
+                <tr>
+                  <td>
+                    <em class="glyphicon glyphicon-ok"></em>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Normal</td>
+                </tr>
+              </table>
+            </div>
+          </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container margin-container" ng-controller="DataCtrl">
+        <div class="page-heading">
+            <h2>Current Condition</h2>
+        </div>
+        <div class="panel panel-success panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        Diary Log
+                    </div>
+                    <div class="col col-xs-6 text-right">
+                        <button class="button-diary button-blue-diary"><a ng-href="#/device/{{deviceMac}}/crop/{{cropId}}/alldata">View all log</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row current-condition-table">
+                    <div class="col-md-2">
+                        <div class="time-stamp status-normal">
+                            <table class="table table-remove-bottom-margin">
+                                <tr>
+                                    <td>{{data.date}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{data.time}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th ng-attr-style="{{badStatus.temp && 'color: red' || ''}}">Temperature (&#8451;) </th>
+                                    <th ng-attr-style="{{badStatus.humidity && 'color: red' || ''}}">Humidity (%)</th>
+                                    <th ng-attr-style="{{badStatus.ppm && 'color: red' || ''}}">ppm</th>
+                                    <th ng-attr-style="{{badStatus.ph && 'color: red' || ''}}">pH</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td ng-attr-style="{{badStatus.temp && 'color: red' || ''}}">{{data.temperature}}</td>
+                                    <td ng-attr-style="{{badStatus.humidity && 'color: red' || ''}}">{{data.humidity}}</td>
+                                    <td ng-attr-style="{{badStatus.ppm && 'color: red' || ''}}">{{data.ppm}}</td>
+                                    <td ng-attr-style="{{badStatus.ph && 'color: red' || ''}}">{{data.ph}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="current-condition-status">
+                            <table class="table">
+                                <tr>
+                                    <td ng-if="!status">
+                                        <em class="glyphicon glyphicon-ok"></em>
+                                    </td>
+
+                                    <td ng-if="status">
+                                        <em class="glyphicon glyphicon-warning-sign" style="color: red"></em>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td ng-if="!status">Normal</td>
+                                    <td ng-if="status" style="color: red">Warning</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Program settings modal -->
+    <div class="modal fade" id="program-settings" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Program Settings</h4>
+                </div>
+                <div class="modal-body">
+
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active"><a data-toggle="tab" href="#water-setting">Water</a></li>
+                        <li><a data-toggle="tab" href="#fan-setting">Fan</a></li>
+                        <li><a data-toggle="tab" href="#lighting-setting">Lighting</a></li>
+                        <li><a data-toggle="tab" href="#oxygen-setting">Oxygen</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="water" class="tab-pane fade in active">
+                            <div class="tab-title">
+                                <h3>WATERING</h3>
+                            </div>
+                            <div class="device-selection">
+                            </div>
+                            <div class="form-group select-actuator">
+                                <label for="sel1">Select actuator:</label>
+                                <select class="form-control" id="sel1">
+                <option class="actuator-selection">1</option>
+                <option class="actuator-selection">2</option>
+                <option class="actuator-selection">3</option>
+                <option class="actuator-selection">4</option>
+              </select>
+                            </div>
+                            <div class="table-center">
+                                <table class="table table-hover program-settings-table">
+                                    <tbody>
+                                        <tr>
+                                            <td><i class="glyphicon glyphicon-ok-circle"></i></td>
+                                            <td>Turn on watering every </td>
+                                            <td><input type="number" class="form-control" id="days-turn-on" value="1"></td>
+                                            <td>day (s)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="glyphicon glyphicon-ok-circle"></i></td>
+                                            <td>From </td>
+                                            <td><input type="time" class="form-control" id="tree-species" value="14:00"></td>
+                                            <td>To </td>
+                                            <td><input type="time" class="form-control" id="tree-species" value="15:00"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="glyphicon glyphicon-ok-circle"></i></td>
+                                            <td>Delay Timer </td>
+                                            <td><input type="number" class="form-control" id="starting-date" value="5"></td>
+                                            <td>min (s)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="fan-setting" class="tab-pane fade">
+                            <div class="tab-title">
+                                <h3>FAN</h3>
+                            </div>
+                        </div>
+                        <div id="lighting-setting" class="tab-pane fade">
+                            <div class="tab-title">
+                                <h3>LIGHTING</h3>
+                            </div>
+                        </div>
+                        <div id="oxygen-setting" class="tab-pane fade">
+                            <div class="tab-title">
+                                <h3>OXYGEN</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-1 btn-primary">Save and apply</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="crop-overview" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crop Overview Edit</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-center">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td><i class="glyphicon glyphicon-pencil"></i></td>
+                                    <td>Crop Name</td>
+                                    <td><input type="text" class="form-control" id="crop-name" value="First Crop"></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="glyphicon glyphicon-tree-deciduous"></i></td>
+                                    <td>Tree Species</td>
+                                    <td><input type="text" class="form-control" id="tree-species" value="Peas"></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="glyphicon glyphicon-play"></i></td>
+                                    <td>Starting Date:</td>
+                                    <td><input type="date" class="form-control" id="starting-date" value="13/06/2017 - 17:00:00"></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="glyphicon glyphicon-stop"></i></td>
+                                    <td>Closing Date:</td>
+                                    <td><input type="date" class="form-control" id="closing-date" value="13/09/2017 - 12:00:00"></td>
+                                </tr>
+                                <tr>
+                                    <td><i class="glyphicon glyphicon-time"></i></td>
+                                    <td>Reporting time:</td>
+                                    <td>
+                                        <div class="modal-table-center">
+                                            <input type="number" name="first-name" class=" form-control form-first-name" value="5" style="float:left; width:40%;" />&nbsp;
+                                            <select class="form-control" id="sel1">
+                    <option class="actuator-selection">min(s)</option>
+                    <option class="actuator-selection">hour(s)</option>
+                    <option class="actuator-selection">day(s)</option>
+                  </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-1 btn-primary">Save and apply</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+
+            // Slideshow 1
+            $("#slider1").responsiveSlides({
+                auto: false,
+                pager: true,
+                nav: true,
+                speed: 500,
+                maxwidth: 800,
+                namespace: "centered-btns"
+            });
+        });
+    </script>
+</body>
+
+</html>
