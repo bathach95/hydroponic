@@ -114,6 +114,7 @@ router.post('/update', authenticate(), function(req, res){
 
 /* change pass action*/
 router.post('/changepass', authenticate(), function(req, res){
+  
 
 });
 /* end change pass action */
