@@ -109,7 +109,9 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
     $scope.changePass = function(){
       var error = AuthService.checkDataChangePass($scope.pass);
       if (!error.isErr){
-
+        UserService.changePass($scope.pass).then(function(result){
+          console.log(result.data);
+        })
       } else {
         $scope.changePassMessage = error.message;
       }
