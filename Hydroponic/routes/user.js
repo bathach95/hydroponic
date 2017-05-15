@@ -66,7 +66,7 @@ router.post('/login',function(req, res){
             name: user.name,
             email: user.email
           }
-          var token = jwt.sign(usr,'hydroponic',{expiresIn:30000});
+          var token = jwt.sign(usr,'hydroponic',{expiresIn:300000});
           res.json({
             success: true,
             data: {
@@ -92,7 +92,7 @@ router.post('/login',function(req, res){
       data: {
         message: 'Login failed!'
       },
-      error: 'name invalid'
+      error: 'Wrong email'
     });
   });
 });
@@ -112,5 +112,10 @@ router.post('/update', authenticate(), function(req, res){
 })
 /* end update action*/
 
+/* change pass action*/
+router.post('/changepass', authenticate(), function(req, res){
+
+});
+/* end change pass action */
 module.exports.authenticate = authenticate;
 module.exports.router = router;

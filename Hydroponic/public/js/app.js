@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('myApp', ['ngCookies', 'ngRoute', 'myApp.controllers', 'myApp.factory', 'myApp.service']);
+var myApp = angular.module('myApp', ['ngCookies', 'ngRoute', 'ngStorage','myApp.controllers', 'myApp.factory', 'myApp.service']);
 
 var isLoggedIn = function($location, $q, AuthService) {
     var deferred = $q.defer();

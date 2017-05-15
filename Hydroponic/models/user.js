@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     }
   }, {
     instanceMethods:{

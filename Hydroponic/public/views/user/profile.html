@@ -62,7 +62,7 @@
                             </div>
                             <br>
                             <div class="row">
-                                <p ng-model="updateMessage"></p>
+                                <p style="color: red">{{updateMessage}}</p>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -101,7 +101,7 @@
                             </div>
                             <br>
                             <div class="row">
-                                <p ng-model="changePassMessage"></p>
+                                <p style="color: red">{{changePassMessage}}</p>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -138,7 +138,7 @@
                                 <td>{{$index + 1}}</td>
                                 <td><a ng-href="#/device/{{device.mac}}">{{device.mac}}</a></td>
                                 <td>{{device.name}}</td>
-                                <td>{{device.createdAt}}</td>
+                                <td>{{device.date}} {{device.time}}</td>
                                 <td>{{device.status}}</td>
                                 <td>{{device.manufacturer}}</td>
                                 <td><a href="#"><i class="glyphicon glyphicon-trash"></i></a></td>

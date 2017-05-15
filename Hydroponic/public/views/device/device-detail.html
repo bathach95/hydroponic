@@ -48,7 +48,7 @@
             </tr>
             <tr>
               <td>Installing Date</td>
-              <td>{{device.createdAt}}</td>
+              <td>{{device.date}} {{device.time}}</td>
             </tr>
             <tr class="info">
               <td>Type</td>
@@ -97,8 +97,8 @@
               <td class="hidden-xs">{{$index + 1}}</td>
               <td><a ng-href="#/device/{{deviceMac}}/crop/{{crop.id}}">{{crop.name}}</a></td>
               <td>{{crop.treetype}}</td>
-              <td>{{crop.startdate}}</td>
-              <td>{{crop.closedate}}</td>
+              <td>{{crop.sdate}} {{crop.stime}}</td>
+              <td>{{crop.cdate}} {{crop.ctime}}</td>
               <td ng-if="crop.status">Running</td>
               <td ng-if="!crop.status">Finished</td>
               <td>
