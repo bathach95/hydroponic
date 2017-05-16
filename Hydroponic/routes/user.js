@@ -14,17 +14,19 @@ var opts = {
 }
 
 /* set up jwt Strategy for passport */
-passport.use(new Strategy(opts, function(jwt_payload, done){
+passport.use(new Strategy(opts, function(jwt_payload, done) {
   return done(null, jwt_payload);
 }));
 
 /* ensure authentication */
-var authenticate = function(){
-  return passport.authenticate('jwt', {session: false});
+var authenticate = function() {
+  return passport.authenticate('jwt', {
+    session: false
+  });
 }
 
 /* register action */
-router.post('/register', function(req, res){
+router.post('/register', function(req, res) {
 
   var newUser = {
     name: req.body.name,
@@ -33,23 +35,23 @@ router.post('/register', function(req, res){
     phone: req.body.phone
   };
 
-  models.User.getUserByEmail(newUser.email, function(user){
-    if(user){
+  models.User.getUserByEmail(newUser.email, function(user) {
+    if (user) {
       res.json({
         success: false,
         data: {
           message: 'Register failed. Email has already exist!'
         }
       });
-    }
-    else{
-      models.User.createUser(newUser);
-      res.json({
-        success: true,
-        data: {
-          message: 'Register success!',
-          name: newUser.name
-        }
+    } else {
+      models.User.createUser(newUser, function(){
+        res.json({
+          success: true,
+          data: {
+            message: 'Register success!',
+            name: newUser.name
+          }
+        });
       });
     }
   });
@@ -57,16 +59,18 @@ router.post('/register', function(req, res){
 /* end register action*/
 
 /* login action */
-router.post('/login',function(req, res){
-  models.User.getUserByEmail(req.body.email, function(user){
-    if (user){
-      models.User.comparePassword(req.body.password, user.password, function(isMatch){
-        if (isMatch){
+router.post('/login', function(req, res) {
+  models.User.getUserByEmail(req.body.email, function(user) {
+    if (user) {
+      user.comparePassword(req.body.password, function(isMatch) {
+        if (isMatch) {
           var usr = {
             name: user.name,
             email: user.email
           }
-          var token = jwt.sign(usr,'hydroponic',{expiresIn:300000});
+          var token = jwt.sign(usr, 'hydroponic', {
+            expiresIn: 300000
+          });
           res.json({
             success: true,
             data: {
@@ -77,8 +81,7 @@ router.post('/login',function(req, res){
             },
             token: token
           });
-        }
-        else res.json({
+        } else res.json({
           success: false,
           data: {
             message: 'Login failed!'
@@ -86,8 +89,7 @@ router.post('/login',function(req, res){
           error: 'Wrong password'
         });
       });
-    }
-    else res.json({
+    } else res.json({
       success: false,
       data: {
         message: 'Login failed!'
@@ -99,13 +101,13 @@ router.post('/login',function(req, res){
 /* end login action */
 
 /* update action*/
-router.post('/update', authenticate(), function(req, res){
+router.post('/update', authenticate(), function(req, res) {
 
-  models.User.getUserByEmail(req.body.email, function(user){
+  models.User.getUserByEmail(req.body.email, function(user) {
     user.update({
       name: req.body.name,
       phone: req.body.phone
-    }).then(function(){
+    }).then(function() {
       res.send("Update success!");
     });
   })
@@ -113,9 +115,24 @@ router.post('/update', authenticate(), function(req, res){
 /* end update action*/
 
 /* change pass action*/
-router.post('/changepass', authenticate(), function(req, res){
-  
+router.post('/changepass', authenticate(), function(req, res) {
+  models.User.getUserByEmail(req.body.email, function(user) {
+    user.comparePassword(req.body.currPass, function(isMatch) {
+      if (isMatch) {
+        console.log(req.body.newPass);
+        user.updatePassword(req.body.newPass, function(){
+          res.json({
+            success: true,
+            message: "Change password success"
+          });
+        });
 
+      } else res.json({
+        success: false,
+        message: 'Wrong current password'
+      });
+    });
+  })
 });
 /* end change pass action */
 module.exports.authenticate = authenticate;

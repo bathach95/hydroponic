@@ -22,4 +22,15 @@ router.get('/one', user.authenticate(), function(req, res){
     res.send(result);
   })
 })
+
+router.post('/add', user.authenticate(), function(req, res){
+  var newCrop = req.body;
+  models.Crop.createCrop(newCrop, function(){
+    // TODO: check time overlap between crops
+    res.send({
+      success: true,
+      message: "Add crop success"
+    });
+  })
+})
 module.exports.router = router;

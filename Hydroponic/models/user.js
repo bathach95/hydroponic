@@ -21,14 +21,31 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     instanceMethods:{
-
+      updatePassword: function(newPass, callback){
+        var self = this;
+        bcrypt.genSalt(10, function(err,salt){
+          bcrypt.hash(newPass, salt, function(err, hashed){
+            self.update({
+              password: hashed
+            }).then(callback);
+          });
+        });
+      },
+      comparePassword: function(password, callback){
+        bcrypt.compare(password, this.password, function(err, isMatch){
+          if(err) {
+            throw err;
+          }
+          callback(isMatch);
+        });
+      }
     },
     classMethods: {
-      createUser: function(newUser){
+      createUser: function(newUser, callback){
         bcrypt.genSalt(10, function(err,salt){
           bcrypt.hash(newUser.password, salt, function(err, hash){
             newUser.password = hash;
-            User.create(newUser);
+            User.create(newUser).then(callback);
           });
         });
       },
@@ -47,15 +64,6 @@ module.exports = function(sequelize, DataTypes) {
           }
         };
         User.findOne(query).then(callback);
-      },
-      getUserById: function(id, callback){
-        User.findById(id, callback);
-      },
-      comparePassword: function(password, hashed, callback){
-        bcrypt.compare(password, hashed, function(err, isMatch){
-          if(err) throw err;
-          callback(isMatch);
-        });
       },
       associate: function(models){
         User.hasMany(models.Thread);

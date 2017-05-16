@@ -115,7 +115,7 @@ service.service('UserService', function($localStorage, $http) {
 
 service.service('DeviceService', function($http) {
 
-    this.getAllDevices = function(email) {
+    this.getAllDevicesByEmail = function(email) {
         return $http.get('/device/all', {
             params: {
                 email: email
@@ -131,7 +131,32 @@ service.service('DeviceService', function($http) {
         });
     }
 
+    this.addDevice = function(device){
+      return $http.post('/device/add', device);
+    }
 
+    this.checkDataAddDevice = function(device){
+      var isErr = true;
+      var message = '';
+      if (device.mac === ''){
+        message = "Empty mac";
+      } else if (device.name === ''){
+        message = "Empty name";
+      } else if (device.type === ''){
+        message = "Empty type of device";
+      } else {
+        isErr = false;
+      }
+
+      return {
+        isErr: isErr,
+        message: message
+      }
+    }
+
+    this.deleteDevice = function(mac){
+      return $http.post('/device/delete', mac);
+    }
 });
 
 service.service('CropService', function($http) {
@@ -149,6 +174,34 @@ service.service('CropService', function($http) {
                 id: id
             }
         })
+    }
+
+    this.addCrop = function(newCrop){
+      return $http.post('/crop/add', newCrop);
+    }
+
+    this.checkDataAddCrop = function(newCrop){
+      var isErr = true;
+      var message = '';
+
+      if (newCrop.name === ''){
+        message = "Empty name";
+      } else if (newCrop.treetype === ''){
+        message = "Empty tree type";
+      } else if (newCrop.startdate === ''){
+        message = "Empty start date";
+      } else if (newCrop.closedate === ''){
+        message = "Empty close date";
+      } else if (newCrop.reporttime === 0){
+        message = "Minimum report time is 1 minute";
+      } else {
+        isErr = false;
+      }
+
+      return {
+        isErr : isErr,
+        message: message
+      }
     }
 });
 

@@ -147,28 +147,37 @@
         <div class="modal-body">
 
             <div class="row">
-                <label for="username" class="col-md-4 col-sm-4">Crop Name:</label>
-                <input id="username" class="col-md-7 col-sm-7" type="text" name="crop-name"/>
+                <label for="name" class="col-md-4 col-sm-4">Crop Name:</label>
+                <input ng-model="newCrop.name" class="col-md-7 col-sm-7" type="text" name="name"/>
             </div>
               <br>
             <div class="row">
-                <label for="address" class="col-md-4 col-sm-4">Tree Species:</label>
-                <input id="address" class="col-md-7 col-sm-7" type="text" name="tree-species"/>
+                <label for="tree-species" class="col-md-4 col-sm-4">Tree Species:</label>
+                <input ng-model="newCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species"/>
             </div>
               <br>
             <div class="row">
-                <label for="email" class="col-md-4 col-sm-4">Starting Date</label>
-                <input id="email" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date"/>
+                <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
+                <input ng-model="newCrop.startdate" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date"/>
             </div>
               <br>
             <div class="row">
-                <label for="email" class="col-md-4 col-sm-4">Closing Date</label>
-                <input id="email" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date"/>
+                <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
+                <input ng-model="newCrop.closedate" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date"/>
             </div>
+            <br>
+          <div class="row">
+              <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
+              <input ng-model="newCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="minutes"/>
+          </div>
+          <br>
+        <div class="row">
+          <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
+        </div>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-1 btn-primary">OK</button>
+          <button ng-click="addCrop()" type="button" class="btn btn-1 btn-primary">OK</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
