@@ -34,7 +34,7 @@ router.get('/one', user.authenticate(), function(req, res) {
 
 router.post('/add', user.authenticate(), function(req, res) {
   var newDevice = req.body;
-  
+
   models.Device.getDeviceByMac(newDevice.mac,
     function(result){
       if (result){
@@ -70,7 +70,20 @@ router.post('/add', user.authenticate(), function(req, res) {
 });
 
 router.post('/delete', user.authenticate(), function(req, res) {
+  models.Device.deleteDevice(req.body.mac, function(success){
+    if (success){
+      res.send({
+        success: true,
+        message: "Device is deleted"
+      });
+    } else {
+      res.send({
+        success: false,
+        message: "Device is not deleted"
+      });
+    }
 
+  });
 });
 
 module.exports.router = router;

@@ -100,8 +100,19 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
     }
   }
 
-  $scope.delteDevice = function(mac) {
-    console.log(mac);
+  $scope.deleteDevice = function(index, mac) {
+    var device = {
+      mac: mac
+    };
+    if (window.confirm("Do you want to delete this device ?")) {
+      DeviceService.deleteDevice(device).then(function(result) {
+        if (result.data.success) {
+          $scope.listDevice.splice(index, 1);
+        }
+        window.alert(result.data.message);
+      });
+    }
+
   }
   /*-------------------- end device ---------------------*/
 
@@ -159,14 +170,16 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
 
   $scope.deviceMac = $routeParams.mac;
 
+  /* query all device data */
   DeviceService.getDeviceByMac($routeParams.mac).then(function(result) {
     $scope.device = result.data;
     var dateTime = GetTimeService.getDateTime($scope.device.createdAt);
     $scope.device.date = dateTime.date;
     $scope.device.time = dateTime.time;
   });
+  /* end query device data */
 
-  // get all crops of device
+  /* get all crops of device */
   CropService.getAllCrops($routeParams.mac).then(function(result) {
     $scope.cropList = result.data;
     $scope.cropList.forEach(function(item) {
@@ -177,10 +190,15 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
       var closeDateTime = GetTimeService.getDateTime(item.closedate);
       item.cdate = closeDateTime.date;
       item.ctime = closeDateTime.time;
+
+      // check status of crop
+      // if close date is after today, crop is running, otherwise crop has finished
+
     });
   });
+  /* end get all crop of device */
 
-  // add new crop to device
+  /* add new crop to device */
 
   $scope.newCrop = {
     DeviceMac: $routeParams.mac,
@@ -192,12 +210,13 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
     status: true
   }
   $scope.addCrop = function() {
+    console.log($scope.newCrop.closedate > new Date());
     var isEmpty = CropService.checkDataAddCrop($scope.newCrop);
     if (!isEmpty.isErr) {
-      CropService.addCrop($scope.newCrop).then(function(result){
+      CropService.addCrop($scope.newCrop).then(function(result) {
         $scope.addCropMessage = result.data.message;
         $scope.addCropSuccess = result.data.success;
-        if (result.data.success){
+        if (result.data.success) {
           var sdate = $scope.newCrop.startdate.toString().split(' ');
           var cdate = $scope.newCrop.closedate.toString().split(' ');
 
@@ -214,6 +233,24 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
     }
 
   }
+  /* end add new crop to device */
+
+  /* delete crop */
+  $scope.deleteCrop = function(index, cropId, status) {
+    if (window.confirm("Do you want to delete this crop ?")) {
+
+      var crop = {
+        id: cropId
+      }
+      CropService.deleteCrop(crop).then(function(result) {
+        if (result.data.success) {
+          $scope.cropList.splice(index, 1);
+        }
+        window.alert(result.data.message);
+      })
+    }
+  }
+  /* end delete crop */
 
 });
 
@@ -241,6 +278,10 @@ controller.controller('ThresholdCtrl', function($http, $routeParams, $rootScope,
     $scope.threshold.date = dateTime.date;
     $scope.threshold.time = dateTime.time;
   });
+
+  $scope.editThreshold = function(){
+    
+  }
 });
 
 controller.controller('DataCtrl', function($http, $routeParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService) {

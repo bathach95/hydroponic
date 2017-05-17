@@ -33,4 +33,20 @@ router.post('/add', user.authenticate(), function(req, res){
     });
   })
 })
+
+router.post('/delete', user.authenticate(), function(req, res) {
+  models.Crop.deleteCrop(req.body.id, function(success){
+    if(success){
+      res.send({
+        success: true,
+        message: "Crop is deleted"
+      });
+    } else {
+      res.send({
+        success: false,
+        message: "Crop is not deleted"
+      });
+    }
+  })
+})
 module.exports.router = router;

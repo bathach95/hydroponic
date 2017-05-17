@@ -143,7 +143,7 @@
                 <td>{{item.date}} {{item.time}}</td>
                 <td>{{item.status}}</td>
                 <td>{{item.manufacturer}}</td>
-                <td><a ng-click="deleteDevice(item.mac)"><i class="glyphicon glyphicon-trash"></i></a></td>
+                <td><button class="btn btn-danger" ng-click="deleteDevice($index, item.mac)"><em class="glyphicon glyphicon-trash"></em></button></td>
               </tr>
             </tbody>
           </table>

@@ -102,8 +102,7 @@
               <td ng-if="crop.status">Running</td>
               <td ng-if="!crop.status">Finished</td>
               <td>
-                <a class="btn btn-info"><em class="glyphicon glyphicon-wrench"></em></a>
-                <a class="btn btn-danger"><em class="glyphicon glyphicon-trash"></em></a>
+                <button ng-click="deleteCrop($index, crop.id, crop.status)" class="btn btn-danger"><em class="glyphicon glyphicon-trash"></em></button>
               </td>
             </tr>
           </tbody>

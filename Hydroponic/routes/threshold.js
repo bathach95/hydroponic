@@ -10,4 +10,8 @@ router.get('/newest', user.authenticate(), function(req, res) {
       res.send(result);
     });
 })
+
+router.post('/edit', user.authenticate(), function(req, res){
+  
+})
 module.exports.router = router;

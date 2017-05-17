@@ -43,6 +43,14 @@ module.exports = function(sequelize, DataTypes) {
         }
         Device.findAll(query).then(callback).catch(err);
       },
+      deleteDevice : function(mac, callback){
+        var query = {
+          where: {
+            mac: mac
+          }
+        }
+        Device.destroy(query).then(callback);
+      },
       // association N:M with User
       associate: function(models){
         Device.hasMany(models.Crop);

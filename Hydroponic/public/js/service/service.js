@@ -154,8 +154,8 @@ service.service('DeviceService', function($http) {
       }
     }
 
-    this.deleteDevice = function(mac){
-      return $http.post('/device/delete', mac);
+    this.deleteDevice = function(device){
+      return $http.post('/device/delete', device);
     }
 });
 
@@ -178,6 +178,10 @@ service.service('CropService', function($http) {
 
     this.addCrop = function(newCrop){
       return $http.post('/crop/add', newCrop);
+    }
+
+    this.deleteCrop = function(crop){
+      return $http.post('/crop/delete', crop);
     }
 
     this.checkDataAddCrop = function(newCrop){
@@ -212,6 +216,15 @@ service.service('ThresholdService', function($http) {
                 cropId: cropId
             }
         })
+    }
+
+    this.checkDataEditThreshold = function(threshold){
+      var isErr = true;
+      var message = '';
+    }
+
+    this.editThreshold = function(threshold){
+      return $http.post('/threshold/edit', threshold);
     }
 });
 

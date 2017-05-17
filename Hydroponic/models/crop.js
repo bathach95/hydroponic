@@ -31,11 +31,21 @@ module.exports = function(sequelize, DataTypes) {
       createCrop: function(crop, callback){
         Crop.create(crop).then(callback);
       },
+      deleteCrop: function(cropId, callback){
+        var query = {
+          where: {
+            id: cropId
+          }
+        }
+
+        Crop.destroy(query).then(callback);
+      },
       getCropsByDeviceMac: function(deviceMac, callback){
         var query = {
           where: {
             DeviceMac: deviceMac
-          }
+          },
+          order: [['closedate', 'DESC']]
         };
         Crop.findAll(query).then(callback);
       },
