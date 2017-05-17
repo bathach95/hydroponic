@@ -49,4 +49,22 @@ router.post('/delete', user.authenticate(), function(req, res) {
     }
   })
 })
+
+router.post('/edit', user.authenticate(), function(req, res){
+  models.Crop.getCropById(req.body.id, function(result){
+    result.update({
+      name: req.body.name,
+      treetype: req.body.treetype,
+      startdate: req.body.startdate,
+      closedate: req.body.closedate,
+      reporttime: req.body.reporttime
+    }).then(function(resss){
+      res.send({
+        success: true,
+        message: "Edit success"
+      })
+    });
+  });
+
+})
 module.exports.router = router;

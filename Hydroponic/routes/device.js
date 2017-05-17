@@ -4,6 +4,7 @@ var user = require('./user.js')
 var models = require('../models');
 
 router.get('/all', user.authenticate(), function(req, res) {
+
   var userEmail = req.query.email;
   models.Device.getDevicesByUserEmail(userEmail,
     function(result) {
@@ -17,6 +18,8 @@ router.get('/all', user.authenticate(), function(req, res) {
       res.send(err);
     }
   );
+
+
 })
 
 router.get('/one', user.authenticate(), function(req, res) {

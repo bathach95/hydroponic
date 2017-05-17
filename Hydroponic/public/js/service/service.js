@@ -184,6 +184,14 @@ service.service('CropService', function($http) {
       return $http.post('/crop/delete', crop);
     }
 
+    this.editCrop = function(crop){
+      return $http.post('/crop/edit', crop);
+    }
+
+    this.checkDataEditCrop = function(crop){
+
+    }
+
     this.checkDataAddCrop = function(newCrop){
       var isErr = true;
       var message = '';

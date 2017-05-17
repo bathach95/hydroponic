@@ -262,12 +262,32 @@ controller.controller('CropCtrl', function($http, $routeParams, $scope, CropServ
     $scope.crop.startdate = startDate.date + " " + startDate.time;
     var closeDate = GetTimeService.getDateTime($scope.crop.closedate);
     $scope.crop.closedate = closeDate.date + " " + closeDate.time;
+    console.log($scope.crop.createdAt);
+
+    $scope.cropEdit = {
+     id: $routeParams.cropid,
+     name: $scope.crop.name,
+     treetype: $scope.crop.treetype,
+     startdate: new Date($scope.crop.startdate),
+     closedate: new Date($scope.crop.closedate),
+     reporttime: $scope.crop.reporttime
+   }
+
   })
+
+
+  $scope.editCrop = function(){
+    CropService.editCrop($scope.cropEdit).then(function(result){
+      $scope.editSuccess = result.data.success;
+      $scope.editMessage = result.data.message;
+    }).catch(function(err){
+      console.log(err);
+    })
+  }
 
 });
 
 controller.controller('ScheduleCtrl', function($http, $routeParams, $scope) {
-  console.log($routeParams);
 });
 
 controller.controller('ThresholdCtrl', function($http, $routeParams, $rootScope, $scope, ThresholdService, GetTimeService) {
@@ -280,7 +300,7 @@ controller.controller('ThresholdCtrl', function($http, $routeParams, $rootScope,
   });
 
   $scope.editThreshold = function(){
-    
+
   }
 });
 
