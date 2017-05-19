@@ -343,88 +343,96 @@
 
   <!-- Program settings modal -->
   <div class="modal fade" id="program-settings" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Program Settings</h4>
-        </div>
-        <div class="modal-body">
+      <div class="modal-dialog modal-lg">
+          <!-- Modal content-->
+          <div class="modal-content">
+              <div class="modal-header modal-header-primary">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Program Settings</h4>
+              </div>
+              <div class="modal-body">
 
-          <ul class="nav nav-tabs nav-justified">
-            <li class="active"><a data-toggle="tab" href="#water-setting">Water</a></li>
-            <li><a data-toggle="tab" href="#fan-setting">Fan</a></li>
-            <li><a data-toggle="tab" href="#lighting-setting">Lighting</a></li>
-            <li><a data-toggle="tab" href="#oxygen-setting">Oxygen</a></li>
-          </ul>
-          <div class="tab-content">
-            <div id="water" class="tab-pane fade in active">
-              <div class="tab-title">
-                <h3>WATERING</h3>
+                  <ul class="nav nav-tabs nav-justified">
+                      <li class="active"><a data-toggle="tab" href="#water-setting">Water</a></li>
+                      <li><a data-toggle="tab" href="#fan-setting">Fan</a></li>
+                      <li><a data-toggle="tab" href="#lighting-setting">Lighting</a></li>
+                      <li><a data-toggle="tab" href="#oxygen-setting">Oxygen</a></li>
+                  </ul>
+                  <div class="tab-content">
+                      <div id="water-setting" class="tab-pane fade in active">
+                          <div class="tab-title">
+                              <h3>WATERING</h3>
+                          </div>
+                          <div class="device-selection">
+                          </div>
+                          <div class="form-group select-actuator">
+                            <label for="sel1">Select actuator:</label>
+                            <select class="form-control" id="sel1">
+                              <option class="actuator-selection">1</option>
+                              <option class="actuator-selection">2</option>
+                              <option class="actuator-selection">3</option>
+                              <option class="actuator-selection">4</option>
+                            </select>
+                          </div>
+                          <div class="model-table-center">
+                            <table class="table program-settings-table" id="time-settings">
+                              <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Start time</th>
+                                    <th>End time</th>
+                                    <th>Last time</th>
+                                    <th>Delay time</th>
+                                    <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                    <tr>
+                                        <td><i class="glyphicon glyphicon-ok-circle"></i></td>
+                                        <td><input type="time" class="form-control" id="start-time" placeholder="start time"></td>
+                                        <td><input type="time" class="form-control" id="end-time" placeholder="end time"></td>
+                                        <td><input type="number" class="form-control" id="last-time" placeholder="last time"></td>
+                                        <td><input type="number" class="form-control" id="delay-time" placeholder="delay time"></td>
+                                        <td><button class="button add-item-button" onclick="deleteRow(this)"><i class="glyphicon glyphicon-remove"></i></button> </td>
+                                    </tr>
+                              </tbody>
+                            </table>
+                            <div class="">
+                              <button class="button add-item-button" onclick="insRow()"><i class="glyphicon glyphicon-plus"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      <div id="fan-setting" class="tab-pane fade">
+                          <div class="tab-title">
+                              <h3>FAN</h3>
+                          </div>
+                      </div>
+                      <div id="lighting-setting" class="tab-pane fade">
+                          <div class="tab-title">
+                              <h3>LIGHTING</h3>
+                          </div>
+                      </div>
+                      <div id="oxygen-setting" class="tab-pane fade">
+                          <div class="tab-title">
+                              <h3>OXYGEN</h3>
+                          </div>
+                      </div>
+                  </div>
+
               </div>
-              <div class="device-selection">
+              <div class="modal-footer">
+                <div class="row">
+                  <div class="col-md-6 modal-footer-left-align">
+                    <button type="button" class="btn btn-1 btn-primary">Import Program Settings</button>
+                  </div>
+                  <div class="col-md-6">
+                    <button type="button" class="btn btn-1 btn-primary">Save and apply</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
               </div>
-              <div class="form-group select-actuator">
-                <label for="sel1">Select actuator:</label>
-                <select class="form-control" id="sel1">
-                <option class="actuator-selection">1</option>
-                <option class="actuator-selection">2</option>
-                <option class="actuator-selection">3</option>
-                <option class="actuator-selection">4</option>
-              </select>
-              </div>
-              <div class="table-center">
-                <table class="table table-hover program-settings-table">
-                  <tbody>
-                    <tr>
-                      <td><i class="glyphicon glyphicon-ok-circle"></i></td>
-                      <td>Turn on watering every </td>
-                      <td><input type="number" class="form-control" id="days-turn-on" value="1"></td>
-                      <td>day (s)</td>
-                    </tr>
-                    <tr>
-                      <td><i class="glyphicon glyphicon-ok-circle"></i></td>
-                      <td>From </td>
-                      <td><input type="time" class="form-control" id="tree-species" value="14:00"></td>
-                      <td>To </td>
-                      <td><input type="time" class="form-control" id="tree-species" value="15:00"></td>
-                    </tr>
-                    <tr>
-                      <td><i class="glyphicon glyphicon-ok-circle"></i></td>
-                      <td>Delay Timer </td>
-                      <td><input type="number" class="form-control" id="starting-date" value="5"></td>
-                      <td>min (s)</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div id="fan-setting" class="tab-pane fade">
-              <div class="tab-title">
-                <h3>FAN</h3>
-              </div>
-            </div>
-            <div id="lighting-setting" class="tab-pane fade">
-              <div class="tab-title">
-                <h3>LIGHTING</h3>
-              </div>
-            </div>
-            <div id="oxygen-setting" class="tab-pane fade">
-              <div class="tab-title">
-                <h3>OXYGEN</h3>
-              </div>
-            </div>
           </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-1 btn-primary">Save and apply</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
       </div>
-
-    </div>
   </div>
 
   <!-- edit crop modal-->
