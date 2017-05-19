@@ -117,17 +117,11 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
   /*-------------------- end device ---------------------*/
 
   /*----------------------- user ------------------------*/
-  // display user infos
-  $scope.user = {
-    name: $localStorage.name,
-    email: $localStorage.email,
-    phone: $localStorage.phone
-  }
   // update infos
   $scope.userUpdate = {
     email: $localStorage.email,
-    name: '',
-    phone: ''
+    name: $localStorage.name,
+    phone: $localStorage.phone
   }
 
   $scope.update = function() {

@@ -101,7 +101,7 @@ router.post('/login', function(req, res) {
 /* end login action */
 
 /* update action*/
-router.post('/update', authenticate(), function(req, res) {
+router.put('/update', authenticate(), function(req, res) {
 
   models.User.getUserByEmail(req.body.email, function(user) {
     user.update({
@@ -115,7 +115,7 @@ router.post('/update', authenticate(), function(req, res) {
 /* end update action*/
 
 /* change pass action*/
-router.post('/changepass', authenticate(), function(req, res) {
+router.put('/changepass', authenticate(), function(req, res) {
   models.User.getUserByEmail(req.body.email, function(user) {
     user.comparePassword(req.body.currPass, function(isMatch) {
       if (isMatch) {

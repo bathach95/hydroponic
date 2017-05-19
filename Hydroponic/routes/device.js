@@ -72,8 +72,8 @@ router.post('/add', user.authenticate(), function(req, res) {
 
 });
 
-router.post('/delete', user.authenticate(), function(req, res) {
-  models.Device.deleteDevice(req.body.mac, function(success){
+router.delete('/delete', user.authenticate(), function(req, res) {
+  models.Device.deleteDevice(req.query.mac, function(success){
     if (success){
       res.send({
         success: true,

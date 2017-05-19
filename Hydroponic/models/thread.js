@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
         Thread.findById(id).then(callback);
       },
       associate: function(models){
-        Thread.hasMany(models.Comment);
+        Thread.hasMany(models.Comment, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
       }
     },
     tableName: 'Thread'

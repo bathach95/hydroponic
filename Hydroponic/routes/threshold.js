@@ -11,7 +11,7 @@ router.get('/newest', user.authenticate(), function(req, res) {
     });
 })
 
-router.post('/edit', user.authenticate(), function(req, res){
-  
+router.put('/edit', user.authenticate(), function(req, res){
+
 })
 module.exports.router = router;

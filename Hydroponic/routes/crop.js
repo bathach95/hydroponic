@@ -34,8 +34,8 @@ router.post('/add', user.authenticate(), function(req, res){
   })
 })
 
-router.post('/delete', user.authenticate(), function(req, res) {
-  models.Crop.deleteCrop(req.body.id, function(success){
+router.delete('/delete', user.authenticate(), function(req, res) {
+  models.Crop.deleteCrop(req.query.id, function(success){
     if(success){
       res.send({
         success: true,
@@ -44,13 +44,13 @@ router.post('/delete', user.authenticate(), function(req, res) {
     } else {
       res.send({
         success: false,
-        message: "Crop is not deleted"
+        message: "Crop can not be deleted"
       });
     }
   })
 })
 
-router.post('/edit', user.authenticate(), function(req, res){
+router.put('/edit', user.authenticate(), function(req, res){
   models.Crop.getCropById(req.body.id, function(result){
     result.update({
       name: req.body.name,

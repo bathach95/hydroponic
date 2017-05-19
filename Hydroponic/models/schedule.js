@@ -28,27 +28,8 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     classMethods: {
-      createClub: function(newClub){
-        Schedule.create(newClub);
-      },
-      getClubByName: function(name, callback){
-        var query = {
-          where: {
-            name: name
-          }
-        };
-        Schedule.findOne(query).then(callback);
-      },
-      getClubById: function(id, callback){
-        User.findById(id, callback);
-      },
-      getClubsByNation: function(nation, callback){
-        var query = {
-          where: {
-            nation: nation
-          }
-        };
-        Schedule.findAll(query).then(callback);
+      createSchedule: function(newSchedule, callback){
+        Schedule.create(newSchedule).then(callback);
       },
       // association N:M with User
       associate: function(models){

@@ -53,9 +53,9 @@ module.exports = function(sequelize, DataTypes) {
         Crop.findById(id).then(callback);
       },
       associate: function(models){
-        Crop.hasMany(models.Schedule);
-        Crop.hasMany(models.Threshold);
-        Crop.hasMany(models.Data);
+        Crop.hasMany(models.Schedule, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
+        Crop.hasMany(models.Threshold, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
+        Crop.hasMany(models.Data, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
       }
     },
     tableName: 'Crop'

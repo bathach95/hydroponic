@@ -53,7 +53,7 @@ module.exports = function(sequelize, DataTypes) {
       },
       // association N:M with User
       associate: function(models){
-        Device.hasMany(models.Crop);
+        Device.hasMany(models.Crop, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
       }
     },
     tableName: 'Device'

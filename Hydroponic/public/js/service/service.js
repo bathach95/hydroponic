@@ -98,11 +98,11 @@ service.service('UserService', function($localStorage, $http) {
     }
 
     this.update = function(user) {
-        return $http.post('/user/update', user);
+        return $http.put('/user/update', user);
     }
 
     this.changePass = function(pass){
-        return $http.post('/user/changepass', pass);
+        return $http.put('/user/changepass', pass);
     }
 
     this.logout = function() {
@@ -140,6 +140,8 @@ service.service('DeviceService', function($http) {
       var message = '';
       if (device.mac === ''){
         message = "Empty mac";
+      } else if (!(/^([0-9][0-9]:){5}[0-9][0-9]$/.test(device.mac))) {
+        message = "Wrong MAC format"
       } else if (device.name === ''){
         message = "Empty name";
       } else if (device.type === ''){
@@ -155,7 +157,9 @@ service.service('DeviceService', function($http) {
     }
 
     this.deleteDevice = function(device){
-      return $http.post('/device/delete', device);
+      return $http.delete('/device/delete', {
+        params: device
+      });
     }
 });
 
@@ -181,11 +185,13 @@ service.service('CropService', function($http) {
     }
 
     this.deleteCrop = function(crop){
-      return $http.post('/crop/delete', crop);
+      return $http.delete('/crop/delete', {
+        params:crop
+      });
     }
 
     this.editCrop = function(crop){
-      return $http.post('/crop/edit', crop);
+      return $http.put('/crop/edit', crop);
     }
 
     this.checkDataEditCrop = function(crop){

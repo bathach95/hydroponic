@@ -63,6 +63,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-models.sequelize.sync();
+models.sequelize.sync({force: true});
 
 module.exports = app;

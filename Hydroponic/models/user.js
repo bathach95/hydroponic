@@ -66,9 +66,9 @@ module.exports = function(sequelize, DataTypes) {
         User.findOne(query).then(callback);
       },
       associate: function(models){
-        User.hasMany(models.Thread);
-        User.hasMany(models.Comment);
-        User.hasMany(models.Device);
+        User.hasMany(models.Thread, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
+        User.hasMany(models.Comment, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
+        User.hasMany(models.Device, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
       }
     },
     tableName: 'User'
