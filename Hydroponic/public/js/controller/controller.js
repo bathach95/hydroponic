@@ -74,7 +74,6 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
   // add a new device
   $scope.newDevice = {
     mac: '',
-    type: '',
     name: '',
     manufacturer: '',
     status: "no connection",
@@ -197,6 +196,7 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
   $scope.newCrop = {
     DeviceMac: $routeParams.mac,
     name: '',
+    type: '',
     treetype: '',
     startdate: '',
     closedate: '',

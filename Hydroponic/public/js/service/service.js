@@ -144,8 +144,6 @@ service.service('DeviceService', function($http) {
         message = "Wrong MAC format"
       } else if (device.name === ''){
         message = "Empty name";
-      } else if (device.type === ''){
-        message = "Empty type of device";
       } else {
         isErr = false;
       }
@@ -206,6 +204,8 @@ service.service('CropService', function($http) {
         message = "Empty name";
       } else if (newCrop.treetype === ''){
         message = "Empty tree type";
+      } else if (newCrop.type === ''){
+        message = "Empty type";
       } else if (newCrop.startdate === ''){
         message = "Empty start date";
       } else if (newCrop.closedate === ''){

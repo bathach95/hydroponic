@@ -5,10 +5,12 @@
   -->
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <title>Hydroponic</title>
-  </head>
-  <body>
+
+<head>
+  <title>Hydroponic</title>
+</head>
+
+<body>
 
   <!--banner start here-->
   <div class="banner-two">
@@ -51,10 +53,6 @@
               <td>{{device.date}} {{device.time}}</td>
             </tr>
             <tr class="info">
-              <td>Type</td>
-              <td>{{device.type}}</td>
-            </tr>
-            <tr>
               <td>Status</td>
               <td>{{device.status}}</td>
             </tr>
@@ -68,70 +66,72 @@
       <h2>Crop List </h2>
     </div>
     <div class="crop-list-panel">
-    <div class="panel panel-info panel-table">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col col-xs-6">
-            <h3 class="panel-title">Device ID - Device Name</h3>
-          </div>
-          <div class="col col-xs-6 text-right">
-            <button type="button" class="btn btn-sm btn-primary btn-create" data-toggle="modal" data-target="#addDeviceModal">Create New Crop</button>
+      <div class="panel panel-info panel-table">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col col-xs-6">
+              <h3 class="panel-title">Device ID - Device Name</h3>
+            </div>
+            <div class="col col-xs-6 text-right">
+              <button type="button" class="btn btn-sm btn-primary btn-create" data-toggle="modal" data-target="#addDeviceModal">Create New Crop</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="panel-body">
-        <table class="table table-hover table-striped table-bordered table-list">
-          <thead>
-            <tr>
+        <div class="panel-body">
+          <table class="table table-hover table-striped table-bordered table-list">
+            <thead>
+              <tr>
                 <th class="hidden-xs">ID</th>
                 <th>Crop Name</th>
+                <th>Type</th>
                 <th>Tree Species</th>
                 <th>Starting Date</th>
                 <th>Closing Date</th>
                 <th>Status</th>
                 <th><em class="fa fa-cog"></em></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="crop in cropList">
-              <td class="hidden-xs">{{$index + 1}}</td>
-              <td><a ng-href="#/device/{{deviceMac}}/crop/{{crop.id}}">{{crop.name}}</a></td>
-              <td>{{crop.treetype}}</td>
-              <td>{{crop.sdate}} {{crop.stime}}</td>
-              <td>{{crop.cdate}} {{crop.ctime}}</td>
-              <td ng-if="crop.status">Running</td>
-              <td ng-if="!crop.status">Finished</td>
-              <td>
-                <button ng-click="deleteCrop($index, crop.id, crop.status)" class="btn btn-danger"><em class="glyphicon glyphicon-trash"></em></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="crop in cropList">
+                <td class="hidden-xs">{{$index + 1}}</td>
+                <td><a ng-href="#/device/{{deviceMac}}/crop/{{crop.id}}">{{crop.name}}</a></td>
+                <td>{{crop.type}}</td>
+                <td>{{crop.treetype}}</td>
+                <td>{{crop.sdate}} {{crop.stime}}</td>
+                <td>{{crop.cdate}} {{crop.ctime}}</td>
+                <td ng-if="crop.status">Running</td>
+                <td ng-if="!crop.status">Finished</td>
+                <td>
+                  <button ng-click="deleteCrop($index, crop.id, crop.status)" class="btn btn-danger"><em class="glyphicon glyphicon-trash"></em></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-      </div>
-      <div class="panel-footer">
-        <div class="row">
-          <div class="col col-xs-4">Page 1 of 5
-          </div>
-          <div class="col col-xs-8">
-            <ul class="pagination hidden-xs pull-right">
-              <li><a href="#"><em class="glyphicon glyphicon-chevron-left"></em></a></li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#"><em class="glyphicon glyphicon-chevron-right"></em></a></li>
-            </ul>
-            <ul class="pagination visible-xs pull-right">
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col col-xs-4">Page 1 of 5
+            </div>
+            <div class="col col-xs-8">
+              <ul class="pagination hidden-xs pull-right">
+                <li><a href="#"><em class="glyphicon glyphicon-chevron-left"></em></a></li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#"><em class="glyphicon glyphicon-chevron-right"></em></a></li>
+              </ul>
+              <ul class="pagination visible-xs pull-right">
                 <li><a href="#">«</a></li>
                 <li><a href="#">»</a></li>
-            </ul>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 
   <!-- Add device modal -->
@@ -145,35 +145,48 @@
         </div>
         <div class="modal-body">
 
-            <div class="row">
-                <label for="name" class="col-md-4 col-sm-4">Crop Name:</label>
-                <input ng-model="newCrop.name" class="col-md-7 col-sm-7" type="text" name="name"/>
-            </div>
-              <br>
-            <div class="row">
-                <label for="tree-species" class="col-md-4 col-sm-4">Tree Species:</label>
-                <input ng-model="newCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species"/>
-            </div>
-              <br>
-            <div class="row">
-                <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
-                <input ng-model="newCrop.startdate" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date"/>
-            </div>
-              <br>
-            <div class="row">
-                <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
-                <input ng-model="newCrop.closedate" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date"/>
-            </div>
-            <br>
           <div class="row">
-              <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
-              <input ng-model="newCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="minutes"/>
+            <label for="name" class="col-md-4 col-sm-4">Crop Name:</label>
+            <input ng-model="newCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
           </div>
           <br>
-        <div class="row">
-          <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
-        </div>
-
+          <div class="row">
+            <label for="tree-species" class="col-md-4 col-sm-4">Tree Species:</label>
+            <input ng-model="newCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
+            <input ng-model="newCrop.startdate" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
+            <input ng-model="newCrop.closedate" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
+            <input ng-model="newCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="minutes" />
+          </div>
+          <br>
+          <div class="row">
+            <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
+          </div>
+          <br>
+          <div class="row">
+            <label for="type" class="col-md-4 col-sm-4">Type:</label>
+            <select name="type" ng-model="newCrop.type">
+              <option value="">---Please select---</option>
+              <option value="drip system">drip system</option>
+              <option value="ebb-flow">ebb-flow</option>
+              <option value="nft">NFT</option>
+              <option value="water culture">water culture</option>
+              <option value="aeroponics">aeroponics</option>
+              <option value="wick system">wick system</option>
+            </select>
+          </div>
+          <br>
         </div>
         <div class="modal-footer">
           <button ng-click="addCrop()" type="button" class="btn btn-1 btn-primary">OK</button>
@@ -184,19 +197,20 @@
     </div>
   </div>
 
-    <script>
-        $(function () {
+  <script>
+    $(function() {
 
-          // Slideshow 1
-          $("#slider1").responsiveSlides({
-            auto: false,
-            pager: true,
-            nav: true,
-            speed: 500,
-            maxwidth: 800,
-            namespace: "centered-btns"
-          });
-        });
-    </script>
-  </body>
+      // Slideshow 1
+      $("#slider1").responsiveSlides({
+        auto: false,
+        pager: true,
+        nav: true,
+        speed: 500,
+        maxwidth: 800,
+        namespace: "centered-btns"
+      });
+    });
+  </script>
+</body>
+
 </html>

@@ -127,7 +127,6 @@
                 <th>No.</th>
                 <th>MAC</th>
                 <th>Name</th>
-                <th>Type</th>
                 <th>Installation Date</th>
                 <th>Status</th>
                 <th>Manufacturer</th>
@@ -139,7 +138,6 @@
                 <td>{{$index + 1}}</td>
                 <td><a ng-href="#/device/{{item.mac}}">{{item.mac}}</a></td>
                 <td>{{item.name}}</td>
-                <td>{{item.type}}</td>
                 <td>{{item.date}} {{item.time}}</td>
                 <td>{{item.status}}</td>
                 <td>{{item.manufacturer}}</td>
@@ -174,19 +172,6 @@
               <div class="row">
                 <label for="manufacturer" class="col-md-4 col-sm-4">Manufacturer:</label>
                 <input ng-model="newDevice.manufacturer" class="col-md-7 col-sm-7" type="text" name="manufacturer" />
-              </div>
-              <br>
-              <div class="row">
-                <label for="type" class="col-md-4 col-sm-4">Type:</label>
-                <select name="type" ng-model="newDevice.type">
-                  <option value="">---Please select---</option>
-                  <option value="drip system">drip system</option>
-                  <option value="ebb-flow">ebb-flow</option>
-                  <option value="nft">NFT</option>
-                  <option value="water culture">water culture</option>
-                  <option value="aeroponics">aeroponics</option>
-                  <option value="wick system">wick system</option>
-                </select>
               </div>
               <br>
               <div class="row">
