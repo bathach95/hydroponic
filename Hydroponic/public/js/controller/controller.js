@@ -204,7 +204,6 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
     status: true
   }
   $scope.addCrop = function() {
-    console.log($scope.newCrop.closedate > new Date());
     var isEmpty = CropService.checkDataAddCrop($scope.newCrop);
     if (!isEmpty.isErr) {
       CropService.addCrop($scope.newCrop).then(function(result) {
@@ -256,45 +255,78 @@ controller.controller('CropCtrl', function($http, $routeParams, $scope, CropServ
     $scope.crop.startdate = startDate.date + " " + startDate.time;
     var closeDate = GetTimeService.getDateTime($scope.crop.closedate);
     $scope.crop.closedate = closeDate.date + " " + closeDate.time;
-    console.log($scope.crop.createdAt);
 
     $scope.cropEdit = {
-     id: $routeParams.cropid,
-     name: $scope.crop.name,
-     treetype: $scope.crop.treetype,
-     startdate: new Date($scope.crop.startdate),
-     closedate: new Date($scope.crop.closedate),
-     reporttime: $scope.crop.reporttime
-   }
+      id: $routeParams.cropid,
+      name: $scope.crop.name,
+      treetype: $scope.crop.treetype,
+      startdate: new Date($scope.crop.startdate),
+      closedate: new Date($scope.crop.closedate),
+      reporttime: $scope.crop.reporttime
+    }
 
   })
 
 
-  $scope.editCrop = function(){
-    CropService.editCrop($scope.cropEdit).then(function(result){
+  $scope.editCrop = function() {
+    CropService.editCrop($scope.cropEdit).then(function(result) {
       $scope.editSuccess = result.data.success;
       $scope.editMessage = result.data.message;
-    }).catch(function(err){
+    }).catch(function(err) {
       console.log(err);
     })
   }
 
 });
 
-controller.controller('ScheduleCtrl', function($http, $routeParams, $scope) {
-});
+controller.controller('ScheduleCtrl', function($http, $routeParams, $scope) {});
 
-controller.controller('ThresholdCtrl', function($http, $routeParams, $rootScope, $scope, ThresholdService, GetTimeService) {
+controller.controller('ThresholdCtrl', function($http, $window, $routeParams, $rootScope, $scope, ThresholdService, GetTimeService) {
   ThresholdService.getNewestThresholdByCropId($routeParams.cropid).then(function(result) {
-    $rootScope.threshold = result.data;
-    $scope.threshold = result.data;
-    var dateTime = GetTimeService.getDateTime(result.data.createdAt);
-    $scope.threshold.date = dateTime.date;
-    $scope.threshold.time = dateTime.time;
+    if (result.data) {
+
+      $rootScope.threshold = result.data;
+      $scope.threshold = result.data;
+      var dateTime = GetTimeService.getDateTime(result.data.createdAt);
+      $scope.threshold.date = dateTime.date;
+      $scope.threshold.time = dateTime.time;
+
+      $scope.newThreshold = {
+        temperatureLower: $scope.threshold.temperatureLower,
+        temperatureUpper: $scope.threshold.temperatureUpper,
+        humidityLower: $scope.threshold.humidityLower,
+        humidityUpper: $scope.threshold.humidityUpper,
+        ppmLower: $scope.threshold.ppmLower,
+        ppmUpper: $scope.threshold.ppmUpper,
+        phLower: $scope.threshold.phLower,
+        phUpper: $scope.threshold.phUpper
+      }
+    }
   });
 
-  $scope.editThreshold = function(){
+  function reload(){
+    $window.location.reload();
+  }
+  // add new threshold
+  $scope.addThreshold = function() {
 
+    var isEmpty = ThresholdService.checkDataEditThreshold($scope.newThreshold);
+    if (!isEmpty.isErr) {
+      $scope.newThreshold.CropId = $routeParams.cropid;
+      ThresholdService.addThreshold($scope.newThreshold).then(function(result) {
+        $scope.editThresholdSuccess = result.data.success;
+        $scope.editThresholdMessage = result.data.message;
+
+        // if success, update view
+        if (result.data.success){
+          setTimeout(reload, 900);
+        }
+
+      });
+    } else {
+      $scope.editThresholdSuccess = false;
+      $scope.editThresholdMessage = isEmpty.message;
+    }
   }
 });
 
@@ -303,17 +335,19 @@ controller.controller('DataCtrl', function($http, $routeParams, $rootScope, $sco
   $scope.cropId = $routeParams.cropid;
 
   DataService.getNewestDataByCropId($scope.cropId).then(function(result) {
+    if (result.data) {
 
-    $scope.data = result.data;
-    var dateTime = GetTimeService.getDateTime(result.data.createdAt);
-    $scope.data.date = dateTime.date;
-    $scope.data.time = dateTime.time;
+      $scope.data = result.data;
+      var dateTime = GetTimeService.getDateTime(result.data.createdAt);
+      $scope.data.date = dateTime.date;
+      $scope.data.time = dateTime.time;
 
-    // status of data
-    $scope.threshold = $rootScope.threshold;
-    var status = DataStatusService.getStatus($scope.data, $scope.threshold);
-    $scope.badStatus = status.badStatus;
-    $scope.status = status.status;
+      // status of data
+      $scope.threshold = $rootScope.threshold;
+      var status = DataStatusService.getStatus($scope.data, $scope.threshold);
+      $scope.badStatus = status.badStatus;
+      $scope.status = status.status;
+    }
 
   })
 });

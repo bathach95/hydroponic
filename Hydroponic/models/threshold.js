@@ -40,8 +40,8 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     classMethods: {
-      createThreshold: function(threshold, callback){
-        Threshold.create(threshold).then(callback);
+      createThreshold: function(threshold, callback, err){
+        Threshold.create(threshold).then(callback).catch(err);
       },
       getNewestThresholdByCropId: function(cropId, callback){
         var query = {

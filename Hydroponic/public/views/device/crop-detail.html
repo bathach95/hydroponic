@@ -146,8 +146,8 @@
                     <td>Time </td>
                     <td><input type="time" class="form-control" id="start-time" placeholder="start time" readonly></td>
                     <td><input type="time" class="form-control" id="end-time" placeholder="end time" readonly></td>
-                    <td><input type="number" class="form-control" id="last-time" placeholder="last time" readonly></td>
-                    <td><input type="number" class="form-control" id="delay-time" placeholder="delay time" readonly></td>
+                    <td><input type="number" class="form-control" id="last-time" placeholder="minutes" readonly></td>
+                    <td><input type="number" class="form-control" id="delay-time" placeholder="minutes" readonly></td>
                   </tr>
                 </tbody>
               </table>
@@ -236,22 +236,42 @@
 
           <div class="row">
             <label for="lower-temp" class="col-md-4 col-sm-4">Lower temperature:</label>
-            <input ng-model="newThreshold.temperatureLower" class="col-md-7 col-sm-7" type="text" name="lower-temp" />
+            <input ng-model="newThreshold.temperatureLower" class="col-md-7 col-sm-7" type="number" name="lower-temp" />
           </div>
           <br>
           <div class="row">
             <label for="upper-temp" class="col-md-4 col-sm-4">Upper temperature:</label>
-            <input ng-model="newThreshold.temperatureUpper" class="col-md-7 col-sm-7" type="text" name="upper-temp" />
+            <input ng-model="newThreshold.temperatureUpper" class="col-md-7 col-sm-7" type="number" name="upper-temp" />
           </div>
           <br>
           <div class="row">
             <label for="lower-humidity" class="col-md-4 col-sm-4">Lower humidity:</label>
-            <input ng-model="newThreshold.humidityLower" class="col-md-7 col-sm-7" type="text" name="lower-humidity" />
+            <input ng-model="newThreshold.humidityLower" class="col-md-7 col-sm-7" type="number" name="lower-humidity" />
           </div>
           <br>
           <div class="row">
             <label for="upper-humidity" class="col-md-4 col-sm-4">Upper humidity:</label>
-            <input ng-model="newThreshold.humidityUpper" class="col-md-7 col-sm-7" type="text" name="upper-humidity" />
+            <input ng-model="newThreshold.humidityUpper" class="col-md-7 col-sm-7" type="number" name="upper-humidity" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="lower-ppm" class="col-md-4 col-sm-4">Lower ppm:</label>
+            <input ng-model="newThreshold.ppmLower" class="col-md-7 col-sm-7" type="number" name="lower-ppm" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="upper-ppm" class="col-md-4 col-sm-4">Upper ppm:</label>
+            <input ng-model="newThreshold.ppmUpper" class="col-md-7 col-sm-7" type="number" name="upper-ppm" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="lower-ph" class="col-md-4 col-sm-4">Lower ph:</label>
+            <input ng-model="newThreshold.phLower" class="col-md-7 col-sm-7" type="number" name="lower-ph" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="upper-ph" class="col-md-4 col-sm-4">Upper ph:</label>
+            <input ng-model="newThreshold.phUpper" class="col-md-7 col-sm-7" type="number" name="upper-ph" />
           </div>
           <br>
           <div class="row">
@@ -259,7 +279,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button ng-click="editThreshold()" type="button" class="btn btn-1 btn-primary">OK</button>
+          <button ng-click="addThreshold()" type="button" class="btn btn-1 btn-primary">OK</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>

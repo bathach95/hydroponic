@@ -6,8 +6,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    dateturnon: {
-      type: DataTypes.DATE,
+    turnonevery: {
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     timefrom: {
@@ -18,13 +18,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false
     },
-    timedelay: {
-      type: DataTypes.CHAR,
+    delaytime: {
+      type: DataTypes.FLOAT,
       allowNull: false
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true
+    lasttime: {
+      type: DataTypes.FLOAT,
+      allowNull: false
     }
   }, {
     classMethods: {
