@@ -14,6 +14,7 @@
   <!--banner start here-->
   <div class="banner-two">
   </div>
+
   <!--banner end here-->
   <div class="container margin-container" ng-controller="CropCtrl">
     <div class="page-heading">
@@ -365,7 +366,44 @@
       </div>
     </div>
   </div>
-
+  <!-- Crop Image-->
+  <div class="container margin-container">
+    <div class="page-heading">
+      <h2>Crop Image Gallery</h2>
+    </div>
+        <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8 text-center">
+          <div class="rslides_container">
+            <ul class="rslides" id="cropImageGallery">
+              <li>
+                <img class="img-responsive" src="/images/images/1.jpg">
+                <p class="caption">01/05/2017</p>
+              </li>
+              <li>
+                <img class="img-responsive" src="/images/images/2.jpg">
+                <p class="caption">04/05/2017</p>
+              </li>
+              <li>
+                <img class="img-responsive" src="/images/images/3.jpg">
+                <p class="caption">12/05/2017</p>
+              </li>
+              <li>
+                <img class="img-responsive" src="/images/images/4.jpg">
+                <p class="caption">22/05/2017</p>
+              </li>
+            </ul>
+          </div>
+          <div >
+            <input id="uploadBtn" type="button" class="btn btn-primary" value="Upload image..." multiple="multiple"/>
+          </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+  </div>
+  <!-- end Crop Image-->
   <!-- Program settings modal -->
   <div class="modal fade" id="program-settings" role="dialog">
       <div class="modal-dialog modal-lg">
@@ -462,7 +500,7 @@
 
   <!-- edit crop modal-->
   <div class="modal fade" id="crop-overview" role="dialog" ng-controller="CropCtrl">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -495,13 +533,10 @@
                 </tr>
                 <tr>
                   <td><i class="glyphicon glyphicon-time"></i></td>
-                  <td>Reporting time:</td>
+                  <td>Reporting time - min(s):</td>
                   <td>
                     <div class="modal-table-center">
                       <input type="number" name="first-name" class="form-control form-first-name" ng-model="cropEdit.reporttime" value="5" style="float:left; width:40%;" />&nbsp;
-                      <select class="form-control" id="sel1">
-                    <option class="actuator-selection">min(s)</option>
-                  </select>
                     </div>
                   </td>
                 </tr>
@@ -525,7 +560,7 @@
     $(function() {
 
       // Slideshow 1
-      $("#slider1").responsiveSlides({
+      $("#cropImageGallery").responsiveSlides({
         auto: false,
         pager: true,
         nav: true,
