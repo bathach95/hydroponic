@@ -53,6 +53,16 @@ module.exports = function(sequelize, DataTypes) {
         };
         Crop.findAll(query).then(callback);
       },
+      getNewestCropByDeviceMac: function(deviceMac, callback){
+        var query = {
+          where: {
+            DeviceMac: deviceMac,
+          },
+          order: [['closedate', 'DESC']]
+        }
+
+        Crop.findOne(query).then(callback);
+      },
       getCropById: function(id, callback){
         Crop.findById(id).then(callback);
       },
