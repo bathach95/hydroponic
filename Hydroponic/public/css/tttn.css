@@ -464,4 +464,7 @@ used to vertically center elements, may need modification if you're not using de
 .modal-footer-left-align{
   text-align:left;
 }
->>>>>>> abf78648ad2bbe74614e5a159d988466a4b68cad
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

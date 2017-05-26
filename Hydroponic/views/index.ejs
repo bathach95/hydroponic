@@ -69,7 +69,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="col-md-3">
 					<!-- before login -->
 					<!-- login modal -->
-					<div ng-hide="userLogin" class="header-login">
+					<div ng-cloak ng-hide="userLogin" class="header-login">
 						<div class="top-nav-right">
 							<div id="loginContainer"><a href="#" id="loginButton"><span>Login</span></a>
 								<div id="loginBox">
@@ -77,11 +77,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										<fieldset id="body">
 											<fieldset>
 												<label for="email" >Email Address</label>
-												<input type="email" ng-model="user.email" name="email" id="email">
+												<input type="email" ng-model="user.email" name="email" required>
 											</fieldset>
 											<fieldset>
 												<label for="password">Password</label>
-												<input type="password" ng-model="user.password" name="password" id="password">
+												<input type="password" ng-model="user.password" name="password" required>
 											</fieldset>
 											<fieldset>
 												<p style="color: red">{{loginMessage}}</p>
@@ -96,7 +96,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					</div>
 					<!-- end login modal -->
 					<!-- register modal -->
-					<div ng-hide="userLogin" class="header-login">
+					<div ng-cloak ng-hide="userLogin" class="header-login">
 						<div class="top-nav-right">
 							<div id="registerContainer"><a href="#" id="registerButton"><span>Register</span></a>
 								<div id="registerBox">
@@ -137,7 +137,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<!-- end before login -->
 
 					<!-- after login -->
-					<div ng-show="userLogin" class="header-login">
+					<div ng-cloak ng-show="userLogin" class="header-login">
 						<div class="top-nav-right">
 							<div id="loggedInContainer">
 								<button type="button" class="btn-customize btn btn-primary" id="loggedInButton" name="button"><span>Hello! {{userLogin}}</span></button>

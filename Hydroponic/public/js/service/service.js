@@ -37,8 +37,12 @@ service.service('AuthService', function($localStorage) {
         message = "Empty name";
       } else if (user.password === ''){
         message = "Empty password";
+      } else if (user.confirm_password === ''){
+        message = "Empty confirm password";
       } else if (user.email === ''){
         message = "Empty email";
+      } else if (user.password !== user.confirm_password){
+        message = "Password does not match";
       } else {
         isErr = false;
       }

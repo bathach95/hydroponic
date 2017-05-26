@@ -40,6 +40,7 @@ controller.controller('RegisterCtrl', function($http, $scope, UserService, AuthS
   $scope.user = {
     name: '',
     password: '',
+    confirm_password:'',
     email: '',
     phone: ''
   };
