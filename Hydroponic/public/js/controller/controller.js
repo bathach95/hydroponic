@@ -1,4 +1,4 @@
-var controller = angular.module('myApp.controllers', []);
+var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters']);
 
 controller.controller('LoginCtrl', function($scope, $rootScope, $localStorage, $window, UserService, AuthService) {
   $scope.user = {
@@ -280,7 +280,18 @@ controller.controller('CropCtrl', function($http, $routeParams, $scope, CropServ
 
 });
 
-controller.controller('ScheduleCtrl', function($http, $routeParams, $scope) {});
+controller.controller('ScheduleCtrl', function($http, $routeParams, $scope, ScheduleService) {
+  ScheduleService.getScheduleByCropId($routeParams.cropid).then(function(result){
+    // $scope.selectedActuator = null;
+    //var obj = result.data.filter(function(item){
+    //  return item.actuatorid === $scope.selectedActuator;
+    //})[0];
+    //$scope.turnonevery = obj.turnonevery;
+    $scope.scheduleList = result.data;
+    console.log($scope.selectedActuator);
+    console.log(result.data);
+  })
+});
 
 controller.controller('ThresholdCtrl', function($http, $window, $routeParams, $rootScope, $scope, ThresholdService, GetTimeService) {
   ThresholdService.getNewestThresholdByCropId($routeParams.cropid).then(function(result) {

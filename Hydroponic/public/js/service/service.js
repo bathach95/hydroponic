@@ -321,3 +321,13 @@ service.service('DataStatusService', function() {
         return status;
     }
 });
+
+service.service('ScheduleService', function($http){
+  this.getScheduleByCropId = function(cropId){
+    return $http.get('/schedule/all', {
+      params:{
+        cropId: cropId
+      }
+    })
+  }
+})

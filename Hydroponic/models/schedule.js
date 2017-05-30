@@ -6,16 +6,20 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    actuatorid:{
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     turnonevery: {
       type: DataTypes.FLOAT,
       allowNull: false
     },
     timefrom: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false
     },
     timeto: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false
     },
     delaytime: {
@@ -30,6 +34,15 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       createSchedule: function(newSchedule, callback){
         Schedule.create(newSchedule).then(callback);
+      },
+      getScheduleByCropId: function(cropId, callback, err){
+        var query = {
+          where: {
+            CropId: cropId
+          },
+          order: [['timefrom', 'ASC']]
+        }
+        Schedule.findAll(query).then(callback).catch(err);
       },
       // association N:M with User
       associate: function(models){

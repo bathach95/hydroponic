@@ -16,4 +16,11 @@ router.put('edit', user.authenticate(), function(req, res){
   })
 })
 
+router.get('/all', user.authenticate(), function(req, res){
+  var cropId = req.query.cropId;
+  models.Schedule.getScheduleByCropId(cropId, function(result){
+    res.send(result);
+  })
+})
+
 module.exports.router = router;
