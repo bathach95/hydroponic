@@ -2,6 +2,24 @@ var express = require('express');
 var router = express.Router();
 var user = require('./user.js')
 var models = require('../models');
+var device = require('./device.js');
+var utils = require('./utils.js');
+
+function sendSettingToDevice(data, callback){
+  var startdate = utils.getDateFromGMT(data.startdate);
+  var topic = 'device/' + data.DeviceMac + '/data';
+  var closedate = utils.getDateFromGMT(data.closedate);
+  var publishData = {
+    mac: data.DeviceMac,
+    type: "setting",
+    reporttime: data.reporttime,
+    startdate: startdate.date + '_' + startdate.month + '_' + startdate.year,
+    closedate: closedate.date + '_' + closedate.month + '_' + closedate.year
+  }
+
+  device.client.publish(topic, JSON.stringify(publishData), callback);
+}
+
 
 router.get('/all', user.authenticate(), function(req, res){
   var mac = req.query.mac;
@@ -24,14 +42,29 @@ router.get('/one', user.authenticate(), function(req, res){
 })
 
 router.post('/add', user.authenticate(), function(req, res){
-  var newCrop = req.body;
-  models.Crop.createCrop(newCrop, function(){
-    // TODO: check time overlap between crops
-    res.send({
-      success: true,
-      message: "Add crop success"
-    });
-  })
+  // check crop name already exist
+
+  models.Crop.getCropByName(req.body.name, function(result){
+    if (result){
+      res.send({
+        success: false,
+        message: "Name has already existed"
+      });
+    } else {
+      var newCrop = req.body;
+      console.log(newCrop);
+      models.Crop.createCrop(newCrop, function(){
+        // send to device
+        sendSettingToDevice(req.body, function(){
+          res.send({
+            success: true,
+            message: "Add crop success"
+          })
+        })
+      });
+    }
+  });
+
 })
 
 router.delete('/delete', user.authenticate(), function(req, res) {
@@ -58,11 +91,15 @@ router.put('/edit', user.authenticate(), function(req, res){
       startdate: req.body.startdate,
       closedate: req.body.closedate,
       reporttime: req.body.reporttime
-    }).then(function(resss){
-      res.send({
-        success: true,
-        message: "Edit success"
-      })
+    }).then(function(){
+      // send to device
+      sendSettingToDevice(req.body, function(){
+        res.send({
+          success: true,
+          message: "Edit success"
+        })
+      });
+
     });
   });
 

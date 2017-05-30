@@ -63,6 +63,15 @@ module.exports = function(sequelize, DataTypes) {
 
         Crop.findOne(query).then(callback);
       },
+      getCropByName: function(name, callback){
+        var query = {
+          where: {
+            name: name
+          }
+        }
+
+        Crop.findOne(query).then(callback);
+      },
       getCropById: function(id, callback){
         Crop.findById(id).then(callback);
       },

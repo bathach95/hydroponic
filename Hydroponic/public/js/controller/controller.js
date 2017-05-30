@@ -248,7 +248,7 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
 
 });
 
-controller.controller('CropCtrl', function($http, $routeParams, $scope, CropService, GetTimeService) {
+controller.controller('CropCtrl', function($http, $routeParams, $scope, $window, CropService, GetTimeService) {
 
   CropService.getCropById($routeParams.cropid).then(function(result) {
     $scope.crop = result.data;
@@ -258,6 +258,7 @@ controller.controller('CropCtrl', function($http, $routeParams, $scope, CropServ
     $scope.crop.closedate = closeDate.date + " " + closeDate.time;
 
     $scope.cropEdit = {
+      DeviceMac: $routeParams.devicemac,
       id: $routeParams.cropid,
       name: $scope.crop.name,
       treetype: $scope.crop.treetype,
@@ -268,11 +269,18 @@ controller.controller('CropCtrl', function($http, $routeParams, $scope, CropServ
 
   })
 
+  function reload(){
+    $window.location.reload();
+  }
+
 
   $scope.editCrop = function() {
     CropService.editCrop($scope.cropEdit).then(function(result) {
       $scope.editSuccess = result.data.success;
       $scope.editMessage = result.data.message;
+      if (result.data.success){
+        setTimeout(reload, 1000);
+      }
     }).catch(function(err) {
       console.log(err);
     })
@@ -305,9 +313,9 @@ controller.controller('ThresholdCtrl', function($http, $window, $routeParams, $r
     }
   });
 
-  function reload(){
-    $window.location.reload();
-  }
+function reload(){
+  $window.location.reload();
+}
   // add new threshold
   $scope.addThreshold = function() {
 
@@ -320,7 +328,7 @@ controller.controller('ThresholdCtrl', function($http, $window, $routeParams, $r
 
         // if success, update view
         if (result.data.success){
-          setTimeout(reload, 900);
+          setTimeout(reload, 2000);
         }
 
       });
