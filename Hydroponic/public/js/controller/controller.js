@@ -299,6 +299,21 @@ controller.controller('ScheduleCtrl', function($http, $routeParams, $scope, Sche
     console.log($scope.selectedActuator);
     console.log(result.data);
   })
+  $scope.newScheduleItem = {
+    type: 'watering',
+    actuatorid: null,
+    turnonevery: 1,
+    timefrom: null,
+    timeto: null,
+    delaytime: 10,
+    lasttime: 1
+
+  }
+  $scope.insRow = function() {
+    $scope.scheduleList.splice(0,0,$scope.newScheduleItem);
+    console.log("OKKKKKK");
+    console.log($scope.scheduleList);
+  }
 });
 
 controller.controller('ThresholdCtrl', function($http, $window, $routeParams, $rootScope, $scope, ThresholdService, GetTimeService) {

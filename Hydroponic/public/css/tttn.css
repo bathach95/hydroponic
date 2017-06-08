@@ -468,3 +468,7 @@ used to vertically center elements, may need modification if you're not using de
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+table > thead > tr > th {
+   text-align: center;
+}

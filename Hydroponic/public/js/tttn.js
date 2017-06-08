@@ -45,6 +45,7 @@ function deleteRow(row)
     var i=row.parentNode.parentNode.rowIndex;
     document.getElementById('time-settings').deleteRow(i);
 }
+/*
 function insRow()
 {
   var table = document.getElementById("time-settings");
@@ -60,5 +61,6 @@ function insRow()
   cell3.innerHTML = "<input type=\"time\" class=\"form-control\" id=\"end-time\" placeholder=\"end time\">";
   cell4.innerHTML = "<input type=\"number\" class=\"form-control\" id=\"last-time\" placeholder=\"last time\">";
   cell5.innerHTML = "<input type=\"number\" class=\"form-control\" id=\"delay-time\" placeholder=\"delay time\">";
-  cell6.innerHTML = "<button class=\"button add-item-button\" onclick=\"deleteRow(this)\"><i class=\"glyphicon glyphicon-remove\"></i></button>";
+  //cell6.innerHTML = "<button class=\"button add-item-button\" onclick=\"deleteRow(this)\"><i class=\"glyphicon glyphicon-remove\"></i></button>";
 }
+*/

@@ -64,7 +64,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-models.sequelize.sync({force: true});
-// models.sequelize.sync();
+//models.sequelize.sync({force: true});
+ models.sequelize.sync();
 
 module.exports = app;

@@ -139,7 +139,7 @@
                 <thead>
                   <tr>
                     <th></th>
-                    
+
                     <th>Actuator ID</th>
                     <th>Start time</th>
                     <th>End time</th>
@@ -412,7 +412,7 @@
   </div>
   <!-- end Crop Image-->
   <!-- Program settings modal -->
-  <div class="modal fade" id="program-settings" role="dialog">
+  <div class="modal fade" id="program-settings" role="dialog" ng-controller="ScheduleCtrl">
       <div class="modal-dialog modal-lg">
           <!-- Modal content-->
           <div class="modal-content">
@@ -437,11 +437,8 @@
                           </div>
                           <div class="form-group select-actuator">
                             <label for="sel1">Select actuator:</label>
-                            <select class="form-control" id="sel1">
-                              <option class="actuator-selection">1</option>
-                              <option class="actuator-selection">2</option>
-                              <option class="actuator-selection">3</option>
-                              <option class="actuator-selection">4</option>
+                            <select class="form-control" ng-model="newScheduleItem.actuatorid" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleList | unique:'actuatorid'">
+
                             </select>
                           </div>
                           <div class="model-table-center">
@@ -459,17 +456,51 @@
                               <tbody>
                                     <tr>
                                         <td><i class="glyphicon glyphicon-ok-circle"></i></td>
-                                        <td><input type="time" class="form-control" id="start-time" placeholder="start time"></td>
-                                        <td><input type="time" class="form-control" id="end-time" placeholder="end time"></td>
-                                        <td><input type="number" class="form-control" id="last-time" placeholder="last time"></td>
-                                        <td><input type="number" class="form-control" id="delay-time" placeholder="delay time"></td>
-                                        <td><button class="button add-item-button" onclick="deleteRow(this)"><i class="glyphicon glyphicon-remove"></i></button> </td>
+                                        <td><input type="time" class="form-control" id="start-time" ng-model="newScheduleItem.timefrom"></td>
+                                        <td><input type="time" class="form-control" id="end-time" ng-model="newScheduleItem.timeto"></td>
+                                        <td><input type="number" class="form-control" id="last-time" ng-model="newScheduleItem.lasttime"></td>
+                                        <td><input type="number" class="form-control" id="delay-time" ng-model="newScheduleItem.delaytime"></td>
+                                        <td></td>
                                     </tr>
+
                               </tbody>
                             </table>
                             <div class="">
-                              <button class="button add-item-button" onclick="insRow()"><i class="glyphicon glyphicon-plus"></i></button>
+                              <button class="button add-item-button" ng-click="insRow()"><i class="glyphicon glyphicon-plus"></i></button>
                             </div>
+                            <table class="table program-settings-table" id="time-settings-readonly">
+                              <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Actuator ID</th>
+                                    <th>Start time</th>
+                                    <th>End time</th>
+                                    <th>Last time</th>
+                                    <th>Delay time</th>
+                                    <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="schedule in scheduleList | filter:{actuatorid:newScheduleItem.actuatorid}">
+                                  <td><i class="glyphicon glyphicon-ok-circle"></i></td>
+                                  <td>{{schedule.actuatorid}}</td>
+                                  <td>{{schedule.timefrom}}</td>
+                                  <td>{{schedule.timeto}}</td>
+                                  <td>{{schedule.lasttime}}</td>
+                                  <td>{{schedule.delaytime}}</td>
+                                </tr>
+                                <!--
+                                    <tr>
+                                        <td><i class="glyphicon glyphicon-ok-circle"></i></td>
+                                        <td><input type="time" class="form-control" id="start-time" placeholder="start time" readonly></td>
+                                        <td><input type="time" class="form-control" id="end-time" placeholder="end time" readonly></td>
+                                        <td><input type="number" class="form-control" id="last-time" placeholder="last time" readonly></td>
+                                        <td><input type="number" class="form-control" id="delay-time" placeholder="delay time" readonly></td>
+                                        <td><button class="button add-item-button" onclick="deleteRow(this)"><i class="glyphicon glyphicon-remove" readonly></i></button> </td>
+                                    </tr>
+                                  -->
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                       <div id="fan-setting" class="tab-pane fade">
