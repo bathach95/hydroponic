@@ -472,3 +472,10 @@ used to vertically center elements, may need modification if you're not using de
 table > thead > tr > th {
    text-align: center;
 }
+
+.warningAddSchedule{
+  background-color: #93D6F8;
+}
+.no-warningAddSchedule{
+  background-color: #FFFFFF;
+}

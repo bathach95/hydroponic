@@ -296,6 +296,7 @@ controller.controller('ScheduleCtrl', function($http, $routeParams, $scope, Sche
     //})[0];
     //$scope.turnonevery = obj.turnonevery;
     $scope.scheduleList = result.data;
+    $scope.scheduleTypeSelected = 'watering';
     console.log($scope.selectedActuator);
     console.log(result.data);
   })
@@ -307,13 +308,68 @@ controller.controller('ScheduleCtrl', function($http, $routeParams, $scope, Sche
     timeto: null,
     delaytime: 10,
     lasttime: 1
+  }
+  $scope.typeSelected = function(type) {
+    $scope.scheduleTypeSelected = type;
+  }
 
+});
+controller.controller('ScheduleSettingCtrl', function($http, $routeParams, $scope, $route, $timeout, ScheduleService) {
+  ScheduleService.getScheduleByCropId($routeParams.cropid).then(function(result){
+    // $scope.selectedActuator = null;
+    //var obj = result.data.filter(function(item){
+    //  return item.actuatorid === $scope.selectedActuator;
+    //})[0];
+    //$scope.turnonevery = obj.turnonevery;
+    $scope.scheduleSettingTypeSelected = 'watering';
+    $scope.scheduleSettingList = result.data;
+    console.log($scope.selectedActuator);
+    console.log(result.data);
+  })
+  // $scope.newScheduleItem = {
+  //   type: 'watering',
+  //   actuatorid: null,
+  //   turnonevery: null,
+  //   timefrom: null,
+  //   timeto: null,
+  //   delaytime: null,
+  //   lasttime: null
+  //
+  // }
+  $scope.typeSettingSelected = function(type) {
+    $scope.scheduleTypeSelected = type;
+    console.log(type);
   }
+
   $scope.insRow = function() {
-    $scope.scheduleList.splice(0,0,$scope.newScheduleItem);
-    console.log("OKKKKKK");
-    console.log($scope.scheduleList);
+    var date = new Date();
+    this.timeto.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+    this.timefrom.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+    var obj = {
+        type: $scope.scheduleSettingTypeSelected,
+        actuatorid: $scope.selectedActuatorId,
+        turnonevery: 1,
+        timefrom: this.timefrom.toLocaleTimeString("vi-VN",{hour12:false}),
+        timeto: this.timeto.toLocaleTimeString("vi-VN",{hour12:false}),
+        delaytime: this.delaytime,
+        lasttime: this.lasttime
+    };
+    $scope.scheduleSettingList.push(obj);
+    this.timeto = null;
+    this.timefrom = null;
+    this.delaytime = null;
+    this.lasttime = null;
   }
+  // $scope.changeSelectedActuatorId = function(){
+  //   console.log($scope.scheduleSettingList);
+  // }
+  $scope.cancelScheduleSetting = function() {
+      // console.log("Schedule Setting canceled!");
+      // $timeout(function(){
+      //   // 1 second delay, might not need this long, but it works.
+      //   $route.reload();
+      // }, 1000);
+    }
 });
 
 controller.controller('ThresholdCtrl', function($http, $window, $routeParams, $rootScope, $scope, ThresholdService, GetTimeService) {

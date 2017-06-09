@@ -88,17 +88,17 @@
             <h3 class="panel-title">Crop ID - Crop Name</h3>
           </div>
           <div class="col col-xs-6 text-right">
-            <button class="button-diary button-blue-diary" data-toggle="modal" data-target="#program-settings"><i class="glyphicon glyphicon-cog"></i></button>
+            <button class="button-diary button-blue-diary" ng-click="openScheduleSetting()" data-toggle="modal" data-target="#program-settings"><i class="glyphicon glyphicon-cog"></i></button>
             <button class="button-diary button-blue-diary"><i class="glyphicon glyphicon-open"></i></button>
           </div>
         </div>
       </div>
       <div class="panel-body">
         <ul class="nav nav-tabs nav-justified">
-          <li class="active"><a data-toggle="tab" href="#water">Water</a></li>
-          <li><a data-toggle="tab" href="#fan">Fan</a></li>
-          <li><a data-toggle="tab" href="#lighting">Lighting</a></li>
-          <li><a data-toggle="tab" href="#oxygen">Oxygen</a></li>
+          <li class="active"><a data-toggle="tab" data-target="#water" ng-click="typeSelected('watering')">Water</a></li>
+          <li><a data-toggle="tab" data-target="#fan" ng-click="typeSelected('fan')">Fan</a></li>
+          <li><a data-toggle="tab" data-target="#lighting" ng-click="typeSelected('lighting')">Lighting</a></li>
+          <li><a data-toggle="tab" data-target="#oxygen" ng-click="typeSelected('oxygen')">Oxygen</a></li>
         </ul>
         <div class="tab-content">
           <div id="water" class="tab-pane fade in active">
@@ -112,7 +112,7 @@
                   Select actuator:
                 </div>
                 <div class="col-md-4">
-                  <select class="form-control" ng-model="selectedActuator" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleList | unique:'actuatorid'">
+                  <select class="form-control" ng-model="selectedActuator" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleList | filter:{type:scheduleTypeSelected} | unique:'actuatorid'">
 
                   </select>
                 </div>
@@ -148,7 +148,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="schedule in scheduleList | filter:{actuatorid:selectedActuator}">
+                  <tr ng-repeat="schedule in scheduleList | filter:{type:scheduleTypeSelected, actuatorid:selectedActuator}">
                     <td><i class="glyphicon glyphicon-ok-circle"></i></td>
                     <td>{{schedule.actuatorid}}</td>
                     <td>{{schedule.timefrom}}</td>
@@ -186,6 +186,9 @@
     </div>
   </div>
   <!-- end program setting -->
+
+
+
   <div class="container margin-container" ng-controller="ThresholdCtrl">
     <div class="page-heading">
       <h2>Threshold</h2>
@@ -412,7 +415,7 @@
   </div>
   <!-- end Crop Image-->
   <!-- Program settings modal -->
-  <div class="modal fade" id="program-settings" role="dialog" ng-controller="ScheduleCtrl">
+  <div class="modal fade" id="program-settings" role="dialog" ng-controller="ScheduleSettingCtrl">
       <div class="modal-dialog modal-lg">
           <!-- Modal content-->
           <div class="modal-content">
@@ -423,10 +426,10 @@
               <div class="modal-body">
 
                   <ul class="nav nav-tabs nav-justified">
-                      <li class="active"><a data-toggle="tab" href="#water-setting">Water</a></li>
-                      <li><a data-toggle="tab" href="#fan-setting">Fan</a></li>
-                      <li><a data-toggle="tab" href="#lighting-setting">Lighting</a></li>
-                      <li><a data-toggle="tab" href="#oxygen-setting">Oxygen</a></li>
+                      <li class="active"><a data-toggle="tab" data-target="#water-setting" ng-click="typeSettingSelected('watering')">Water</a></li>
+                      <li><a data-toggle="tab" data-target="#fan-setting" ng-click="typeSettingSelected('fan')">Fan</a></li>
+                      <li><a data-toggle="tab" data-target="#lighting-setting" ng-click="typeSettingSelected('lighting')">Lighting</a></li>
+                      <li><a data-toggle="tab" data-target="#oxygen-setting" ng-click="typeSettingSelected('oxygen')">Oxygen</a></li>
                   </ul>
                   <div class="tab-content">
                       <div id="water-setting" class="tab-pane fade in active">
@@ -437,7 +440,7 @@
                           </div>
                           <div class="form-group select-actuator">
                             <label for="sel1">Select actuator:</label>
-                            <select class="form-control" ng-model="newScheduleItem.actuatorid" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleList | unique:'actuatorid'">
+                            <select class="form-control" ng-change="changeSelectedActuatorId()" ng-model="selectedActuatorId" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleSettingList | filter:{type:scheduleTypeSelected} | unique:'actuatorid'">
 
                             </select>
                           </div>
@@ -456,10 +459,10 @@
                               <tbody>
                                     <tr>
                                         <td><i class="glyphicon glyphicon-ok-circle"></i></td>
-                                        <td><input type="time" class="form-control" id="start-time" ng-model="newScheduleItem.timefrom"></td>
-                                        <td><input type="time" class="form-control" id="end-time" ng-model="newScheduleItem.timeto"></td>
-                                        <td><input type="number" class="form-control" id="last-time" ng-model="newScheduleItem.lasttime"></td>
-                                        <td><input type="number" class="form-control" id="delay-time" ng-model="newScheduleItem.delaytime"></td>
+                                        <td><input type="time" class="form-control" id="start-time" ng-model="timefrom"></td>
+                                        <td><input type="time" class="form-control" id="end-time" ng-model="timeto"></td>
+                                        <td><input type="number" class="form-control" id="last-time" ng-model="lasttime"></td>
+                                        <td><input type="number" class="form-control" id="delay-time" ng-model="delaytime"></td>
                                         <td></td>
                                     </tr>
 
@@ -481,13 +484,14 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr ng-repeat="schedule in scheduleList | filter:{actuatorid:newScheduleItem.actuatorid}">
+                                <tr ng-class="{'warningAddSchedule': schedule.id == null, 'no-warningAddSchedule': schedule.id != null}" ng-repeat="schedule in scheduleSettingList | filter:{type:scheduleSettingTypeSelected, actuatorid:selectedActuatorId}">
                                   <td><i class="glyphicon glyphicon-ok-circle"></i></td>
                                   <td>{{schedule.actuatorid}}</td>
                                   <td>{{schedule.timefrom}}</td>
                                   <td>{{schedule.timeto}}</td>
                                   <td>{{schedule.lasttime}}</td>
                                   <td>{{schedule.delaytime}}</td>
+                                  <td><button class="button add-item-button" ng-click="deleteRow(this)"><i class="glyphicon glyphicon-remove"></i></button></td>
                                 </tr>
                                 <!--
                                     <tr>
@@ -528,7 +532,7 @@
                   </div>
                   <div class="col-md-6">
                     <button type="button" class="btn btn-1 btn-primary">Save and apply</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" ng-click="cancelScheduleSetting()" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </div>
               </div>
