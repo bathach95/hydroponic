@@ -112,8 +112,9 @@
                   Select actuator:
                 </div>
                 <div class="col-md-4">
-                  <select class="form-control" ng-model="selectedActuator" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleList | filter:{type:scheduleTypeSelected} | unique:'actuatorid'">
-
+<!--                  <select class="form-control" ng-model="selectedActuator" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleListWatering | unique:'actuatorid'| orderBy:'actuatorid'"> <!--| filter:{type:scheduleTypeSelected} -->
+                  <select class="form-control" ng-model="selectedActuator">
+                    <option value="1">1</option>
                   </select>
                 </div>
                 <div class="col-md-4">
@@ -125,7 +126,7 @@
                   Turn on every:
                 </div>
                 <div class="col-md-4">
-                  <input type="number" class="form-control" ng-attr-value="{{selectedActuator && (scheduleList | filter:{actuatorid:selectedActuator})[0].turnonevery || ''}}" readonly>
+                  <input type="number" class="form-control" ng-attr-value="{{selectedActuator && (scheduleListWatering | filter:{actuatorid:selectedActuator})[0].turnonevery || ''}}" readonly>
                 </div>
                 <div class="col-md-1" style="text-align:left; vertical-align: text-bottom">
                   days
@@ -148,7 +149,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="schedule in scheduleList | filter:{type:scheduleTypeSelected, actuatorid:selectedActuator}">
+                  <tr ng-repeat="schedule in scheduleListWatering | filter:{actuatorid:selectedActuator}">
                     <td><i class="glyphicon glyphicon-ok-circle"></i></td>
                     <td>{{schedule.actuatorid}}</td>
                     <td>{{schedule.timefrom}}</td>
@@ -440,8 +441,9 @@
                           </div>
                           <div class="form-group select-actuator">
                             <label for="sel1">Select actuator:</label>
-                            <select class="form-control" ng-change="changeSelectedActuatorId()" ng-model="selectedActuatorId" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleSettingList | filter:{type:scheduleTypeSelected} | unique:'actuatorid'">
-
+                            <!--<select class="form-control" ng-change="changeSelectedActuatorId()" ng-model="selectedActuatorId" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleSettingListWatering | unique:'actuatorid'| orderBy:'actuatorid'"> <!--| filter:{type:scheduleTypeSelected}-->
+                            <select class="form-control" ng-model="selectedActuatorId" ng-change="changeSelectedActuatorId()">
+                              <option value="1">1</option>
                             </select>
                           </div>
                           <div class="model-table-center">
@@ -469,7 +471,7 @@
                               </tbody>
                             </table>
                             <div class="">
-                              <button class="button add-item-button" ng-click="insRow()"><i class="glyphicon glyphicon-plus"></i></button>
+                              <button class="button add-item-button" ng-click="insRow(scheduleSettingTypeSelected)"><i class="glyphicon glyphicon-plus"></i></button>
                             </div>
                             <table class="table program-settings-table" id="time-settings-readonly">
                               <thead>
@@ -484,14 +486,14 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr ng-class="{'warningAddSchedule': schedule.id == null, 'no-warningAddSchedule': schedule.id != null}" ng-repeat="schedule in scheduleSettingList | filter:{type:scheduleSettingTypeSelected, actuatorid:selectedActuatorId}">
+                                <tr ng-class="{'warningAddSchedule': schedule.id == null, 'no-warningAddSchedule': schedule.id != null}" ng-repeat="schedule in scheduleSettingListWatering | filter:{actuatorid:selectedActuatorId}">
                                   <td><i class="glyphicon glyphicon-ok-circle"></i></td>
                                   <td>{{schedule.actuatorid}}</td>
                                   <td>{{schedule.timefrom}}</td>
                                   <td>{{schedule.timeto}}</td>
                                   <td>{{schedule.lasttime}}</td>
                                   <td>{{schedule.delaytime}}</td>
-                                  <td><button class="button add-item-button" ng-click="deleteRow(this)"><i class="glyphicon glyphicon-remove"></i></button></td>
+                                  <td><button class="button add-item-button" ng-click="deleteRow(scheduleSettingTypeSelected ,this)"><i class="glyphicon glyphicon-remove"></i></button></td>
                                 </tr>
                                 <!--
                                     <tr>
@@ -531,7 +533,7 @@
                     <button type="button" class="btn btn-1 btn-primary">Import Program Settings</button>
                   </div>
                   <div class="col-md-6">
-                    <button type="button" class="btn btn-1 btn-primary">Save and apply</button>
+                    <button type="button" ng-click="saveAndApply()" class="btn btn-1 btn-primary">Save and apply</button>
                     <button type="button" ng-click="cancelScheduleSetting()" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </div>

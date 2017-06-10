@@ -290,25 +290,16 @@ controller.controller('CropCtrl', function($http, $routeParams, $scope, $window,
 
 controller.controller('ScheduleCtrl', function($http, $routeParams, $scope, ScheduleService) {
   ScheduleService.getScheduleByCropId($routeParams.cropid).then(function(result){
-    // $scope.selectedActuator = null;
+    //$scope.selectedActuator = 1;
     //var obj = result.data.filter(function(item){
     //  return item.actuatorid === $scope.selectedActuator;
     //})[0];
     //$scope.turnonevery = obj.turnonevery;
-    $scope.scheduleList = result.data;
+    $scope.scheduleListWatering = result.data.watering;
     $scope.scheduleTypeSelected = 'watering';
     console.log($scope.selectedActuator);
     console.log(result.data);
   })
-  $scope.newScheduleItem = {
-    type: 'watering',
-    actuatorid: null,
-    turnonevery: 1,
-    timefrom: null,
-    timeto: null,
-    delaytime: 10,
-    lasttime: 1
-  }
   $scope.typeSelected = function(type) {
     $scope.scheduleTypeSelected = type;
   }
@@ -322,54 +313,123 @@ controller.controller('ScheduleSettingCtrl', function($http, $routeParams, $scop
     //})[0];
     //$scope.turnonevery = obj.turnonevery;
     $scope.scheduleSettingTypeSelected = 'watering';
-    $scope.scheduleSettingList = result.data;
+    $scope.scheduleSettingListWatering = result.data.watering;
+    $scope.scheduleSettingListFan = result.data.fan;
+    $scope.scheduleSettingListLighting = result.data.lighting;
+    $scope.scheduleSettingListOxygen = result.data.oxygen;
     console.log($scope.selectedActuator);
     console.log(result.data);
   })
-  // $scope.newScheduleItem = {
-  //   type: 'watering',
-  //   actuatorid: null,
-  //   turnonevery: null,
-  //   timefrom: null,
-  //   timeto: null,
-  //   delaytime: null,
-  //   lasttime: null
-  //
-  // }
   $scope.typeSettingSelected = function(type) {
-    $scope.scheduleTypeSelected = type;
+    $scope.scheduleSettingTypeSelected = type;
     console.log(type);
   }
 
-  $scope.insRow = function() {
+  $scope.insRow = function(scheduleType) {
     var date = new Date();
     this.timeto.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
     this.timefrom.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
-    var obj = {
-        type: $scope.scheduleSettingTypeSelected,
-        actuatorid: $scope.selectedActuatorId,
-        turnonevery: 1,
-        timefrom: this.timefrom.toLocaleTimeString("vi-VN",{hour12:false}),
-        timeto: this.timeto.toLocaleTimeString("vi-VN",{hour12:false}),
-        delaytime: this.delaytime,
-        lasttime: this.lasttime
-    };
-    $scope.scheduleSettingList.push(obj);
-    this.timeto = null;
-    this.timefrom = null;
-    this.delaytime = null;
-    this.lasttime = null;
+    if (this.timefrom <= this.timeto)
+    {
+      var obj = {
+          type: $scope.scheduleSettingTypeSelected,
+          actuatorid: $scope.selectedActuatorId,
+          turnonevery: 1,
+          timefrom: this.timefrom.toLocaleTimeString("vi-VN",{hour12:false}),
+          timeto: this.timeto.toLocaleTimeString("vi-VN",{hour12:false}),
+          delaytime: this.delaytime,
+          lasttime: this.lasttime
+      };
+      switch ($scope.scheduleSettingTypeSelected) {
+        case 'watering':
+          var index = checkNewScheduleItem($scope.scheduleSettingListWatering, obj)
+          if (index != null)
+            $scope.scheduleSettingListWatering.splice(index, 0, obj);
+          else
+            window.alert("Overlap Time");
+          break;
+        case 'fan':
+          $scope.scheduleSettingListFan.push(obj);
+          break;
+        case 'lighting':
+          $scope.scheduleSettingListLighting.push(obj);
+          break;
+        case 'oxygen':
+          $scope.scheduleSettingListOxygen.push(obj);
+          break;
+        default:
+      };
+      this.timeto = null;
+      this.timefrom = null;
+      this.delaytime = null;
+      this.lasttime = null;
+    }
+    else {
+      window.alert("Please choose start time before end time!");
+    }
   }
-  // $scope.changeSelectedActuatorId = function(){
-  //   console.log($scope.scheduleSettingList);
-  // }
+
+  function checkNewScheduleItem(list, item){
+    console.log("---i----");
+    for (i = 0; i < list.length; i++)
+    {
+      if (item.actuatorid == list[i].actuatorid)
+      {
+        if (item.timefrom >= list[i].timeto)
+          continue;
+        else
+        {
+          if (item.timefrom <= list[i].timefrom)
+          {
+            if (item.timeto > list[i].timefrom)
+              return null;
+            else
+              return i;
+          }
+          else
+          {
+            return null
+          }
+        }
+      }
+    }
+    return list.length;
+    console.log("---i----");
+  }
+  $scope.deleteRow = function(scheduleSettingTypeSelected, row){
+    console.log("" + i);
+    switch (scheduleSettingTypeSelected) {
+      case 'watering':
+        var i = $scope.scheduleSettingListWatering.indexOf(row.schedule);
+        $scope.scheduleSettingListWatering.splice(i, 1);
+        break;
+      case 'fan':
+        var i = $scope.scheduleSettingListFan.indexOf(row.schedule);
+        $scope.scheduleSettingListFan.splice(i, 1);
+        break;
+      case 'lighting':
+        var i = $scope.scheduleSettingListLighting.indexOf(row.schedule);
+        $scope.scheduleSettingListLighting.splice(i, 1);
+        break;
+      case 'oxygen':
+        var i = $scope.scheduleSettingListOxygen.indexOf(row.schedule);
+        $scope.scheduleSettingListOxygen.splice(i, 1);
+        break;
+      default:
+    };
+  }
+
   $scope.cancelScheduleSetting = function() {
       // console.log("Schedule Setting canceled!");
-      // $timeout(function(){
+       $timeout(function(){
       //   // 1 second delay, might not need this long, but it works.
-      //   $route.reload();
-      // }, 1000);
+         $route.reload();
+       }, 1000);
     }
+
+    $scope.saveAndApply = function() {
+      console.log("Saved and applied!");
+    };
 });
 
 controller.controller('ThresholdCtrl', function($http, $window, $routeParams, $rootScope, $scope, ThresholdService, GetTimeService) {

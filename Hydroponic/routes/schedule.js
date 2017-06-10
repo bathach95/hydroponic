@@ -18,9 +18,41 @@ router.put('edit', user.authenticate(), function(req, res){
 
 router.get('/all', user.authenticate(), function(req, res){
   var cropId = req.query.cropId;
+
   models.Schedule.getScheduleByCropId(cropId, function(result){
-    res.send(result);
-  })
+    var watering = [];
+    var fan = [];
+    var lighting = [];
+    var oxygen = [];
+    result.forEach(function(item, index){
+      switch (item.dataValues.type) {
+        case 'watering':
+          watering.push(item.dataValues);
+          break;
+        case 'fan':
+          fan.push(item.dataValues);
+          break;
+        case 'lighting':
+          lighting.push(item.dataValues);
+          break;
+        case 'oxygen':
+          oxygen.push(item.dataValues);
+          break;
+        default:
+
+      }
+    })
+    //res.json({
+
+    //});
+    res.send({
+      watering: watering,
+      fan: fan,
+      lighting: lighting,
+      oxygen: oxygen
+    });
+
+  });
 })
 
 module.exports.router = router;
