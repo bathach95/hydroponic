@@ -113,9 +113,11 @@
                 </div>
                 <div class="col-md-4">
 <!--                  <select class="form-control" ng-model="selectedActuator" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleListWatering | unique:'actuatorid'| orderBy:'actuatorid'"> <!--| filter:{type:scheduleTypeSelected} -->
-                  <select class="form-control" ng-model="selectedActuator">
-                    <option value="1">1</option>
+<!--                  <select class="form-control" ng-model="selectedActuator">
+                    <option value="1" selected="selected">1</option>
                   </select>
+-->
+                  <input type="number" class="form-control" ng-model="selectedActuator" readonly>
                 </div>
                 <div class="col-md-4">
                 </div>
@@ -442,9 +444,11 @@
                           <div class="form-group select-actuator">
                             <label for="sel1">Select actuator:</label>
                             <!--<select class="form-control" ng-change="changeSelectedActuatorId()" ng-model="selectedActuatorId" ng-options="schedule.actuatorid as schedule.actuatorid for schedule in scheduleSettingListWatering | unique:'actuatorid'| orderBy:'actuatorid'"> <!--| filter:{type:scheduleTypeSelected}-->
-                            <select class="form-control" ng-model="selectedActuatorId" ng-change="changeSelectedActuatorId()">
+<!--                            <select class="form-control" ng-model="selectedActuatorId" ng-change="changeSelectedActuatorId()">
                               <option value="1">1</option>
                             </select>
+-->
+                            <input type="number" class="form-control" ng-model="selectedActuatorId" readonly>                            
                           </div>
                           <div class="model-table-center">
                             <table class="table program-settings-table" id="time-settings">
@@ -599,6 +603,28 @@
     </div>
   </div>
   <!-- end edit crop modal-->
+
+  <!-- start information announcement modal -->
+  <div class="modal fade" id="information-Modal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Confirmation</h4>
+          </div>
+          <div class="modal-body">
+            <p id="information-Modal-Text"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  <!-- end information announcement modal -->
 
   <script>
     $(function() {

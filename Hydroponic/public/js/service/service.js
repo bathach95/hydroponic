@@ -330,4 +330,18 @@ service.service('ScheduleService', function($http){
       }
     })
   }
+
+  this.deleteScheduleSettingByCropId = function(cropId){
+    console.log("Service");
+    return $http.delete('/schedule/delete', {
+      params:{
+        cropId: cropId
+      }
+    });
+  }
+
+  this.addScheduleSetting = function(listScheduleSetting){
+    return $http.post('/schedule/add', listScheduleSetting);
+  }
+
 })

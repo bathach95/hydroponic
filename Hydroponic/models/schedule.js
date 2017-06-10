@@ -44,6 +44,14 @@ module.exports = function(sequelize, DataTypes) {
         }
         Schedule.findAll(query).then(callback).catch(err);
       },
+      deleteScheduleByCropId: function(cropId, callback){
+        var query = {
+          where: {
+            CropId: cropId
+          },
+        }
+        Schedule.destroy(query).then(callback);
+      },
       // association N:M with User
       associate: function(models){
       }

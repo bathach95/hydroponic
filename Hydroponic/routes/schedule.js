@@ -43,9 +43,7 @@ router.get('/all', user.authenticate(), function(req, res){
 
       }
     })
-    //res.json({
 
-    //});
     res.send({
       watering: watering,
       fan: fan,
@@ -54,6 +52,44 @@ router.get('/all', user.authenticate(), function(req, res){
     });
 
   });
+})
+
+router.delete('/delete', user.authenticate(), function(req, res){
+  var cropId = req.query.cropId;
+
+  models.Schedule.deleteScheduleByCropId(cropId, function(result){
+    console.log("Successfully delete all schedule with crop Id!");
+    res.send({
+      success:true
+    });
+  });
+})
+
+router.post('/add', user.authenticate(), function(req, res){
+  var listScheduleSetting = req.body;
+
+  listScheduleSetting.watering.forEach(function(item, index){
+    models.Schedule.createSchedule(item, function(result){
+    });
+  });
+  listScheduleSetting.fan.forEach(function(item, index){
+    models.Schedule.createSchedule(item, function(result){
+    });
+  });
+  listScheduleSetting.lighting.forEach(function(item, index){
+    models.Schedule.createSchedule(item, function(result){
+    });
+  });
+  listScheduleSetting.oxygen.forEach(function(item, index){
+    models.Schedule.createSchedule(item, function(result){
+    });
+  });
+  res.send({
+    success:true
+  });
+  // models.Schedule.createSchedule(listScheduleSetting.cropId, function(result){
+  //   console.log("Successfully delete all schedule with crop Id!");
+  // });
 })
 
 module.exports.router = router;
