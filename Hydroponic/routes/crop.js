@@ -7,7 +7,7 @@ var utils = require('./utils.js');
 
 function sendSettingToDevice(data, callback){
   var startdate = utils.getDateFromGMT(data.startdate);
-  var topic = 'device/' + data.DeviceMac + '/data';
+  var topic = 'device/' + data.DeviceMac + '/esp';
   var closedate = utils.getDateFromGMT(data.closedate);
   var publishData = {
     mac: data.DeviceMac,

@@ -3,7 +3,7 @@ var router = express.Router();
 var user = require('./user.js')
 var models = require('../models');
 const mqtt = require('mqtt');
-const client = mqtt.connect('mqtt://broker.hivemq.com');
+const client = mqtt.connect('mqtt://test.mosquitto.org');
 
 //====== auto query mac from database and subscribe to that chanel =======
 
@@ -11,7 +11,7 @@ models.Device.findAll({
   attributes: ['mac']
 }).then(function(result){
   result.forEach(function(item){
-    var topic = 'device/' + item.dataValues.mac + '/data';
+    var topic = 'device/' + item.dataValues.mac + '/server';
     client.subscribe(topic, function(){
       console.log("subscribe success to " + topic);
     });
@@ -67,7 +67,7 @@ router.post('/add', user.authenticate(), function(req, res) {
           function() {
 
             // this topic is for send and receive data
-            var topic = 'device/' + newDevice.mac + '/data'
+            var topic = 'device/' + newDevice.mac + '/server'
 
             client.subscribe(topic, function() {
               console.log("subscribe success after add new device");

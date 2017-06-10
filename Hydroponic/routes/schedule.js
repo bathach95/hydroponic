@@ -3,7 +3,8 @@ var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
 var mqtt = require('mqtt');
-var client = mqtt.connect('mqtt://broker.hivemq.com');
+var device = require('./device.js');
+
 
 // client.on('connect', function(){
 //   client.
@@ -12,7 +13,7 @@ var client = mqtt.connect('mqtt://broker.hivemq.com');
 router.put('edit', user.authenticate(), function(req, res){
   var schedule = req.body;
   models.Schedule.createSchedule(schedule, function () {
-    client.publish();
+    device.client.publish();
   })
 })
 

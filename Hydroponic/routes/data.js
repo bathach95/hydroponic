@@ -43,39 +43,46 @@ function createNewData(newData, mac, ackTopic) {
 
 // receive data from device and add to database
 device.client.on('message', function(topic, message) {
-  var data = JSON.parse(message);
-  var ackTopic = 'device/' + data.mac + '/ack';
 
-  if (data.type === "sensor_data") {
-
-    models.Crop.getNewestCropByDeviceMac(data.mac, function(crop) {
-      if (crop) {
-
-        var newData = {
-          CropId: crop.dataValues.id,
-          temperature: data.temp,
-          humidity: data.humidity,
-          ppm: data.ppm,
-          ph: data.ph
-        }
-        createNewData(newData, data.mac, ackTopic);
-
-      } else {
-        //====== send ack ======
-        var ackData = {
-          mac: data.mac,
-          type: 'ack',
-          message: 'fail'
-        }
-        device.client.publish(ackTopic, JSON.stringify(ackData));
-        // ====== end send ack ======
-      }
-
-    })
-
-  } else {
+  try {
+    var data = JSON.parse(message.toString());
     console.log(data);
+    var ackTopic = 'device/' + data.mac + '/esp';
+
+    if (data.type === "sensor_data") {
+
+      models.Crop.getNewestCropByDeviceMac(data.mac, function(crop) {
+        if (crop) {
+
+          var newData = {
+            CropId: crop.dataValues.id,
+            temperature: data.temp,
+            humidity: data.hum,
+            ppm: data.ppm,
+            ph: data.ph
+          }
+          createNewData(newData, data.mac, ackTopic);
+
+        } else {
+          //====== send ack ======
+          var ackData = {
+            mac: data.mac,
+            type: 'ack',
+            message: 'fail'
+          }
+          device.client.publish(ackTopic, JSON.stringify(ackData));
+          // ====== end send ack ======
+        }
+
+      })
+
+    } else {
+      console.log(data);
+    }
+  } catch(err){
+    console.log(err);
   }
+
 
 });
 // ======================== end =================
