@@ -17,7 +17,7 @@ controller.controller('LoginCtrl', function($scope, $rootScope, $localStorage, $
           $localStorage.email = result.data.data.email;
           $localStorage.phone = result.data.data.phone;
           //------------------
-          window.alert('Login success!');
+          bootbox.alert('Login success!');
         } else {
           $scope.loginMessage = result.data.error;
         }
@@ -109,7 +109,7 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
         if (result.data.success) {
           $scope.listDevice.splice(index, 1);
         }
-        window.alert(result.data.message);
+        bootbox.alert(result.data.message);
       });
     }
 
@@ -130,7 +130,7 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
       UserService.update($scope.userUpdate).then(function(result) {
         $localStorage.phone = $scope.userUpdate.phone;
         $localStorage.name = $scope.userUpdate.name;
-        window.alert(result.data);
+        bootbox.alert(result.data);
         $window.location.reload();
       });
     } else {
@@ -240,7 +240,7 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
         if (result.data.success) {
           $scope.cropList.splice(index, 1);
         }
-        window.alert(result.data.message);
+        bootbox.alert(result.data.message);
       })
     }
   }
