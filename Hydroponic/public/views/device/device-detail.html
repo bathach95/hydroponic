@@ -16,7 +16,7 @@
   <div class="banner-two">
   </div>
   <!--banner end here-->
-  <div class="container">
+  <div class="container margin-container">
     <div class="page-title">
       <h2>Device Details</h2>
     </div>
@@ -171,20 +171,20 @@
           </div>
           <br>
           <div class="row">
-            <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
-          </div>
-          <br>
-          <div class="row">
             <label for="type" class="col-md-4 col-sm-4">Type:</label>
             <select name="type" ng-model="newCrop.type">
               <option value="">---Please select---</option>
-              <option value="drip system">drip system</option>
-              <option value="ebb-flow">ebb-flow</option>
+              <option value="drip system">Drip System</option>
+              <option value="ebb-flow">EBB-Flow</option>
               <option value="nft">NFT</option>
-              <option value="water culture">water culture</option>
-              <option value="aeroponics">aeroponics</option>
-              <option value="wick system">wick system</option>
+              <option value="water culture">Water Culture</option>
+              <option value="aeroponics">Aeroponics</option>
+              <option value="wick system">Wick System</option>
             </select>
+          </div>
+          <br>
+          <div class="row">
+            <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
           </div>
           <br>
         </div>

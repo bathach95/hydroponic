@@ -56,7 +56,19 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
           $scope.newCrop.stime = sdate[4];
           $scope.newCrop.cdate = cdate[1] + ' ' + cdate[2] + ' ' + cdate[3];
           $scope.newCrop.ctime = cdate[4];
-          $scope.cropList.push($scope.newCrop);
+          CropService.getAllCrops($routeParams.mac).then(function(result) {
+            $scope.cropList = result.data;
+            $scope.cropList.forEach(function(item) {
+              var startDateTime = GetTimeService.getDateTime(item.startdate);
+              item.sdate = startDateTime.date;
+              item.stime = startDateTime.time;
+
+              var closeDateTime = GetTimeService.getDateTime(item.closedate);
+              item.cdate = closeDateTime.date;
+              item.ctime = closeDateTime.time;
+            })
+          })
+          //$scope.cropList.push($scope.newCrop);
         }
       })
     } else {
@@ -69,18 +81,20 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $scope, $local
 
   /* delete crop */
   $scope.deleteCrop = function(index, cropId, status) {
-    if (window.confirm("Do you want to delete this crop ?")) {
-
-      var crop = {
-        id: cropId
-      }
-      CropService.deleteCrop(crop).then(function(result) {
-        if (result.data.success) {
-          $scope.cropList.splice(index, 1);
+    bootbox.confirm("Do you want to delete this crop ?", function(result){
+      if (result)
+      {
+        var crop = {
+          id: cropId
         }
-        bootbox.alert(result.data.message);
-      })
-    }
+        CropService.deleteCrop(crop).then(function(result) {
+          if (result.data.success) {
+            $scope.cropList.splice(index, 1);
+          }
+          bootbox.alert(result.data.message);
+        })
+      }
+    })
   }
   /* end delete crop */
 
