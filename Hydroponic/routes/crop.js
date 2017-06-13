@@ -43,8 +43,7 @@ router.get('/one', user.authenticate(), function(req, res){
 
 router.post('/add', user.authenticate(), function(req, res){
   // check crop name already exist
-
-  models.Crop.getCropByName(req.body.name, function(result){
+  models.Crop.getCropByName(req.body.name, req.body.DeviceMac, function(result){
     if (result){
       res.send({
         success: false,

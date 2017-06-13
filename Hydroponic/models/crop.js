@@ -56,17 +56,18 @@ module.exports = function(sequelize, DataTypes) {
       getNewestCropByDeviceMac: function(deviceMac, callback){
         var query = {
           where: {
-            DeviceMac: deviceMac,
+            DeviceMac: deviceMac
           },
           order: [['closedate', 'DESC']]
         }
 
         Crop.findOne(query).then(callback);
       },
-      getCropByName: function(name, callback){
+      getCropByName: function(cropName, deviceMac, callback){
         var query = {
           where: {
-            name: name
+            name: cropName,
+            DeviceMac: deviceMac
           }
         }
 
