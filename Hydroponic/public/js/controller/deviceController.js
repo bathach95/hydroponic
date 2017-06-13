@@ -32,6 +32,7 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $window, $scop
     $scope.listCropPage = [];
     for (i = 1; i <= 5; i++)
     {
+      if (i <= $scope.cropList.length)
       $scope.listCropPage.push($scope.cropList[i - 1]);
     }
   });
@@ -136,7 +137,7 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $window, $scop
         }
         CropService.deleteCrop(crop).then(function(result) {
           if (result.data.success) {
-            $scope.cropList.splice(index, 1);
+            //$scope.cropList.splice(index, 1);
           }
           bootbox.alert(result.data.message, function(){
             setTimeout(reload, 1000);
