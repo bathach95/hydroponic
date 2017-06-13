@@ -73,7 +73,7 @@
               <h3 class="panel-title">Device ID - Device Name</h3>
             </div>
             <div class="col col-xs-6 text-right">
-              <button type="button" class="btn btn-sm btn-primary btn-create" data-toggle="modal" data-target="#addDeviceModal">Create New Crop</button>
+              <button type="button" class="btn btn-sm btn-primary btn-create" data-toggle="modal" data-target="#addCropModal">Create New Crop</button>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@
           <table class="table table-hover table-striped table-bordered table-list">
             <thead>
               <tr>
-                <th class="hidden-xs">ID</th>
+                <th class="hidden-xs">No.</th>
                 <th>Crop Name</th>
                 <th>Type</th>
                 <th>Tree Species</th>
@@ -92,8 +92,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="crop in cropList">
-                <td class="hidden-xs">{{$index + 1}}</td>
+              <!--<tr ng-repeat="crop in cropList">-->
+              <tr ng-repeat="crop in listCropPage">
+                <td class="hidden-xs">{{((currentPage-1)*5)+($index + 1)}}</td>
                 <td><a ng-href="#/device/{{deviceMac}}/crop/{{crop.id}}">{{crop.name}}</a></td>
                 <td>{{crop.type}}</td>
                 <td>{{crop.treetype}}</td>
@@ -111,17 +112,22 @@
         </div>
         <div class="panel-footer">
           <div class="row">
-            <div class="col col-xs-4">Page 1 of 5
+            <div class="col col-xs-4">
+              <ul class="pagination hidden-xs pull-left">
+                <li><a href ng-if="currentPage != 1" ng-click="previousPagination(currentPage - 1)"><em class="glyphicon glyphicon-chevron-left"></em></a></li>
+              </ul>
             </div>
-            <div class="col col-xs-8">
+              <div class="col col-xs-4" style="text-align:center;">Page {{currentPage}} of {{numberPagination}}
+            </div>
+            <div class="col col-xs-4">
               <ul class="pagination hidden-xs pull-right">
-                <li><a href="#"><em class="glyphicon glyphicon-chevron-left"></em></a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#"><em class="glyphicon glyphicon-chevron-right"></em></a></li>
+                  <!--<li><a href="#">{{$index}}</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                  -->
+                <li><a href ng-if="currentPage != numberPagination" ng-click="nextPagination(currentPage + 1)"><em class="glyphicon glyphicon-chevron-right"></em></a></li>
               </ul>
               <ul class="pagination visible-xs pull-right">
                 <li><a href="#">«</a></li>
@@ -135,7 +141,7 @@
   </div>
 
   <!-- Add device modal -->
-  <div class="modal fade" id="addDeviceModal" role="dialog">
+  <div class="modal fade" id="addCropModal" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">
@@ -183,7 +189,7 @@
             </select>
           </div>
           <br>
-          <div class="row">
+          <div class="row" style="text-align:center;">
             <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
           </div>
           <br>
