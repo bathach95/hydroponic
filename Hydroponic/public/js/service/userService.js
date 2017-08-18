@@ -1,4 +1,4 @@
-var service = angular.module('myApp.service', []);
+var service = angular.module('myApp.service', ['ngCookies']);
 
 service.service('AuthService', function($localStorage) {
     return {
@@ -92,7 +92,7 @@ service.service('AuthService', function($localStorage) {
     }
 });
 
-service.service('UserService', function($localStorage, $http) {
+service.service('UserService', function($localStorage, $http, $cookies) {
     this.register = function(user) {
         return $http.post('/user/register', user);
     }
@@ -114,5 +114,10 @@ service.service('UserService', function($localStorage, $http) {
         delete $localStorage.name;
         delete $localStorage.email;
         delete $localStorage.phone;
+        var cookies = $cookies.getAll();
+        console.log(cookies);
+        angular.forEach(cookies, function (v, k) {
+            $cookies.remove(k);
+        });
     }
 });

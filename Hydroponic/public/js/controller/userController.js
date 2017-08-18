@@ -1,6 +1,6 @@
-var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters']);
+var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters','ngCookies']);
 
-controller.controller('LoginCtrl', function($scope, $rootScope, $localStorage, $window, UserService, AuthService) {
+controller.controller('LoginCtrl', function($cookies, $scope, $rootScope, $localStorage, $window, UserService, AuthService, flash) {
   $scope.user = {
     email: '',
     password: ''
@@ -17,9 +17,20 @@ controller.controller('LoginCtrl', function($scope, $rootScope, $localStorage, $
           $localStorage.email = result.data.data.email;
           $localStorage.phone = result.data.data.phone;
           //------------------
-          bootbox.alert('Login success!');
+          var day = new Date();
+          day.setDate(day.getDay()+30);
+
+          var options  = {
+              domain: "localhost",
+              httpOnly: true,
+              expires: day
+          };
+
+          $cookies.put('token',result.data.token,options);
+          $cookies.put('name',result.data.data.name,options);
+          flash.success = 'Dang nhap thanh cong';
         } else {
-          $scope.loginMessage = result.data.error;
+          flash.error = result.data.error;
         }
       });
     } else {
@@ -32,8 +43,11 @@ controller.controller('LoginCtrl', function($scope, $rootScope, $localStorage, $
     var url = "http://" + $window.location.host + "/";
     $window.location.href = url;
   }
+  // // display username after login
+  if ($cookies.get('token')){
+    $rootScope.userLogin = $cookies.get('name');
+  }
 
-  $rootScope.userLogin = $localStorage.name;
 });
 
 controller.controller('RegisterCtrl', function($http, $scope, UserService, AuthService) {
@@ -64,6 +78,7 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
 
   // display all devices of user and display on profile.html
   DeviceService.getAllDevicesByEmail($localStorage.email).then(function(result) {
+    console.log(result.data);
     $scope.listDevice = result.data;
     $scope.listDevice.forEach(function(item) {
       var dateTime = GetTimeService.getDateTime(item.createdAt);

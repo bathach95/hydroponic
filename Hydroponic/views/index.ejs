@@ -174,9 +174,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<span class="menu"> <img src="/images/icon.png" alt=""/></span>
 				<ul class="res">
 					<li><a ng-href="#/" class="active hvr-sweep-to-bottom">Home</a></li>
-					<li><a class="hvr-sweep-to-bottom" href="#/system">System</a></li>
+					<li><a class="hvr-sweep-to-bottom" ng-href="#/system">System</a></li>
 					<li><a class="hvr-sweep-to-bottom" ng-href="#/article">Article</a></li>
-					<li><a class="hvr-sweep-to-bottom" ng-href="#/forum">Forum</a></li>
+					<li><a class="hvr-sweep-to-bottom" ng-href="http://localhost:4567">Forum</a></li>
 					<li><a class="hvr-sweep-to-bottom" ng-href="#/about">About</a></li>
 					<li><a class="hvr-sweep-to-bottom" ng-href="#/contact">Contact</a></li>
 				</ul>
@@ -198,6 +198,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
   <div ng-view></div>
   <!--body end here-->
 
+  	<!-- / social -->
+    <div flash-alert="error" active-class="in alert-flash" class="fade">
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <strong class="alert-heading">Thông báo!</strong>
+        <span class="alert-message">{{flash.message}}</span>
+    </div>
+    <div flash-alert="success" active-class="in alert-flash" class="fade">
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <strong class="alert-heading">Thông báo!</strong>
+        <span class="alert-message" ng-bind-html="flash.message | unsafe"></span>
+    </div>
 	<!--footer start here-->
 	<div class="footer">
 		<div class="container">
@@ -270,9 +281,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <!-- angular js -->
 <script src="/js/libs/angular.min.js" type="text/javascript"></script>
+
 <script src="/js/libs/angular-cookies.js" type="text/javascript"></script>
 <script src="/js/libs/angular-route.js" type="text/javascript"></script>
 <script src="/js/libs/ngStorage.min.js" type="text/javascript"></script>
+<script src="/js/libs/angular-flash.min.js" type="text/javascript"></script>
 <script src="/js/libs/angular-ui.min.js" type="text/javascript"></script>
 <script src="/js/factory/factory.js" type="text/javascript"></script>
 <script src="/js/service/userService.js" type="text/javascript"></script>
@@ -288,5 +301,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="/js/controller/dataController.js" type="text/javascript"></script>
 <script src="/js/controller/scheduleController.js" type="text/javascript"></script>
 <script src="/js/controller/thresholdController.js" type="text/javascript"></script>
+<script src="/js/filters.js" type="text/javascript"></script>
 <script src="/js/app.js" type="text/javascript"></script>
 </html>

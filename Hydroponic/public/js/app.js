@@ -1,6 +1,15 @@
 'use strict';
 
-var myApp = angular.module('myApp', ['ngCookies', 'ngRoute', 'ngStorage','myApp.controllers', 'myApp.factory', 'myApp.service']);
+var myApp = angular.module('myApp', 
+    ['ngCookies', 
+     'ngRoute',
+     'ngStorage',
+     'angular-flash.service',
+     'angular-flash.flash-alert-directive',
+     'myApp.controllers',
+     'myApp.factory',
+     'myApp.service',
+     'myApp.filter']);
 
 var isLoggedIn = function($location, $q, AuthService) {
     var deferred = $q.defer();
@@ -16,6 +25,14 @@ var isLoggedIn = function($location, $q, AuthService) {
 myApp.config(function($httpProvider) {
     $httpProvider.interceptors.push('AuthInterceptor');
 });
+
+/*error message*/
+myApp.config(['flashProvider', function(flashProvider) {
+    flashProvider.errorClassnames.push('alert-danger');
+    flashProvider.warnClassnames.push('alert-warning');
+    flashProvider.infoClassnames.push('alert-info');
+    flashProvider.successClassnames.push('alert-success');
+}]);
 
 myApp.config(function($locationProvider, $routeProvider) {
 

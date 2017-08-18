@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING,
-      primaryKey: true
+      allowNull: false
     },
     phone: {
       type: DataTypes.STRING,

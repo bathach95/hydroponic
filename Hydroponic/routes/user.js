@@ -65,7 +65,8 @@ router.post('/login', function(req, res) {
       user.comparePassword(req.body.password, function(isMatch) {
         if (isMatch) {
           var usr = {
-            name: user.name,
+            id: user.id,
+            username: user.name,
             email: user.email
           }
           var token = jwt.sign(usr, 'hydroponic', {
