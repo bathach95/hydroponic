@@ -1,9 +1,9 @@
 service.service('DeviceService', function($http) {
 
-    this.getAllDevicesByEmail = function(email) {
+    this.getAllDevicesByUserId = function(userid) {
         return $http.get('/device/all', {
             params: {
-                email: email
+                userid: userid
             }
         });
     }

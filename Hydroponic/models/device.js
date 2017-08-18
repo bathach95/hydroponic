@@ -31,10 +31,10 @@ module.exports = function(sequelize, DataTypes) {
         };
         Device.findOne(query).then(callback).catch(err);
       },
-      getDevicesByUserEmail: function(email, callback, err){
+      getDevicesByUserId: function(userid, callback, err){
         var query = {
           where: {
-            UserEmail: email
+            UserId: userid
           }
         }
         Device.findAll(query).then(callback).catch(err);

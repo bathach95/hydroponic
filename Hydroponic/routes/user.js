@@ -76,6 +76,7 @@ router.post('/login', function(req, res) {
             success: true,
             data: {
               message: 'Login success!',
+              userid: user.id,
               name: user.name,
               email: user.email,
               phone: user.phone

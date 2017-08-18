@@ -22,9 +22,10 @@ models.Device.findAll({
 
 router.get('/all', user.authenticate(), function(req, res) {
 
-  var userEmail = req.query.email;
-  models.Device.getDevicesByUserEmail(userEmail,
+  var userId = req.query.userid;
+  models.Device.getDevicesByUserId(userId,
     function(result) {
+      console.log(result);
       var deviceList = [];
       result.forEach(function(item, index) {
         deviceList.push(item.dataValues);

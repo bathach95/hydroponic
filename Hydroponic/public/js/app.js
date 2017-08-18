@@ -42,15 +42,23 @@ myApp.config(function($locationProvider, $routeProvider) {
         .when('/', {
             templateUrl: 'views/home/index.html',
         })
+        .when('/login', {
+            templateUrl: 'views/login.html',
+            controller: 'LoginCtrl'
+        })
+        .when('/register', {
+            templateUrl: 'views/register.html',
+            controller: 'RegisterCtrl'
+        })
         .when('/system', {
             templateUrl: 'views/home/services.html',
         })
         .when('/article', {
             templateUrl: 'views/home/single.html',
         })
-        .when('/forum', {
-            templateUrl: 'views/home/gallery.html',
-        })
+        // .when('/forum', {
+        //     templateUrl: 'views/home/gallery.html',
+        // })
         .when('/about', {
             templateUrl: 'views/home/about.html',
         })

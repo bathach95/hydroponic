@@ -1,11 +1,11 @@
 var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters','ngCookies']);
 
-controller.controller('LoginCtrl', function($cookies, $scope, $rootScope, $localStorage, $window, UserService, AuthService, flash) {
-  $scope.user = {
-    email: '',
-    password: ''
-  };
+controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootScope, $localStorage, $window, UserService, AuthService, flash) {
+
+  $scope.user = {};
+
   $scope.login = function() {
+    console.log($scope.user);
     var isEmpty = AuthService.checkEmptyLogin($scope.user);
     if (!isEmpty.isErr) {
       UserService.login($scope.user).then(function(result) {
@@ -13,6 +13,7 @@ controller.controller('LoginCtrl', function($cookies, $scope, $rootScope, $local
           $rootScope.userLogin = result.data.data.name;
           // save data to localStorage
           $localStorage.token = result.data.token;
+          $localStorage.userid = result.data.data.userid;
           $localStorage.name = result.data.data.name;
           $localStorage.email = result.data.data.email;
           $localStorage.phone = result.data.data.phone;
@@ -28,9 +29,10 @@ controller.controller('LoginCtrl', function($cookies, $scope, $rootScope, $local
 
           $cookies.put('token',result.data.token,options);
           $cookies.put('name',result.data.data.name,options);
-          flash.success = 'Dang nhap thanh cong';
+          flash.success = 'Login success!';
+          $location.url('/');
         } else {
-          flash.error = result.data.error;
+          flash.error = result.data.data.message + result.data.error;
         }
       });
     } else {
@@ -50,20 +52,19 @@ controller.controller('LoginCtrl', function($cookies, $scope, $rootScope, $local
 
 });
 
-controller.controller('RegisterCtrl', function($http, $scope, UserService, AuthService) {
-  $scope.user = {
-    name: '',
-    password: '',
-    confirm_password:'',
-    email: '',
-    phone: ''
-  };
+controller.controller('RegisterCtrl', function($location, $http, $scope, UserService, AuthService, flash) {
+  $scope.user = {};
+
   $scope.register = function() {
     var isEmpty = AuthService.checkEmptyReg($scope.user);
     if (!isEmpty.isErr) {
       UserService.register($scope.user).then(function(result) {
-        $scope.success = result.data.success;
-        $scope.regMessage = result.data.data.message;
+        if(result.data.success){
+          flash.success = result.data.data.message;
+          $location.path('/login');
+        } else {
+          flash.error = result.data.data.message;
+        }
       });
     } else {
       $scope.success = false;
@@ -77,8 +78,7 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
   /*---------------------- device ----------------------*/
 
   // display all devices of user and display on profile.html
-  DeviceService.getAllDevicesByEmail($localStorage.email).then(function(result) {
-    console.log(result.data);
+  DeviceService.getAllDevicesByUserId($localStorage.userid).then(function(result) {
     $scope.listDevice = result.data;
     $scope.listDevice.forEach(function(item) {
       var dateTime = GetTimeService.getDateTime(item.createdAt);
@@ -89,11 +89,8 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
 
   // add a new device
   $scope.newDevice = {
-    mac: '',
-    name: '',
-    manufacturer: '',
     status: "no connection",
-    UserEmail: $localStorage.email
+    UserId: $localStorage.userid
   }
 
   $scope.addDevice = function() {
@@ -156,9 +153,6 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
   //----- change pass -----------
   $scope.pass = {
     email: $localStorage.email,
-    currPass: '',
-    newPass: '',
-    confNewPass: ''
   }
 
   $scope.changePass = function() {
