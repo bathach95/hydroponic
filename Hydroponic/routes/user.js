@@ -36,6 +36,8 @@ var authenticate = function () {
   });
 }
 
+/* automat */
+
 /* register action */
 router.post('/register', function (req, res) {
 

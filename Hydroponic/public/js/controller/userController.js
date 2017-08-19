@@ -1,6 +1,6 @@
 var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters','ngCookies']);
 
-controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootScope, $localStorage, $window, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootScope, $window, UserService, AuthService, flash) {
 
   $scope.user = {};
 
@@ -11,12 +11,7 @@ controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootSc
       UserService.login($scope.user).then(function(result) {
         if (result.data.success) {
           $rootScope.userLogin = result.data.data.name;
-          // save data to localStorage
-          $localStorage.token = result.data.token;
-          $localStorage.userid = result.data.data.userid;
-          $localStorage.name = result.data.data.name;
-          $localStorage.email = result.data.data.email;
-          $localStorage.phone = result.data.data.phone;
+
           //------------------
           var day = new Date();
           day.setDate(day.getDay()+30);
@@ -29,6 +24,9 @@ controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootSc
 
           $cookies.put('token',result.data.token,options);
           $cookies.put('name',result.data.data.name,options);
+          $cookies.put('userid',result.data.data.userid,options);
+          $cookies.put('email',result.data.data.email,options);
+          $cookies.put('phone',result.data.data.phone,options);
           flash.success = 'Login success!';
           $location.url('/');
         } else {
@@ -105,12 +103,12 @@ controller.controller('ActiveUserCtrl', function($routeParams, $scope, UserServi
   })
 });
 
-controller.controller('ProfileCtrl', function($http, $window, $localStorage, $scope, DeviceService, UserService, GetTimeService, AuthService) {
+controller.controller('ProfileCtrl', function($http, $window, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService) {
 
   /*---------------------- device ----------------------*/
 
   // display all devices of user and display on profile.html
-  DeviceService.getAllDevicesByUserId($localStorage.userid).then(function(result) {
+  DeviceService.getAllDevicesByUserId($cookies.get('userid')).then(function(result) {
     $scope.listDevice = result.data;
     $scope.listDevice.forEach(function(item) {
       var dateTime = GetTimeService.getDateTime(item.createdAt);
@@ -122,7 +120,7 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
   // add a new device
   $scope.newDevice = {
     status: "no connection",
-    UserId: $localStorage.userid
+    UserId: $cookies.get('userid')
   }
 
   $scope.addDevice = function() {
@@ -163,17 +161,17 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
   /*----------------------- user ------------------------*/
   // update infos
   $scope.userUpdate = {
-    email: $localStorage.email,
-    name: $localStorage.name,
-    phone: $localStorage.phone
+    email: $cookies.get('email'),
+    name: $cookies.get('name'),
+    phone: $cookies.get('phone')
   }
 
   $scope.update = function() {
     var isEmpty = AuthService.checkEmptyUpdate($scope.userUpdate);
     if (!isEmpty.isErr) {
       UserService.update($scope.userUpdate).then(function(result) {
-        $localStorage.phone = $scope.userUpdate.phone;
-        $localStorage.name = $scope.userUpdate.name;
+        $cookies.put('phone', $scope.userUpdate.phone);
+        $cookies.put('name', $scope.userUpdate.name);
         bootbox.alert(result.data);
         $window.location.reload();
       });
@@ -184,7 +182,7 @@ controller.controller('ProfileCtrl', function($http, $window, $localStorage, $sc
 
   //----- change pass -----------
   $scope.pass = {
-    email: $localStorage.email,
+    email: $cookies.get('email'),
   }
 
   $scope.changePass = function() {

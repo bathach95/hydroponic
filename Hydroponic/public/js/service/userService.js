@@ -1,6 +1,6 @@
 var service = angular.module('myApp.service', ['ngCookies']);
 
-service.service('AuthService', function ($localStorage) {
+service.service('AuthService', function ($cookies) {
   return {
     isLoggedIn: isLoggedIn,
     checkEmptyLogin: checkEmptyLogin,
@@ -10,7 +10,7 @@ service.service('AuthService', function ($localStorage) {
   }
 
   function isLoggedIn() {
-    if ($localStorage.token) {
+    if ($cookies.get('token')) {
       return true;
     } else {
       return false;
@@ -92,7 +92,7 @@ service.service('AuthService', function ($localStorage) {
   }
 });
 
-service.service('UserService', function ($localStorage, $http, $cookies) {
+service.service('UserService', function ($http, $cookies) {
   this.register = function (user) {
     return $http.post('/user/register', user);
   }
@@ -118,11 +118,6 @@ service.service('UserService', function ($localStorage, $http, $cookies) {
   }
 
   this.logout = function () {
-    delete $localStorage.token;
-    delete $localStorage.name;
-    delete $localStorage.email;
-    delete $localStorage.phone;
-    delete $localStorage.userid;
     var cookies = $cookies.getAll();
     console.log(cookies);
     angular.forEach(cookies, function (v, k) {

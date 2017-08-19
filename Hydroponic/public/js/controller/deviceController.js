@@ -1,4 +1,4 @@
-controller.controller('DeviceCtrl', function($http, $routeParams, $window, $scope, $localStorage, DeviceService, CropService, GetTimeService) {
+controller.controller('DeviceCtrl', function($http, $routeParams, $window, $scope, DeviceService, CropService, GetTimeService) {
 
   $scope.deviceMac = $routeParams.mac;
 
