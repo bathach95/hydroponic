@@ -35,9 +35,7 @@ myApp.config(['flashProvider', function(flashProvider) {
 }]);
 
 myApp.config(function($locationProvider, $routeProvider) {
-
-
-    $locationProvider.hashPrefix('');
+    
     $routeProvider
         .when('/', {
             templateUrl: 'views/home/index.html',
@@ -59,6 +57,10 @@ myApp.config(function($locationProvider, $routeProvider) {
         .when('/resetpass', {
             templateUrl: 'views/resetpass.html',
             controller: 'ResetPassCtrl'
+        })
+        .when('/user/active/:email/:token', {
+            templateUrl: 'views/notice.html',
+            controller: 'ActiveUserCtrl'
         })
         .when('/about', {
             templateUrl: 'views/home/about.html',
@@ -96,4 +98,6 @@ myApp.config(function($locationProvider, $routeProvider) {
         .otherwise({
             redirectTo: '/'
         });
+
+        $locationProvider.hashPrefix('');
 });

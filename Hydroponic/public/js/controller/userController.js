@@ -66,6 +66,7 @@ controller.controller('ResetPassCtrl', function($scope, UserService){
   }
   
 });
+
 controller.controller('RegisterCtrl', function($location, $http, $scope, UserService, AuthService, flash) {
   $scope.user = {};
 
@@ -73,18 +74,35 @@ controller.controller('RegisterCtrl', function($location, $http, $scope, UserSer
     var isEmpty = AuthService.checkEmptyReg($scope.user);
     if (!isEmpty.isErr) {
       UserService.register($scope.user).then(function(result) {
+
+        $scope.message = result.data.message;
+        $scope.success = result.data.success;        
+
         if(result.data.success){
-          flash.success = result.data.data.message;
-          $location.path('/login');
+          flash.success = result.data.message;
         } else {
-          flash.error = result.data.data.message;
+          flash.error = result.data.message;
         }
       });
     } else {
       $scope.success = false;
-      $scope.regMessage = isEmpty.message;
+      $scope.message = isEmpty.message;
     }
   }
+});
+
+controller.controller('ActiveUserCtrl', function($routeParams, $scope, UserService, flash){
+  UserService.activeAccount($routeParams).then(function(result){
+
+    $scope.success = result.data.success;
+    $scope.message = result.data.message;
+    
+    if(result.data.success){
+      flash.success = result.data.message;
+    } else {
+      flash.error = result.data.message;
+    }
+  })
 });
 
 controller.controller('ProfileCtrl', function($http, $window, $localStorage, $scope, DeviceService, UserService, GetTimeService, AuthService) {

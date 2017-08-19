@@ -15,6 +15,23 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    activeToken: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     phone: {
       type: DataTypes.STRING,
       allowNull: true
@@ -30,6 +47,11 @@ module.exports = function(sequelize, DataTypes) {
             }).then(callback);
           });
         });
+      },
+      updateStatus: function(status, callback){
+        this.update({
+          status: status
+        }).then(callback);
       },
       comparePassword: function(password, callback){
         bcrypt.compare(password, this.password, function(err, isMatch){
@@ -49,7 +71,15 @@ module.exports = function(sequelize, DataTypes) {
           });
         });
       },
-      getUserByUsename: function(username, callback){
+      getUserById: function(id, callback){
+        var query = {
+          where: {
+            id: id
+          }
+        }
+        User.findOne(query).then(callback);
+      },
+      getUserByUsername: function(username, callback){
         var query = {
           where: {
             username: username
