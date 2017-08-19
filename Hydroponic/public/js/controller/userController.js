@@ -103,7 +103,7 @@ controller.controller('ActiveUserCtrl', function($routeParams, $scope, UserServi
   })
 });
 
-controller.controller('ProfileCtrl', function($http, $window, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService) {
+controller.controller('ProfileCtrl', function($timeout, $http, $window, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
 
   /*---------------------- device ----------------------*/
 
@@ -170,10 +170,14 @@ controller.controller('ProfileCtrl', function($http, $window, $cookies, $scope, 
     var isEmpty = AuthService.checkEmptyUpdate($scope.userUpdate);
     if (!isEmpty.isErr) {
       UserService.update($scope.userUpdate).then(function(result) {
-        $cookies.put('phone', $scope.userUpdate.phone);
-        $cookies.put('name', $scope.userUpdate.name);
-        bootbox.alert(result.data);
-        $window.location.reload();
+        if (result.data.success){
+          $cookies.put('phone', $scope.userUpdate.phone);
+          $cookies.put('name', $scope.userUpdate.name);
+          flash.success = result.data.message;
+          
+        } else {
+          flash.error = result.data.message;
+        }
       });
     } else {
       $scope.updateMessage = isEmpty.message;
@@ -189,8 +193,11 @@ controller.controller('ProfileCtrl', function($http, $window, $cookies, $scope, 
     var error = AuthService.checkDataChangePass($scope.pass);
     if (!error.isErr) {
       UserService.changePass($scope.pass).then(function(result) {
-        $scope.changePassSucc = result.data.success;
-        $scope.changePassMessage = result.data.message;
+        if(result.data.success){
+          flash.success = result.data.message;
+        } else {
+          flash.error = result.data.message;
+        }
       })
     } else {
       $scope.changePassMessage = error.message;

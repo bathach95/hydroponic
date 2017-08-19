@@ -36,7 +36,30 @@ var authenticate = function () {
   });
 }
 
-/* automat */
+/* automatedly create an admin account */
+
+  // check whether admin account was created or not
+  models.User.getUserByEmail('hbathach@gmail.com', function(user){
+    if(user){
+      console.log('Admin account was created');
+    } else {
+      var admin = {
+        name: 'Thach',
+        password: 'bkhydroponic2017',
+        email: 'hbathach@gmail.com',
+        phone: '01696030126',
+        role: 'admin', // 'user', 'admin' and 'mod'
+        status: true,
+        activeToken: randToken.generate(30)
+      };
+
+      models.User.createUser(admin, function(){
+        console.log('Admin account created')
+      })
+    }
+  })
+
+/* end create admin account */
 
 /* register action */
 router.post('/register', function (req, res) {
@@ -140,12 +163,23 @@ router.post('/login', function (req, res) {
 router.put('/update', authenticate(), function (req, res) {
 
   models.User.getUserByEmail(req.body.email, function (user) {
-    user.update({
-      name: req.body.name,
-      phone: req.body.phone
-    }).then(function () {
-      res.send("Update success!");
-    });
+    if (user){
+      user.update({
+        name: req.body.name,
+        phone: req.body.phone
+      }).then(function () {
+        res.json({
+          success: true,
+          message: 'Update success!'
+        });
+      });
+    } else {
+      res.json({
+        success: false,
+        message: 'Cannot find user'
+      })
+    }
+    
   })
 })
 /* end update action*/
