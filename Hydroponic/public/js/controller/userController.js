@@ -150,8 +150,10 @@ controller.controller('ProfileCtrl', function($timeout, $http, $window, $cookies
       DeviceService.deleteDevice(device).then(function(result) {
         if (result.data.success) {
           $scope.listDevice.splice(index, 1);
+          flash.success = result.data.message;
+        } else {
+          flash.error = result.data.message;
         }
-        bootbox.alert(result.data.message);
       });
     }
 
