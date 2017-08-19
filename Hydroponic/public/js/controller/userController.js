@@ -5,7 +5,7 @@ controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootSc
   $scope.user = {};
 
   $scope.login = function() {
-    console.log($scope.user);
+    
     var isEmpty = AuthService.checkEmptyLogin($scope.user);
     if (!isEmpty.isErr) {
       UserService.login($scope.user).then(function(result) {
@@ -52,6 +52,20 @@ controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootSc
 
 });
 
+controller.controller('ResetPassCtrl', function($scope, UserService){
+
+  $scope.user = {};
+
+  $scope.resetPassword = function(){
+    if($scope.user.email){
+      UserService.resetPass($scope.user).then(function(result){
+        $scope.success = result.data.success;
+        $scope.message = result.data.message;
+      })
+    }
+  }
+  
+});
 controller.controller('RegisterCtrl', function($location, $http, $scope, UserService, AuthService, flash) {
   $scope.user = {};
 

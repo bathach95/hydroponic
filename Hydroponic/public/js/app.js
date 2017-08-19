@@ -56,9 +56,10 @@ myApp.config(function($locationProvider, $routeProvider) {
         .when('/article', {
             templateUrl: 'views/home/single.html',
         })
-        // .when('/forum', {
-        //     templateUrl: 'views/home/gallery.html',
-        // })
+        .when('/resetpass', {
+            templateUrl: 'views/resetpass.html',
+            controller: 'ResetPassCtrl'
+        })
         .when('/about', {
             templateUrl: 'views/home/about.html',
         })

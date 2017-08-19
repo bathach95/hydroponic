@@ -109,11 +109,16 @@ service.service('UserService', function($localStorage, $http, $cookies) {
         return $http.put('/user/changepass', pass);
     }
 
+    this.resetPass = function(user){
+        return $http.post('/user/resetpass', user);
+    }
+
     this.logout = function() {
         delete $localStorage.token;
         delete $localStorage.name;
         delete $localStorage.email;
         delete $localStorage.phone;
+        delete $localStorage.userid;
         var cookies = $cookies.getAll();
         console.log(cookies);
         angular.forEach(cookies, function (v, k) {
