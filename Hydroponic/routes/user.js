@@ -10,6 +10,11 @@ var flash = require('req-flash');
 var Cookies = require('cookies');
 var nodemailer = require('nodemailer');
 var randToken = require('rand-token');
+var path      = require("path");
+var Acl       = require('acl');
+var Sequelize = require('sequelize');
+var AclSeq    = require('acl-sequelize');
+
 var opts = {
   secretOrKey: 'hydroponic',
   jwtFromRequest: ExtractJwt.fromHeader('token')
@@ -23,6 +28,17 @@ var transporter = nodemailer.createTransport({
     pass: 'hydroponic'
   }
 });
+
+/* config acl and acl-sequelize */
+var env       = "development";
+var config    = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
+var db = module.exports = new Sequelize(config.database, config.username, config.password, config);
+var acl       = new Acl(new AclSeq(db, { prefix: 'acl_' }));
+
+acl.addUserRoles('thach', 'admin');
+acl.addUserRoles('nam', 'member');
+
+acl.allow('admin', ['/dashboard'], '*');
 
 /* set up jwt Strategy for passport */
 passport.use(new Strategy(opts, function (jwt_payload, done) {
@@ -132,28 +148,23 @@ router.post('/login', function (req, res) {
           res.json({
             success: true,
             data: {
-              message: 'Login success!',
               userid: user.id,
               name: user.name,
               email: user.email,
-              phone: user.phone
+              phone: user.phone,
+              role: user.role,
+              token: token
             },
-            token: token
+            message: 'Login success!'            
           });
         } else res.json({
           success: false,
-          data: {
-            message: 'Login failed!'
-          },
-          error: 'Wrong password'
+          message: 'Login failed! Wrong password'
         });
       });
     } else res.json({
       success: false,
-      data: {
-        message: 'Login failed!'
-      },
-      error: 'Wrong email'
+      message: 'Login failed! Wrong email'
     });
   });
 });
@@ -161,6 +172,8 @@ router.post('/login', function (req, res) {
 
 /* update action*/
 router.put('/update', authenticate(), function (req, res) {
+
+  console.log(req.user);
 
   models.User.getUserByEmail(req.body.email, function (user) {
     if (user){

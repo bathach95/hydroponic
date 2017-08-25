@@ -6,6 +6,8 @@
     "start": "node ./run/www"
   },
   "dependencies": {
+    "acl": "^0.4.10",
+    "acl-sequelize": "^0.1.2",
     "bcryptjs": "^2.3.0",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",

@@ -119,7 +119,6 @@ service.service('UserService', function ($http, $cookies) {
 
   this.logout = function () {
     var cookies = $cookies.getAll();
-    console.log(cookies);
     angular.forEach(cookies, function (v, k) {
       $cookies.remove(k);
     });

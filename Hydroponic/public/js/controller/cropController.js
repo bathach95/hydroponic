@@ -1,6 +1,6 @@
-controller.controller('CropCtrl', function($http, $routeParams, $scope, $window, CropService, GetTimeService) {
+controller.controller('CropCtrl', function($http, $stateParams, $scope, $window, CropService, GetTimeService) {
 
-  CropService.getCropById($routeParams.cropid).then(function(result) {
+  CropService.getCropById($stateParams.cropid).then(function(result) {
     $scope.crop = result.data;
     var startDate = GetTimeService.getDateTime($scope.crop.startdate);
     $scope.crop.startdate = startDate.date + " " + startDate.time;
@@ -8,8 +8,8 @@ controller.controller('CropCtrl', function($http, $routeParams, $scope, $window,
     $scope.crop.closedate = closeDate.date + " " + closeDate.time;
 
     $scope.cropEdit = {
-      DeviceMac: $routeParams.devicemac,
-      id: $routeParams.cropid,
+      DeviceMac: $stateParams.devicemac,
+      id: $stateParams.cropid,
       name: $scope.crop.name,
       treetype: $scope.crop.treetype,
       startdate: new Date($scope.crop.startdate),

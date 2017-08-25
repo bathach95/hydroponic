@@ -1,5 +1,5 @@
-controller.controller('ThresholdCtrl', function($http, $window, $routeParams, $rootScope, $scope, ThresholdService, GetTimeService) {
-  ThresholdService.getNewestThresholdByCropId($routeParams.cropid).then(function(result) {
+controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $rootScope, $scope, ThresholdService, GetTimeService) {
+  ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function(result) {
     if (result.data) {
 
       $rootScope.threshold = result.data;
@@ -29,7 +29,7 @@ function reload(){
 
     var isEmpty = ThresholdService.checkDataEditThreshold($scope.newThreshold);
     if (!isEmpty.isErr) {
-      $scope.newThreshold.CropId = $routeParams.cropid;
+      $scope.newThreshold.CropId = $stateParams.cropid;
       ThresholdService.addThreshold($scope.newThreshold).then(function(result) {
         $scope.editThresholdSuccess = result.data.success;
         $scope.editThresholdMessage = result.data.message;

@@ -1,9 +1,9 @@
-controller.controller('DeviceCtrl', function($http, $routeParams, $window, $scope, DeviceService, CropService, GetTimeService) {
+controller.controller('DeviceCtrl', function($http, $stateParams, $window, $scope, DeviceService, CropService, GetTimeService) {
 
-  $scope.deviceMac = $routeParams.mac;
+  $scope.deviceMac = $stateParams.mac;
 
   /* query all device data */
-  DeviceService.getDeviceByMac($routeParams.mac).then(function(result) {
+  DeviceService.getDeviceByMac($stateParams.mac).then(function(result) {
     $scope.device = result.data;
     var dateTime = GetTimeService.getDateTime($scope.device.createdAt);
     $scope.device.date = dateTime.date;
@@ -11,7 +11,7 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $window, $scop
   });
   /* end query device data */
   /* get all crops of device */
-  CropService.getAllCrops($routeParams.mac).then(function(result) {
+  CropService.getAllCrops($stateParams.mac).then(function(result) {
     $scope.cropList = result.data;
 
     $scope.cropList.forEach(function(item) {
@@ -58,7 +58,7 @@ controller.controller('DeviceCtrl', function($http, $routeParams, $window, $scop
 
   /* add new crop to device */
   $scope.newCrop = {
-    DeviceMac: $routeParams.mac,
+    DeviceMac: $stateParams.mac,
     name: '',
     type: '',
     treetype: '',

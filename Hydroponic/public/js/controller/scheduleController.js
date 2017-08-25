@@ -1,5 +1,5 @@
-controller.controller('ScheduleCtrl', function($http, $routeParams, $scope, ScheduleService) {
-  ScheduleService.getScheduleByCropId($routeParams.cropid).then(function(result){
+controller.controller('ScheduleCtrl', function($http, $stateParams, $scope, ScheduleService) {
+  ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
     $scope.selectedActuator = 1;
     //var obj = result.data.filter(function(item){
     //  return item.actuatorid === $scope.selectedActuator;
@@ -14,8 +14,8 @@ controller.controller('ScheduleCtrl', function($http, $routeParams, $scope, Sche
 
 });
 
-controller.controller('ScheduleSettingCtrl', function($http, $window, $routeParams, $scope, $route, $timeout, ScheduleService) {
-  ScheduleService.getScheduleByCropId($routeParams.cropid).then(function(result){
+controller.controller('ScheduleSettingCtrl', function($http, $window, $stateParams, $scope, $route, $timeout, ScheduleService) {
+  ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
     $scope.selectedActuatorId = 1;
     $scope.scheduleSettingTypeSelected = 'watering';
     $scope.scheduleSettingListWatering = result.data.watering;
@@ -47,7 +47,7 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $routePara
             timeto: this.timeto.toLocaleTimeString("vi-VN",{hour12:false}),
             delaytime: this.delaytime,
             lasttime: this.lasttime,
-            CropId: $routeParams.cropid
+            CropId: $stateParams.cropid
         };
         switch ($scope.scheduleSettingTypeSelected) {
           case 'watering':
@@ -137,12 +137,12 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $routePara
     $window.location.reload();
   }
   $scope.saveAndApply = function() {
-      ScheduleService.deleteScheduleSettingByCropId($routeParams.cropid).then(function(result){
+      ScheduleService.deleteScheduleSettingByCropId($stateParams.cropid).then(function(result){
         console.log("Controller delete schedule successfully!");
       })
 
       var listScheduleSetting = {
-        cropId: $routeParams.cropid,
+        cropId: $stateParams.cropid,
         watering: $scope.scheduleSettingListWatering,
         fan: $scope.scheduleSettingListFan,
         lighting: $scope.scheduleSettingListLighting,

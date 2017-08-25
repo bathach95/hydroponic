@@ -1,6 +1,6 @@
 var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters','ngCookies']);
 
-controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootScope, $window, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
 
   $scope.user = {};
 
@@ -21,16 +21,17 @@ controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootSc
               httpOnly: true,
               expires: day
           };
-
-          $cookies.put('token',result.data.token,options);
+          
+          $cookies.put('token',result.data.data.token,options);
           $cookies.put('name',result.data.data.name,options);
           $cookies.put('userid',result.data.data.userid,options);
           $cookies.put('email',result.data.data.email,options);
           $cookies.put('phone',result.data.data.phone,options);
-          flash.success = 'Login success!';
+          $cookies.put('role',result.data.data.role,options);
+          flash.success = result.data.message;
           $location.url('/');
         } else {
-          flash.error = result.data.data.message + result.data.error;
+          flash.error = result.data.message;
         }
       });
     } else {
@@ -40,8 +41,9 @@ controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootSc
 
   $scope.logout = function() {
     UserService.logout();
-    var url = "http://" + $window.location.host + "/";
-    $window.location.href = url;
+    $rootScope.userLogin = null;
+    flash.success = 'Logout success!'
+    $state.go('home');
   }
   // // display username after login
   if ($cookies.get('token')){
@@ -89,8 +91,8 @@ controller.controller('RegisterCtrl', function($location, $http, $scope, UserSer
   }
 });
 
-controller.controller('ActiveUserCtrl', function($routeParams, $scope, UserService, flash){
-  UserService.activeAccount($routeParams).then(function(result){
+controller.controller('ActiveUserCtrl', function($stateParams, $scope, UserService, flash){
+  UserService.activeAccount($stateParams).then(function(result){
 
     $scope.success = result.data.success;
     $scope.message = result.data.message;
@@ -103,7 +105,7 @@ controller.controller('ActiveUserCtrl', function($routeParams, $scope, UserServi
   })
 });
 
-controller.controller('ProfileCtrl', function($timeout, $http, $window, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
+controller.controller('ProfileCtrl', function($timeout, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
 
   /*---------------------- device ----------------------*/
 

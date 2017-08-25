@@ -1,7 +1,7 @@
 
-controller.controller('DataCtrl', function($http, $routeParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService) {
-  $scope.deviceMac = $routeParams.devicemac;
-  $scope.cropId = $routeParams.cropid;
+controller.controller('DataCtrl', function($http, $stateParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService) {
+  $scope.deviceMac = $stateParams.devicemac;
+  $scope.cropId = $stateParams.cropid;
 
   DataService.getNewestDataByCropId($scope.cropId).then(function(result) {
     if (result.data) {
@@ -22,13 +22,13 @@ controller.controller('DataCtrl', function($http, $routeParams, $rootScope, $sco
 });
 
 
-controller.controller('AllLogCtrl', function($http, $routeParams, $scope, ThresholdService, DataService, GetTimeService, DataStatusService) {
+controller.controller('AllLogCtrl', function($http, $stateParams, $scope, ThresholdService, DataService, GetTimeService, DataStatusService) {
   // get threshold to compare
-  ThresholdService.getNewestThresholdByCropId($routeParams.cropid).then(function(result) {
+  ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function(result) {
     $scope.threshold = result.data;
   });
   //
-  DataService.getAllData($routeParams.cropid).then(function(result) {
+  DataService.getAllData($stateParams.cropid).then(function(result) {
     $scope.data = result.data;
     $scope.data.forEach(function(item) {
       var dateTime = GetTimeService.getDateTime(item.createdAt);
