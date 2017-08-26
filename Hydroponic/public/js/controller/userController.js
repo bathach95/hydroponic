@@ -1,6 +1,6 @@
 var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters','ngCookies']);
 
-controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function($http, $location, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
 
   $scope.user = {};
 
@@ -44,6 +44,24 @@ controller.controller('LoginCtrl', function($location, $cookies, $scope, $rootSc
     $rootScope.userLogin = null;
     flash.success = 'Logout success!'
     $state.go('home');
+  }
+
+  $scope.dashboard_get = function(){
+    $http.get('/dashboard').then(function(result){
+      console.log(result);
+      console.log('get to /dashboard');
+    }).catch(function(err){
+      console.log(err)
+    })
+  }
+
+  $scope.dashboard_post = function(){
+    $http.post('/dashboard').then(function(result){
+      console.log(result);
+      console.log('post to /dashboard');
+    }).catch(function(err){
+      console.log(err)
+    })
   }
   // // display username after login
   if ($cookies.get('token')){

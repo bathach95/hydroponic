@@ -10,15 +10,26 @@ var flash = require('req-flash');
 var Cookies = require('cookies');
 var nodemailer = require('nodemailer');
 var randToken = require('rand-token');
-var path      = require("path");
-var Acl       = require('acl');
-var Sequelize = require('sequelize');
-var AclSeq    = require('acl-sequelize');
 
+/* config acl and acl-sequelize */
+
+var path = require("path");
+var Acl = require('acl');
+var Sequelize = require('sequelize');
+var AclSeq = require('acl-sequelize');
+var env = "development";
+var config = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
+var db = module.exports = new Sequelize(config.database, config.username, config.password, config);
+var acl = new Acl(new AclSeq(db, { prefix: 'acl_' }));
+
+/* end config acl and acl-sequelize */
+
+/* config for passport-jwt */
 var opts = {
   secretOrKey: 'hydroponic',
   jwtFromRequest: ExtractJwt.fromHeader('token')
 }
+/* end config for passport-jwt */
 
 /* create node mailer transport */
 var transporter = nodemailer.createTransport({
@@ -28,17 +39,16 @@ var transporter = nodemailer.createTransport({
     pass: 'hydroponic'
   }
 });
+/* end create node mailer transport */
 
-/* config acl and acl-sequelize */
-var env       = "development";
-var config    = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
-var db = module.exports = new Sequelize(config.database, config.username, config.password, config);
-var acl       = new Acl(new AclSeq(db, { prefix: 'acl_' }));
+/* testing acl user role */
+acl.addUserRoles('8', 'admin');
+acl.addUserRoles('10', 'member');
 
-acl.addUserRoles('thach', 'admin');
-acl.addUserRoles('nam', 'member');
+acl.addRoleParents('admin', 'member');
 
 acl.allow('admin', ['/dashboard'], '*');
+acl.allow('member', ['/dashboard'], 'get');
 
 /* set up jwt Strategy for passport */
 passport.use(new Strategy(opts, function (jwt_payload, done) {
@@ -54,26 +64,26 @@ var authenticate = function () {
 
 /* automatedly create an admin account */
 
-  // check whether admin account was created or not
-  models.User.getUserByEmail('hbathach@gmail.com', function(user){
-    if(user){
-      console.log('Admin account was created');
-    } else {
-      var admin = {
-        name: 'Thach',
-        password: 'bkhydroponic2017',
-        email: 'hbathach@gmail.com',
-        phone: '01696030126',
-        role: 'admin', // 'user', 'admin' and 'mod'
-        status: true,
-        activeToken: randToken.generate(30)
-      };
+// check whether admin account was created or not
+models.User.getUserByEmail('hbathach@gmail.com', function (user) {
+  if (user) {
+    console.log('Admin account was created');
+  } else {
+    var admin = {
+      name: 'Thach',
+      password: 'bkhydroponic2017',
+      email: 'hbathach@gmail.com',
+      phone: '01696030126',
+      role: 'admin', // 'user', 'admin' and 'mod'
+      status: true,
+      activeToken: randToken.generate(30)
+    };
 
-      models.User.createUser(admin, function(){
-        console.log('Admin account created')
-      })
-    }
-  })
+    models.User.createUser(admin, function () {
+      console.log('Admin account created')
+    })
+  }
+})
 
 /* end create admin account */
 
@@ -155,7 +165,7 @@ router.post('/login', function (req, res) {
               role: user.role,
               token: token
             },
-            message: 'Login success!'            
+            message: 'Login success!'
           });
         } else res.json({
           success: false,
@@ -176,7 +186,7 @@ router.put('/update', authenticate(), function (req, res) {
   console.log(req.user);
 
   models.User.getUserByEmail(req.body.email, function (user) {
-    if (user){
+    if (user) {
       user.update({
         name: req.body.name,
         phone: req.body.phone
@@ -192,7 +202,7 @@ router.put('/update', authenticate(), function (req, res) {
         message: 'Cannot find user'
       })
     }
-    
+
   })
 })
 /* end update action*/
@@ -284,7 +294,7 @@ router.put('/active', function (req, res) {
         })
       } else {
         res.json({
-          success:false,
+          success: false,
           message: 'Invalid token'
         })
       }
@@ -301,3 +311,4 @@ router.put('/active', function (req, res) {
 /* end active account */
 module.exports.authenticate = authenticate;
 module.exports.router = router;
+module.exports.acl = acl;
