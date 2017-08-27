@@ -23,7 +23,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- Custom Theme files -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+	<base href="/" />
 
 	<script type="application/x-javascript">
 		addEventListener("load", function() {
@@ -152,7 +152,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!--top nav end here-->
 
 	<!--body start here-->
-	<div ui-view ></div>
+	<div ng-controller="LoginCtrl">
+		<div ui-view>
+			<div ng-bind-html="admin"></div>
+		</div>
+	</div>
 	<!--body end here-->
 
 	<!-- / social -->

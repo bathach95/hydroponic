@@ -136,9 +136,9 @@
             <tbody>
               <tr ng-repeat="item in listDevice">
                 <td>{{$index + 1}}</td>
-                <td><a ng-href="#/device/{{item.mac}}">{{item.mac}}</a></td>
+                <td><a ui-sref="device-detail({mac: item.mac})">{{item.mac}}</a></td>
                 <td>{{item.name}}</td>
-                <td>{{item.date}} {{item.time}}</td>
+                <td>{{item.createdAt | date:'dd-MM-yyyy HH:mm:ss'}}</td>
                 <td>{{item.status}}</td>
                 <td>{{item.manufacturer}}</td>
                 <td><button class="btn btn-danger" ng-click="deleteDevice($index, item.mac)"><em class="glyphicon glyphicon-trash"></em></button></td>

@@ -47,8 +47,7 @@ acl.addUserRoles('10', 'member');
 
 acl.addRoleParents('admin', 'member');
 
-acl.allow('admin', ['/dashboard'], '*');
-acl.allow('member', ['/dashboard'], 'get');
+acl.allow('admin', ['/dashboard', '/admin'], '*');
 
 /* set up jwt Strategy for passport */
 passport.use(new Strategy(opts, function (jwt_payload, done) {
@@ -114,7 +113,7 @@ router.post('/register', function (req, res) {
           from: 'BK Hydroponic <bkhydroponic2017@gmail.com>',
           to: newUser.email,
           subject: 'Kích hoạt tài khoản',
-          html: '<strong>Chúc mừng ' + newUser.name + ' đã đăng ký thành công tài khoản tại Bk Hydroponic. </strong><br><p>Thông tin đăng ký</p><ul><li>Email: ' + newUser.email + '</li><li>Tên hiển thị: ' + newUser.name + '</li><li>Mật khẩu: ******</li></ul><br /><p>Vui lòng kích hoạt tài khoản bằng cách nhấn &nbsp;<a href="http://' + domain + '#/user/active/' + newUser.email + '/' + newUser.activeToken + '"target="_blank">vào đây</a>'
+          html: '<strong>Chúc mừng ' + newUser.name + ' đã đăng ký thành công tài khoản tại Bk Hydroponic. </strong><br><p>Thông tin đăng ký</p><ul><li>Email: ' + newUser.email + '</li><li>Tên hiển thị: ' + newUser.name + '</li><li>Mật khẩu: ******</li></ul><br /><p>Vui lòng kích hoạt tài khoản bằng cách nhấn &nbsp;<a href="http://' + domain + '/user/active/' + newUser.email + '/' + newUser.activeToken + '"target="_blank">vào đây</a>'
         };
 
         // send email
@@ -244,7 +243,7 @@ router.post('/resetpass', function (req, res) {
           from: 'BK Hydroponic <bkhydroponic2017@gmail.com>',
           to: req.body.email,
           subject: 'Thay đổi mật khẩu',
-          html: '<p> Mật khẩu hiện tại của bạn là <strong>' + newPass + '</strong>. Bạn phải <a href="http://' + domain + '#/login">đăng nhập</a> và thực hiện đổi mật khẩu để đảm bảo tính bảo mật cho tài khoản của bạn. </p>'
+          html: '<p> Mật khẩu hiện tại của bạn là <strong>' + newPass + '</strong>. Bạn phải <a href="http://' + domain + '/login">đăng nhập</a> và thực hiện đổi mật khẩu để đảm bảo tính bảo mật cho tài khoản của bạn. </p>'
         };
 
         // send email

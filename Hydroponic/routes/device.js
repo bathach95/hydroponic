@@ -9,10 +9,10 @@ const client = mqtt.connect('mqtt://test.mosquitto.org');
 
 models.Device.findAll({
   attributes: ['mac']
-}).then(function(result){
-  result.forEach(function(item){
+}).then(function (result) {
+  result.forEach(function (item) {
     var topic = 'device/' + item.dataValues.mac + '/server';
-    client.subscribe(topic, function(){
+    client.subscribe(topic, function () {
       console.log("subscribe success to " + topic);
     });
   });
@@ -20,44 +20,54 @@ models.Device.findAll({
 
 //================================ end ===================================
 
-router.get('/all', user.authenticate(), function(req, res) {
+router.get('/all', user.authenticate(), function (req, res) {
 
   var userId = req.query.userid;
-  models.Device.getDevicesByUserId(userId,
-    function(result) {
-      console.log(result);
-      var deviceList = [];
-      result.forEach(function(item, index) {
-        deviceList.push(item.dataValues);
+  models.User.getUserById(userId, function (user) {
+    if (user) {
+      user.getDevices({ order: [['createdAt', 'DESC']] }).then(function (result) {
+        var deviceList = [];
+
+        result.forEach(function (item) {
+          deviceList.push(item.dataValues);
+        })
+
+        res.json({
+          success: true,
+          data: deviceList,
+          message: 'Get all device success!'
+        });
       });
-      res.send(deviceList);
-    },
-    function(err) {
-      res.send(err);
+    } else {
+      res.json({
+        success: false,
+        message: 'User does not exist!'
+      })
     }
-  );
+
+  });
 
 
 })
 
-router.get('/one', user.authenticate(), function(req, res) {
+router.get('/one', user.authenticate(), function (req, res) {
   var mac = req.query.mac;
 
   models.Device.getDeviceByMac(mac,
-    function(result) {
+    function (result) {
       res.send(result);
     },
-    function(err) {
+    function (err) {
       res.send(err);
     }
   );
 })
 
-router.post('/add', user.authenticate(), function(req, res) {
+router.post('/add', user.authenticate(), function (req, res) {
   var newDevice = req.body;
 
   models.Device.getDeviceByMac(newDevice.mac,
-    function(result) {
+    function (result) {
       if (result) {
         res.json({
           success: false,
@@ -65,12 +75,12 @@ router.post('/add', user.authenticate(), function(req, res) {
         });
       } else {
         models.Device.createDevice(newDevice,
-          function() {
+          function () {
 
             // this topic is for send and receive data
             var topic = 'device/' + newDevice.mac + '/server'
 
-            client.subscribe(topic, function() {
+            client.subscribe(topic, function () {
               console.log("subscribe success after add new device");
             });
 
@@ -80,7 +90,7 @@ router.post('/add', user.authenticate(), function(req, res) {
             });
 
           },
-          function(err) {
+          function (err) {
             res.json({
               success: false,
               message: err
@@ -89,7 +99,7 @@ router.post('/add', user.authenticate(), function(req, res) {
         );
       }
     },
-    function(err) {
+    function (err) {
       res.json({
         success: false,
         message: err
@@ -99,8 +109,8 @@ router.post('/add', user.authenticate(), function(req, res) {
 
 });
 
-router.delete('/delete', user.authenticate(), function(req, res) {
-  models.Device.deleteDevice(req.query.mac, function(success) {
+router.delete('/delete', user.authenticate(), function (req, res) {
+  models.Device.deleteDevice(req.query.mac, function (success) {
     if (success) {
       res.send({
         success: true,

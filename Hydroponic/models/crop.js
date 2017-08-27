@@ -44,15 +44,6 @@ module.exports = function(sequelize, DataTypes) {
 
         Crop.destroy(query).then(callback);
       },
-      getCropsByDeviceMac: function(deviceMac, callback){
-        var query = {
-          where: {
-            DeviceMac: deviceMac
-          },
-          order: [['closedate', 'DESC']]
-        };
-        Crop.findAll(query).then(callback);
-      },
       getNewestCropByDeviceMac: function(deviceMac, callback){
         var query = {
           where: {

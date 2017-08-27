@@ -19,6 +19,12 @@ myApp.run(function ($rootScope, $cookies, flash, $state, $transitions, AuthServi
         // scroll to top of the page when state changed
         document.body.scrollTop = document.documentElement.scrollTop = 0;
 
+
+        if (trans.$from().params.isAdmin) {
+            console.log(trans.$from().params.isAdmin.obj);
+
+        }
+
         var access = trans.$to().access;
         var MyAuthService = trans.injector().get('AuthService');
 
@@ -26,7 +32,7 @@ myApp.run(function ($rootScope, $cookies, flash, $state, $transitions, AuthServi
             flash.error = 'You have log in to access this page';
             $state.go('login');
         } else if (MyAuthService.isLoggedIn()) {
-            
+
         }
     });
 
@@ -48,7 +54,8 @@ myApp.config(['flashProvider', function (flashProvider) {
 /* app routing */
 myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');
-    $locationProvider.hashPrefix('');
+    $locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix('!');
 
     $stateProvider
         .state('home', {
@@ -66,14 +73,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('article', {
-            url: '/article',
+            url: '/article.html',
             templateUrl: 'views/home/single.html',
             access: {
                 requiredLogin: false
             }
         })
         .state('about', {
-            url: '/about',
+            url: '/about.html',
             templateUrl: 'views/home/about.html',
             access: {
                 requiredLogin: false
@@ -87,7 +94,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('login', {
-            url: '/login',
+            url: '/login.html',
             templateUrl: 'views/login.html',
             controller: 'LoginCtrl',
             access: {
@@ -95,7 +102,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('register', {
-            url: '/register',
+            url: '/register.html',
             templateUrl: 'views/register.html',
             controller: 'RegisterCtrl',
             access: {
@@ -111,7 +118,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('resetpass', {
-            url: '/resetpass',
+            url: '/resetpass.html',
             templateUrl: 'views/resetpass.html',
             controller: 'ResetPassCtrl',
             access: {
@@ -119,7 +126,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('profile', {
-            url: '/profile',
+            url: '/profile.html',
             templateUrl: 'views/user/profile.html',
             controller: 'ProfileCtrl',
             access: {
@@ -134,14 +141,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: true
             }
         })
-        .state('crop-detail', {
+        .state('crop_detail', {
             url: '/device/:devicemac/crop/:cropid',
             templateUrl: 'views/device/crop-detail.html',
             access: {
                 requiredLogin: true
             }
         })
-        .state('all-data', {
+        .state('all_data', {
             url: '/device/:devicemac/crop/:cropid/alldata',
             templateUrl: 'views/device/all-logs.html',
             controller: 'AllLogCtrl',
@@ -149,8 +156,18 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: true
             }
         })
+        .state('admin', {
+            url: '/dashboard.html',
+            templateUrl: 'views/user/admin.html',
+            params: {
+                isAdmin: null
+            },
+            access: {
+                requiredLogin: true
+            }
+        })
         .state('404', {
-            url: '/404',
+            url: '/404.html',
             templateUrl: 'views/404.html',
             access: {
                 requiredLogin: false

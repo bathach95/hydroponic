@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var user = require('./user.js')
-
+var path = require("path");
 router.get("/", function(req, res){
   res.render("index");
 });
@@ -14,17 +14,12 @@ function get_user_id( req, res ) {
       return req.user && req.user.id.toString() || false;
   }
 
-router.get("/dashboard", [user.authenticate(), user.acl.middleware(1, get_user_id)], function(req, res){
-  // console.log(req.user);
-  // console.log(req.session);
-  // console.log(req.url);
-  // console.log(req.method);
-
-  user.acl.allowedPermissions(req.user.id, ['/dashboard'], function(err, permissions){
-    console.log(permissions)
-})
-  
-  res.send('you are authorized to come here!');
+router.get("/admin", [user.authenticate(), user.acl.middleware(1, get_user_id)], function(req, res){
+  // res.sendFile(path.join(__dirname, '..', 'public/views/user', 'admin.html'));
+  res.json({
+    success: true,
+    message: 'You are admin'
+  })
 });
 
 router.post("/dashboard", [user.authenticate(), user.acl.middleware(1, get_user_id)], function(req, res){

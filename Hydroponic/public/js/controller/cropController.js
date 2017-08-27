@@ -2,10 +2,6 @@ controller.controller('CropCtrl', function($http, $stateParams, $scope, $window,
 
   CropService.getCropById($stateParams.cropid).then(function(result) {
     $scope.crop = result.data;
-    var startDate = GetTimeService.getDateTime($scope.crop.startdate);
-    $scope.crop.startdate = startDate.date + " " + startDate.time;
-    var closeDate = GetTimeService.getDateTime($scope.crop.closedate);
-    $scope.crop.closedate = closeDate.date + " " + closeDate.time;
 
     $scope.cropEdit = {
       DeviceMac: $stateParams.devicemac,

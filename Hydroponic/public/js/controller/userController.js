@@ -1,33 +1,33 @@
-var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters','ngCookies']);
+var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
-controller.controller('LoginCtrl', function($http, $location, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function ($http, $location, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
 
   $scope.user = {};
 
-  $scope.login = function() {
-    
+  $scope.login = function () {
+
     var isEmpty = AuthService.checkEmptyLogin($scope.user);
     if (!isEmpty.isErr) {
-      UserService.login($scope.user).then(function(result) {
+      UserService.login($scope.user).then(function (result) {
         if (result.data.success) {
           $rootScope.userLogin = result.data.data.name;
 
           //------------------
           var day = new Date();
-          day.setDate(day.getDay()+30);
+          day.setDate(day.getDay() + 30);
 
-          var options  = {
-              domain: "localhost",
-              httpOnly: true,
-              expires: day
+          var options = {
+            domain: "localhost",
+            httpOnly: true,
+            expires: day
           };
-          
-          $cookies.put('token',result.data.data.token,options);
-          $cookies.put('name',result.data.data.name,options);
-          $cookies.put('userid',result.data.data.userid,options);
-          $cookies.put('email',result.data.data.email,options);
-          $cookies.put('phone',result.data.data.phone,options);
-          $cookies.put('role',result.data.data.role,options);
+
+          $cookies.put('token', result.data.data.token, options);
+          $cookies.put('name', result.data.data.name, options);
+          $cookies.put('userid', result.data.data.userid, options);
+          $cookies.put('email', result.data.data.email, options);
+          $cookies.put('phone', result.data.data.phone, options);
+          $cookies.put('role', result.data.data.role, options);
           flash.success = result.data.message;
           $location.url('/');
         } else {
@@ -39,64 +39,69 @@ controller.controller('LoginCtrl', function($http, $location, $cookies, $scope, 
     }
   }
 
-  $scope.logout = function() {
+  $scope.logout = function () {
     UserService.logout();
     $rootScope.userLogin = null;
     flash.success = 'Logout success!'
     $state.go('home');
   }
 
-  $scope.dashboard_get = function(){
-    $http.get('/dashboard').then(function(result){
-      console.log(result);
-      console.log('get to /dashboard');
-    }).catch(function(err){
+  $scope.dashboard_get = function () {
+    $http.get('/admin').then(function (result) {
+
+      if (result.data.success) {
+        $state.go('admin')
+
+      }
+
+      console.log('admin get to /dashboard');
+    }).catch(function (err) {
       console.log(err)
     })
   }
 
-  $scope.dashboard_post = function(){
-    $http.post('/dashboard').then(function(result){
+  $scope.dashboard_post = function () {
+    $http.post('/dashboard').then(function (result) {
       console.log(result);
       console.log('post to /dashboard');
-    }).catch(function(err){
+    }).catch(function (err) {
       console.log(err)
     })
   }
   // // display username after login
-  if ($cookies.get('token')){
+  if ($cookies.get('token')) {
     $rootScope.userLogin = $cookies.get('name');
   }
 
 });
 
-controller.controller('ResetPassCtrl', function($scope, UserService){
+controller.controller('ResetPassCtrl', function ($scope, UserService) {
 
   $scope.user = {};
 
-  $scope.resetPassword = function(){
-    if($scope.user.email){
-      UserService.resetPass($scope.user).then(function(result){
+  $scope.resetPassword = function () {
+    if ($scope.user.email) {
+      UserService.resetPass($scope.user).then(function (result) {
         $scope.success = result.data.success;
         $scope.message = result.data.message;
       })
     }
   }
-  
+
 });
 
-controller.controller('RegisterCtrl', function($location, $http, $scope, UserService, AuthService, flash) {
+controller.controller('RegisterCtrl', function ($location, $http, $scope, UserService, AuthService, flash) {
   $scope.user = {};
 
-  $scope.register = function() {
+  $scope.register = function () {
     var isEmpty = AuthService.checkEmptyReg($scope.user);
     if (!isEmpty.isErr) {
-      UserService.register($scope.user).then(function(result) {
+      UserService.register($scope.user).then(function (result) {
 
         $scope.message = result.data.message;
-        $scope.success = result.data.success;        
+        $scope.success = result.data.success;
 
-        if(result.data.success){
+        if (result.data.success) {
           flash.success = result.data.message;
         } else {
           flash.error = result.data.message;
@@ -109,13 +114,13 @@ controller.controller('RegisterCtrl', function($location, $http, $scope, UserSer
   }
 });
 
-controller.controller('ActiveUserCtrl', function($stateParams, $scope, UserService, flash){
-  UserService.activeAccount($stateParams).then(function(result){
+controller.controller('ActiveUserCtrl', function ($stateParams, $scope, UserService, flash) {
+  UserService.activeAccount($stateParams).then(function (result) {
 
     $scope.success = result.data.success;
     $scope.message = result.data.message;
-    
-    if(result.data.success){
+
+    if (result.data.success) {
       flash.success = result.data.message;
     } else {
       flash.error = result.data.message;
@@ -123,18 +128,18 @@ controller.controller('ActiveUserCtrl', function($stateParams, $scope, UserServi
   })
 });
 
-controller.controller('ProfileCtrl', function($timeout, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
+controller.controller('ProfileCtrl', function ($window, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
 
   /*---------------------- device ----------------------*/
 
   // display all devices of user and display on profile.html
-  DeviceService.getAllDevicesByUserId($cookies.get('userid')).then(function(result) {
-    $scope.listDevice = result.data;
-    $scope.listDevice.forEach(function(item) {
-      var dateTime = GetTimeService.getDateTime(item.createdAt);
-      item.date = dateTime.date;
-      item.time = dateTime.time;
-    });
+  DeviceService.getAllDevicesByUserId($cookies.get('userid')).then(function (result) {
+
+    if (result.data.success) {
+      $scope.listDevice = result.data.data;
+    } else {
+      flash.error = result.data.message;
+    }
   });
 
   // add a new device
@@ -143,18 +148,19 @@ controller.controller('ProfileCtrl', function($timeout, $http, $cookies, $scope,
     UserId: $cookies.get('userid')
   }
 
-  $scope.addDevice = function() {
+  $scope.addDevice = function () {
     var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
     if (!isEmpty.isErr) {
-      DeviceService.addDevice($scope.newDevice).then(function(result) {
-        $scope.addDeviceSuccess = result.data.success;
-        $scope.addDeviceMessage = result.data.message;
+      DeviceService.addDevice($scope.newDevice).then(function (result) {
         if (result.data.success) {
-          var date = (new Date()).toString().split(' ');
-          $scope.newDevice.date = date[1] + ' ' + date[2] + ' ' + date[3];
-          $scope.newDevice.time = date[4];
-          $scope.listDevice.push($scope.newDevice);
+          flash.success = result.data.message;
+          bootbox.alert(result.data.message, function () {
+            $window.location.reload();
+          })
+        } else {
+          flash.error = result.data.message;
         }
+
       });
     } else {
       $scope.addDeviceSuccess = false;
@@ -162,12 +168,12 @@ controller.controller('ProfileCtrl', function($timeout, $http, $cookies, $scope,
     }
   }
 
-  $scope.deleteDevice = function(index, mac) {
+  $scope.deleteDevice = function (index, mac) {
     var device = {
       mac: mac
     };
     if (window.confirm("Do you want to delete this device ?")) {
-      DeviceService.deleteDevice(device).then(function(result) {
+      DeviceService.deleteDevice(device).then(function (result) {
         if (result.data.success) {
           $scope.listDevice.splice(index, 1);
           flash.success = result.data.message;
@@ -188,15 +194,15 @@ controller.controller('ProfileCtrl', function($timeout, $http, $cookies, $scope,
     phone: $cookies.get('phone')
   }
 
-  $scope.update = function() {
+  $scope.update = function () {
     var isEmpty = AuthService.checkEmptyUpdate($scope.userUpdate);
     if (!isEmpty.isErr) {
-      UserService.update($scope.userUpdate).then(function(result) {
-        if (result.data.success){
+      UserService.update($scope.userUpdate).then(function (result) {
+        if (result.data.success) {
           $cookies.put('phone', $scope.userUpdate.phone);
           $cookies.put('name', $scope.userUpdate.name);
           flash.success = result.data.message;
-          
+
         } else {
           flash.error = result.data.message;
         }
@@ -211,11 +217,11 @@ controller.controller('ProfileCtrl', function($timeout, $http, $cookies, $scope,
     email: $cookies.get('email'),
   }
 
-  $scope.changePass = function() {
+  $scope.changePass = function () {
     var error = AuthService.checkDataChangePass($scope.pass);
     if (!error.isErr) {
-      UserService.changePass($scope.pass).then(function(result) {
-        if(result.data.success){
+      UserService.changePass($scope.pass).then(function (result) {
+        if (result.data.success) {
           flash.success = result.data.message;
         } else {
           flash.error = result.data.message;

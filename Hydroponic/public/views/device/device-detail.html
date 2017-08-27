@@ -50,7 +50,7 @@
             </tr>
             <tr>
               <td>Installing Date</td>
-              <td>{{device.date}} {{device.time}}</td>
+              <td>{{device.createdAt | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
             </tr>
             <tr class="info">
               <td>Status</td>
@@ -95,11 +95,11 @@
               <!--<tr ng-repeat="crop in cropList">-->
               <tr ng-repeat="crop in listCropPage">
                 <td class="hidden-xs">{{((currentPage-1)*5)+($index + 1)}}</td>
-                <td><a ng-href="#/device/{{deviceMac}}/crop/{{crop.id}}">{{crop.name}}</a></td>
+                <td><a ui-sref="crop_detail({devicemac: deviceMac, cropid: crop.id})">{{crop.name}}</a></td>
                 <td>{{crop.type}}</td>
                 <td>{{crop.treetype}}</td>
-                <td>{{crop.sdate}} {{crop.stime}}</td>
-                <td>{{crop.cdate}} {{crop.ctime}}</td>
+                <td>{{crop.startdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
                 <td ng-if="crop.status">Running</td>
                 <td ng-if="!crop.status">Finished</td>
                 <td>

@@ -31,14 +31,6 @@ module.exports = function(sequelize, DataTypes) {
         };
         Device.findOne(query).then(callback).catch(err);
       },
-      getDevicesByUserId: function(userid, callback, err){
-        var query = {
-          where: {
-            UserId: userid
-          }
-        }
-        Device.findAll(query).then(callback).catch(err);
-      },
       deleteDevice : function(mac, callback){
         var query = {
           where: {

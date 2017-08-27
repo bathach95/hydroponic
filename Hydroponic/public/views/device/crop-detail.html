@@ -53,12 +53,12 @@
               <tr>
                 <td><i class="glyphicon glyphicon-play"></i></td>
                 <td>Starting Date:</td>
-                <td><input type="text" class="form-control" id="starting-date" ng-value="crop.startdate" readonly></td>
+                <td><input type="text" class="form-control" id="starting-date" ng-value="crop.startdate | date: 'dd-MM-yyyy HH:mm:ss'" readonly></td>
               </tr>
               <tr>
                 <td><i class="glyphicon glyphicon-stop"></i></td>
                 <td>Closing Date:</td>
-                <td><input type="text" class="form-control" id="closing-date" ng-value="crop.closedate" readonly></td>
+                <td><input type="text" class="form-control" id="closing-date" ng-value="crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'" readonly></td>
               </tr>
               <tr>
                 <td><i class="glyphicon glyphicon-time"></i></td>
@@ -317,7 +317,7 @@
             Diary Log
           </div>
           <div class="col col-xs-6 text-right">
-            <button class="button-diary button-blue-diary"><a ng-href="#/device/{{deviceMac}}/crop/{{cropId}}/alldata">View all log</a></button>
+            <button class="button-diary button-blue-diary"><a ui-sref="all_data({devicemac: deviceMac, cropid: cropId})">View all log</a></button>
           </div>
         </div>
       </div>
