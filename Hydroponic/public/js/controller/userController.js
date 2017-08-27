@@ -27,7 +27,6 @@ controller.controller('LoginCtrl', function ($http, $location, $cookies, $scope,
           $cookies.put('userid', result.data.data.userid, options);
           $cookies.put('email', result.data.data.email, options);
           $cookies.put('phone', result.data.data.phone, options);
-          $cookies.put('role', result.data.data.role, options);
           flash.success = result.data.message;
           $location.url('/');
         } else {

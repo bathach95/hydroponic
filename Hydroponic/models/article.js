@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     checkedby: {
       type: DataTypes.STRING,
       allowNull: true
-    },
+    }
   }, {
     classMethods: {
       // get all articles with title like %title%

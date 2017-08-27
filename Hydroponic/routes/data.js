@@ -7,11 +7,11 @@ var device = require('./device.js');
 
 // update device status function
 function updateDeviceStatus(mac) {
-  models.Device.getDeviceByMac(mac, function(device) {
+  models.Device.getDeviceByMac(mac, function (device) {
     if (device.dataValues.status === "no connection") {
       device.update({
         status: "running"
-      }).then(function(res) {
+      }).then(function (res) {
         if (res) {
           console.log("update success");
         } else {
@@ -24,7 +24,7 @@ function updateDeviceStatus(mac) {
 
 // add new data to table
 function createNewData(newData, mac, ackTopic) {
-  models.Data.createData(newData, function(res) {
+  models.Data.createData(newData, function (res) {
     //========== send ack ===========
 
     var ackData = {
@@ -42,7 +42,7 @@ function createNewData(newData, mac, ackTopic) {
 }
 
 // receive data from device and add to database
-device.client.on('message', function(topic, message) {
+device.client.on('message', function (topic, message) {
 
   try {
     var data = JSON.parse(message.toString());
@@ -51,7 +51,7 @@ device.client.on('message', function(topic, message) {
 
     if (data.type === "sensor_data") {
 
-      models.Crop.getNewestCropByDeviceMac(data.mac, function(crop) {
+      models.Crop.getNewestCropByDeviceMac(data.mac, function (crop) {
         if (crop) {
 
           var newData = {
@@ -79,7 +79,7 @@ device.client.on('message', function(topic, message) {
     } else {
       console.log(data);
     }
-  } catch(err){
+  } catch (err) {
     console.log(err);
   }
 
@@ -87,18 +87,36 @@ device.client.on('message', function(topic, message) {
 });
 // ======================== end =================
 
-router.get('/all', user.authenticate(), function(req, res) {
+router.get('/all', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
+  models.Crop.getCropById(cropId, function (crop) {
+    if (crop) {
+      crop.getDatas({ order: [['createdAt', 'DESC']] }).then(function (result) {
+        var dataList = [];
 
-  models.Data.getAllDataByCropId(cropId, function(result) {
-    res.send(result);
+        result.forEach(function (item) {
+          dataList.push(item.dataValues);
+        })
+
+        res.json({
+          success: true,
+          data: dataList,
+          message: 'Get all data success!'
+        });
+      });
+    } else {
+      res.json({
+        success: false,
+        message: 'Crop does not exist!'
+      });
+    }
   })
 })
 
-router.get('/newest', user.authenticate(), function(req, res) {
+router.get('/newest', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
 
-  models.Data.getNewestDataByCropId(cropId, function(result) {
+  models.Data.getNewestDataByCropId(cropId, function (result) {
     res.send(result);
   });
 })

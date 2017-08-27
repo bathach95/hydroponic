@@ -4,6 +4,7 @@ var myApp = angular.module('myApp',
     ['ngCookies',
         'ui.router',
         'ngRoute',
+        'textAngular',
         'ngStorage',
         'angular-flash.service',
         'angular-flash.flash-alert-directive',
@@ -18,12 +19,6 @@ myApp.run(function ($rootScope, $cookies, flash, $state, $transitions, AuthServi
 
         // scroll to top of the page when state changed
         document.body.scrollTop = document.documentElement.scrollTop = 0;
-
-
-        if (trans.$from().params.isAdmin) {
-            console.log(trans.$from().params.isAdmin.obj);
-
-        }
 
         var access = trans.$to().access;
         var MyAuthService = trans.injector().get('AuthService');
@@ -74,9 +69,18 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('article', {
             url: '/article.html',
-            templateUrl: 'views/home/single.html',
+            templateUrl: 'views/home/article.html',
+            controller: 'ArticleCtrl',
             access: {
                 requiredLogin: false
+            }
+        })
+        .state('write_article', {
+            url: '/writer.html',
+            templateUrl: 'views/user/writer.html',
+            controller: 'WriteArticleCtrl',
+            access: {
+                requiredLogin: true
             }
         })
         .state('about', {
@@ -159,9 +163,6 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('admin', {
             url: '/dashboard.html',
             templateUrl: 'views/user/admin.html',
-            params: {
-                isAdmin: null
-            },
             access: {
                 requiredLogin: true
             }

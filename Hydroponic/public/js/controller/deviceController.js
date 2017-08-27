@@ -1,4 +1,4 @@
-controller.controller('DeviceCtrl', function ($http, $stateParams, $window, $scope, DeviceService, CropService, GetTimeService) {
+controller.controller('DeviceCtrl', function ($http, $stateParams, $window, $scope, DeviceService, CropService, GetTimeService, flash) {
 
   $scope.deviceMac = $stateParams.mac;
 
@@ -20,6 +20,8 @@ controller.controller('DeviceCtrl', function ($http, $stateParams, $window, $sco
         // if close date is after today, crop is running, otherwise crop has finished
 
       });
+    } else {
+      flash.error = result.data.message;
     }
 
     $scope.currentPage = 1;
