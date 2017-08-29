@@ -21,6 +21,9 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     classMethods: {
+      createArticle: function(article, callback){
+        Article.create(article).then(callback);
+      },
       // get all articles with title like %title%
       getArticlesByTitle: function(title, callback){
         var str = '%' + title + '%';

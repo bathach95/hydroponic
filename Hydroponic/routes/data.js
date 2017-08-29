@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var user = require('./user.js')
+var user = require('./user.js');
 var models = require('../models');
 
 var device = require('./device.js');

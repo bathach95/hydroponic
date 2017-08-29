@@ -16,6 +16,7 @@ var crop = require('./routes/crop');
 var threshold = require('./routes/threshold');
 var data = require('./routes/data');
 var schedule = require('./routes/schedule');
+var article = require('./routes/article');
 //----------------
 
 var cors = require('cors');
@@ -42,6 +43,7 @@ app.use('/crop', crop.router);
 app.use('/threshold', threshold.router);
 app.use('/data', data.router);
 app.use('/schedule', schedule.router);
+app.use('/article', article.router);
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());
