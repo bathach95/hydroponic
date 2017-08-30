@@ -3,23 +3,80 @@ var router = express.Router();
 var models = require('../models');
 var user = require('./user.js');
 
-router.get('/', function(req, res){
-    // TODO: get all article from database
-})
+router.get('/all', function (req, res) {
+    models.Article.getAllArticle(function (result) {
+        var articleList = [];
 
-router.post('/post', user.authenticate(), function(req, res){
-    var article = {
-        UserId: req.body.userid,
-        title: req.body.title,
-        content: req.body.content
-    }
+        result.forEach(function (element) {
+            articleList.push(element.dataValues)
+        });
 
-    models.Article.createArticle(article, function(result){
         res.json({
             success: true,
-            message: 'Post article success!'
+            data: articleList,
+            message: 'Get all articles success!'
         })
     })
+})
+
+router.get('/one', function (req, res) {
+    models.Article.getArticleById(req.query.id, function (result) {
+
+        if (result) {
+            var article = result.dataValues;
+
+            // get author's name of article
+
+            models.User.getUserById(article.UserId, function (author) {
+                if (author) {
+                    article.author = author.name;
+                } else {
+                    article.author = null;
+                }
+
+                res.json({
+                    success: true,
+                    data: article,
+                    message: 'Get article success!'
+                })
+            })
+
+        } else {
+            res.json({
+                success: false,
+                message: 'Article dose not exist!'
+            })
+        }
+    })
+})
+
+router.post('/post', user.authenticate(), function (req, res) {
+    // check user is active or not. Only active user can post article
+    models.User.getUserById(req.body.userid, function (user) {
+
+        if (user.dataValues.status) {
+            var article = {
+                UserId: req.body.userid,
+                title: req.body.title,
+                content: req.body.content
+            }
+
+            models.Article.createArticle(article, function (result) {
+                res.json({
+                    success: true,
+                    message: 'Post article success!'
+                })
+            })
+        } else {
+            res.json({
+                success: false,
+                message: 'Your account has not activated yet! Please check your email'
+            })
+        }
+    })
+
+
+
 })
 
 module.exports.router = router;

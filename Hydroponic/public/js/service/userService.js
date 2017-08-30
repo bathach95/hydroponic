@@ -93,6 +93,11 @@ service.service('AuthService', function ($cookies) {
 });
 
 service.service('UserService', function ($http, $cookies) {
+
+  this.getUserDetail = function(user){
+    return $http.post('/user/info', user);
+  }
+
   this.register = function (user) {
     return $http.post('/user/register', user);
   }

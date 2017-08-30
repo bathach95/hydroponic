@@ -25,8 +25,6 @@ controller.controller('LoginCtrl', function ($http, $location, $cookies, $scope,
           $cookies.put('token', result.data.data.token, options);
           $cookies.put('name', result.data.data.name, options);
           $cookies.put('userid', result.data.data.userid, options);
-          $cookies.put('email', result.data.data.email, options);
-          $cookies.put('phone', result.data.data.phone, options);
           flash.success = result.data.message;
           $location.url('/');
         } else {
@@ -59,14 +57,6 @@ controller.controller('LoginCtrl', function ($http, $location, $cookies, $scope,
     })
   }
 
-  $scope.dashboard_post = function () {
-    $http.post('/dashboard').then(function (result) {
-      console.log(result);
-      console.log('post to /dashboard');
-    }).catch(function (err) {
-      console.log(err)
-    })
-  }
   // // display username after login
   if ($cookies.get('token')) {
     $rootScope.userLogin = $cookies.get('name');
@@ -127,93 +117,38 @@ controller.controller('ActiveUserCtrl', function ($stateParams, $scope, UserServ
   })
 });
 
-controller.controller('ProfileCtrl', function ($window, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
+controller.controller('ProfileCtrl', function ($window, $state, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
 
-  /*---------------------- device ----------------------*/
+  /*----------------------- user ------------------------*/
+  $scope.currentUser = {};
+  $scope.userUpdate = {};
 
-  // display all devices of user and display on profile.html
-  DeviceService.getAllDevicesByUserId($cookies.get('userid')).then(function (result) {
-
-    if (result.data.success) {
-      $scope.listDevice = result.data.data;
+  UserService.getUserDetail({id: $cookies.get('userid')}).then(function(result){
+    if(result.data.success){
+      $scope.currentUser = result.data.data;
+      $scope.userUpdate = result.data.data;
     } else {
       flash.error = result.data.message;
     }
-  });
-
-  // add a new device
-  $scope.newDevice = {
-    status: "no connection",
-    UserId: $cookies.get('userid')
-  }
-
-  $scope.addDevice = function () {
-    var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
-    if (!isEmpty.isErr) {
-      DeviceService.addDevice($scope.newDevice).then(function (result) {
-        if (result.data.success) {
-          flash.success = result.data.message;
-          bootbox.alert(result.data.message, function () {
-            $window.location.reload();
-          })
-        } else {
-          flash.error = result.data.message;
-        }
-
-      });
-    } else {
-      $scope.addDeviceSuccess = false;
-      $scope.addDeviceMessage = isEmpty.message;
-    }
-  }
-
-  $scope.deleteDevice = function (index, mac) {
-    var device = {
-      mac: mac
-    };
-    if (window.confirm("Do you want to delete this device ?")) {
-      DeviceService.deleteDevice(device).then(function (result) {
-        if (result.data.success) {
-          $scope.listDevice.splice(index, 1);
-          flash.success = result.data.message;
-        } else {
-          flash.error = result.data.message;
-        }
-      });
-    }
-
-  }
-  /*-------------------- end device ---------------------*/
-
-  /*----------------------- user ------------------------*/
+  })
   // update infos
-  $scope.userUpdate = {
-    email: $cookies.get('email'),
-    name: $cookies.get('name'),
-    phone: $cookies.get('phone')
-  }
 
-  $scope.update = function () {
-    var isEmpty = AuthService.checkEmptyUpdate($scope.userUpdate);
-    if (!isEmpty.isErr) {
-      UserService.update($scope.userUpdate).then(function (result) {
-        if (result.data.success) {
-          $cookies.put('phone', $scope.userUpdate.phone);
-          $cookies.put('name', $scope.userUpdate.name);
-          flash.success = result.data.message;
-
-        } else {
-          flash.error = result.data.message;
-        }
-      });
-    } else {
-      $scope.updateMessage = isEmpty.message;
-    }
+  $scope.update = function() {
+    UserService.update($scope.userUpdate).then(function (result) {
+      if (result.data.success) {
+        flash.success = result.data.message;
+        bootbox.confirm(result.data.message, function(){
+          $window.location.reload();
+        })
+      } else {
+        flash.error = result.data.message;
+      }
+    });
   }
 
   //----- change pass -----------
   $scope.pass = {
-    email: $cookies.get('email'),
+    id: $cookies.get('userid')
   }
 
   $scope.changePass = function () {
@@ -231,4 +166,59 @@ controller.controller('ProfileCtrl', function ($window, $http, $cookies, $scope,
     }
   }
   /*--------------------- end user -------------------------*/
+    /*---------------------- device ----------------------*/
+
+  // display all devices of user and display on profile.html
+  DeviceService.getAllDevicesByUserId($cookies.get('userid')).then(function (result) {
+    
+        if (result.data.success) {
+          $scope.listDevice = result.data.data;
+        } else {
+          flash.error = result.data.message;
+        }
+      });
+    
+      // add a new device
+      $scope.newDevice = {
+        status: "no connection",
+        UserId: $cookies.get('userid')
+      }
+    
+      $scope.addDevice = function () {
+        var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
+        if (!isEmpty.isErr) {
+          DeviceService.addDevice($scope.newDevice).then(function (result) {
+            if (result.data.success) {
+              flash.success = result.data.message;
+              bootbox.confirm(result.data.message, function(){
+                $window.location.reload();
+              })
+            } else {
+              flash.error = result.data.message;
+            }
+    
+          });
+        } else {
+          $scope.addDeviceSuccess = false;
+          $scope.addDeviceMessage = isEmpty.message;
+        }
+      }
+    
+      $scope.deleteDevice = function (index, mac) {
+        var device = {
+          mac: mac
+        };
+        if (window.confirm("Do you want to delete this device ?")) {
+          DeviceService.deleteDevice(device).then(function (result) {
+            if (result.data.success) {
+              $scope.listDevice.splice(index, 1);
+              flash.success = result.data.message;
+            } else {
+              flash.error = result.data.message;
+            }
+          });
+        }
+    
+      }
+      /*-------------------- end device ---------------------*/
 });

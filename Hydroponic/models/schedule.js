@@ -48,7 +48,7 @@ module.exports = function(sequelize, DataTypes) {
         var query = {
           where: {
             CropId: cropId
-          },
+          }
         }
         Schedule.destroy(query).then(callback);
       },

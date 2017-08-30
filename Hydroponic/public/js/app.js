@@ -61,7 +61,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('system', {
-            url: '/system',
+            url: '/system.html',
             templateUrl: 'views/home/services.html',
             access: {
                 requiredLogin: false
@@ -71,6 +71,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/article.html',
             templateUrl: 'views/home/article.html',
             controller: 'ArticleCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('single_article', {
+            url: '/article/:id',
+            templateUrl: 'views/home/single-article.html',
+            controller: 'SingleArticleCtrl',
             access: {
                 requiredLogin: false
             }
@@ -91,7 +99,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('contact', {
-            url: '/contact',
+            url: '/contact.html',
             templateUrl: 'views/home/contact.html',
             access: {
                 requiredLogin: false

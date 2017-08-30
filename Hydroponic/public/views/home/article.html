@@ -12,6 +12,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <body>
 	<div class="container">
+
+		<div>
+			<div class="list-group">
+				<a ng-repeat="article in articleList" ui-sref="single_article({id: article.id})" class="list-group-item">{{article.title}}</a>
+			</div>
+		</div>
+
 		<div class="col-sm-offset-10">
 			<button ui-sref="write_article" class="btn btn-primary">Write article</button>
 		</div>

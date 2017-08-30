@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Article = sequelize.define('Article', {
     title: {
       type: DataTypes.TEXT,
@@ -20,30 +20,50 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
-    classMethods: {
-      createArticle: function(article, callback){
-        Article.create(article).then(callback);
+      instanceMethods: {
+        updateChecked: function(checked, checkedby, callback){
+          this.update({
+            checked: checked,
+            checkedby: checkedby
+          }).then(callback);
+        }
       },
-      // get all articles with title like %title%
-      getArticlesByTitle: function(title, callback){
-        var str = '%' + title + '%';
-        var query = {
-          where: {
-            title: {
-              $like: str
+      classMethods: {
+        createArticle: function (article, callback) {
+          Article.create(article).then(callback);
+        },
+        getAllArticle: function (callback) {
+          Article.findAll({ order: [['createdAt', 'DESC']] }).then(callback);
+        },
+        // get all articles with title like %title%
+        getArticlesByTitle: function (title, callback) {
+          var str = '%' + title + '%';
+          var query = {
+            where: {
+              title: {
+                $like: str
+              }
+            }
+          };
+          Article.findAll(query).then(callback);
+        },
+        getArticleById: function (id, callback) {
+          Article.findById(id).then(callback);
+        },
+        deleteArticleById : function(id, callback){
+          var query = {
+            where: {
+              id: id
             }
           }
-        };
-        Article.findAll(query).then(callback);
+
+          Article.destroy(query).then(callback);
+        },
+        associate: function (models) {
+          Article.hasMany(models.Comment, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
+        }
       },
-      getArticleById: function(id, callback) {
-        Article.findById(id).then(callback);
-      },
-      associate: function(models){
-        Article.hasMany(models.Comment, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
-      }
-    },
-    tableName: 'Article'
-  });
+      tableName: 'Article'
+    });
   return Article;
 };

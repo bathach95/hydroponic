@@ -25,12 +25,12 @@
           </div> -->
         <div class="col-sm-3 col-md-3 col-md-offset-7 col-sm-offset-7">
           <blockquote>
-            <p>{{userUpdate.name}}</p>
+            <p>{{currentUser.name}}</p>
           </blockquote>
           <p>
-            <i class="glyphicon glyphicon-envelope"></i> {{userUpdate.email}}
+            <i class="glyphicon glyphicon-envelope"></i> {{currentUser.email}}
             <br>
-            <i class="glyphicon glyphicon-phone"></i> {{userUpdate.phone}}
+            <i class="glyphicon glyphicon-phone"></i> {{currentUser.phone}}
           </p>
           </p>
         </div>
@@ -158,7 +158,7 @@
               <h4 class="modal-title">Add device</h4>
             </div>
             <div class="modal-body">
-
+              
               <div class="row">
                 <label for="mac" class="col-md-4 col-sm-4">MAC:</label>
                 <input ng-model="newDevice.mac" class="col-md-7 col-sm-7" type="text" placeholder="aa:bb:cc:dd:ee:ff" name="mac" />

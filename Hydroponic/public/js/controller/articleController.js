@@ -1,9 +1,23 @@
 controller.controller('ArticleCtrl', function ($scope, ArticleService) {
-    //TODO: load add article from database 
+    ArticleService.getAllArticles().then(function(result){
+        if (result.data.success){
+            $scope.articleList = result.data.data;
+        }
+    })
+})
+
+controller.controller('SingleArticleCtrl', function($scope, $stateParams, ArticleService, flash){
+
+    ArticleService.getArticleById($stateParams.id).then(function(result){
+        if (result.data.success){
+            $scope.article = result.data.data;
+        } else {
+            flash.error = result.data.message;
+        }
+    })
 })
 
 controller.controller('WriteArticleCtrl', function ($scope, $cookies, $state, ArticleService, flash) {
-    //TODO: get content and post to server
 
     $scope.article = {
         userid: $cookies.get('userid')
@@ -15,6 +29,8 @@ controller.controller('WriteArticleCtrl', function ($scope, $cookies, $state, Ar
                 if (result.data.success) {
                     flash.success = result.data.message;
                     $state.go('article');
+                } else {
+                    flash.error = result.data.message;
                 }
             })
         } else {

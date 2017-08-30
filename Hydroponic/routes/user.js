@@ -10,7 +10,7 @@ var flash = require('req-flash');
 var Cookies = require('cookies');
 var nodemailer = require('nodemailer');
 var randToken = require('rand-token');
-
+var utils = require('./utils.js')
 /* config acl and acl-sequelize */
 
 var path = require("path");
@@ -22,14 +22,15 @@ var config = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
 var db = module.exports = new Sequelize(config.database, config.username, config.password, config);
 var acl = new Acl(new AclSeq(db, { prefix: 'acl_' }));
 
-/* end config acl and acl-sequelize */
 
 /* config for passport-jwt */
 var opts = {
   secretOrKey: 'hydroponic',
   jwtFromRequest: ExtractJwt.fromHeader('token')
 }
-/* end config for passport-jwt */
+
+/* config role */
+utils.setRole(acl);
 
 /* create node mailer transport */
 var transporter = nodemailer.createTransport({
@@ -39,15 +40,6 @@ var transporter = nodemailer.createTransport({
     pass: 'hydroponic'
   }
 });
-/* end create node mailer transport */
-
-/* testing acl user role */
-acl.addUserRoles('8', 'admin');
-acl.addUserRoles('10', 'member');
-
-acl.addRoleParents('admin', 'member');
-
-acl.allow('admin', ['/dashboard', '/admin'], '*');
 
 /* set up jwt Strategy for passport */
 passport.use(new Strategy(opts, function (jwt_payload, done) {
@@ -73,18 +65,44 @@ models.User.getUserByEmail('hbathach@gmail.com', function (user) {
       password: 'bkhydroponic2017',
       email: 'hbathach@gmail.com',
       phone: '01696030126',
-      role: 'admin', // 'user', 'admin' and 'mod'
+      role: 'admin', // 'member', 'admin' and 'mod'
       status: true,
       activeToken: randToken.generate(30)
     };
 
-    models.User.createUser(admin, function () {
+    models.User.createUser(admin, function (result) {
+      // add admin role
+      acl.addUserRoles(result.dataValues.id, 'admin');
       console.log('Admin account created')
     })
   }
 })
 
-/* end create admin account */
+
+/* get user info */
+router.post('/info', authenticate(), function(req, res){
+  models.User.getUserById(req.body.id, function(result){
+    if (result){
+      var user = result.dataValues;
+      delete user.password;
+      delete user.activeToken;
+  
+      console.log(user);
+      console.log(result.dataValues);
+
+      res.json({
+        success: true,
+        data: user,
+        message: 'Get user info success!'
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'User does not exist!'
+      })
+    }
+  })
+});
 
 /* register action */
 router.post('/register', function (req, res) {
@@ -94,7 +112,7 @@ router.post('/register', function (req, res) {
     password: req.body.password,
     email: req.body.email,
     phone: req.body.phone,
-    role: 'user', // 'user', 'admin' and 'mod'
+    role: 'member', // 'member', 'admin' and 'mod'
     activeToken: randToken.generate(30)
   };
 
@@ -105,8 +123,11 @@ router.post('/register', function (req, res) {
         message: 'Register failed. Email has already exist!'
       });
     } else {
-      models.User.createUser(newUser, function () {
-        /* send active email to user's email */
+      models.User.createUser(newUser, function (result) {
+        
+        // set role 'member' for user register
+        acl.addUserRoles(result.dataValues.id, 'member');
+
         // email setting
         var domain = req.headers.host;
         var mailOptions = {
@@ -138,7 +159,6 @@ router.post('/register', function (req, res) {
     }
   });
 });
-/* end register action*/
 
 /* login action */
 router.post('/login', function (req, res) {
@@ -177,7 +197,6 @@ router.post('/login', function (req, res) {
     });
   });
 });
-/* end login action */
 
 /* update action*/
 router.put('/update', authenticate(), function (req, res) {
@@ -204,11 +223,10 @@ router.put('/update', authenticate(), function (req, res) {
 
   })
 })
-/* end update action*/
 
 /* change pass action*/
 router.put('/changepass', authenticate(), function (req, res) {
-  models.User.getUserByEmail(req.body.email, function (user) {
+  models.User.getUserById(req.body.id, function (user) {
     user.comparePassword(req.body.currPass, function (isMatch) {
       if (isMatch) {
         user.updatePassword(req.body.newPass, function () {
@@ -225,7 +243,6 @@ router.put('/changepass', authenticate(), function (req, res) {
     });
   })
 });
-/* end change pass action */
 
 /* reset password */
 router.post('/resetpass', function (req, res) {
@@ -276,7 +293,6 @@ router.post('/resetpass', function (req, res) {
 
 
 });
-/* end reset password */
 
 /* active account */
 router.put('/active', function (req, res) {
@@ -307,7 +323,7 @@ router.put('/active', function (req, res) {
   })
 
 });
-/* end active account */
+
 module.exports.authenticate = authenticate;
 module.exports.router = router;
 module.exports.acl = acl;
