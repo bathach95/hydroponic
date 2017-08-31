@@ -15,4 +15,11 @@ router.get("/admin", [user.authenticate(), user.acl.middleware(1, utils.getUserI
   })
 });
 
+
+router.get("/mod", [user.authenticate(), user.acl.middleware(1, utils.getUserId)], function (req, res) {
+  res.json({
+    success: true,
+    message: 'You are mod'
+  })
+});
 module.exports = router;

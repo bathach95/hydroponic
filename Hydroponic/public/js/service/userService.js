@@ -94,8 +94,18 @@ service.service('AuthService', function ($cookies) {
 
 service.service('UserService', function ($http, $cookies) {
 
-  this.getUserDetail = function(user){
-    return $http.post('/user/info', user);
+  this.getUserRole = function(callback){
+    this.getUserDetail().then(function(result){
+      if (result.data.success){
+        callback(result.data.data.role);
+      } else {
+        callback(null);
+      }
+    })
+  }
+
+  this.getUserDetail = function () {
+    return $http.get('/user/info');
   }
 
   this.register = function (user) {

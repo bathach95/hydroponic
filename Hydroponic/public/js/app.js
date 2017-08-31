@@ -13,7 +13,7 @@ var myApp = angular.module('myApp',
         'myApp.service',
         'myApp.filter']);
 
-myApp.run(function ($rootScope, $cookies, flash, $state, $transitions, AuthService) {
+myApp.run(function ($rootScope, $cookies, flash, $state, $transitions) {
 
     $transitions.onStart({}, function (trans) {
 
@@ -22,12 +22,25 @@ myApp.run(function ($rootScope, $cookies, flash, $state, $transitions, AuthServi
 
         var access = trans.$to().access;
         var MyAuthService = trans.injector().get('AuthService');
+        var UserService = trans.injector().get('UserService');
+
 
         if (access.requiredLogin && !MyAuthService.isLoggedIn()) {
             flash.error = 'You have log in to access this page';
             $state.go('login');
         } else if (MyAuthService.isLoggedIn()) {
-
+            // if there are special roles to go to this state
+            UserService.getUserRole(function (role) {
+                if (role) {
+                    $rootScope.userRole = role;
+                    if (access.roles && !access.roles.includes(role)) {
+                        flash.error = 'You cannot go to this page!';
+                        $state.go('home');
+                    }
+                } else {
+                    console.log('Cannot get role');
+                }
+            })
         }
     });
 
@@ -170,8 +183,19 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('admin', {
             url: '/dashboard.html',
-            templateUrl: 'views/user/admin.html',
+            templateUrl: 'views/private/user/admin.html',
+            controller: 'AdminCtrl',
             access: {
+                roles: ['admin'],
+                requiredLogin: true
+            }
+        })
+        .state('mod', {
+            url: '/mod.html',
+            templateUrl: 'views/private/user/mod.html',
+            controller: 'ModCtrl',
+            access: {
+                roles: ['admin', 'mod'],
                 requiredLogin: true
             }
         })

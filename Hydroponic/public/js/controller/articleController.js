@@ -19,9 +19,7 @@ controller.controller('SingleArticleCtrl', function($scope, $stateParams, Articl
 
 controller.controller('WriteArticleCtrl', function ($scope, $cookies, $state, ArticleService, flash) {
 
-    $scope.article = {
-        userid: $cookies.get('userid')
-    };
+    $scope.article = {};
 
     $scope.postArticle = function () {
         if ($scope.article.content && $scope.article.title) {

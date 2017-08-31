@@ -1,6 +1,6 @@
 var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
-controller.controller('LoginCtrl', function ($http, $location, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function ($http, $state, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
 
   $scope.user = {};
 
@@ -24,9 +24,8 @@ controller.controller('LoginCtrl', function ($http, $location, $cookies, $scope,
 
           $cookies.put('token', result.data.data.token, options);
           $cookies.put('name', result.data.data.name, options);
-          $cookies.put('userid', result.data.data.userid, options);
           flash.success = result.data.message;
-          $location.url('/');
+          $state.go('home');
         } else {
           flash.error = result.data.message;
         }
@@ -43,22 +42,24 @@ controller.controller('LoginCtrl', function ($http, $location, $cookies, $scope,
     $state.go('home');
   }
 
-  $scope.dashboard_get = function () {
-    $http.get('/admin').then(function (result) {
-
-      if (result.data.success) {
-        $state.go('admin')
-
-      }
-
-      console.log('admin get to /dashboard');
-    }).catch(function (err) {
-      console.log(err)
+  $scope.dashboard = function(){
+    $http.get('/admin').then(function(res){
+      console.log(res);
+    }).catch(function(err){
+      console.log('you cannot enter here')
     })
   }
 
-  // // display username after login
-  if ($cookies.get('token')) {
+  $scope.modpage = function(){
+    $http.get('/mod').then(function(res){
+      console.log(res);
+    }).catch(function(err){
+      console.log('you cannot enter here')
+    })
+  }
+
+  // // // display username after login
+  if (AuthService.isLoggedIn) {
     $rootScope.userLogin = $cookies.get('name');
   }
 
@@ -79,7 +80,7 @@ controller.controller('ResetPassCtrl', function ($scope, UserService) {
 
 });
 
-controller.controller('RegisterCtrl', function ($location, $http, $scope, UserService, AuthService, flash) {
+controller.controller('RegisterCtrl', function ($http, $scope, UserService, AuthService, flash) {
   $scope.user = {};
 
   $scope.register = function () {
@@ -123,8 +124,8 @@ controller.controller('ProfileCtrl', function ($window, $state, $http, $cookies,
   $scope.currentUser = {};
   $scope.userUpdate = {};
 
-  UserService.getUserDetail({id: $cookies.get('userid')}).then(function(result){
-    if(result.data.success){
+  UserService.getUserDetail().then(function (result) {
+    if (result.data.success) {
       $scope.currentUser = result.data.data;
       $scope.userUpdate = result.data.data;
     } else {
@@ -133,11 +134,11 @@ controller.controller('ProfileCtrl', function ($window, $state, $http, $cookies,
   })
   // update infos
 
-  $scope.update = function() {
+  $scope.update = function () {
     UserService.update($scope.userUpdate).then(function (result) {
       if (result.data.success) {
         flash.success = result.data.message;
-        bootbox.confirm(result.data.message, function(){
+        bootbox.confirm(result.data.message, function () {
           $window.location.reload();
         })
       } else {
@@ -147,9 +148,7 @@ controller.controller('ProfileCtrl', function ($window, $state, $http, $cookies,
   }
 
   //----- change pass -----------
-  $scope.pass = {
-    id: $cookies.get('userid')
-  }
+  $scope.pass = {};
 
   $scope.changePass = function () {
     var error = AuthService.checkDataChangePass($scope.pass);
@@ -166,59 +165,58 @@ controller.controller('ProfileCtrl', function ($window, $state, $http, $cookies,
     }
   }
   /*--------------------- end user -------------------------*/
-    /*---------------------- device ----------------------*/
+  /*---------------------- device ----------------------*/
 
   // display all devices of user and display on profile.html
-  DeviceService.getAllDevicesByUserId($cookies.get('userid')).then(function (result) {
-    
+  DeviceService.getAllDevicesByUserId().then(function (result) {
+
+    if (result.data.success) {
+      $scope.listDevice = result.data.data;
+    } else {
+      flash.error = result.data.message;
+    }
+  });
+
+  // add a new device
+  $scope.newDevice = {
+    status: "no connection"
+  }
+
+  $scope.addDevice = function () {
+    var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
+    if (!isEmpty.isErr) {
+      DeviceService.addDevice($scope.newDevice).then(function (result) {
         if (result.data.success) {
-          $scope.listDevice = result.data.data;
+          flash.success = result.data.message;
+          bootbox.confirm(result.data.message, function () {
+            $window.location.reload();
+          })
+        } else {
+          flash.error = result.data.message;
+        }
+
+      });
+    } else {
+      $scope.addDeviceSuccess = false;
+      $scope.addDeviceMessage = isEmpty.message;
+    }
+  }
+
+  $scope.deleteDevice = function (index, mac) {
+    var device = {
+      mac: mac
+    };
+    if (window.confirm("Do you want to delete this device ?")) {
+      DeviceService.deleteDevice(device).then(function (result) {
+        if (result.data.success) {
+          $scope.listDevice.splice(index, 1);
+          flash.success = result.data.message;
         } else {
           flash.error = result.data.message;
         }
       });
-    
-      // add a new device
-      $scope.newDevice = {
-        status: "no connection",
-        UserId: $cookies.get('userid')
-      }
-    
-      $scope.addDevice = function () {
-        var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
-        if (!isEmpty.isErr) {
-          DeviceService.addDevice($scope.newDevice).then(function (result) {
-            if (result.data.success) {
-              flash.success = result.data.message;
-              bootbox.confirm(result.data.message, function(){
-                $window.location.reload();
-              })
-            } else {
-              flash.error = result.data.message;
-            }
-    
-          });
-        } else {
-          $scope.addDeviceSuccess = false;
-          $scope.addDeviceMessage = isEmpty.message;
-        }
-      }
-    
-      $scope.deleteDevice = function (index, mac) {
-        var device = {
-          mac: mac
-        };
-        if (window.confirm("Do you want to delete this device ?")) {
-          DeviceService.deleteDevice(device).then(function (result) {
-            if (result.data.success) {
-              $scope.listDevice.splice(index, 1);
-              flash.success = result.data.message;
-            } else {
-              flash.error = result.data.message;
-            }
-          });
-        }
-    
-      }
-      /*-------------------- end device ---------------------*/
+    }
+
+  }
+  /*-------------------- end device ---------------------*/
 });

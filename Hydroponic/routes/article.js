@@ -51,12 +51,13 @@ router.get('/one', function (req, res) {
 })
 
 router.post('/post', user.authenticate(), function (req, res) {
+
     // check user is active or not. Only active user can post article
-    models.User.getUserById(req.body.userid, function (user) {
+    models.User.getUserById(req.user.id, function (user) {
 
         if (user.dataValues.status) {
             var article = {
-                UserId: req.body.userid,
+                UserId: req.user.id,
                 title: req.body.title,
                 content: req.body.content
             }

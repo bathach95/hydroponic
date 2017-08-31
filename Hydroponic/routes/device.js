@@ -22,8 +22,7 @@ models.Device.findAll({
 
 router.get('/all', user.authenticate(), function (req, res) {
 
-  var userId = req.query.userid;
-  models.User.getUserById(userId, function (user) {
+  models.User.getUserById(req.user.id, function (user) {
     if (user) {
       user.getDevices({ order: [['createdAt', 'DESC']] }).then(function (result) {
         var deviceList = [];
@@ -65,7 +64,9 @@ router.get('/one', user.authenticate(), function (req, res) {
 
 router.post('/add', user.authenticate(), function (req, res) {
   var newDevice = req.body;
+  newDevice.UserId = req.user.id;
 
+  console.log(newDevice);
   models.Device.getDeviceByMac(newDevice.mac,
     function (result) {
       if (result) {

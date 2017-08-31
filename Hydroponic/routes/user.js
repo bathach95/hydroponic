@@ -80,15 +80,13 @@ models.User.getUserByEmail('hbathach@gmail.com', function (user) {
 
 
 /* get user info */
-router.post('/info', authenticate(), function(req, res){
-  models.User.getUserById(req.body.id, function(result){
+router.get('/info', authenticate(), function(req, res){
+
+  models.User.getUserById(req.user.id, function(result){
     if (result){
       var user = result.dataValues;
       delete user.password;
       delete user.activeToken;
-  
-      console.log(user);
-      console.log(result.dataValues);
 
       res.json({
         success: true,
@@ -201,8 +199,6 @@ router.post('/login', function (req, res) {
 /* update action*/
 router.put('/update', authenticate(), function (req, res) {
 
-  console.log(req.user);
-
   models.User.getUserByEmail(req.body.email, function (user) {
     if (user) {
       user.update({
@@ -226,7 +222,7 @@ router.put('/update', authenticate(), function (req, res) {
 
 /* change pass action*/
 router.put('/changepass', authenticate(), function (req, res) {
-  models.User.getUserById(req.body.id, function (user) {
+  models.User.getUserById(req.user.id, function (user) {
     user.comparePassword(req.body.currPass, function (isMatch) {
       if (isMatch) {
         user.updatePassword(req.body.newPass, function () {

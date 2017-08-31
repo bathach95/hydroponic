@@ -98,11 +98,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 												<fieldset>
 													<a ui-sref="profile" class="btn-customize btn btn-primary logged-in-btn">Profile</a>
 												</fieldset>
-												<fieldset ng-controller="LoginCtrl">
-													<a href="" ng-click="dashboard_get()" class="btn-customize btn btn-primary logged-in-btn">Dashboard get</a>
+												<fieldset ng-controller="LoginCtrl" ng-if="userRole === 'admin'">
+													<a href="" ng-click="dashboard()" class="btn-customize btn btn-primary logged-in-btn">Dashboard</a>
 												</fieldset>
-												<fieldset ng-controller="LoginCtrl">
-													<a href="" ng-click="dashboard_post()" class="btn-customize btn btn-primary logged-in-btn">Dashboard post</a>
+												<fieldset ng-controller="LoginCtrl" ng-if="userRole === 'admin' || userRole === 'mod'">
+													<a href="" ng-click="modpage()" class="btn-customize btn btn-primary logged-in-btn">Mod page</a>
 												</fieldset>
 												<fieldset ng-controller="LoginCtrl">
 													<a href="" ng-click="logout()" class="btn-customize btn btn-primary logged-in-btn">Logout</a>
@@ -263,6 +263,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="/js/service/utilsService.js" type="text/javascript"></script>
 <script src="/js/service/articleService.js" type="text/javascript"></script>
 <script src="/js/controller/userController.js" type="text/javascript"></script>
+<script src="/js/controller/privateController.js" type="text/javascript"></script>
 <script src="/js/controller/cropController.js" type="text/javascript"></script>
 <script src="/js/controller/deviceController.js" type="text/javascript"></script>
 <script src="/js/controller/dataController.js" type="text/javascript"></script>

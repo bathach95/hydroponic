@@ -1,11 +1,7 @@
 service.service('DeviceService', function($http) {
 
     this.getAllDevicesByUserId = function(userid) {
-        return $http.get('/device/all', {
-            params: {
-                userid: userid
-            }
-        });
+        return $http.get('/device/all');
     }
 
     this.getDeviceByMac = function(mac) {
