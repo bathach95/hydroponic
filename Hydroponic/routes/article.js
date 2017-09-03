@@ -50,7 +50,7 @@ router.get('/one', function (req, res) {
     })
 })
 
-router.post('/post', user.authenticate(), function (req, res) {
+router.post('/add', user.authenticate(), function (req, res) {
 
     // check user is active or not. Only active user can post article
     models.User.getUserById(req.user.id, function (user) {

@@ -8,6 +8,18 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     classMethods: {
+      createComment: function(newComment, callback){
+        Comment.create(newComment).then(callback);
+      },
+      getCommentsByArticleId: function(articleId, callback){
+        var query = {
+          where: {
+            ArticleId: articleId
+          }
+        };
+
+        Comment.findAll(query).then(callback);
+      },
       getCommentsByContent: function(content, callback){
         var str = '%' + content + '%';
         var query = {
@@ -20,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
         Comment.findAll(query).then(callback);
       },
       getCommentById: function(id, callback){
-        Comment.findById(id, callback);
+        Comment.findById(id).then(callback);
       }
       // associate: function(models){
       //

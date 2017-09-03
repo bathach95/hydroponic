@@ -24,8 +24,9 @@ var acl = new Acl(new AclSeq(db, { prefix: 'acl_' }));
 
 
 /* config for passport-jwt */
+var secretKey = 'hydroponic';
 var opts = {
-  secretOrKey: 'hydroponic',
+  secretOrKey: secretKey,
   jwtFromRequest: ExtractJwt.fromHeader('token')
 }
 
@@ -319,6 +320,17 @@ router.put('/active', function (req, res) {
   })
 
 });
+
+/* ensure authentication */
+router.get('/verifytoken', function(req, res){
+  jwt.verify(req.headers.token, secretKey, function(err, decoded){
+    if (err){ 
+      res.send(err);
+    } else {
+      res.send(decoded);
+    }
+  })
+})
 
 module.exports.authenticate = authenticate;
 module.exports.router = router;

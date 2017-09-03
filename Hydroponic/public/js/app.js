@@ -13,9 +13,16 @@ var myApp = angular.module('myApp',
         'myApp.service',
         'myApp.filter']);
 
-myApp.run(function ($rootScope, $cookies, flash, $state, $transitions) {
+myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
 
     $transitions.onStart({}, function (trans) {
+
+        if ($cookies.get('token')){
+            $http.get('/user/verifytoken').then(function(result){
+                console.log(result.data)
+            })
+        }
+
 
         // scroll to top of the page when state changed
         document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -82,7 +89,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('article', {
             url: '/article.html',
-            templateUrl: 'views/home/article.html',
+            templateUrl: 'views/home/article/article.html',
             controller: 'ArticleCtrl',
             access: {
                 requiredLogin: false
@@ -90,7 +97,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('single_article', {
             url: '/article/:id',
-            templateUrl: 'views/home/single-article.html',
+            templateUrl: 'views/home/article/single-article.html',
             controller: 'SingleArticleCtrl',
             access: {
                 requiredLogin: false
@@ -98,7 +105,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('write_article', {
             url: '/writer.html',
-            templateUrl: 'views/user/writer.html',
+            templateUrl: 'views/home/article/writer.html',
             controller: 'WriteArticleCtrl',
             access: {
                 requiredLogin: true

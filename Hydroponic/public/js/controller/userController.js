@@ -1,6 +1,6 @@
 var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
-controller.controller('LoginCtrl', function ($http, $state, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
 
   $scope.user = {};
 
@@ -24,6 +24,7 @@ controller.controller('LoginCtrl', function ($http, $state, $cookies, $scope, $r
 
           $cookies.put('token', result.data.data.token, options);
           $cookies.put('name', result.data.data.name, options);
+          $sessionStorage.user = 'heheeheh';
           flash.success = result.data.message;
           $state.go('home');
         } else {
@@ -42,6 +43,7 @@ controller.controller('LoginCtrl', function ($http, $state, $cookies, $scope, $r
     $state.go('home');
   }
 
+  // test authorization admin
   $scope.dashboard = function(){
     $http.get('/admin').then(function(res){
       console.log(res);
@@ -49,7 +51,7 @@ controller.controller('LoginCtrl', function ($http, $state, $cookies, $scope, $r
       console.log('you cannot enter here')
     })
   }
-
+  // test authorization mod page
   $scope.modpage = function(){
     $http.get('/mod').then(function(res){
       console.log(res);
@@ -58,7 +60,7 @@ controller.controller('LoginCtrl', function ($http, $state, $cookies, $scope, $r
     })
   }
 
-  // // // display username after login
+  // display username after login
   if (AuthService.isLoggedIn) {
     $rootScope.userLogin = $cookies.get('name');
   }

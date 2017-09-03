@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            {{article.title}}
+        </div>
+        <div ng-bind-html="article.content">
+        </div>
+
+        <div ng-controller="CommentCtrl">
+            <div class="list-group">
+                <!-- load all comment from data base -->
+                <div class="list-group-item" ng-repeat="comment in commentList" ng-bind-html="comment.content"></div>
+            </div>
+
+            <h3>Comment: </h3>
+            <div>
+                <div data-ng-required text-angular ta-min-text="50" ng-model="comment.content"></div>
+                <button ng-click="postComment(article.id)" class="btn btn-primary">Comment</button>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>

@@ -1,20 +1,22 @@
 controller.controller('ArticleCtrl', function ($scope, ArticleService) {
-    ArticleService.getAllArticles().then(function(result){
-        if (result.data.success){
+    ArticleService.getAllArticles().then(function (result) {
+        if (result.data.success) {
             $scope.articleList = result.data.data;
         }
     })
 })
 
-controller.controller('SingleArticleCtrl', function($scope, $stateParams, ArticleService, flash){
+controller.controller('SingleArticleCtrl', function ($scope, $stateParams, ArticleService, flash) {
 
-    ArticleService.getArticleById($stateParams.id).then(function(result){
-        if (result.data.success){
+    ArticleService.getArticleById($stateParams.id).then(function (result) {
+        if (result.data.success) {
             $scope.article = result.data.data;
         } else {
             flash.error = result.data.message;
         }
     })
+
+
 })
 
 controller.controller('WriteArticleCtrl', function ($scope, $cookies, $state, ArticleService, flash) {

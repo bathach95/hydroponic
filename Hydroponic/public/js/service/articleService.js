@@ -13,6 +13,6 @@ service.service('ArticleService', function($http){
     }
 
     this.postArticle = function(article){
-        return $http.post('/article/post', article);
+        return $http.post('/article/add', article);
     }
 })
