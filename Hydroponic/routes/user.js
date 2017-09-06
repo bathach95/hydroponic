@@ -332,6 +332,42 @@ router.get('/verifytoken', function(req, res){
   })
 })
 
+/*only admin can get all users */
+router.get('/all', [authenticate(), acl.middleware(2, utils.getUserId)], function(req, res){
+  models.User.getAllUser(function(result){
+    var listUser = [];
+
+    result.forEach(function(user) {
+      listUser.push(user.dataValues);
+    });
+
+    res.json({
+      success: true,
+      data: listUser,
+      message: 'Get all user success!'
+    })
+  })
+})
+
+/* only admin can delete user */
+router.delete('/delete', [authenticate(), acl.middleware(2, utils.getUserId)], function(req, res){
+  console.log(req.query.userId)
+  models.User.deleteUser(req.query.userId, function(success){
+    console.log(success)
+    if(success){
+      res.json({
+        success: true,
+        message: 'User is deleted!'
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'User cannot be deleted!'
+      })
+    }
+  })
+})
+
 module.exports.authenticate = authenticate;
 module.exports.router = router;
 module.exports.acl = acl;

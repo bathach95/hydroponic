@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#member">Member</a></li>
+            <li><a data-toggle="tab" href="#mod">Moderator</a></li>
+            <li><a data-toggle="tab" href="#admin">Admin</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="admin" class="tab-pane fade">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created at</th>
+                            <th>Status</th>
+                            <th>Update role</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in listUser | filter: {role : 'admin'}">
+                            <td>{{$index + 1}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.role}}</td>
+                            <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{user.status}}</td>
+                            <td><button ng-click="updateRole()" class="btn btn-warning">Update role</button></td>
+                            <td><button ng-click="delete($index, user.id)" class="btn btn-danger">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="member" class="tab-pane fade in active">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created at</th>
+                            <th>Status</th>
+                            <th>Update role</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in listUser | filter: {role : 'member'}">
+                            <td>{{$index + 1}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.role}}</td>
+                            <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{user.status}}</td>
+                            <td><button class="btn btn-warning">Update role</button></td>
+                            <td><button ng-click="delete($index, user.id)" class="btn btn-danger">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="mod" class="tab-pane fade">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Index</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created at</th>
+                            <th>Status</th>
+                            <th>Update role</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in listUser | filter: {role : 'mod'}">
+                            <td>{{$index + 1}}</td>
+                            <td>{{user.name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.role}}</td>
+                            <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
+                            <td>{{user.status}}</td>
+                            <td><button class="btn btn-warning">Update role</button></td>
+                            <td><button ng-click="delete($index,user.id)" class="btn btn-danger">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

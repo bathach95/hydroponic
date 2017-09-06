@@ -95,6 +95,18 @@ module.exports = function(sequelize, DataTypes) {
         };
         User.findOne(query).then(callback);
       },
+      getAllUser: function(callback){
+        User.findAll().then(callback);
+      },
+      deleteUser : function(userId, callback){
+        var query = {
+          where: {
+            id: userId
+          }
+        };
+
+        User.destroy(query).then(callback);
+      },
       associate: function(models){
         User.hasMany(models.Article, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
         User.hasMany(models.Comment, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});

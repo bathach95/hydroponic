@@ -17,11 +17,11 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
 
     $transitions.onStart({}, function (trans) {
 
-        if ($cookies.get('token')){
-            $http.get('/user/verifytoken').then(function(result){
-                console.log(result.data)
-            })
-        }
+        // if ($cookies.get('token')){
+        //     $http.get('/user/verifytoken').then(function(result){
+        //         console.log(result.data)
+        //     })
+        // }
 
 
         // scroll to top of the page when state changed
@@ -193,6 +193,15 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/dashboard.html',
             templateUrl: 'views/private/user/admin.html',
             controller: 'AdminCtrl',
+            access: {
+                roles: ['admin'],
+                requiredLogin: true
+            }
+        })
+        .state('user_manager', {
+            url: '/dashboard/user-management.html',
+            templateUrl: 'views/private/user/manager.html',
+            controller: 'UserManagementCtrl',
             access: {
                 roles: ['admin'],
                 requiredLogin: true
