@@ -17,7 +17,7 @@
   <!--banner end here-->
   <!--services start here-->
   <div class="services">
-    <div class="container">
+    <div class="container"> 
       <!-- User avatar -->
       <div class="row">
         <!-- <div class="col-sm-2 col-md-2 col-md-offset-6 col-sm-offset-6">
@@ -114,79 +114,81 @@
       </div>
       <!-- End change pass modal-->
       <br>
-      <div class="row table-of-devices">
-        <h3 class="">Table of Devices</h3>
-      </div>
-      <div class="row">
-        <div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">
-          <button type="button" class="btn btn-1 btn-primary btn-customize" data-toggle="modal" data-target="#addDeviceModal">Add new device</button>
-
-          <table class="table table-hover table-customize">
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>MAC</th>
-                <th>Name</th>
-                <th>Installation Date</th>
-                <th>Status</th>
-                <th>Manufacturer</th>
-                <th>Operation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="item in listDevice">
-                <td>{{$index + 1}}</td>
-                <td><a ui-sref="device-detail({mac: item.mac})">{{item.mac}}</a></td>
-                <td>{{item.name}}</td>
-                <td>{{item.createdAt | date:'dd-MM-yyyy HH:mm:ss'}}</td>
-                <td>{{item.status}}</td>
-                <td>{{item.manufacturer}}</td>
-                <td><button class="btn btn-danger" ng-click="deleteDevice($index, item.mac)"><em class="glyphicon glyphicon-trash"></em></button></td>
-              </tr>
-            </tbody>
-          </table>
+      <div ng-controller="DeviceCtrl">
+        <div class="row table-of-devices">
+          <h3 class="">Table of Devices</h3>
         </div>
-      </div>
+        <div class="row">
+          <div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">
+            <button type="button" class="btn btn-1 btn-primary btn-customize" data-toggle="modal" data-target="#addDeviceModal">Add new device</button>
 
-      <!-- Add device modal -->
-      <div class="modal fade" id="addDeviceModal" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Add device</h4>
-            </div>
-            <div class="modal-body">
-              
-              <div class="row">
-                <label for="mac" class="col-md-4 col-sm-4">MAC:</label>
-                <input ng-model="newDevice.mac" class="col-md-7 col-sm-7" type="text" placeholder="aa:bb:cc:dd:ee:ff" name="mac" />
-              </div>
-              <br>
-              <div class="row">
-                <label for="name" class="col-md-4 col-sm-4">Name:</label>
-                <input ng-model="newDevice.name" class="col-md-7 col-sm-7" type="text" name="name" />
-              </div>
-              <br>
-              <div class="row">
-                <label for="manufacturer" class="col-md-4 col-sm-4">Manufacturer:</label>
-                <input ng-model="newDevice.manufacturer" class="col-md-7 col-sm-7" type="text" name="manufacturer" />
-              </div>
-              <br>
-              <div class="row">
-                <p ng-attr-style="{{addDeviceSuccess && 'color: green' || 'color: red'}}">{{addDeviceMessage}}</p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button ng-click="addDevice()" type="button" class="btn btn-1 btn-primary">OK</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            <table class="table table-hover table-customize">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>MAC</th>
+                  <th>Name</th>
+                  <th>Installation Date</th>
+                  <th>Status</th>
+                  <th>Manufacturer</th>
+                  <th>Operation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in listDevice">
+                  <td>{{$index + 1}}</td>
+                  <td><a ui-sref="device_detail({mac: item.mac})">{{item.mac}}</a></td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.createdAt | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                  <td>{{item.status}}</td>
+                  <td>{{item.manufacturer}}</td>
+                  <td><button class="btn btn-danger" ng-click="deleteDevice($index, item.mac)"><em class="glyphicon glyphicon-trash"></em></button></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-
         </div>
+
+        <!-- Add device modal -->
+        <div class="modal fade" id="addDeviceModal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add device</h4>
+              </div>
+              <div class="modal-body">
+
+                <div class="row">
+                  <label for="mac" class="col-md-4 col-sm-4">MAC:</label>
+                  <input ng-model="newDevice.mac" class="col-md-7 col-sm-7" type="text" placeholder="aa:bb:cc:dd:ee:ff" name="mac" />
+                </div>
+                <br>
+                <div class="row">
+                  <label for="name" class="col-md-4 col-sm-4">Name:</label>
+                  <input ng-model="newDevice.name" class="col-md-7 col-sm-7" type="text" name="name" />
+                </div>
+                <br>
+                <div class="row">
+                  <label for="manufacturer" class="col-md-4 col-sm-4">Manufacturer:</label>
+                  <input ng-model="newDevice.manufacturer" class="col-md-7 col-sm-7" type="text" name="manufacturer" />
+                </div>
+                <br>
+                <div class="row">
+                  <p ng-attr-style="{{addDeviceSuccess && 'color: green' || 'color: red'}}">{{addDeviceMessage}}</p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button ng-click="addDevice()" type="button" class="btn btn-1 btn-primary">OK</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- End add device modal -->
       </div>
-      <!-- End add device modal -->
     </div>
   </div>
   <!--services end here-->

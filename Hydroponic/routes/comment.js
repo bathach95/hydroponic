@@ -4,17 +4,28 @@ var models = require('../models');
 var user = require('./user.js');
 
 router.get('/all', function (req, res) {
-    models.Comment.getCommentsByArticleId(req.query.articleId, function(result){
-        var commentList = [];
-        result.forEach(function(element) {
-            commentList.push(element.dataValues)
-        });
 
-        res.json({
-            success: true,
-            data: commentList,
-            message: 'Get comments success!'
-        })
+    models.Article.getArticleById(req.query.articleId, function (article) {
+        if (article) {
+            article.getComments({ order: [['createdAt', 'ASC']] }).then(function (result) {
+                var commentList = [];
+                result.forEach(function (element) {
+                    commentList.push(element.dataValues)
+                });
+
+                res.json({
+                    success: true,
+                    data: commentList,
+                    message: 'Get comments success!'
+                })
+            })
+        } else {
+
+            res.json({
+                success: false,
+                message: 'Article does not exist!'
+            })
+        }
     })
 });
 

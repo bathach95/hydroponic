@@ -13,7 +13,7 @@ controller.controller('CommentCtrl', function($scope, $window, $stateParams, Com
     $scope.postComment = function (articleId) {
         $scope.comment.ArticleId = articleId;
 
-        if ($scope.comment.content && ($scope.comment.content.length > 30)) {
+        if ($scope.comment.content) {
             CommentService.postComment($scope.comment).then(function(result){
                 if(result.data.success){
                     flash.success = result.data.message;
@@ -25,7 +25,7 @@ controller.controller('CommentCtrl', function($scope, $window, $stateParams, Com
                 }
             })
         } else {
-            flash.error = 'Content must be more than 30 characters';
+            flash.error = 'Content must be more than 10 characters';
         }
     }
 })

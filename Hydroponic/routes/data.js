@@ -88,28 +88,19 @@ device.client.on('message', function (topic, message) {
 // ======================== end =================
 
 router.get('/all', user.authenticate(), function (req, res) {
-  var cropId = req.query.cropId;
-  models.Crop.getCropById(cropId, function (crop) {
-    if (crop) {
-      crop.getDatas({ order: [['createdAt', 'DESC']] }).then(function (result) {
-        var dataList = [];
 
-        result.forEach(function (item) {
-          dataList.push(item.dataValues);
-        })
+  models.Data.getAllDataByCropId(req.query.cropId, function (result) {
+    var dataList = [];
 
-        res.json({
-          success: true,
-          data: dataList,
-          message: 'Get all data success!'
-        });
-      });
-    } else {
-      res.json({
-        success: false,
-        message: 'Crop does not exist!'
-      });
-    }
+    result.forEach(function (item) {
+      dataList.push(item.dataValues);
+    })
+
+    res.json({
+      success: true,
+      data: dataList,
+      message: 'Get all data success!'
+    });
   })
 })
 

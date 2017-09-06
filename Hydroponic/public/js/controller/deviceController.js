@@ -1,143 +1,65 @@
 controller.controller('DeviceCtrl', function ($http, $stateParams, $window, $scope, DeviceService, CropService, GetTimeService, flash) {
 
-  $scope.deviceMac = $stateParams.mac;
+  /*---------------------- device ----------------------*/
 
+  // display all devices of user and display on profile.html
+  DeviceService.getAllDevicesByUserId().then(function (result) {
+
+    if (result.data.success) {
+      $scope.listDevice = result.data.data;
+    } else {
+      flash.error = result.data.message;
+    }
+  });
+
+  // add a new device
+  $scope.newDevice = {
+    status: "no connection"
+  }
+
+  $scope.addDevice = function () {
+    var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
+    if (!isEmpty.isErr) {
+      DeviceService.addDevice($scope.newDevice).then(function (result) {
+        if (result.data.success) {
+          flash.success = result.data.message;
+          bootbox.confirm(result.data.message, function () {
+            $window.location.reload();
+          })
+        } else {
+          flash.error = result.data.message;
+        }
+
+      });
+    } else {
+      $scope.addDeviceSuccess = false;
+      $scope.addDeviceMessage = isEmpty.message;
+    }
+  }
+
+  $scope.deleteDevice = function (index, mac) {
+    var device = {
+      mac: mac
+    };
+    if (window.confirm("Do you want to delete this device ?")) {
+      DeviceService.deleteDevice(device).then(function (result) {
+        if (result.data.success) {
+          $scope.listDevice.splice(index, 1);
+          flash.success = result.data.message;
+        } else {
+          flash.error = result.data.message;
+        }
+      });
+    }
+
+  }
+
+
+});
+
+controller.controller('DeviceDetailCtrl', function ($stateParams, $scope, DeviceService) {
   /* query all device data */
   DeviceService.getDeviceByMac($stateParams.mac).then(function (result) {
     $scope.device = result.data;
   });
-  /* end query device data */
-
-  /* get all crops of device */
-  CropService.getAllCrops($stateParams.mac).then(function (result) {
-
-    if (result.data.success) {
-      $scope.cropList = result.data.data;
-
-      $scope.cropList.forEach(function (item) {
-        // TODO: 
-        // check status of crop
-        // if close date is after today, crop is running, otherwise crop has finished
-
-      });
-    } else {
-      flash.error = result.data.message;
-    }
-
-    $scope.currentPage = 1;
-    $scope.numberPagination = Math.ceil($scope.cropList.length / 5);
-    $scope.listCropPage = [];
-    for (i = 1; i <= 5; i++) {
-      if (i <= $scope.cropList.length)
-        $scope.listCropPage.push($scope.cropList[i - 1]);
-    }
-  });
-  /* end get all crop of device */
-
-  $scope.nextPagination = function (numberPage) {
-    $scope.currentPage = numberPage;
-    $scope.listCropPage = [];
-    for (i = 1; i <= 5; i++) {
-      if (((numberPage - 1) * 5 + i) <= $scope.cropList.length)
-        $scope.listCropPage.push($scope.cropList[((numberPage - 1) * 5 + i) - 1]);
-    }
-  }
-  $scope.previousPagination = function (numberPage) {
-    $scope.currentPage = numberPage;
-    $scope.listCropPage = [];
-    for (i = 1; i <= 5; i++) {
-      $scope.listCropPage.push($scope.cropList[((numberPage - 1) * 5 + i) - 1]);
-    }
-  }
-
-  /* add new crop to device */
-  $scope.newCrop = {
-    DeviceMac: $stateParams.mac,
-    name: '',
-    type: '',
-    treetype: '',
-    startdate: '',
-    closedate: '',
-    reporttime: 0,
-    status: true
-  }
-  $scope.addCrop = function () {
-    var isEmpty = CropService.checkDataAddCrop($scope.newCrop);
-    //if (!isEmpty.isErr) {
-    console.log("WWWWWWW");
-    CropService.addCrop($scope.newCrop).then(function (result) {
-      console.log("SSSSAAA");
-      $scope.addCropMessage = result.data.message;
-      $scope.addCropSuccess = result.data.success;
-      console.log("SSSS");
-      if (result.data.success) {
-        console.log("AAAAAAA");
-        // var sdate = $scope.newCrop.startdate.toString().split(' ');
-        // var cdate = $scope.newCrop.closedate.toString().split(' ');
-        //
-        // $scope.newCrop.sdate = sdate[1] + ' ' + sdate[2] + ' ' + sdate[3];
-        // $scope.newCrop.stime = sdate[4];
-        // $scope.newCrop.cdate = cdate[1] + ' ' + cdate[2] + ' ' + cdate[3];
-        // $scope.newCrop.ctime = cdate[4];
-        // CropService.getAllCrops($routeParams.mac).then(function(result) {
-        //   $scope.cropList = result.data;
-        //   $scope.cropList.forEach(function(item) {
-        //     var startDateTime = GetTimeService.getDateTime(item.startdate);
-        //     item.sdate = startDateTime.date;
-        //     item.stime = startDateTime.time;
-        //
-        //     var closeDateTime = GetTimeService.getDateTime(item.closedate);
-        //     item.cdate = closeDateTime.date;
-        //     item.ctime = closeDateTime.time;
-        //   })
-        // })
-        //$scope.cropList.push($scope.newCrop);
-        bootbox.alert(result.data.message, function () {
-          setTimeout(reload, 1000);
-        });
-        $('#addCropModal').modal('toggle');
-        $scope.newCrop.name = '';
-        $scope.newCrop.type = '';
-        $scope.newCrop.treetype = '';
-        $scope.newCrop.startdate = '';
-        $scope.newCrop.closedate = '';
-        $scope.newCrop.reporttime = '';
-      }
-      else {
-        bootbox.alert(result.data.message);
-      }
-
-    })
-    //} else {
-    //  $scope.addCropSuccess = false;
-    //  $scope.addCropMessage = isEmpty.message;
-    //}
-
-  }
-  /* end add new crop to device */
-
-  function reload() {
-    $window.location.reload();
-  }
-
-  /* delete crop */
-  $scope.deleteCrop = function (index, cropId, status) {
-    bootbox.confirm("Do you want to delete this crop ?", function (result) {
-      if (result) {
-        var crop = {
-          id: cropId
-        }
-        CropService.deleteCrop(crop).then(function (result) {
-          if (result.data.success) {
-            //$scope.cropList.splice(index, 1);
-          }
-          bootbox.alert(result.data.message, function () {
-            setTimeout(reload, 1000);
-          });
-        })
-      }
-    })
-  }
-  /* end delete crop */
-
-});
+})

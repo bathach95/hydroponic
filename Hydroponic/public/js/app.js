@@ -165,10 +165,10 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: true
             }
         })
-        .state('device-detail', {
+        .state('device_detail', {
             url: '/device/:mac',
             templateUrl: 'views/device/device-detail.html',
-            controller: 'DeviceCtrl',
+            controller: 'DeviceDetailCtrl',
             access: {
                 requiredLogin: true
             }
@@ -176,6 +176,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('crop_detail', {
             url: '/device/:devicemac/crop/:cropid',
             templateUrl: 'views/device/crop-detail.html',
+            controller: 'CropDetailCtrl',
             access: {
                 requiredLogin: true
             }
