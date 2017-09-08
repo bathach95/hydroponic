@@ -60,6 +60,11 @@ module.exports = function(sequelize, DataTypes) {
           }
           callback(isMatch);
         });
+      },
+      updateRole : function(newRole, callback){
+        this.update({
+          role: newRole
+        }).then(callback);
       }
     },
     classMethods: {

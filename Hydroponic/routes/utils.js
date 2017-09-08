@@ -26,7 +26,9 @@ function setRole(acl) {
       allows: [
         { resources: '/admin', permissions: '*' },
         { resources: '/user/all', permissions: '*' },
-        { resources: '/user/delete', permissions: '*' }
+        { resources: '/user/delete', permissions: '*' },
+        { resources: '/user/detail', permissions: '*' },
+        { resources: '/user/updaterole', permissions: '*' },
       ]
     }, {
       roles: 'mod',

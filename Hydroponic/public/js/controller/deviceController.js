@@ -41,19 +41,20 @@ controller.controller('DeviceCtrl', function ($http, $stateParams, $window, $sco
     var device = {
       mac: mac
     };
-    if (window.confirm("Do you want to delete this device ?")) {
-      DeviceService.deleteDevice(device).then(function (result) {
-        if (result.data.success) {
-          $scope.listDevice.splice(index, 1);
-          flash.success = result.data.message;
-        } else {
-          flash.error = result.data.message;
-        }
-      });
-    }
 
+    bootbox.confirm('Do you want to delete this device ?', function (yes) {
+      if (yes) {
+        DeviceService.deleteDevice(device).then(function (result) {
+          if (result.data.success) {
+            $scope.listDevice.splice(index, 1);
+            flash.success = result.data.message;
+          } else {
+            flash.error = result.data.message;
+          }
+        });
+      }
+    })
   }
-
 
 });
 

@@ -207,6 +207,15 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: true
             }
         })
+        .state('update_role', {
+            url: '/dashboard/user-management/update-role/:id',
+            templateUrl: 'views/private/user/update-role.html',
+            controller: 'UpdateRoleCtrl',
+            access: {
+                roles: ['admin'],
+                requiredLogin: true
+            }
+        })
         .state('mod', {
             url: '/mod.html',
             templateUrl: 'views/private/user/mod.html',

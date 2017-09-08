@@ -81,10 +81,10 @@ models.User.getUserByEmail('hbathach@gmail.com', function (user) {
 
 
 /* get user info */
-router.get('/info', authenticate(), function(req, res){
+router.get('/info', authenticate(), function (req, res) {
 
-  models.User.getUserById(req.user.id, function(result){
-    if (result){
+  models.User.getUserById(req.user.id, function (result) {
+    if (result) {
       var user = result.dataValues;
       delete user.password;
       delete user.activeToken;
@@ -123,7 +123,7 @@ router.post('/register', function (req, res) {
       });
     } else {
       models.User.createUser(newUser, function (result) {
-        
+
         // set role 'member' for user register
         acl.addUserRoles(result.dataValues.id, 'member');
 
@@ -322,9 +322,9 @@ router.put('/active', function (req, res) {
 });
 
 /* ensure authentication */
-router.get('/verifytoken', function(req, res){
-  jwt.verify(req.headers.token, secretKey, function(err, decoded){
-    if (err){ 
+router.get('/verifytoken', function (req, res) {
+  jwt.verify(req.headers.token, secretKey, function (err, decoded) {
+    if (err) {
       res.send(err);
     } else {
       res.send(decoded);
@@ -333,11 +333,11 @@ router.get('/verifytoken', function(req, res){
 })
 
 /*only admin can get all users */
-router.get('/all', [authenticate(), acl.middleware(2, utils.getUserId)], function(req, res){
-  models.User.getAllUser(function(result){
+router.get('/all', [authenticate(), acl.middleware(2, utils.getUserId)], function (req, res) {
+  models.User.getAllUser(function (result) {
     var listUser = [];
 
-    result.forEach(function(user) {
+    result.forEach(function (user) {
       listUser.push(user.dataValues);
     });
 
@@ -350,11 +350,9 @@ router.get('/all', [authenticate(), acl.middleware(2, utils.getUserId)], functio
 })
 
 /* only admin can delete user */
-router.delete('/delete', [authenticate(), acl.middleware(2, utils.getUserId)], function(req, res){
-  console.log(req.query.userId)
-  models.User.deleteUser(req.query.userId, function(success){
-    console.log(success)
-    if(success){
+router.delete('/delete', [authenticate(), acl.middleware(2, utils.getUserId)], function (req, res) {
+  models.User.deleteUser(req.query.userId, function (success) {
+    if (success) {
       res.json({
         success: true,
         message: 'User is deleted!'
@@ -368,6 +366,43 @@ router.delete('/delete', [authenticate(), acl.middleware(2, utils.getUserId)], f
   })
 })
 
+/* only admin can access other users info */
+router.get('/detail', [authenticate(), acl.middleware(2, utils.getUserId)], function (req, res) {
+  models.User.getUserById(req.query.userId, function (result) {
+    if (result) {
+
+      res.json({
+        success: true,
+        data: result.dataValues,
+        message: 'Get user info success!'
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'User does not exist!'
+      })
+    }
+  })
+})
+
+/* only admin can update user's role */
+router.put('/updaterole', [authenticate(), acl.middleware(2, utils.getUserId)], function(req, res){
+  models.User.getUserById(req.body.id, function(user){
+    if (user){
+      user.updateRole(req.body.newRole, function(result){
+        res.json({
+          success: true,
+          message: "Update role success!"
+        })
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'User does not exist!'
+      })
+    }
+  })
+})
 module.exports.authenticate = authenticate;
 module.exports.router = router;
 module.exports.acl = acl;

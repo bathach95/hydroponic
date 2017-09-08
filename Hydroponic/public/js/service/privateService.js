@@ -8,4 +8,14 @@ service.service('UserManagementService', function($http){
             params: userId
         })
     }
+
+    this.getUserDetail = function(userId){
+        return $http.get('/user/detail', {
+            params: userId
+        })
+    }
+
+    this.updateRole = function(user){
+        return $http.put('/user/updaterole', user);
+    }
 })
