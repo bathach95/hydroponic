@@ -225,6 +225,15 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: true
             }
         })
+        .state('article_manager', {
+            url: '/mod/article-manager.html',
+            templateUrl: 'views/private/article/manager.html',
+            controller: 'ArticleManagementCtrl',
+            access: {
+                roles: ['admin', 'mod'],
+                requiredLogin: true
+            }
+        })
         .state('404', {
             url: '/404.html',
             templateUrl: 'views/404.html',

@@ -56,3 +56,7 @@ controller.controller('UpdateRoleCtrl', function($scope, $state, $stateParams, U
         }
     }
 })
+
+controller.controller('ArticleManagementCtrl', function(){
+    
+})

@@ -386,15 +386,40 @@ router.get('/detail', [authenticate(), acl.middleware(2, utils.getUserId)], func
 })
 
 /* only admin can update user's role */
-router.put('/updaterole', [authenticate(), acl.middleware(2, utils.getUserId)], function(req, res){
-  models.User.getUserById(req.body.id, function(user){
-    if (user){
-      user.updateRole(req.body.newRole, function(result){
-        res.json({
-          success: true,
-          message: "Update role success!"
-        })
-      })
+router.put('/updaterole', [authenticate(), acl.middleware(2, utils.getUserId)], function (req, res) {
+  models.User.getUserById(req.body.id, function (user) {
+    if (user) {
+
+      acl.removeUserRoles(req.body.id, user.dataValues.role, function (err) {
+
+        if (err) {
+          res.json({
+            success: false,
+            message: err
+          })
+        } else {
+
+          user.updateRole(req.body.newRole, function () {
+
+            acl.addUserRoles(req.body.id, req.body.newRole, function (err) {
+              if (err) {
+
+                res.json({
+                  success: false,
+                  message: err
+                })
+              } else {
+
+                res.json({
+                  success: true,
+                  message: 'Update role success!'
+                })
+              }
+            });
+          })
+        }
+      });
+
     } else {
       res.json({
         success: false,
