@@ -16,6 +16,17 @@
         <div ng-bind-html="article.content">
         </div>
 
+
+        <div ng-if="userRole === 'mod' || userRole === 'admin'">
+            <div ng-if="!article.checked">
+                <button ng-click="checkArticle(article.id, true)" type="button" class="btn btn-success">Check it</button>
+            </div>
+
+            <div ng-if="article.checked">
+                <button ng-click="checkArticle(article.id, false)" type="button" class="btn btn-danger">Uncheck it</button>
+            </div>
+        </div>
+
         <div ng-controller="CommentCtrl">
             <div class="list-group">
                 <!-- load all comment from data base -->

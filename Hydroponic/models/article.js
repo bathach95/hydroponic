@@ -50,7 +50,7 @@ module.exports = function (sequelize, DataTypes) {
         getArticleById: function (id, callback) {
           Article.findById(id).then(callback);
         },
-        deleteArticleById : function(id, callback){
+        deleteArticle : function(id, callback){
           var query = {
             where: {
               id: id

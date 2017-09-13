@@ -57,6 +57,28 @@ controller.controller('UpdateRoleCtrl', function($scope, $state, $stateParams, U
     }
 })
 
-controller.controller('ArticleManagementCtrl', function(){
-    
+controller.controller('ArticleManagementCtrl', function($scope, ArticleService, ArticleManagementService, flash){
+    ArticleService.getAllArticles().then(function (result) {
+        if (result.data.success) {
+            $scope.articleList = result.data.data;
+        }
+    })
+
+
+    $scope.deleteArticle = function(articleId, index){
+        bootbox.confirm('Do you want to delete this article ? ', function(yes){
+            if(yes){
+                ArticleManagementService.deleteArticle({articleId: articleId}).then(function(result){
+                    if (result.data.success){
+                        $scope.articleList.splice(index, 1);
+                        flash.success = result.data.message;
+                    } else {
+                        flash.error = result.data.message;
+                    }
+                })
+
+            }
+        })
+
+    }
 })

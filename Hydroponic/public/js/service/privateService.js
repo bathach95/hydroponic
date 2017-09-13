@@ -19,3 +19,15 @@ service.service('UserManagementService', function($http){
         return $http.put('/user/updaterole', user);
     }
 })
+
+service.service('ArticleManagementService', function($http){
+    this.deleteArticle = function(articleId){
+        return $http.delete('/article/delete', {
+            params: articleId
+        });
+    }
+
+    this.checkArticle = function(articleId){
+        return $http.put('/article/check', articleId);
+    }
+})

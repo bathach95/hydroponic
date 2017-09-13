@@ -6,7 +6,7 @@ controller.controller('ArticleCtrl', function ($scope, ArticleService) {
     })
 })
 
-controller.controller('SingleArticleCtrl', function ($scope, $stateParams, ArticleService, flash) {
+controller.controller('SingleArticleCtrl', function ($scope, $state, $stateParams, ArticleService, ArticleManagementService, flash) {
 
     ArticleService.getArticleById($stateParams.id).then(function (result) {
         if (result.data.success) {
@@ -16,6 +16,26 @@ controller.controller('SingleArticleCtrl', function ($scope, $stateParams, Artic
         }
     })
 
+    $scope.checkArticle = function(articleId, check){
+
+        bootbox.confirm('Do you want to check or uncheck this article ?', function(yes){
+            if (yes){
+                var article = {
+                    articleId: articleId,
+                    checked: check
+                }
+                ArticleManagementService.checkArticle(article).then(function(result){
+                    if (result.data.success){
+                        $state.go('article_manager');
+                        flash.success = result.data.message;
+                    } else {
+                        flash.error = result.data.message;
+                    }
+                })
+            }
+        })
+        
+    }
 
 })
 
