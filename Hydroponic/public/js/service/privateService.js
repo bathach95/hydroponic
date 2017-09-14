@@ -31,3 +31,11 @@ service.service('ArticleManagementService', function($http){
         return $http.put('/article/check', articleId);
     }
 })
+
+service.service('CommentManagementService', function($http){
+    this.deleteComment = function(commentId){
+        return $http.delete('/comment/delete', {
+            params: commentId
+        })
+    }
+})

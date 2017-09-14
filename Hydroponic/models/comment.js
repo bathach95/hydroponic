@@ -24,6 +24,15 @@ module.exports = function(sequelize, DataTypes) {
       },
       getCommentById: function(id, callback){
         Comment.findById(id).then(callback);
+      },
+      deleteComment: function(id, callback){
+        var query = {
+          where: {
+            id: id
+          }
+        };
+
+        Comment.destroy(query).then(callback);
       }
       // associate: function(models){
       //

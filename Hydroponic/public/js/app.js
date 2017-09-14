@@ -22,7 +22,7 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
         //         console.log(result.data)
         //     })
         // }
-
+        
 
         // scroll to top of the page when state changed
         document.body.scrollTop = document.documentElement.scrollTop = 0;

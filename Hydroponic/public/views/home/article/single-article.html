@@ -30,7 +30,14 @@
         <div ng-controller="CommentCtrl">
             <div class="list-group">
                 <!-- load all comment from data base -->
-                <div class="list-group-item" ng-repeat="comment in commentList" ng-bind-html="comment.content"></div>
+                <div class="list-group-item" ng-repeat="comment in commentList">
+                    <div ng-bind-html="comment.content">
+
+                    </div>
+                    <div ng-if="userRole === 'admin' || userRole === 'mod'">
+                        <button ng-click="deleteComment(comment.id, $index)" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
             </div>
 
             <h3>Comment: </h3>

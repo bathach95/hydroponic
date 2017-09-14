@@ -97,7 +97,8 @@
               <tbody>
                 <tr ng-repeat="crop in cropList">
                 <!-- <tr ng-repeat="crop in listCropPage"> -->
-                  <!-- <td class="hidden-xs">{{((currentPage-1)*5)+($index + 1)}}</td> -->
+                  <!-- <td class="hidden-x  s">{{((currentPage-1)*5)+($index + 1)}}</td> -->
+                  <td>{{$index + 1}}</td>
                   <td><a ui-sref="crop_detail({devicemac: deviceMac, cropid: crop.id})">{{crop.name}}</a></td>
                   <td>{{crop.type}}</td>
                   <td>{{crop.treetype}}</td>

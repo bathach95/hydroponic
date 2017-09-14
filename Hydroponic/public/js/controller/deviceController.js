@@ -1,4 +1,4 @@
-controller.controller('DeviceCtrl', function ($http, $stateParams, $window, $scope, DeviceService, CropService, GetTimeService, flash) {
+controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $window, $scope, DeviceService, CropService, GetTimeService, flash) {
 
   /*---------------------- device ----------------------*/
 
@@ -18,14 +18,19 @@ controller.controller('DeviceCtrl', function ($http, $stateParams, $window, $sco
   }
 
   $scope.addDevice = function () {
+    // angular.element('#addDeviceModal').modal('hide');
     var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
     if (!isEmpty.isErr) {
       DeviceService.addDevice($scope.newDevice).then(function (result) {
         if (result.data.success) {
-          flash.success = result.data.message;
-          bootbox.confirm(result.data.message, function () {
-            $window.location.reload();
-          })
+          // flash.success = result.data.message;
+          // bootbox.confirm(result.data.message, function () {
+          // $window.location.reload();
+          $('#addDeviceModal').modal('hide');
+          // var modal = document.getElementById("addDeviceModal");
+          // modal.style.display = "none";
+          $state.reload();
+          // })
         } else {
           flash.error = result.data.message;
         }

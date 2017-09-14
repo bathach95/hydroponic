@@ -54,7 +54,7 @@ controller.controller('WriteArticleCtrl', function ($scope, $cookies, $state, Ar
                 }
             })
         } else {
-            flash.error = 'Empty content or title!';
+            flash.error = 'Content must be more than 100 characters or empty title!';
         }
     }
 })

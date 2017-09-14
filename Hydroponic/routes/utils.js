@@ -35,7 +35,8 @@ function setRole(acl) {
       allows: [
         { resources: '/mod', permissions: '*' },
         { resources: '/article/delete', permissions: '*' },
-        { resources: '/article/check', permissions: '*' }
+        { resources: '/article/check', permissions: '*' },
+        { resources: '/comment/delete', permissions: '*' }
       ]
     }, {
       roles: 'member',

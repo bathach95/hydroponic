@@ -43,23 +43,6 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
     $state.go('home');
   }
 
-  // test authorization admin
-  $scope.dashboard = function(){
-    $http.get('/admin').then(function(res){
-      console.log(res);
-    }).catch(function(err){
-      console.log('you cannot enter here')
-    })
-  }
-  // test authorization mod page
-  $scope.modpage = function(){
-    $http.get('/mod').then(function(res){
-      console.log(res);
-    }).catch(function(err){
-      console.log('you cannot enter here')
-    })
-  }
-
   // display username after login
   if (AuthService.isLoggedIn) {
     $rootScope.userLogin = $cookies.get('name');
@@ -82,7 +65,7 @@ controller.controller('ResetPassCtrl', function ($scope, UserService) {
 
 });
 
-controller.controller('RegisterCtrl', function ($http, $scope, UserService, AuthService, flash) {
+controller.controller('RegisterCtrl', function ($http, $state, $scope, UserService, AuthService, flash) {
   $scope.user = {};
 
   $scope.register = function () {
@@ -104,6 +87,7 @@ controller.controller('RegisterCtrl', function ($http, $scope, UserService, Auth
       $scope.message = isEmpty.message;
     }
   }
+
 });
 
 controller.controller('ActiveUserCtrl', function ($stateParams, $scope, UserService, flash) {

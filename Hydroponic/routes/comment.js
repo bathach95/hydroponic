@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 var user = require('./user.js');
+var utils = require('./utils.js');
 
 router.get('/all', function (req, res) {
 
@@ -31,7 +32,7 @@ router.get('/all', function (req, res) {
 
 router.post('/add', user.authenticate(), function (req, res) {
 
-    // check user is active or not. Only active user can comment
+    // check user is active or not. Only activated user can comment
     models.User.getUserById(req.user.id, function (user) {
         if (user.dataValues.status) {
             var newComment = {
@@ -55,6 +56,22 @@ router.post('/add', user.authenticate(), function (req, res) {
     })
 
 
+});
+
+router.delete('/delete', [user.authenticate(), user.acl.middleware(2, utils.getUserId)], function(req, res){
+    models.Comment.deleteComment(req.query.commentId, function(success){
+        if (success){
+            res.json({
+                success: true,
+                message: 'Comment is deleted !'
+            })
+        } else {
+            res.json({
+                success: false,
+                message: 'Cannot delete this comment !'
+            })
+        }
+    })
 });
 
 module.exports.router = router;
