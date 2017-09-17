@@ -13,7 +13,12 @@ var myApp = angular.module('myApp',
         'myApp.service',
         'myApp.filter']);
 
-myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
+myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthService, flash) {
+
+      // display username after login
+    if (AuthService.isLoggedIn) {
+        $rootScope.userLogin = $cookies.get('name');
+    }
 
     $transitions.onStart({}, function (trans) {
 
@@ -28,14 +33,14 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
         document.body.scrollTop = document.documentElement.scrollTop = 0;
 
         var access = trans.$to().access;
-        var MyAuthService = trans.injector().get('AuthService');
+        var AuthService = trans.injector().get('AuthService');
         var UserService = trans.injector().get('UserService');
 
 
-        if (access.requiredLogin && !MyAuthService.isLoggedIn()) {
+        if (access.requiredLogin && !AuthService.isLoggedIn()) {
             flash.error = 'You have log in to access this page';
             $state.go('login');
-        } else if (MyAuthService.isLoggedIn()) {
+        } else if (AuthService.isLoggedIn()) {
             // if there are special roles to go to this state
             UserService.getUserRole(function (role) {
                 if (role) {
@@ -121,6 +126,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('contact', {
             url: '/contact.html',
             templateUrl: 'views/home/contact.html',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('search_result', {
+            url: '/search/:type/:data',
+            templateUrl: 'views/home/search-result.html',
+            controller: 'SearchResultCtrl',
             access: {
                 requiredLogin: false
             }

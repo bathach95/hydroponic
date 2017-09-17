@@ -150,6 +150,7 @@
         </div>
         
         <!-- Add device modal -->
+        <form ng-submit="addDevice()">
         <div class="modal fade" id="addDeviceModal" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
@@ -162,17 +163,17 @@
 
                 <div class="row">
                   <label for="mac" class="col-md-4 col-sm-4">MAC:</label>
-                  <input ng-model="newDevice.mac" class="col-md-7 col-sm-7" type="text" placeholder="aa:bb:cc:dd:ee:ff" name="mac" />
+                  <input required ng-model="newDevice.mac" class="col-md-7 col-sm-7" type="text" placeholder="aa:bb:cc:dd:ee:ff" name="mac" />
                 </div>
                 <br>
                 <div class="row">
                   <label for="name" class="col-md-4 col-sm-4">Name:</label>
-                  <input ng-model="newDevice.name" class="col-md-7 col-sm-7" type="text" name="name" />
+                  <input required ng-model="newDevice.name" class="col-md-7 col-sm-7" type="text" name="name" />
                 </div>
                 <br>
                 <div class="row">
                   <label for="manufacturer" class="col-md-4 col-sm-4">Manufacturer:</label>
-                  <input ng-model="newDevice.manufacturer" class="col-md-7 col-sm-7" type="text" name="manufacturer" />
+                  <input required ng-model="newDevice.manufacturer" class="col-md-7 col-sm-7" type="text" name="manufacturer" />
                 </div>
                 <br>
                 <div class="row">
@@ -180,13 +181,14 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button ng-click="addDevice()" type="submit" class="btn btn-1 btn-primary">OK</button>
+                <button type="submit" class="btn btn-1 btn-primary">OK</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
 
           </div>
         </div>
+      </form>
         <!-- End add device modal -->
       </div>
     </div>

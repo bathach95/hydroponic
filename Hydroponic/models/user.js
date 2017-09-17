@@ -1,11 +1,16 @@
 "use strict";
 var bcrypt = require('bcryptjs');
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define('User', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      primaryKey: true
     },
     password: {
       type: DataTypes.STRING,
@@ -13,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      primaryKey: true
     },
     role: {
       type: DataTypes.STRING,
@@ -37,88 +42,88 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
-    instanceMethods:{
-      updatePassword: function(newPass, callback){
-        var self = this;
-        bcrypt.genSalt(10, function(err,salt){
-          bcrypt.hash(newPass, salt, function(err, hashed){
-            self.update({
-              password: hashed
-            }).then(callback);
+      instanceMethods: {
+        updatePassword: function (newPass, callback) {
+          var self = this;
+          bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(newPass, salt, function (err, hashed) {
+              self.update({
+                password: hashed
+              }).then(callback);
+            });
           });
-        });
-      },
-      updateStatus: function(status, callback){
-        this.update({
-          status: status
-        }).then(callback);
-      },
-      comparePassword: function(password, callback){
-        bcrypt.compare(password, this.password, function(err, isMatch){
-          if(err) {
-            throw err;
-          }
-          callback(isMatch);
-        });
-      },
-      updateRole : function(newRole, callback){
-        this.update({
-          role: newRole
-        }).then(callback);
-      }
-    },
-    classMethods: {
-      createUser: function(newUser, callback){
-        bcrypt.genSalt(10, function(err,salt){
-          bcrypt.hash(newUser.password, salt, function(err, hash){
-            newUser.password = hash;
-            User.create(newUser).then(callback);
+        },
+        updateStatus: function (status, callback) {
+          this.update({
+            status: status
+          }).then(callback);
+        },
+        comparePassword: function (password, callback) {
+          bcrypt.compare(password, this.password, function (err, isMatch) {
+            if (err) {
+              throw err;
+            }
+            callback(isMatch);
           });
-        });
-      },
-      getUserById: function(id, callback){
-        var query = {
-          where: {
-            id: id
-          }
+        },
+        updateRole: function (newRole, callback) {
+          this.update({
+            role: newRole
+          }).then(callback);
         }
-        User.findOne(query).then(callback);
       },
-      getUserByUsername: function(username, callback){
-        var query = {
-          where: {
-            username: username
+      classMethods: {
+        createUser: function (newUser, callback) {
+          bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(newUser.password, salt, function (err, hash) {
+              newUser.password = hash;
+              User.create(newUser).then(callback);
+            });
+          });
+        },
+        getUserById: function (id, callback) {
+          var query = {
+            where: {
+              id: id
+            }
           }
-        };
-        User.findOne(query).then(callback);
-      },
-      getUserByEmail: function(email, callback){
-        var query = {
-          where: {
-            email: email
-          }
-        };
-        User.findOne(query).then(callback);
-      },
-      getAllUser: function(callback){
-        User.findAll().then(callback);
-      },
-      deleteUser : function(userId, callback){
-        var query = {
-          where: {
-            id: userId
-          }
-        };
+          User.findOne(query).then(callback);
+        },
+        getUserByUsername: function (username, callback) {
+          var query = {
+            where: {
+              username: username
+            }
+          };
+          User.findOne(query).then(callback);
+        },
+        getUserByEmail: function (email, callback) {
+          var query = {
+            where: {
+              email: email
+            }
+          };
+          User.findOne(query).then(callback);
+        },
+        getAllUser: function (callback) {
+          User.findAll().then(callback);
+        },
+        deleteUser: function (userId, callback) {
+          var query = {
+            where: {
+              id: userId
+            }
+          };
 
-        User.destroy(query).then(callback);
+          User.destroy(query).then(callback);
+        },
+        associate: function (models) {
+          User.hasMany(models.Article, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade', foreignKey: {'UserId': 'id', 'UserName': 'name' } });
+          User.hasMany(models.Comment, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
+          User.hasMany(models.Device, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
+        }
       },
-      associate: function(models){
-        User.hasMany(models.Article, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
-        User.hasMany(models.Comment, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
-        User.hasMany(models.Device, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
-      }
-    },
-    tableName: 'User'
-  });
+      tableName: 'User'
+    });
   return User;
 };

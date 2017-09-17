@@ -43,10 +43,7 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
     $state.go('home');
   }
 
-  // display username after login
-  if (AuthService.isLoggedIn) {
-    $rootScope.userLogin = $cookies.get('name');
-  }
+
 
 });
 
@@ -104,7 +101,7 @@ controller.controller('ActiveUserCtrl', function ($stateParams, $scope, UserServ
   })
 });
 
-controller.controller('ProfileCtrl', function ($window, $state, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
+controller.controller('ProfileCtrl', function ($http, $window, $state, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
 
   /*----------------------- user ------------------------*/
   $scope.currentUser = {};

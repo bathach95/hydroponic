@@ -29,6 +29,10 @@ service.service('CropService', function($http) {
       return $http.put('/crop/edit', crop);
     }
 
+    this.updateShareStatus = function(crop){
+      return $http.put('/crop/share', crop);
+    }
+
     this.checkDataEditCrop = function(crop){
 
     }

@@ -51,7 +51,18 @@ router.get('/one', user.authenticate(), function (req, res) {
   var id = req.query.id;
 
   models.Crop.getCropById(id, function (result) {
-    res.send(result);
+    if (result) {
+      res.json({
+        success: true,
+        data: result.dataValues,
+        message: 'Get crop success !'
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'Crop does not exist !'
+      })
+    }
   })
 })
 
@@ -59,17 +70,16 @@ router.post('/add', user.authenticate(), function (req, res) {
   // check crop name already exist
   models.Crop.getCropByName(req.body.name, req.body.DeviceMac, function (result) {
     if (result) {
-      res.send({
+      res.json({
         success: false,
         message: "Name has already existed"
       });
     } else {
       var newCrop = req.body;
-      console.log(newCrop);
       models.Crop.createCrop(newCrop, function () {
         // send to device
         sendSettingToDevice(req.body, function () {
-          res.send({
+          res.json({
             success: true,
             message: "Add crop success"
           })
@@ -83,12 +93,12 @@ router.post('/add', user.authenticate(), function (req, res) {
 router.delete('/delete', user.authenticate(), function (req, res) {
   models.Crop.deleteCrop(req.query.id, function (success) {
     if (success) {
-      res.send({
+      res.json({
         success: true,
         message: "Crop is deleted"
       });
     } else {
-      res.send({
+      res.json({
         success: false,
         message: "Crop can not be deleted"
       });
@@ -115,6 +125,61 @@ router.put('/edit', user.authenticate(), function (req, res) {
 
     });
   });
+
+})
+
+router.put('/share', user.authenticate(), function (req, res) {
+  models.Crop.getCropById(req.body.id, function (crop) {
+    if (crop) {
+      crop.updateShare(req.body.share, function () {
+        res.json({
+          success: true,
+          message: 'Update share status success !'
+        })
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'Crop does not exist !'
+      })
+    }
+  })
+})
+
+router.get('/search', function (req, res) {
+
+  if (req.query.type === 'tree') {
+    // search by tree
+    models.Crop.getCropsByTree(req.query.data, function (result) {
+
+      var data = [];
+      result.forEach(function (element) {
+        data.push(element.dataValues);
+      })
+
+      res.json({
+        success: true,
+        data: data,
+        message: 'Search success !'
+      })
+    })
+  } else if (req.query.type === 'month') {
+    // search by month
+    models.Crop.getCropByMonth(req.query.data, function (result) {
+      res.json({
+        success: true,
+        data: result,
+        message: 'Search success !'
+      })
+    })
+  } else {
+    res.json({
+      success: false,
+      message: 'Cannot search !'
+    })
+  }
+
+
 
 })
 module.exports.router = router;

@@ -18,28 +18,20 @@ controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $wind
   }
 
   $scope.addDevice = function () {
-    // angular.element('#addDeviceModal').modal('hide');
-    var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
-    if (!isEmpty.isErr) {
-      DeviceService.addDevice($scope.newDevice).then(function (result) {
-        if (result.data.success) {
-          // flash.success = result.data.message;
-          // bootbox.confirm(result.data.message, function () {
-          // $window.location.reload();
-          $('#addDeviceModal').modal('hide');
-          // var modal = document.getElementById("addDeviceModal");
-          // modal.style.display = "none";
-          $state.reload();
-          // })
-        } else {
-          flash.error = result.data.message;
-        }
+    $('#addDeviceModal').modal('hide');
 
-      });
-    } else {
-      $scope.addDeviceSuccess = false;
-      $scope.addDeviceMessage = isEmpty.message;
-    }
+    DeviceService.addDevice($scope.newDevice).then(function (result) {
+      if (result.data.success) {
+        flash.success = result.data.message;
+        bootbox.alert(result.data.message, function () {
+          $state.reload();
+        })
+      } else {
+        flash.error = result.data.message;
+      }
+
+    });
+
   }
 
   $scope.deleteDevice = function (index, mac) {

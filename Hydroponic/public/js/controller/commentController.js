@@ -23,7 +23,7 @@ controller.controller('CommentCtrl', function ($scope, $state, $window, $statePa
                 }
             })
         } else {
-            flash.error = 'Content must be more than 10 characters';
+            flash.error = 'Content must be more than 30 characters';
         }
     }
 

@@ -91,6 +91,7 @@
                   <th>Starting Date</th>
                   <th>Closing Date</th>
                   <th>Status</th>
+                  <th>Sharing</th>
                   <th><em class="fa fa-cog"></em></th>
                 </tr>
               </thead>
@@ -106,6 +107,14 @@
                   <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
                   <td ng-if="crop.status">Running</td>
                   <td ng-if="!crop.status">Finished</td>
+                  <td>
+                    <div ng-if="crop.share">
+                      <button ng-click="share(crop.id, false, $index)" class="btn btn-warning">Unshare</button>
+                    </div>
+                    <div ng-if="!crop.share">
+                      <button ng-click="share(crop.id, true, $index)" class="btn btn-primary">Share</button>
+                    </div>
+                  </td>
                   <td>
                     <button ng-click="deleteCrop($index, crop.id, crop.status)" class="btn btn-danger"><em class="glyphicon glyphicon-trash"></em></button>
                   </td>

@@ -48,13 +48,23 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<div class="row">
 					<div class="col-md-3">
 						<div class="search">
-							<a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i> </i></a>
+							<a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i>Search</i></a>
 						</div>
 						<div id="small-dialog" class="mfp-hide">
-							<div class="search-top">
+							<div class="search-top" ng-controller="SearchCtrl">
 								<div class="login">
-									<input type="submit" value="">
-									<input type="text" value="Search Here..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
+									<form ng-submit="search()">
+										<input required ng-model="searchData.data" type="text" placeholder="Search Here..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
+										<div>
+											<div class="radio">
+												<label><input type="radio" ng-model="searchData.type" value="tree">Search by tree</label>
+											</div>
+											<div class="radio">
+												<label><input type="radio" ng-model="searchData.type" value="month">Search by month</label>
+											</div>
+
+										</div>
+									</form>
 								</div>
 								<p>BK Hydroponics</p>
 							</div>
@@ -264,6 +274,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="/js/service/commentService.js" type="text/javascript"></script>
 <script src="/js/service/articleService.js" type="text/javascript"></script>
 <script src="/js/service/privateService.js" type="text/javascript"></script>
+<script src="/js/service/searchService.js" type="text/javascript"></script>
 <script src="/js/controller/userController.js" type="text/javascript"></script>
 <script src="/js/controller/privateController.js" type="text/javascript"></script>
 <script src="/js/controller/cropController.js" type="text/javascript"></script>
@@ -273,6 +284,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="/js/controller/thresholdController.js" type="text/javascript"></script>
 <script src="/js/controller/articleController.js" type="text/javascript"></script>
 <script src="/js/controller/commentController.js" type="text/javascript"></script>
+<script src="/js/controller/searchController.js" type="text/javascript"></script>
 <script src="/js/filters.js" type="text/javascript"></script>
 <script src="/js/app.js" type="text/javascript"></script>
 

@@ -67,17 +67,30 @@ controller.controller('CropCtrl', function ($http, $stateParams, $scope, $window
         CropService.deleteCrop(crop).then(function (result) {
           if (result.data.success) {
             $scope.cropList.splice(index, 1);
+            flash.success = result.data.message;
+          } else {
+            flash.error = result.data.message;
           }
-          bootbox.alert(result.data.message, function () {
-            setTimeout(reload, 1000);
-          });
+
         })
       }
     })
   }
-  /* end delete crop */
 
-
+  /* update share status */
+  $scope.share = function (cropId, newShare, index) {
+    var crop = {
+      id : cropId,
+      share: newShare
+    }
+    CropService.updateShareStatus(crop).then(function(result){
+      if (result.data.success){
+        $scope.cropList[index].share = newShare;
+      } else {
+        flash.error = result.data.message;
+      }
+    })
+  }
 
 
 });
@@ -85,7 +98,12 @@ controller.controller('CropCtrl', function ($http, $stateParams, $scope, $window
 controller.controller('CropDetailCtrl', function ($scope, $window, $stateParams, CropService, flash) {
 
   CropService.getCropById($stateParams.cropid).then(function (result) {
-    $scope.crop = result.data;
+
+    if (result.data.success) {
+      $scope.crop = result.data.data;
+    } else {
+      flash.error = result.data.message;
+    }
 
     $scope.cropEdit = {
       DeviceMac: $stateParams.devicemac,
