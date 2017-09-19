@@ -1,9 +1,12 @@
 'use strict';
 
 var myApp = angular.module('myApp',
-    ['ngCookies',
+    [   
+        // 'ngMaterial',        
+        'ngCookies',
         'ui.router',
         'ngRoute',
+        'jkAngularRatingStars',
         'textAngular',
         'ngStorage',
         'angular-flash.service',

@@ -92,6 +92,7 @@
                   <th>Closing Date</th>
                   <th>Status</th>
                   <th>Sharing</th>
+                  <th>Rating</th>
                   <th><em class="fa fa-cog"></em></th>
                 </tr>
               </thead>
@@ -115,6 +116,12 @@
                       <button ng-click="share(crop.id, true, $index)" class="btn btn-primary">Share</button>
                     </div>
                   </td>
+                  <td><jk-rating-stars 
+                    class="my-custom-stars"
+                    max-rating="5" 
+                    rating="rate" 
+                    on-rating="onItemRating(crop.id, rating)">
+                  </jk-rating-stars></td>
                   <td>
                     <button ng-click="deleteCrop($index, crop.id, crop.status)" class="btn btn-danger"><em class="glyphicon glyphicon-trash"></em></button>
                   </td>

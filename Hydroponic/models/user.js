@@ -3,14 +3,9 @@ var bcrypt = require('bcryptjs');
 
 module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define('User', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
     name: {
       type: DataTypes.STRING,
-      primaryKey: true
+      allowNull: false
     },
     password: {
       type: DataTypes.STRING,
@@ -18,7 +13,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     email: {
       type: DataTypes.STRING,
-      primaryKey: true
+      allowNull: false
     },
     role: {
       type: DataTypes.STRING,
@@ -118,7 +113,7 @@ module.exports = function (sequelize, DataTypes) {
           User.destroy(query).then(callback);
         },
         associate: function (models) {
-          User.hasMany(models.Article, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade', foreignKey: {'UserId': 'id', 'UserName': 'name' } });
+          User.hasMany(models.Article, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
           User.hasMany(models.Comment, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
           User.hasMany(models.Device, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
         }

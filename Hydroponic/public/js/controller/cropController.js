@@ -92,7 +92,13 @@ controller.controller('CropCtrl', function ($http, $stateParams, $scope, $window
     })
   }
 
+  /* rating crop */
 
+  $scope.rate = 1;
+  $scope.onItemRating = function(cropId, rating){
+    //TODO: implement this if u want to rate crop
+    console.log(cropId + " " + rating);
+  }
 });
 
 controller.controller('CropDetailCtrl', function ($scope, $window, $stateParams, CropService, flash) {

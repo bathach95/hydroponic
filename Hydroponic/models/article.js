@@ -32,8 +32,15 @@ module.exports = function (sequelize, DataTypes) {
         createArticle: function (article, callback) {
           Article.create(article).then(callback);
         },
-        getAllArticle: function (callback) {
-          Article.findAll({ order: [['createdAt', 'DESC']] }).then(callback);
+        getAllArticle: function (User, callback, err) {
+          var query = {
+            order: [['createdAt', 'DESC']],
+            include: [{
+                model: User, 
+                attributes: ['name', 'email']
+              }]
+          }
+          Article.findAll(query).then(callback).catch(err);
         },
         // get all articles with title like %title%
         getArticlesByTitle: function (title, callback) {
@@ -47,8 +54,17 @@ module.exports = function (sequelize, DataTypes) {
           };
           Article.findAll(query).then(callback);
         },
-        getArticleById: function (id, callback) {
-          Article.findById(id).then(callback);
+        getArticleById: function (User, id, callback) {
+          var query = {
+            where: {
+              id: id
+            },
+            include: [{
+                model: User, 
+                attributes: ['name', 'email']
+            }]
+          }
+          Article.findOne(query).then(callback);
         },
         deleteArticle : function(id, callback){
           var query = {
@@ -61,6 +77,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         associate: function (models) {
           Article.hasMany(models.Comment, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
+          Article.belongsTo(models.User);          
         }
       },
       tableName: 'Article'

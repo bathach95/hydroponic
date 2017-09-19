@@ -5,7 +5,7 @@ var user = require('./user.js');
 var utils = require('./utils.js')
 
 router.get('/all', function (req, res) {
-    models.Article.getAllArticle(function (result) {
+    models.Article.getAllArticle(models.User, function (result) {
         var articleList = [];
 
         result.forEach(function (element) {
@@ -17,30 +17,26 @@ router.get('/all', function (req, res) {
             data: articleList,
             message: 'Get all articles success!'
         })
+    }, function(err){
+        res.json({
+            success: false,
+            message: err
+        })
     })
 })
 
 router.get('/one', function (req, res) {
-    models.Article.getArticleById(req.query.id, function (result) {
+    models.Article.getArticleById(models.User, req.query.id, function (result) {
 
         if (result) {
             var article = result.dataValues;
 
-            // get author's name of article
-
-            models.User.getUserById(article.UserId, function (author) {
-                if (author) {
-                    article.author = author.name;
-                } else {
-                    article.author = null;
-                }
-
-                res.json({
-                    success: true,
-                    data: article,
-                    message: 'Get article success!'
-                })
+            res.json({
+                success: true,
+                data: article,
+                message: 'Get article success!'
             })
+            
 
         } else {
             res.json({

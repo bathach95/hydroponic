@@ -22,8 +22,18 @@ module.exports = function(sequelize, DataTypes) {
         };
         Comment.findAll(query).then(callback);
       },
-      getCommentById: function(id, callback){
-        Comment.findById(id).then(callback);
+      getCommentsByArticleId: function(User, articleId, callback){
+        var query = {
+          where: {
+            ArticleId: articleId
+          },
+          order: [['createdAt', 'ASC']],
+          include: [{
+            model: User,
+            attributes: ['name', 'email']
+          }]
+        }
+        Comment.findAll(query).then(callback);
       },
       deleteComment: function(id, callback){
         var query = {
@@ -33,10 +43,10 @@ module.exports = function(sequelize, DataTypes) {
         };
 
         Comment.destroy(query).then(callback);
+      },
+      associate: function(models){
+        Comment.belongsTo(models.User)
       }
-      // associate: function(models){
-      //
-      // }
     },
     tableName: 'Comment'
   });

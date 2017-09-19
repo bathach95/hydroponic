@@ -6,19 +6,17 @@ var utils = require('./utils.js');
 
 router.get('/all', function (req, res) {
 
-    models.Article.getArticleById(req.query.articleId, function (article) {
-        if (article) {
-            article.getComments({ order: [['createdAt', 'ASC']] }).then(function (result) {
-                var commentList = [];
-                result.forEach(function (element) {
-                    commentList.push(element.dataValues)
-                });
+    models.Comment.getCommentsByArticleId(models.User, req.query.articleId, function (result) {
+        if (result) {
+            var commentList = [];
+            result.forEach(function (element) {
+                commentList.push(element.dataValues)
+            });
 
-                res.json({
-                    success: true,
-                    data: commentList,
-                    message: 'Get comments success!'
-                })
+            res.json({
+                success: true,
+                data: commentList,
+                message: 'Get comments success!'
             })
         } else {
 
@@ -58,9 +56,9 @@ router.post('/add', user.authenticate(), function (req, res) {
 
 });
 
-router.delete('/delete', [user.authenticate(), user.acl.middleware(2, utils.getUserId)], function(req, res){
-    models.Comment.deleteComment(req.query.commentId, function(success){
-        if (success){
+router.delete('/delete', [user.authenticate(), user.acl.middleware(2, utils.getUserId)], function (req, res) {
+    models.Comment.deleteComment(req.query.commentId, function (success) {
+        if (success) {
             res.json({
                 success: true,
                 message: 'Comment is deleted !'

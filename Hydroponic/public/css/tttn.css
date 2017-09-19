@@ -549,3 +549,8 @@ table > thead > tr > th {
 .no-warningAddSchedule{
   background-color: #FFFFFF;
 }
+/* rating star go here */
+
+.my-custom-stars .button .material-icons {
+  font-size: 10px; 
+}
