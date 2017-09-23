@@ -19,7 +19,7 @@ var Sequelize = require('sequelize');
 var AclSeq = require('acl-sequelize');
 var env = "development";
 var config = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
-var db = module.exports = new Sequelize(config.database, config.username, config.password, config);
+var db = new Sequelize(config.database, config.username, config.password, config);
 var acl = new Acl(new AclSeq(db, { prefix: 'acl_' }));
 
 
@@ -53,32 +53,6 @@ var authenticate = function () {
     session: false
   });
 }
-
-/* automatedly create an admin account */
-
-// check whether admin account was created or not
-models.User.getUserByEmail('hbathach@gmail.com', function (user) {
-  if (user) {
-    console.log('Admin account was created');
-  } else {
-    var admin = {
-      name: 'Thach',
-      password: 'bkhydroponic2017',
-      email: 'hbathach@gmail.com',
-      phone: '01696030126',
-      role: 'admin', // 'member', 'admin' and 'mod'
-      status: true,
-      activeToken: randToken.generate(30)
-    };
-
-    models.User.createUser(admin, function (result) {
-      // add admin role
-      acl.addUserRoles(result.dataValues.id, 'admin');
-      console.log('Admin account created')
-    })
-  }
-})
-
 
 /* get user info */
 router.get('/info', authenticate(), function (req, res) {
@@ -325,9 +299,15 @@ router.put('/active', function (req, res) {
 router.get('/verifytoken', function (req, res) {
   jwt.verify(req.headers.token, secretKey, function (err, decoded) {
     if (err) {
-      res.send(err);
+      res.json({
+        success: false,
+        message: err
+      });
     } else {
-      res.send(decoded);
+      res.json({
+        success: true,
+        message: 'Check success !'
+      });
     }
   })
 })

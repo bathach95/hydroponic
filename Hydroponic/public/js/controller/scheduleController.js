@@ -137,6 +137,7 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
     $window.location.reload();
   }
   $scope.saveAndApply = function() {
+    
       ScheduleService.deleteScheduleSettingByCropId($stateParams.cropid).then(function(result){
         console.log("Controller delete schedule successfully!");
       })

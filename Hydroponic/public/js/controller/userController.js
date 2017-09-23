@@ -21,7 +21,6 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
             httpOnly: true,
             expires: day
           };
-
           $cookies.put('token', result.data.data.token, options);
           $cookies.put('name', result.data.data.name, options);
           $sessionStorage.user = 'heheeheh';

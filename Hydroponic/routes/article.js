@@ -96,7 +96,7 @@ router.delete('/delete',[user.authenticate(), user.acl.middleware(2, utils.getUs
 
 /* only mod and admin can check article */
 router.put('/check', [user.authenticate(), user.acl.middleware(2, utils.getUserId)], function(req, res){
-    models.Article.getArticleById(req.body.articleId, function(article){
+    models.Article.getArticleById(models.User, req.body.articleId, function(article){
         if (article){
             article.updateChecked(req.body.checked, req.user.id, function(){
                 var message = req.body.checked ? 'Article was checked !' : 'Article was unchecked !';

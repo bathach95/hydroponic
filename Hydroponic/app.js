@@ -7,6 +7,7 @@ var expressLayouts = require('express-ejs-layouts');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var models = require('./models');
+var randToken = require('rand-token');
 
 //-----router-----
 var routes = require('./routes/index');
@@ -76,6 +77,33 @@ app.use(function (err, req, res, next) {
 });
 
 // models.sequelize.sync({force: true});
-models.sequelize.sync();
+models.sequelize.sync().then(function () {
+  /* automatedly create an admin account */
+
+  // check whether admin account was created or not
+  models.User.getUserByEmail('hbathach@gmail.com', function (admin) {
+    if (admin) {
+      console.log('Admin account was created');
+    } else {
+      var admin = {
+        name: 'Thach',
+        password: 'bkhydroponic2017',
+        email: 'hbathach@gmail.com',
+        phone: '01696030126',
+        role: 'admin', 
+        status: true,
+        activeToken: randToken.generate(30)
+      };
+
+      models.User.createUser(admin, function (result) {
+        // add admin role
+        user.acl.addUserRoles(result.dataValues.id, 'admin');
+        console.log('Admin account created')
+      })
+    }
+  })
+}).catch(function (err) {
+  console.log(err);
+});
 
 module.exports = app;

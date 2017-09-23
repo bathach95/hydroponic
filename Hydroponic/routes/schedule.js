@@ -66,6 +66,9 @@ router.delete('/delete', user.authenticate(), function(req, res){
 })
 
 router.post('/add', user.authenticate(), function(req, res){
+
+  //TODO: format data like numberOfTimeSet_hhmmss(starttime)_hhmmss(endtime)_hhmmss(lasttime)_hhmmss(Delay)
+  // encrypt data before sending
   var listScheduleSetting = req.body;
 
   listScheduleSetting.watering.forEach(function(item, index){
