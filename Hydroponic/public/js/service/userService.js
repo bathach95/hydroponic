@@ -1,6 +1,6 @@
 var service = angular.module('myApp.service', ['ngCookies']);
 
-service.service('AuthService', function ($cookies) {
+service.service('AuthService', function ($cookies, $http) {
   return {
     isLoggedIn: isLoggedIn,
     checkEmptyLogin: checkEmptyLogin,
@@ -10,11 +10,16 @@ service.service('AuthService', function ($cookies) {
   }
 
   function isLoggedIn() {
-    if ($cookies.get('token')) {
-      return true;
-    } else {
-      return false;
-    }
+    var promise = new Promise(function (resolve, reject) {
+      $http.get('/user/verifytoken').then(function (result) {
+        if (result.data.success){
+          resolve(result.data.data);
+        } else {
+          reject(result.data.message);
+        }
+      })
+    })
+    return promise;
   }
 
   function checkEmptyLogin(user) {
@@ -94,9 +99,9 @@ service.service('AuthService', function ($cookies) {
 
 service.service('UserService', function ($http, $cookies) {
 
-  this.getUserRole = function(callback){
-    this.getUserDetail().then(function(result){
-      if (result.data.success){
+  this.getUserRole = function (callback) {
+    this.getUserDetail().then(function (result) {
+      if (result.data.success) {
         callback(result.data.data.role);
       } else {
         callback(null);

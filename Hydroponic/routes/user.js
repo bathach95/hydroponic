@@ -142,6 +142,7 @@ router.post('/login', function (req, res) {
           var usr = {
             id: user.id,
             username: user.name,
+            role: user.role,
             email: user.email
           }
           var token = jwt.sign(usr, 'hydroponic', {
@@ -150,11 +151,7 @@ router.post('/login', function (req, res) {
           res.json({
             success: true,
             data: {
-              userid: user.id,
               name: user.name,
-              email: user.email,
-              phone: user.phone,
-              role: user.role,
               token: token
             },
             message: 'Login success!'
@@ -297,6 +294,9 @@ router.put('/active', function (req, res) {
 
 /* ensure authentication */
 router.get('/verifytoken', function (req, res) {
+
+  console.log(req.headers.token)
+
   jwt.verify(req.headers.token, secretKey, function (err, decoded) {
     if (err) {
       res.json({
@@ -306,7 +306,8 @@ router.get('/verifytoken', function (req, res) {
     } else {
       res.json({
         success: true,
-        message: 'Check success !'
+        data: decoded,
+        message: 'Verify success !'
       });
     }
   })

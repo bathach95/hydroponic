@@ -1,7 +1,7 @@
 'use strict';
 
 var myApp = angular.module('myApp',
-    [   
+    [
         // 'ngMaterial',        
         'ngCookies',
         'ui.router',
@@ -16,22 +16,13 @@ var myApp = angular.module('myApp',
         'myApp.service',
         'myApp.filter']);
 
-myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthService, flash) {
-
-      // display username after login
-    if (AuthService.isLoggedIn) {
-        $rootScope.userLogin = $cookies.get('name');
-    }
+myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
+    // display username after login
+    // if (AuthService.isLoggedIn) {
+    //     $rootScope.userLogin = $cookies.get('name');
+    // }
 
     $transitions.onStart({}, function (trans) {
-
-        // if ($cookies.get('token')){
-        //     $http.get('/user/verifytoken').then(function(result){
-        //         console.log(result.data)
-        //     })
-        // }
-        
-
         // scroll to top of the page when state changed
         document.body.scrollTop = document.documentElement.scrollTop = 0;
 
@@ -40,23 +31,25 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthServi
         var UserService = trans.injector().get('UserService');
 
 
-        if (access.requiredLogin && !AuthService.isLoggedIn()) {
-            flash.error = 'You have log in to access this page';
-            $state.go('login');
-        } else if (AuthService.isLoggedIn()) {
-            // if there are special roles to go to this state
-            UserService.getUserRole(function (role) {
-                if (role) {
-                    $rootScope.userRole = role;
-                    if (access.roles && !access.roles.includes(role)) {
-                        flash.error = 'You cannot go to this page!';
-                        $state.go('home');
-                    }
-                } else {
-                    console.log('Cannot get role');
+        AuthService.isLoggedIn()
+            .then(function (result) {
+
+                $rootScope.userLogin = result.username;
+                $rootScope.userRole = result.role;
+
+                if (access.roles && !access.roles.includes(result.role)) {
+                    flash.error = 'You cannot go to this page!';
+                    $state.go('home');
+                }
+
+            })
+            .catch(function (err) {
+                if (access.requiredLogin) {
+                    flash.error = 'You have log in to access this page';
+                    $state.go('login');
                 }
             })
-        }
+
     });
 
 });
