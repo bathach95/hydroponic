@@ -2,7 +2,7 @@
     "development": {
         "dialect": "postgres",
         "username": "postgres",
-        "password": "",
+        "password": "123",
         "database": "hydroponic",
         "host": "127.0.0.1",
         "pool": {
