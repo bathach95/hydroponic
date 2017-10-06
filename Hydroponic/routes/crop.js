@@ -48,9 +48,8 @@ router.get('/all', user.authenticate(), function (req, res) {
 })
 
 router.get('/one', user.authenticate(), function (req, res) {
-  var id = req.query.id;
 
-  models.Crop.getCropById(id, function (result) {
+  models.Crop.getCropById(req.query.id, function (result) {
     if (result) {
       res.json({
         success: true,
@@ -65,6 +64,24 @@ router.get('/one', user.authenticate(), function (req, res) {
     }
   })
 })
+
+router.get('/newest', user.authenticate(), function (req, res) {
+  
+    models.Crop.getNewestCropByDeviceMac(req.query.mac, function (result) {
+      if (result) {
+        res.json({
+          success: true,
+          data: result.dataValues,
+          message: 'Get crop success !'
+        })
+      } else {
+        res.json({
+          success: false,
+          message: 'Crop does not exist !'
+        })
+      }
+    })
+  })
 
 router.post('/add', user.authenticate(), function (req, res) {
   // check crop name already exist

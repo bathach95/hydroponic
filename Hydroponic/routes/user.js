@@ -295,8 +295,6 @@ router.put('/active', function (req, res) {
 /* ensure authentication */
 router.get('/verifytoken', function (req, res) {
 
-  console.log(req.headers.token)
-
   jwt.verify(req.headers.token, secretKey, function (err, decoded) {
     if (err) {
       res.json({

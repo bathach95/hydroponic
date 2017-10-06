@@ -60,7 +60,8 @@ module.exports = function (sequelize, DataTypes) {
         getNewestCropByDeviceMac: function (deviceMac, callback) {
           var query = {
             where: {
-              DeviceMac: deviceMac
+              DeviceMac: deviceMac,
+              status: true
             },
             order: [['closedate', 'DESC']]
           }

@@ -50,6 +50,7 @@ router.get('/all', user.authenticate(), function (req, res) {
 })
 
 router.get('/one', user.authenticate(), function (req, res) {
+  console.log(req.query)
   var mac = req.query.mac;
 
   models.Device.getDeviceByMac(mac,
