@@ -1,14 +1,14 @@
 var factory = angular.module('myApp.factory',[]);
 
 
-factory.factory('AuthInterceptor', function AuthInterceptor($cookies) {
+factory.factory('AuthInterceptor', function AuthInterceptor($cookieStore) {
   'use strict';
   return {
     request: addToken
   };
 
   function addToken(config) {
-    var token = $cookies.get('token');
+    var token = $cookieStore.get('token');
     if (token) {
       config.headers = config.headers || {};
       config.headers['token'] = token;

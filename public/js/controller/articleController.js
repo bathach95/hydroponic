@@ -39,7 +39,7 @@ controller.controller('SingleArticleCtrl', function ($scope, $state, $stateParam
 
 })
 
-controller.controller('WriteArticleCtrl', function ($scope, $cookies, $state, ArticleService, flash) {
+controller.controller('WriteArticleCtrl', function ($scope, $state, ArticleService, flash) {
 
     $scope.article = {};
 

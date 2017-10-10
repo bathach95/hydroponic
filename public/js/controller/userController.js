@@ -1,6 +1,6 @@
 var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
-controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookieStore, $scope, $rootScope, $state, UserService, AuthService, flash) {
 
   $scope.user = {};
 
@@ -18,11 +18,11 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
 
           var options = {
             domain: "localhost",
-            httpOnly: true,
+            httpOnly: false,
             expires: day
           };
-          $cookies.put('token', result.data.data.token, options);
-          $cookies.put('name', result.data.data.name, options);
+          $cookieStore.put('token', result.data.data.token, options);
+          $cookieStore.put('name', result.data.data.name, options);
           // TODO: remember me feature
           $sessionStorage.user = 'heheeheh';
           flash.success = result.data.message;
@@ -101,7 +101,7 @@ controller.controller('ActiveUserCtrl', function ($stateParams, $scope, UserServ
   })
 });
 
-controller.controller('ProfileCtrl', function ($http, $window, $state, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
+controller.controller('ProfileCtrl', function ($http, $window, $state, $http, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
 
   /*----------------------- user ------------------------*/
   $scope.currentUser = {};

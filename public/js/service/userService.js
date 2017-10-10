@@ -1,6 +1,6 @@
 var service = angular.module('myApp.service', ['ngCookies']);
 
-service.service('AuthService', function ($cookies, $http) {
+service.service('AuthService', function ($http) {
   return {
     isLoggedIn: isLoggedIn,
     checkEmptyLogin: checkEmptyLogin,
@@ -97,7 +97,7 @@ service.service('AuthService', function ($cookies, $http) {
   }
 });
 
-service.service('UserService', function ($http, $cookies) {
+service.service('UserService', function ($http, $cookieStore) {
 
   this.getUserRole = function (callback) {
     this.getUserDetail().then(function (result) {
@@ -138,9 +138,11 @@ service.service('UserService', function ($http, $cookies) {
   }
 
   this.logout = function () {
-    var cookies = $cookies.getAll();
-    angular.forEach(cookies, function (v, k) {
-      $cookies.remove(k);
-    });
+    // var cookies = $cookies.getAll();
+    // angular.forEach(cookies, function (v, k) {
+    //   $cookies.remove(k);
+    // });
+    $cookieStore.remove('token');
+    $cookieStore.remove('name');
   }
 });
