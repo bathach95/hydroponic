@@ -17,10 +17,17 @@ var myApp = angular.module('myApp',
         'myApp.filter']);
 
 myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
-    // display username after login
-    // if (AuthService.isLoggedIn) {
-    //     $rootScope.userLogin = $cookies.get('name');
-    // }
+    
+
+
+    $transitions.onStart( { to: 'login' }, function(trans) {
+        var AuthService = trans.injector().get('AuthService');
+        
+        if (AuthService.isLoggedIn()){
+            flash.success = "You are logged in"
+            $state.go('home');
+        }
+      });
 
     $transitions.onStart({}, function (trans) {
         // scroll to top of the page when state changed
@@ -30,25 +37,44 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
         var AuthService = trans.injector().get('AuthService');
         var UserService = trans.injector().get('UserService');
 
+        if (access.requiredLogin && !AuthService.isLoggedIn()) {
+            flash.error = 'You have log in to access this page';
+            $state.go('login');
+        } else if (AuthService.isLoggedIn()) {
+            $rootScope.userLogin = $cookies.get('name');
 
-        AuthService.isLoggedIn()
-            .then(function (result) {
-
-                $rootScope.userLogin = result.username;
-                $rootScope.userRole = result.role;
-
-                if (access.roles && !access.roles.includes(result.role)) {
-                    flash.error = 'You cannot go to this page!';
-                    $state.go('home');
+            // if there are special roles to go to this state
+            UserService.getUserRole(function (role) {
+                if (role) {
+                    $rootScope.userRole = role;
+                    if (access.roles && !access.roles.includes(role)) {
+                        flash.error = 'You cannot go to this page!';
+                        $state.go('home');
+                    }
+                } else {
+                    console.log('Cannot get role');
                 }
+            })
+        }
 
-            })
-            .catch(function (err) {
-                if (access.requiredLogin) {
-                    flash.error = 'You have log in to access this page';
-                    $state.go('login');
-                }
-            })
+        // AuthService.isLoggedIn()
+        //     .then(function (result) {
+
+        //         $rootScope.userLogin = result.username;
+        //         $rootScope.userRole = result.role;
+
+        //         if (access.roles && !access.roles.includes(result.role)) {
+        //             flash.error = 'You cannot go to this page!';
+        //             $state.go('home');
+        //         }
+
+        //     })
+        //     .catch(function (err) {
+        //         if (access.requiredLogin) {
+        //             flash.error = 'You have log in to access this page';
+        //             $state.go('login');
+        //         }
+        //     })
 
     });
 
