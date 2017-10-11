@@ -1,6 +1,6 @@
 var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
-controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookieStore, $scope, $rootScope, $state, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
 
   $scope.user = {};
 
@@ -17,12 +17,12 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
           day.setDate(day.getDay() + 30);
 
           var options = {
-            domain: "localhost",
+            domain: "13.58.114.56",
             httpOnly: false,
             expires: day
           };
-          $cookieStore.put('token', result.data.data.token, options);
-          $cookieStore.put('name', result.data.data.name, options);
+          $cookies.put('token', result.data.data.token, options);
+          $cookies.put('name', result.data.data.name, options);
           // TODO: remember me feature
           $sessionStorage.user = 'heheeheh';
           flash.success = result.data.message;

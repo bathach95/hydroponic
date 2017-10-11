@@ -97,7 +97,7 @@ service.service('AuthService', function ($http) {
   }
 });
 
-service.service('UserService', function ($http, $cookieStore) {
+service.service('UserService', function ($http, $cookies) {
 
   this.getUserRole = function (callback) {
     this.getUserDetail().then(function (result) {
@@ -138,11 +138,11 @@ service.service('UserService', function ($http, $cookieStore) {
   }
 
   this.logout = function () {
-    // var cookies = $cookies.getAll();
-    // angular.forEach(cookies, function (v, k) {
-    //   $cookies.remove(k);
-    // });
-    $cookieStore.remove('token');
-    $cookieStore.remove('name');
+    var cookies = $cookies.getAll();
+    angular.forEach(cookies, function (v, k) {
+      $cookies.remove(k);
+    });
+    // $cookieStore.remove('token');
+    // $cookieStore.remove('name');
   }
 });
