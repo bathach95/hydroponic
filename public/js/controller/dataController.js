@@ -4,9 +4,9 @@ controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $sc
   $scope.cropId = $stateParams.cropid;
 
   DataService.getNewestDataByCropId($scope.cropId).then(function (result) {
-    if (result.data) {
+    if (result.data.success) {
 
-      $scope.data = result.data;
+      $scope.data = result.data.data;
       // status of data
       $scope.threshold = $rootScope.threshold;
       var status = DataStatusService.getStatus($scope.data, $scope.threshold);

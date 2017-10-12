@@ -18,7 +18,7 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
 
           var options = {
             domain: "13.58.114.56",
-            httpOnly: false,
+            httpOnly: true,
             expires: day
           };
           $cookies.put('token', result.data.data.token, options);
