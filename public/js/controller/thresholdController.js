@@ -1,10 +1,10 @@
 controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $rootScope, $scope, ThresholdService, GetTimeService) {
   ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function(result) {
-    if (result.data) {
+    if (result.data.success) {
 
-      $rootScope.threshold = result.data;
-      $scope.threshold = result.data;
-      var dateTime = GetTimeService.getDateTime(result.data.createdAt);
+      $rootScope.threshold = result.data.data;
+      $scope.threshold = result.data.data;
+      var dateTime = GetTimeService.getDateTime(result.data.data.createdAt);
       $scope.threshold.date = dateTime.date;
       $scope.threshold.time = dateTime.time;
 
