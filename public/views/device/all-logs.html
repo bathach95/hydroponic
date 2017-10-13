@@ -1,0 +1,88 @@
+<!--Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Hydroponic</title>
+</head>
+
+<body>
+	<!--header start here-->
+	<div class="container margin-container">
+		<div class="page-heading">
+			<h2>All data</h2>
+		</div>
+		<div class="panel panel-success panel-table">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col col-xs-6">
+						Diary Log
+					</div>
+
+				</div>
+			</div>
+			<div class="panel-body">
+				<div ng-repeat="item in data" class="row current-condition-table">
+					<div class="col-md-2">
+						<div class="time-stamp status-normal">
+							<table class="table table-remove-bottom-margin">
+								<tr>
+									<td>{{item.date}}</td>
+								</tr>
+								<tr>
+									<td>{{item.time}}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<table class="table">
+							<thead>
+								<tr>
+										<th ng-attr-style="{{item.badStatus.temp && 'color: red' || ''}}">Temperature (&#8451;) </th>
+										<th ng-attr-style="{{item.badStatus.humidity && 'color: red' || ''}}">Humidity (%)</th>
+										<th ng-attr-style="{{item.badStatus.ppm && 'color: red' || ''}}">ppm</th>
+										<th ng-attr-style="{{item.badStatus.ph && 'color: red' || ''}}">pH</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td ng-attr-style="{{item.badStatus.temp && 'color: red' || ''}}">{{item.temperature}}</td>
+									<td ng-attr-style="{{item.badStatus.humidity && 'color: red' || ''}}">{{item.humidity}}</td>
+									<td ng-attr-style="{{item.badStatus.ppm && 'color: red' || ''}}">{{item.ppm}}</td>
+									<td ng-attr-style="{{item.badStatus.ph && 'color: red' || ''}}">{{item.ph}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-2">
+						<div class="current-condition-status">
+							<table class="table">
+								<tr>
+									<td ng-if="!item.status">
+											<em class="glyphicon glyphicon-ok"></em>
+									</td>
+
+									<td ng-if="item.status">
+											<em class="glyphicon glyphicon-warning-sign" style="color: red"></em>
+									</td>
+								</tr>
+								<tr>
+									<td ng-if="!item.status">Normal</td>
+									<td ng-if="item.status" style="color: red">Warning</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--//footer-->
+</body>
+
+</html>

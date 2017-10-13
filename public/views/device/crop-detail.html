@@ -1,0 +1,286 @@
+<!--Author: W3layouts
+  Author URL: http://w3layouts.com
+  License: Creative Commons Attribution 3.0 Unported
+  License URL: http://creativecommons.org/licenses/by/3.0/
+  -->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Hydroponic</title>
+</head>
+
+<body>
+  <nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+  <div class="container">
+  	<!-- Brand and toggle get grouped for better mobile display -->
+  	<div class="navbar-header">
+  		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+  		<span class="sr-only">Toggle navigation</span>
+  		<span class="icon-bar"></span>
+  		<span class="icon-bar"></span>
+  		<span class="icon-bar"></span>
+  		</button>
+  		<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+  	</div>
+  	<!-- Collect the nav links, forms, and other content for toggling -->
+  	<div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+  			<li><a ui-sref="home">Home</a></li>
+  			<li><a ui-sref="home">Systems</a></li>
+  			<li><a ui-sref="home">Acticle</a></li>
+  			<li><a ui-sref="home">Forum</a></li>
+  			<li><a ui-sref="home">About</a></li>
+  			<li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
+  			<li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+  	    <li ng-show="userLogin" class="dropdown active">
+  				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+  				<span class="caret"></span></a>
+  				<ul class="dropdown-menu" ng-controller="LoginCtrl">
+  					<li><a ui-sref="profile">Profile</a></li>
+  					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+  					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+  					<li><a ui-sref="change_password">Change your password</a></li>
+  					<li><a href="" ng-click="logout()">Log out</a></li>
+  				</ul>
+  			</li>
+  		</ul>
+  	</div>
+  	<!-- /.navbar-collapse -->
+  </div>
+  </nav>
+  <!-- HOMEPAGE -->
+
+  <!--SECTION - DEVICES -->
+  <section id="Section-1" class="fullbg">
+  <div class="section-divider">
+  </div>
+  <div class="container">
+  <div class="row">
+  	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeIn">
+  		<h1>Detail of your crop</h1>
+  	</div>
+
+  <div class="container animated fadeIn">
+      <div class="row color-white">
+          <div class="col-lg-12">
+              <div class="tab-detail" role="tabpanel">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs nav-justified" role="tablist">
+                      <li role="presentation" class="active"><a href="#Crop-Detail-Section1" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-refresh"></i>&nbsp; &nbsp; Current Condition</a></li>
+                      <li role="presentation"><a href="#Crop-Detail-Section2" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-info-circle"></i>&nbsp; &nbsp; Crop Information</a></li>
+                      <li role="presentation"><a href="#Crop-Detail-Section3" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-calendar"></i>&nbsp; &nbsp; Program Settings</a></li>
+                      <li role="presentation"><a href="#Crop-Detail-Section4" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-image"></i>&nbsp; &nbsp;Crop Gallery</a></li>
+                  </ul>
+                  <!-- Tab panes -->
+                  <div class="tab-content tabs">
+                      <div role="tabpanel" class="tab-pane animated fadeInUp in active" id="Crop-Detail-Section1">
+                        <h3>Threshold</h3>
+                        <div class="row color-white" ng-controller="ThresholdCtrl">
+                          <div class="col-md-12">
+                            <div class="box-unborder">
+                            </div>
+                            <div class="boxservice">
+                              <h3>{{threshold.temperatureLower}} - {{threshold.temperatureUpper}}
+                                &#10;
+                              </h3>
+                              <p>
+                                Temperature (&deg;C)
+                              </p>
+                            </div>
+                            <div class="boxservice rightb">
+                              <h3>{{threshold.humidityLower}} - {{threshold.humidityUpper}}
+                                &#10;
+                              </h3>
+                              <p>
+                                Humidity (%)
+                              </p>
+                            </div>
+                            <div class="boxservice bottomb">
+                              <h3>{{threshold.ppmLower}} - {{threshold.ppmUpper}}
+                                &#10;
+                              </h3>
+                              <p>
+                                ppm
+                              </p>
+                            </div>
+                            <div class="boxservice bottomb">
+                              <h3>{{threshold.phLower}} - {{threshold.phUpper}}
+                                &#10;
+                              </h3>
+                              <p>
+                                pH
+                              </p>
+                            </div>
+                            <div class="box-unborder box-status-normal">
+                            </div>
+                            <!--<div class="boxservice rightb bottomb">
+                              <i class="fa fa-microphone"></i>
+                              <h3>Static & Dynamic</h3>
+                              <p>
+                                Web templates can be used like the template of a form letter to generate "static" web pages in advance or to produce.
+                              </p>
+                            </div>-->
+                          </div>
+                        </div>
+                          <h3>Data from your device</h3>
+              						<div class="row color-white">
+              							<div>
+              							<div class="col-md-12" ng-controller="DataCtrl">
+              								<div class="box-unborder">
+              									<i class="fa fa-clock-o"></i>
+              									<h3>{{data.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
+              									</h3>
+              								</div>
+              								<div ng-if="!badStatus.temp" class="boxservice box-status-normal">
+              									<i class="fa fa-thermometer-quarter"></i>
+              									<h3>{{data.temperature}} &deg;C
+              										&#10;
+              									</h3>
+              									<p>
+              										Temperature
+              									</p>
+              								</div>
+                              <div ng-if="badStatus.temp" class="boxservice box-status-warning">
+              									<i class="fa fa-thermometer-quarter"></i>
+              									<h3>{{data.temperature}} &deg;C
+              										&#10;
+              									</h3>
+              									<p>
+              										Temperature
+              									</p>
+              								</div>
+              								<div ng-if="!badStatus.humidity" class="boxservice rightb box-status-normal">
+              									<i class="fa fa-tint"></i>
+              									<h3>{{data.humidity}} %
+              										&#10;
+              									</h3>
+              									<p>
+              										Humidity
+              									</p>
+              								</div>
+                              <div ng-if="badStatus.humidity" class="boxservice rightb box-status-warning">
+              									<i class="fa fa-tint"></i>
+              									<h3>{{data.humidity}} %
+              										&#10;
+              									</h3>
+              									<p>
+              										Humidity
+              									</p>
+              								</div>
+              								<div ng-if="!badStatus.ppm " class="boxservice bottomb box-status-normal">
+              									<i class="fa fa-snowflake-o"></i>
+              									<h3>{{data.ppm}}
+              										&#10;
+              									</h3>
+              									<p>
+              										ppm
+              									</p>
+              								</div>
+                              <div ng-if="badStatus.ppm " class="boxservice bottomb box-status-warning">
+              									<i class="fa fa-snowflake-o"></i>
+              									<h3>{{data.ppm}}
+              										&#10;
+              									</h3>
+              									<p>
+              										ppm
+              									</p>
+              								</div>
+              								<div ng-if="!badStatus.ph" class="boxservice bottomb box-status-normal">
+              									<i class="fa fa-flask"></i>
+              									<h3>{{data.ph}}
+              										&#10;
+              									</h3>
+              									<p>
+              										pH
+              									</p>
+              								</div>
+                              <div ng-if="badStatus.ph" class="boxservice bottomb box-status-warning">
+              									<i class="fa fa-flask"></i>
+              									<h3>{{data.ph}}
+              										&#10;
+              									</h3>
+              									<p>
+              										pH
+              									</p>
+              								</div>
+              								<div ng-if="!status" class="box-unborder box-status-normal">
+              									<i class="fa fa-check-square"></i>
+              									<h3>
+              										Normal
+              									</h3>
+              									<p>
+              										Status
+              									</p>
+              								</div>
+                              <div  ng-if="status" class="box-unborder box-status-warning">
+              									<i class="fa fa-exclamation-triangle"></i>
+              									<h3>
+              										Warning
+              									</h3>
+              									<p>
+              										Status
+              									</p>
+              								</div>
+              								<!--<div class="boxservice rightb bottomb">
+              									<i class="fa fa-microphone"></i>
+              									<h3>Static & Dynamic</h3>
+              									<p>
+              										Web templates can be used like the template of a form letter to generate "static" web pages in advance or to produce.
+              									</p>
+              								</div>-->
+              							</div>
+              							</div>
+              						</div>
+              						<!-- end row -->
+              						<button id="button-refresh-data" type="submit" class="button-refesh-data" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Refreshing data"><i class="fa fa-refresh"></i>&nbsp; Refresh</button>
+              						<button type="submit" onclick="window.location.href='edit-profile.html'" class="button-edit-profile" style="text-decoration:none;"><i class="fa fa-list"></i>&nbsp; View all logs</button>
+                      </div>
+                      <div role="tabpanel" class="tab-pane animated fadeInDown in" id="Crop-Detail-Section2">
+                          <h3>Overview information</h3>
+                          <table class="table table-condensed">
+                          	<tbody>
+                          		<tr>
+                          			<th>Crop name</th>
+                          			<td>{{crop.name}}</td>
+                          		</tr>
+                          		<tr>
+                          			<th>Hydroponics type</th>
+                          			<td>{{crop.type}}</td>
+                          		</tr>
+  				        		<tr>
+                          			<th>Tree type</th>
+                          			<td>{{crop.treetype}}</td>
+                     				</tr>
+                          		<tr>
+                          			<th>Start date</th>
+                          			<td>{{crop.startdate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                          		</tr>
+                           		<tr>
+                          			<th>End date</th>
+                          			<td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                          		</tr>
+                          		<tr>
+                          			<th>Report delay time (s)</th>
+                          			<td>{{crop.reporttime}}</td>
+                          		</tr>
+                          	</tbody>
+                          </table>
+                      </div>
+                      <div role="tabpanel" class="tab-pane animated fadeInLeft in" id="Crop-Detail-Section3">
+                          <h3>Set program for your hardware</h3>
+                      </div>
+                      <div role="tabpanel" class="tab-pane animated fadeInRight in" id="Crop-Detail-Section4">
+                          <h3>Images for this crop</h3>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+  </div>
+  </section>
+</body>
+
+</html>

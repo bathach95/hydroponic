@@ -1,0 +1,287 @@
+<link rel="stylesheet" href="/css/font-awesome-animation.min.css">
+<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="container">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li><a ui-sref="home">Home</a></li>
+			<li><a ui-sref="home">Systems</a></li>
+			<li><a ui-sref="home">Acticle</a></li>
+			<li><a ui-sref="home">Forum</a></li>
+			<li><a ui-sref="home">About</a></li>
+			<li><a ui-sref="login">Sign In</a></li>
+			<li class="active"><a href="">Sign Up</a></li>
+      <!--<li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user-circle"></i>&nbsp; Ta Chi Tay &nbsp;
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="change-password.html">Change your password</a></li>
+          <li><a href="#">Log out</a></li>
+        </ul>
+      </li>-->
+		</ul>
+	</div>
+	<!-- /.navbar-collapse -->
+</div>
+</nav>
+<!-- HOMEPAGE -->
+
+
+<!--  SECTION-1 -->
+<section id="Section-4" class="fullbg">
+<div class="section-divider">
+</div>
+  <div class="form-container form animated fadeInDown">
+
+        <div id="signup">
+          <h1>Sign Up</h1>
+
+          <form name="registerForm" ng-submit="register()">
+            <div class="field-wrap">
+              <label>
+                Your Name<span class="req">*</span>
+              </label>
+              <input ng-model="user.name" type="text" id="name" required autocomplete="off"/>
+            </div>
+						<style>
+							.glyphicon-refresh-animate {
+							-animation: spin .7s infinite linear;
+							-ms-animation: spin .7s infinite linear;
+							-webkit-animation: spinw .7s infinite linear;
+							-moz-animation: spinm .7s infinite linear;
+							}
+
+							@keyframes spin {
+							from { transform: scale(1) rotate(0deg);}
+							to { transform: scale(1) rotate(360deg);}
+							}
+
+							@-webkit-keyframes spinw {
+							from { -webkit-transform: rotate(0deg);}
+							to { -webkit-transform: rotate(360deg);}
+							}
+
+							@-moz-keyframes spinm {
+							from { -moz-transform: rotate(0deg);}
+							to { -moz-transform: rotate(360deg);}
+							}
+							.loader{
+							  height: 30px;
+							  width: 20%;
+							}
+
+							.circle-loader {
+							  border: 2px solid rgba(0, 0, 0, 0.2);
+							  border-left-color: #fff;
+							  animation-name: loader-spin;
+							  animation-duration: 1s;
+							  animation-iteration-count: infinite;
+							  animation-timing-function: linear;
+							  position: relative;
+							  display: inline-block;
+							  vertical-align: top;
+							}
+
+							.circle-loader,
+							.circle-loader:after {
+
+							  border-radius: 50%;
+							  width: 28px;
+							  height: 28px;
+							}
+
+							.load-complete {
+							  -webkit-animation: none;
+							  animation: none;
+								border:none;
+								border-color: #fff;
+
+							  transition: border 500ms ease-out;
+							}
+
+							.checkmark {
+							  display: none;
+							}
+							.checkmark.draw:after {
+							  animation-duration: 800ms;
+							  animation-timing-function: ease;
+							  animation-name: checkmark;
+							  transform: scaleX(-1) rotate(135deg);
+							}
+							.icon:after{
+								opacity: 1;
+								height: 14px;
+								width: 7px;
+								content: '';
+								left: 14px;
+								top: 14px;
+								position: absolute;
+							}
+							.checkmark:after {
+							  opacity: 1;
+							  height: 14px;
+							  width: 7px;
+							  transform-origin: left top;
+							  border-right: 2px solid #fff;
+							  border-top: 2px solid #fff;
+							  content: '';
+							  left: 6px;
+							  top: 14px;
+							  position: absolute;
+							}
+
+
+							@keyframes loader-spin {
+							  0% {
+							    transform: rotate(0deg);
+							  }
+							  100% {
+							    transform: rotate(360deg);
+							  }
+							}
+							@keyframes checkmark {
+							  0% {
+							    height: 0;
+							    width: 0;
+							    opacity: 1;
+							  }
+							  20% {
+							    height: 0;
+							    width: 7px;
+							    opacity: 1;
+							  }
+							  40% {
+							    height: 14px;
+							    width: 7px;
+							    opacity: 1;
+							  }
+							  100% {
+							    height: 14px;
+							    width: 7px;
+							    opacity: 1;
+							  }
+							}
+							/* FLASHING */
+
+							@-webkit-keyframes flash {
+							  0%, 100%, 50% {
+							    opacity: 1;
+							  }
+
+							  25%, 75% {
+							    opacity: 0;
+							  }
+							}
+
+							@keyframes flash {
+							  0%, 100%, 50% {
+							    opacity: 1;
+							  }
+
+							  25%, 75% {
+							    opacity: 0;
+							  }
+							}
+
+							.faa-flash.animated,
+							.faa-flash.animated-hover:hover,
+							.faa-parent.animated-hover:hover > .faa-flash {
+							  -webkit-animation: flash 2s ease infinite;
+							  animation: flash 2s ease infinite;
+							}
+
+							.faa-flash.animated.faa-fast,
+							.faa-flash.animated-hover.faa-fast:hover,
+							.faa-parent.animated-hover:hover > .faa-flash.faa-fast {
+							  -webkit-animation: flash 1s ease infinite;
+							  animation: flash 1s ease infinite;
+							}
+
+							.faa-flash.animated.faa-slow,
+							.faa-flash.animated-hover.faa-slow:hover,
+							.faa-parent.animated-hover:hover > .faa-flash.faa-slow {
+							  -webkit-animation: flash 3s ease infinite;
+							  animation: flash 3s ease infinite;
+							}
+						</style>
+            <div class="field-wrap">
+							<div class="row">
+								<div class="col-md-6">
+									<label>
+		                Email Address<span class="req">*</span>
+		              </label>
+								</div>
+								<div class="col-md-6">
+									<a data-toggle="tooltip" title="checking email..." data-placement="top" tooltip style="float:right;" ng-show="registerForm.email.$pending" class="circle-loader">
+										<div class="checkmark draw" style="display: none;"></div>
+									</a>
+									<a  data-toggle="tooltip" title="valid email!" data-placement="top" tooltip style="float:right;" ng-show="registerForm.email.$valid" class="circle-loader load-complete">
+										<div class="checkmark draw" style="display: block;"></div>
+									</a>
+									<a data-toggle="tooltip" title="this email is existed!" data-placement="top" tooltip style="float:right;" ng-show="registerForm.$dirty && registerForm.email.$invalid && !registerForm.email.$error.required">
+										<i style="font-size:28px;"class="fa fa-warning faa-flash animated"></i>
+									</a>
+								</div>
+							</div>
+              <input ng-model="user.email" async-validation="myValidation" name="email" required autocomplete="off"/>
+						</div>
+            <div class="field-wrap">
+              <label>
+                Phone<span class="req">*</span>
+              </label>
+              <input ng-model="user.phone" type="number" id="phone" required autocomplete="off"/>
+            </div>
+
+            <div class="field-wrap">
+              <label>
+                Set A Password<span class="req">*</span>
+              </label>
+              <input ng-model="user.password" type="password" id="pwd" name="password" required autocomplete="off"/>
+            </div>
+
+            <div class="field-wrap">
+							<div class="row">
+								<div class="col-md-6">
+		              <label>
+		                Confirm Password<span class="req">*</span>
+		              </label>
+								</div>
+								<div class="col-md-6">
+									<a data-toggle="tooltip" title="checking password..." data-placement="top" tooltip style="float:right;" ng-show="registerForm.confirm_password.$pending" class="circle-loader">
+										<div class="checkmark draw" style="display: none;"></div>
+									</a>
+									<a  data-toggle="tooltip" title="valid password!" data-placement="top" tooltip style="float:right;" ng-show="registerForm.confirm_password.$valid" class="circle-loader load-complete">
+										<div class="checkmark draw" style="display: block;"></div>
+									</a>
+									<a data-toggle="tooltip" title="password not matching!" data-placement="top" tooltip style="float:right;" ng-show="registerForm.$dirty && registerForm.confirm_password.$invalid && !registerForm.confirm_password.$error.required">
+										<i style="font-size:28px;"class="fa fa-warning faa-flash animated"></i>
+									</a>
+								</div>
+							</div>
+              <input ng-model="user.confirm_password" async-validation="confirmPasswordValidation" type="password" name="confirm_password" id="confirm-pwd" required autocomplete="off"/>
+            </div>
+						<style media="screen">
+							#registerBtn:disabled{cursor:not-allowed;}
+						</style>
+						<div class="field-button" data-title="Please complete register form!">
+            	<button id="registerBtn" ng-disabled="registerForm.$invalid || registerForm.$pending" data-loading-text="<i class='fa fa-spinner fa-spin'></i>" type="submit" class="button-sign button-block">Get Started</button>
+            </div>
+          </form>
+
+        </div>
+
+
+</div> <!-- /form -->
+</section>
+<script src='/js/libs/login-page.js'></script>

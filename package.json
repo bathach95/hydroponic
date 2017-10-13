@@ -1,0 +1,40 @@
+{
+  "name": "hydroponic",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./run/www"
+  },
+  "dependencies": {
+    "acl": "^0.4.10",
+    "acl-sequelize": "^0.1.2",
+    "aes-js": "^3.1.0",
+    "angular-async-validation": "0.0.4",
+    "angular-ui-bootstrap": "^2.5.0",
+    "angular-ui-utils": "^0.1.1",
+    "bcryptjs": "^2.3.0",
+    "body-parser": "~1.15.1",
+    "cookie-parser": "~1.4.3",
+    "cookies": "^0.6.2",
+    "cors": "^2.8.3",
+    "debug": "~2.2.0",
+    "ejs": "^2.5.2",
+    "express": "~4.13.4",
+    "express-ejs-layouts": "^2.3.0",
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^7.1.9",
+    "morgan": "~1.7.0",
+    "mqtt": "^2.7.2",
+    "mysql": "^2.11.1",
+    "nodemailer": "^4.0.1",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.1.0",
+    "pg": "^6.1.5",
+    "pg-hstore": "^2.3.2",
+    "rand-token": "^0.3.0",
+    "req-flash": "0.0.3",
+    "sequelize": "^3.30.4",
+    "serve-favicon": "~2.3.0",
+    "sqlite3": "^3.1.4"
+  }
+}

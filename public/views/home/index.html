@@ -1,0 +1,484 @@
+<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="container">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li class="active"><a ui-sref="home">Home</a></li>
+			<li><a href="#Section-1">Systems</a></li>
+			<li><a ui-sref="home">Acticle</a></li>
+			<li><a ui-sref="home">Forum</a></li>
+			<li><a ui-sref="home">About</a></li>
+			<li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
+			<li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+	    <li ng-show="userLogin" class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+				<span class="caret"></span></a>
+				<ul class="dropdown-menu" ng-controller="LoginCtrl">
+					<li><a ui-sref="profile">Profile</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+					<li><a ui-sref="change_password">Change your password</a></li>
+					<li><a href="" ng-click="logout()">Log out</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<!-- /.navbar-collapse -->
+</div>
+</nav>
+<!-- HOMEPAGE -->
+
+<header id="top-section" class="fullbg">
+<div class="jumbotron">
+				<div class="active item" id="slide_1">
+				<div class="carousel-content">
+					<div class="animated fadeInDownBig">
+						 <h1>Welcome to BK Hydroponics! </h1>
+						 <p>You'll be able to find information about anything related to hydroponics.</p>
+						 <script type="text/javascript">
+							 $('.search-button').click(function(){
+								 $(this).parent().toggleClass('open');
+								});
+						 </script>
+						 <div id="searchInput" ng-controller="SearchCtrl">
+								 <form class="search" ng-submit="search()">
+									 <span class="search-button">
+										 <span class="search-icon"></span>
+								   </span>
+									 <input type="search" required ng-model="searchData.data"placeholder="Enter search string..." class="search-box" />
+									 <div class="radio">
+										 <label><input type="radio" ng-model="searchData.type" value="tree">Search by tree</label>
+									 </div>
+									 <div class="radio">
+										 <label><input type="radio" ng-model="searchData.type" value="month">Search by month</label>
+									 </div>
+								 </form>
+						</div>
+					</div>
+					<br/>
+				</div>
+			</div>
+</div>
+<div class="inner-top-bg">
+</div>
+</header>
+
+<!-- / HOMEPAGE -->
+<!--  SECTION-1 -->
+<section id="Section-1" class="fullbg">
+<div class="section-divider">
+</div>
+<div class="container">
+<div class="row">
+	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fade">
+		<h1>Your system</h1>
+		<p class="lead">
+			Current condition of your system.
+		</p>
+		<div ng-hide="userLogin">
+			<a ui-sref="login" class="button-signin animated fadeInLeftBig"><i class="fa fa-sign-in"></i>&nbsp; Sign In</a>
+			<p class="p-signin-signup">
+				or
+			</p>
+			<a ui-sref="register" class="button-signup animated fadeInRightBig"><i class="fa fa-plus-square"></i>&nbsp; Sign Up</a>
+		</div>
+	</div>
+</div>
+<div class="color-white" ng-show="userLogin" ng-controller="HomePageDataCtrl">
+	<div class="animated fadeInUpNow" style="text-align:center;" ng-show="!runningDevicesData.length">
+		<p>
+			Oops! You do not have any running device at this moment.
+		</p>
+		<p>
+			Let's add a new device and create new crop!
+		</p>
+	</div>
+	<div ng-show="runningDevicesData.length" ng-repeat="item in runningDevicesData" class="row homepage-device-item animated fadeInUpNow">
+		<h3>
+			Device: {{item.devicecropdata.device.name}}
+		</h3>
+		<h3>
+			Crop: {{item.devicecropdata.crop.name}}
+		</h3>
+		<div class="col-md-12">
+			<div class="box-unborder">
+				<i class="fa fa-clock-o"></i>
+				<h3>{{item.devicecropdata.data.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
+				</h3>
+			</div>
+			<div ng-if="!item.status.badStatus.temp" class="boxservice box-status-normal">
+				<i class="fa fa-thermometer-quarter"></i>
+				<h3>{{item.devicecropdata.temperature}} &deg;C
+					&#10;
+				</h3>
+				<p>
+					Temperature
+				</p>
+			</div>
+			<div ng-if="item.status.badStatus.temp" class="boxservice box-status-warning">
+				<i class="fa fa-thermometer-quarter"></i>
+				<h3>{{item.devicecropdata.data.temperature}} &deg;C
+					&#10;
+				</h3>
+				<p>
+					Temperature
+				</p>
+			</div>
+			<div ng-if="!item.status.badStatus.humidity" class="boxservice rightb box-status-normal">
+				<i class="fa fa-tint"></i>
+				<h3>{{item.devicecropdata.data.humidity}} %
+					&#10;
+				</h3>
+				<p>
+					Humidity
+				</p>
+			</div>
+			<div ng-if="item.status.badStatus.humidity" class="boxservice rightb box-status-warning">
+				<i class="fa fa-tint"></i>
+				<h3>{{item.devicecropdata.data.humidity}} %
+					&#10;
+				</h3>
+				<p>
+					Humidity
+				</p>
+			</div>
+			<div ng-if="!item.status.badStatus.ppm " class="boxservice bottomb box-status-normal">
+				<i class="fa fa-snowflake-o"></i>
+				<h3>{{item.devicecropdata.data.ppm}}
+					&#10;
+				</h3>
+				<p>
+					ppm
+				</p>
+			</div>
+			<div ng-if="item.status.badStatus.ppm " class="boxservice bottomb box-status-warning">
+				<i class="fa fa-snowflake-o"></i>
+				<h3>{{item.devicecropdata.data.ppm}}
+					&#10;
+				</h3>
+				<p>
+					ppm
+				</p>
+			</div>
+			<div ng-if="!item.status.badStatus.ph" class="boxservice bottomb box-status-normal">
+				<i class="fa fa-flask"></i>
+				<h3>{{item.devicecropdata.data.ph}}
+					&#10;
+				</h3>
+				<p>
+					pH
+				</p>
+			</div>
+			<div ng-if="item.status.badStatus.ph" class="boxservice bottomb box-status-warning">
+				<i class="fa fa-flask"></i>
+				<h3>{{item.devicecropdata.data.ph}}
+					&#10;
+				</h3>
+				<p>
+					pH
+				</p>
+			</div>
+			<div ng-if="!item.status.status" class="box-unborder box-status-normal">
+				<i class="fa fa-check-square"></i>
+				<h3>
+					Normal
+				</h3>
+				<p>
+					Status
+				</p>
+			</div>
+			<div  ng-if="item.status.status" class="box-unborder box-status-warning">
+				<i class="fa fa-exclamation-triangle"></i>
+				<h3>
+					Warning
+				</h3>
+				<p>
+					Status
+				</p>
+			</div>
+
+			<!--<div class="boxservice rightb bottomb">
+				<i class="fa fa-microphone"></i>
+				<h3>Static & Dynamic</h3>
+				<p>
+					Web templates can be used like the template of a form letter to generate "static" web pages in advance or to produce.
+				</p>
+			</div>-->
+		</div>
+	</div>
+	</div>
+</div>
+<!-- end row -->
+</div>
+
+</section>
+<!-- SECTION-2(gallery) -->
+<section id="Section-2" class="fullbg color-white">
+<div class="section-divider">
+</div>
+<div class="container demo-3">
+<div class="row">
+	<div class="page-header text-center col-sm-12 col-lg-12 animated fade">
+		<h1>Article</h1>
+		<p class="lead">
+			 Read articles about hydroponics.
+		</p>
+	</div>
+</div>
+<div class="row animated fadeInUpNow">
+	<div class="col-sm-12 col-lg-12">
+		<ul class="grid cs-style-4">
+			<li>
+			<figure>
+			<div>
+				<img src="http://unsplash.it/400/266?random=10" alt="premium-themes-templates">
+			</div>
+			<figcaption>
+			<h3>Safari</h3>
+			<span>Wow Themes</span>
+			<a href="#">Take a look</a>
+			</figcaption>
+			</figure>
+			</li>
+			<li>
+			<figure>
+			<div>
+				<img src="http://unsplash.it/400/266?random=11" alt="premium-themes-templates">
+			</div>
+			<figcaption>
+			<h3>Game Center</h3>
+			<span>Wow Themes</span>
+			<a href="#">Take a look</a>
+			</figcaption>
+			</figure>
+			</li>
+			<li>
+			<figure>
+			<div>
+				<img src="http://unsplash.it/400/266?random=12" alt="premium-themes-templates">
+			</div>
+			<figcaption>
+			<h3>Music</h3>
+			<span>Wow Themes</span>
+			<a href="#">Take a look</a>
+			</figcaption>
+			</figure>
+			</li>
+			<li>
+			<figure>
+			<div>
+				<img src="http://unsplash.it/400/266?random=13" alt="premium-themes-templates">
+			</div>
+			<figcaption>
+			<h3>Settings</h3>
+			<span>Wow Themes</span>
+			<a href="#">Take a look</a>
+			</figcaption>
+			</figure>
+			</li>
+			<li>
+			<figure>
+			<div>
+				<img src="http://unsplash.it/400/266?random=14" alt="premium-themes-templates">
+			</div>
+			<figcaption>
+			<h3>Camera</h3>
+			<span>Wow Themes</span>
+			<a href="#">Take a look</a>
+			</figcaption>
+			</figure>
+			</li>
+			<li>
+			<figure>
+			<div>
+				<img src="http://unsplash.it/400/266?random=15" alt="premium-themes-templates">
+			</div>
+			<figcaption>
+			<h3>Phone</h3>
+			<span>Wow Themes</span>
+			<a href="#">Take a look</a>
+			</figcaption>
+			</figure>
+			</li>
+		</ul>
+	</div>
+</div>
+</div>
+</section>
+<!-- SECTION-3(reviews) -->
+<section id="Section-3" class="fullbg color-white">
+<div class="section-divider">
+</div>
+<div class="container">
+<div class="row">
+	<div class="page-header text-center col-sm-12 col-lg-12 animated fade">
+		<h1>Forum</h1>
+		<p class="lead">
+			 Access to make discussion.
+		</p>
+	</div>
+</div>
+<div class="row testimonials animated fadeInUpNow">
+	<div class="col-sm-12 col-lg-12">
+		<div class="arrow">
+		</div>
+		<div class="testimonials-slider">
+			<div class="slide">
+				<div class="testimonials-carousel-thumbnail">
+					<img width="120" alt="" src="assets/img/avatar.jpg">
+				</div>
+				<div class="testimonials-carousel-context">
+					<div class="testimonials-name">
+						 Bill Robinson <span>google.com</span>
+					</div>
+					<div class="testimonials-carousel-content">
+						<p>
+							 "Our party was a great success and the marquee was perfect for the occasion and so fortunately was the weather! Thank you to you and your team for erecting it so smoothly and professionally.
+						</p>
+						<p>
+							 Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo.Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo."
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="slide">
+				<div class="testimonials-carousel-thumbnail">
+					<img width="120" alt="" src="assets/img/avatar.jpg">
+				</div>
+				<div class="testimonials-carousel-context">
+					<div class="testimonials-name">
+						 Michael Rocks <span>yahoo.com</span>
+					</div>
+					<div class="testimonials-carousel-content">
+						<p>
+							 "Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo.
+						</p>
+					</div>
+					<p>
+						 Our party was a great success and the marquee was perfect for the occasion and so fortunately was the weather! Thank you to you and your team for erecting it so smoothly and professionally."
+					</p>
+				</div>
+			</div>
+			<div class="slide">
+				<div class="testimonials-carousel-thumbnail">
+					<img width="120" alt="" src="assets/img/avatar.jpg">
+				</div>
+				<div class="testimonials-carousel-context">
+					<div class="testimonials-name">
+						 Andrew Bilson <span>wowthemes.net</span>
+					</div>
+					<div class="testimonials-carousel-content">
+						<p>
+							 "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.
+						</p>
+					</div>
+					<p>
+						 Our party was a great success and the marquee was perfect for the occasion and so fortunately was the weather! Thank you to you and your team for erecting it so smoothly and professionally."
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</section>
+<!-- SECTION-4(team) -->
+<section id="Section-4" class="fullbg color-white">
+<div class="section-divider">
+</div>
+<div class="container demo-3">
+<div class="row">
+	<div class="page-header text-center col-sm-12 col-lg-12 animated fade">
+		<h1>Our Team</h1>
+		<p class="lead">
+			 People behind this product.
+		</p>
+	</div>
+</div>
+<div class="row animated fadeInUpNow">
+	<div class="col-md-3">
+		<div class="thumbnail">
+			<img src="images/profile-images/ThachHB.jpg" alt="">
+			<div class="caption">
+				<h4>Ba Thach Huynh</h4>
+				<span class="primarycol">- Computer Science -</span>
+				<!--<p>
+					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
+				</p>-->
+				<ul class="social-icons">
+					<li><a href="https://www.facebook.com/hbthach" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="thumbnail">
+			<img src="images/profile-images/TayTC.jpg" alt="">
+			<div class="caption">
+				<h4>Chi Tay Ta</h4>
+				<span class="primarycol">- Computer Science -</span>
+				<!--<p>
+					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
+				</p>-->
+				<ul class="social-icons">
+					<li><a href="https://www.facebook.com/TCT126" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="https://twitter.com/tachitaytct" target="_blank"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="https://www.linkedin.com/in/chi-tay-ta-364861a1/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+					<li><a href="https://plus.google.com/112505178366401106585" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="thumbnail">
+			<img src="images/profile-images/DungND.jpg" alt="">
+			<div class="caption">
+				<h4>Dinh Dung Nguyen</h4>
+				<span class="primarycol">- Computer Engineering -</span>
+				<!--<p>
+					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
+				</p>-->
+				<ul class="social-icons">
+					<li><a href="https://www.facebook.com/dinhdung.socialnetwork" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="thumbnail">
+			<img src="images/profile-images/KeoNV.jpg" alt="">
+			<div class="caption">
+				<h4>Van Keo Nguyen</h4>
+				<span class="primarycol">- Computer Engineering -</span>
+				<!--<p>
+					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
+				</p>-->
+				<ul class="social-icons">
+					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+					<!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</section>
+<script src="/js/libs/init.js"></script>
