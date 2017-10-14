@@ -1,4 +1,4 @@
-controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $window, $scope, DeviceService, CropService, GetTimeService, flash) {
+controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $window, $scope, $timeout, DeviceService, CropService, GetTimeService, flash) {
 
   /*---------------------- device ----------------------*/
 
@@ -18,6 +18,24 @@ controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $wind
       flash.error = result.data.message;
     }
   });
+
+  $scope.status = function(index, deviceMac, newStatus) {
+    var device = {
+      mac: deviceMac,
+      status: newStatus
+    }
+
+      DeviceService.updateStatus(device).then(function (result) {
+        if (result.data.success) {
+          $scope.listDevice[index].status = newStatus;
+          flash.success = result.data.message;
+        }
+        else
+        {
+          flash.error = result.data.message;
+        }
+      })
+  }
 
   // add a new device
   $scope.newDevice = {

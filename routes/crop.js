@@ -129,21 +129,23 @@ router.put('/edit', user.authenticate(), function (req, res) {
 })
 
 router.put('/share', user.authenticate(), function (req, res) {
-  models.Crop.getCropById(req.body.id, function (crop) {
-    if (crop) {
-      crop.updateShare(req.body.share, function () {
-        res.json({
-          success: true,
-          message: 'Update share status success !'
+  setTimeout(function () {
+    models.Crop.getCropById(req.body.id, function (crop) {
+      if (crop) {
+        crop.updateShare(req.body.share, function () {
+          res.json({
+            success: true,
+            message: 'Update share status success !'
+          })
         })
-      })
-    } else {
-      res.json({
-        success: false,
-        message: 'Crop does not exist !'
-      })
-    }
-  })
+      } else {
+        res.json({
+          success: false,
+          message: 'Crop does not exist !'
+        })
+      }
+    })
+  }, 1500);
 })
 
 router.get('/search', function (req, res) {

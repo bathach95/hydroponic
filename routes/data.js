@@ -53,7 +53,6 @@ device.client.on('message', function (topic, message) {
 
       models.Crop.getNewestCropByDeviceMac(data.mac, function (crop) {
         if (crop) {
-
           var newData = {
             CropId: crop.dataValues.id,
             temperature: data.temp,

@@ -116,12 +116,15 @@
   	          <td>{{item.status}}</td>
   	          <td>{{item.manufacturer}}</td>
   	          <td>
-  	          	<a ng-click="deleteDevice($index, item.mac)" href="">
+                <a ng-if="item.status=='running'" ng-click="status($index, item.mac, 'paused')" href="" data-toggle="tooltip" title="Pause this device" data-placement="bottom" tooltip>
+                  <i class="fa fa-pause"></i>
+                </a>
+                <a ng-if="item.status=='paused'" ng-click="status($index, item.mac, 'running')" href="" data-toggle="tooltip" title="Restart this device" data-placement="bottom" tooltip>
+                  <i class="fa fa-play"></i>
+                </a>
+                &nbsp;
+  	          	<a ng-click="deleteDevice($index, item.mac)" href="" data-toggle="tooltip" title="Delete this device" data-placement="bottom" tooltip>
   	          		<i class="fa fa-trash"></i>
-  	          	</a>
-  	          	&nbsp;
-  	          	<a href="#">
-  	          		<i class="fa fa-cog"></i>
   	          	</a>
   	          </td>
   	        </tr>

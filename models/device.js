@@ -19,6 +19,13 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
+    instanceMethods: {
+      updateStatus: function (newStatus, callback) {
+        this.update({
+          status: newStatus
+        }).then(callback);
+      }
+    },
     classMethods: {
       createDevice: function(device, callback, err){
         Device.create(device).then(callback).catch(err);

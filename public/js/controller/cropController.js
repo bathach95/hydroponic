@@ -78,6 +78,7 @@ controller.controller('CropCtrl', function ($http, $state, $stateParams, $scope,
     CropService.updateShareStatus(crop).then(function (result) {
       if (result.data.success) {
         $scope.cropList[index].share = newShare;
+        flash.success = result.data.message;
       } else {
         flash.error = result.data.message;
       }
@@ -106,7 +107,7 @@ controller.controller('CropCtrl', function ($http, $state, $stateParams, $scope,
 };
 });
 
-controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stateParams, CropService, flash) {
+controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stateParams, $state, CropService, flash) {
 
   CropService.getCropById($stateParams.cropid).then(function (result) {
 
@@ -126,6 +127,12 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
       reporttime: $scope.crop.reporttime
     }
 
+    $scope.dataTableOpt = {
+     //custom datatable options
+    // or load data through ajax call also
+    "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+    };
+
   })
 
   function reload() {
@@ -139,7 +146,7 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
       $scope.editSuccess = result.data.success;
       $scope.editMessage = result.data.message;
       if (result.data.success) {
-        setTimeout(reload, 1000);
+        $state.reload();
       }
     }).catch(function (err) {
       console.log(err);

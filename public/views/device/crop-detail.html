@@ -55,6 +55,11 @@
   <section id="Section-1" class="fullbg">
   <div class="section-divider">
   </div>
+  <style media="screen">
+    .table-list-device thead > tr > th {
+      font-size: 14px;
+    }
+  </style>
   <div class="container">
   <div class="row">
   	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeIn">
@@ -269,6 +274,50 @@
                       </div>
                       <div role="tabpanel" class="tab-pane animated fadeInLeft in" id="Crop-Detail-Section3">
                           <h3>Set program for your hardware</h3>
+                          <div class="row color-white">
+                          <div>
+                            <div class="table-list-device-content">
+                              <table class="table-list-device" cellpadding="0" cellspacing="0" border="0" id="membersTable" ui-jq="dataTable" ui-options="dataTableOpt">
+                                <thead class="table-list-device-header">
+                                  <tr>
+                                    <th>Type</th>
+                                    <th>ID</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Interval Time</th>
+                                    <th>Delay Time</th>
+                                    <th>Operation</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="item in listSchedule">
+                                    <td>{{$index + 1}}</td>
+                                    <td><a class="device-link">{{item.type}}</a></td>
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.starttime | HH:mm:ss'}}</td>
+                                    <td>{{item.status}}</td>
+                                    <td>{{item.manufacturer}}</td>
+                                    <td>
+                                      <a href="">
+                                        <i class="fa fa-trash"></i>
+                                      </a>
+                                      &nbsp;
+                                      <a href="#">
+                                        <i class="fa fa-cog"></i>
+                                      </a>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="add-device-container">
+                              <button type="button" data-toggle="modal" data-target="#addScheduleModal" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-plus-circle"></i>&nbsp; Add new schedule</button>
+                            </div>
+                            <div class="add-device-container">
+                              <button type="button" data-toggle="modal" data-target="#addActuatorModal" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-plus-circle"></i>&nbsp; Add new actuator</button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div role="tabpanel" class="tab-pane animated fadeInRight in" id="Crop-Detail-Section4">
                           <h3>Images for this crop</h3>
@@ -281,6 +330,78 @@
   </div>
   </div>
   </section>
+  <style media="screen">
+    #addActuatorModal {
+      font-size: 15px;
+
+      text-align: center;
+    }
+
+    #addActuatorModal input{
+      color: #000;
+      font-size: 15px;
+      border: 1px solid #e3e3e3;
+    }
+  </style>
+  <div class="modal fade" id="addActuatorModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add new crop for this device</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <label for="name" class="col-md-4 col-sm-4">Crop Name</label>
+            <input ng-model="newCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="tree-species" class="col-md-4 col-sm-4">Tree Type</label>
+            <input ng-model="newCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
+            <input ng-model="newCrop.startdate" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
+            <input ng-model="newCrop.closedate" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
+            <input ng-model="newCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="seconds" />
+          </div>
+          <br>
+          <div class="row">
+            <label for="type" class="col-md-4 col-sm-4">Type:</label>
+            <select class="col-md-7 col-sm-7" name="type" ng-model="newCrop.type">
+            <option value="">---Please select---</option>
+            <option value="drip system">Drip System</option>
+            <option value="ebb-flow">EBB-Flow</option>
+            <option value="nft">NFT</option>
+            <option value="water culture">Water Culture</option>
+            <option value="aeroponics">Aeroponics</option>
+            <option value="wick system">Wick System</option>
+          </select>
+          </div>
+          <!--<div class="row" style="text-align:center;">
+            <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
+          </div>--->
+        </div>
+        <div class="modal-footer">
+          <button ng-click="addCrop()" type="button" class="btn btn-1 btn-primary">OK</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </body>
 
 </html>

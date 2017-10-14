@@ -3,7 +3,7 @@ var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
 const mqtt = require('mqtt');
-const client = mqtt.connect('mqtt://test.mosquitto.org');
+const client = mqtt.connect('mqtt://13.58.114.56:1883');
 
 //====== auto query mac from database and subscribe to that chanel =======
 
@@ -17,6 +17,12 @@ models.Device.findAll({
     });
   });
 })
+
+function sendDeviceStatusToDevice(mac, newStatusMessageToDevice) {
+  var deviceTopic = 'device/' + mac + "/esp";
+  client.publish(deviceTopic, newStatusMessageToDevice);
+
+}
 
 //================================ end ===================================
 
@@ -67,58 +73,39 @@ router.get('/running', user.authenticate(), function(req, res){
                   status: true
                 }
               }).then(function (cropResult) {
-              console.log(cropResult[0]);
-              return new Promise(function(result, reject){
-                cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
-                var returnValue = {
-                  device: item.dataValues,
-                  crop: cropResult[0].dataValues,
-                  data: dataResult[0].dataValues
-                };
-                deviceDataList.push(returnValue);
-                resolve(dataResult[0]);
-              });
-              })
-                console.log(22222);
-              //deviceDataList.push(cropResult[0]);
-                console.log(deviceDataList);
-                //resolve(cropResult[0]);
+                return new Promise(function(result, reject){
+                  cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
+                    if (dataResult[0])
+                    {
+                      var returnValue = {
+                        device: item.dataValues,
+                        crop: cropResult[0].dataValues,
+                        data: dataResult[0].dataValues
+                      };
+                      deviceDataList.push(returnValue);
+                      resolve(dataResult[0]);
+                    }
+                    else {
+                      var returnValue = {
+                        device: item.dataValues,
+                        crop: cropResult[0].dataValues,
+                        data: {}
+                      };
+                      deviceDataList.push(returnValue);
+                      resolve(dataResult[0]);
+                    }
+                  });
+                });
               })
             });
           })).then(function(value) {
-            console.log(1111);
-            console.log(value);
-            console.log(deviceDataList);
-
             res.json({
               success: true,
               data: deviceDataList,
               message: 'Get running device success!'
             });
           })
-          /*
-          result.forEach(function (item) {
-            item.getCrops({
-              where:{
-                status: true
-              }
-            }).then(function (cropResult) {
-              console.log(cropResult[0]);
-              cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
-                var returnValue = {
-                  device: item.dataValues,
-                  crop: cropResult[0].dataValues,
-                  data: dataResult[0].dataValues
-                }
-                console.log(dataResult[0]);
-                deviceDataList.push(returnValue);
-              })
-            })
-          })
-          */
-
         })
-        console.log(1234);
       }
       else
       {
@@ -191,6 +178,37 @@ router.post('/add', user.authenticate(), function (req, res) {
   )
 
 });
+
+router.put('/status', user.authenticate(), function(req, res){
+  setTimeout(function () {
+    models.Device.getDeviceByMac(req.body.mac, function (device) {
+      if (device) {
+        device.updateStatus(req.body.status, function () {
+          var newStatusCode;
+          if (req.body.status == 'running')
+          {
+            newStatusCode = '1';
+          }
+          else {
+            newStatusCode = '0';
+          }
+          var statusMessageToDevice = '00' + newStatusCode;
+          sendDeviceStatusToDevice(req.body.mac, statusMessageToDevice);
+
+          res.json({
+            success: true,
+            message: 'Update device status success !'
+          })
+        })
+      } else {
+        res.json({
+          success: false,
+          message: 'Device does not exist !'
+        })
+      }
+    })
+  }, 1500);
+})
 
 router.delete('/delete', user.authenticate(), function (req, res) {
   models.Device.deleteDevice(req.query.mac, function (success) {
