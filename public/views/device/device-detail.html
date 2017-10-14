@@ -98,33 +98,84 @@
   	    </table>
   	  </div>
   	  <div class="add-device-container">
-  	  	<button type="button" data-toggle="modal" data-target="#myModal" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-plus-circle"></i>&nbsp; Add new crop</button>
+  	  	<button type="button" data-toggle="modal" data-target="#addCropModal" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-plus-circle"></i>&nbsp; Add new crop</button>
       </div>
   	</div>
   </div>
 <!-- end row -->
 </div>
+<style media="screen">
+  #addCropModal {
+    font-size: 15px;
 
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    text-align: center;
+  }
+
+  #addCropModal input{
+    color: #000;
+    font-size: 15px;
+    border: 1px solid #e3e3e3;
+  }
+</style>
+<div class="modal fade" id="addCropModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add new crop for this device</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <label for="name" class="col-md-4 col-sm-4">Crop Name</label>
+          <input ng-model="newCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
         </div>
-        <div class="modal-body">
-          ...
+        <br>
+        <div class="row">
+          <label for="tree-species" class="col-md-4 col-sm-4">Tree Type</label>
+          <input ng-model="newCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species" />
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+        <br>
+        <div class="row">
+          <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
+          <input ng-model="newCrop.startdate" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date" />
         </div>
+        <br>
+        <div class="row">
+          <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
+          <input ng-model="newCrop.closedate" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date" />
+        </div>
+        <br>
+        <div class="row">
+          <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
+          <input ng-model="newCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="seconds" />
+        </div>
+        <br>
+        <div class="row">
+          <label for="type" class="col-md-4 col-sm-4">Type:</label>
+          <select class="col-md-7 col-sm-7" name="type" ng-model="newCrop.type">
+          <option value="">---Please select---</option>
+          <option value="drip system">Drip System</option>
+          <option value="ebb-flow">EBB-Flow</option>
+          <option value="nft">NFT</option>
+          <option value="water culture">Water Culture</option>
+          <option value="aeroponics">Aeroponics</option>
+          <option value="wick system">Wick System</option>
+        </select>
+        </div>
+        <!--<div class="row" style="text-align:center;">
+          <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
+        </div>--->
+      </div>
+      <div class="modal-footer">
+        <button ng-click="addCrop()" type="button" class="btn btn-1 btn-primary">OK</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
+
   </div>
+</div>
 
 </section>
 <!--  SECTION-2 -->
