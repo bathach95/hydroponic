@@ -17,7 +17,7 @@ service.service('DeviceService', function($http) {
     }
 
     this.updateStatus = function(device) {
-      return $http.put('device/status', device);
+      return $http.put('/device/status', device);
     }
 
     this.addDevice = function(device){

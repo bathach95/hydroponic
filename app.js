@@ -19,6 +19,7 @@ var data = require('./routes/data');
 var schedule = require('./routes/schedule');
 var article = require('./routes/article');
 var comment = require('./routes/comment');
+var actuator = require('./routes/actuator');
 //----------------
 
 var cors = require('cors');
@@ -47,6 +48,7 @@ app.use('/data', data.router);
 app.use('/schedule', schedule.router);
 app.use('/article', article.router);
 app.use('/comment', comment.router);
+app.use('/actuator', actuator.router);
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());

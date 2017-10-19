@@ -19,9 +19,9 @@ router.put('edit', user.authenticate(), function(req, res){
 
 router.get('/all', user.authenticate(), function(req, res){
   var cropId = req.query.cropId;
-
+  console.log(cropId);
   models.Schedule.getScheduleByCropId(cropId, function(result){
-    var watering = [];
+    /*var watering = [];
     var fan = [];
     var lighting = [];
     var oxygen = [];
@@ -41,17 +41,22 @@ router.get('/all', user.authenticate(), function(req, res){
           break;
         default:
 
-      }
-    })
-
-    res.send({
-      watering: watering,
-      fan: fan,
-      lighting: lighting,
-      oxygen: oxygen
-    });
-
-  });
+      }*/
+      var listScheduleSetting = [];
+      result.forEach(function(item){
+        listScheduleSetting.push(item);
+      })
+      res.send({
+        success: true,
+        data: listScheduleSetting,
+        message: "Get all settings successfully!"
+      });
+    }, function(result){
+      res.send({
+        success: false,
+        message: "Error: Get all settings!"
+      });
+    }, models)
 })
 
 router.delete('/delete', user.authenticate(), function(req, res){
@@ -69,8 +74,14 @@ router.post('/add', user.authenticate(), function(req, res){
 
   //TODO: format data like numberOfTimeSet_hhmmss(starttime)_hhmmss(endtime)_hhmmss(lasttime)_hhmmss(Delay)
   // encrypt data before sending
-  var listScheduleSetting = req.body;
-
+  var scheduleSetting = req.body;
+  models.Schedule.createSchedule(scheduleSetting, function(result){
+    res.send({
+      success:true,
+      message:"Add setting successfully!"
+    });
+  })
+/*
   listScheduleSetting.watering.forEach(function(item, index){
     models.Schedule.createSchedule(item, function(result){
     });
@@ -86,10 +97,8 @@ router.post('/add', user.authenticate(), function(req, res){
   listScheduleSetting.oxygen.forEach(function(item, index){
     models.Schedule.createSchedule(item, function(result){
     });
-  });
-  res.send({
-    success:true
-  });
+  });*/
+
   // models.Schedule.createSchedule(listScheduleSetting.cropId, function(result){
   //   console.log("Successfully delete all schedule with crop Id!");
   // });

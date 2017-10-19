@@ -14,16 +14,57 @@ controller.controller('ScheduleCtrl', function($http, $stateParams, $scope, Sche
 
 });
 
-controller.controller('ScheduleSettingCtrl', function($http, $window, $stateParams, $scope, $route, $timeout, ScheduleService) {
-  ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
+controller.controller('ScheduleSettingCtrl', function($http, $window, $stateParams, $state, $scope, $route, $timeout, ScheduleService, ActuatorService, flash) {
+  /*ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
     $scope.selectedActuatorId = 1;
     $scope.scheduleSettingTypeSelected = 'watering';
     $scope.scheduleSettingListWatering = result.data.watering;
     $scope.scheduleSettingListFan = result.data.fan;
     $scope.scheduleSettingListLighting = result.data.lighting;
     $scope.scheduleSettingListOxygen = result.data.oxygen;
-  })
-  $scope.typeSettingSelected = function(type) {
+  })*/
+
+
+  $scope.newSchedule = {
+    CropId: $stateParams.cropid,
+
+  }
+
+  ActuatorService.getAllActuatorsByMac($stateParams.devicemac).then(function(result){
+    $scope.listActuators = result.data.data;
+  });
+
+  $scope.addSchedule = function() {
+    console.log($scope.newSchedule);
+
+    var starttime = new Date($scope.newSchedule.starttime);
+    var starttimeString = starttime.getHours() + ":" + starttime.getMinutes() + ":" + starttime.getSeconds();
+
+    var endtime = new Date($scope.newSchedule.endtime);
+    var endtimeString = endtime.getHours() + ":" + endtime.getMinutes() + ":" + endtime.getSeconds();
+
+    var newScheduleItem = {
+      CropId: $scope.newSchedule.CropId,
+      ActuatorName: $scope.newSchedule.ActuatorName,
+      starttime: starttimeString,
+      endtime: endtimeString,
+      intervaltime: $scope.newSchedule.intervaltime,
+      delaytime: $scope.newSchedule.delaytime
+    }
+    $('#addScheduleModal').modal('hide');
+    ScheduleService.addScheduleSetting(newScheduleItem).then(function(result){
+      if (result.data.success)
+      {
+        console.log(result);
+        flash.success = result.data.message;
+        $state.reload();
+      }
+      else {
+        flash.error = result.data.message;
+      }
+    })
+  }
+  /*$scope.typeSettingSelected = function(type) {
     $scope.scheduleSettingTypeSelected = type;
   }
 
@@ -137,7 +178,7 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
     $window.location.reload();
   }
   $scope.saveAndApply = function() {
-    
+
       ScheduleService.deleteScheduleSettingByCropId($stateParams.cropid).then(function(result){
         console.log("Controller delete schedule successfully!");
       })
@@ -158,4 +199,5 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
         setTimeout(reload, 1000);
       });
     };
+    */
 });

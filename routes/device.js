@@ -131,6 +131,26 @@ router.get('/one', user.authenticate(), function (req, res) {
   );
 })
 
+/*
+router.post('addactuator', user.authenticate(), function(req, res) {
+  var newActuator = req.body.actuator;
+  newActuator.DeviceMac = req.body.mac;
+  console.log(newActuator);
+  models.Actuator.createActuator(newActuator, function() {
+    res.json({
+      success: true,
+      message: "Add actuator success"
+    });
+  },
+  function (err) {
+    res.json({
+      success: false,
+      message: err
+    });
+  })
+})
+*/
+
 router.post('/add', user.authenticate(), function (req, res) {
   var newDevice = req.body;
   newDevice.UserId = req.user.id;

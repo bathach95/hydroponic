@@ -107,7 +107,28 @@ controller.controller('CropCtrl', function ($http, $state, $stateParams, $scope,
 };
 });
 
-controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stateParams, $state, CropService, flash) {
+controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stateParams, $state, CropService, ScheduleService, flash) {
+
+  $scope.dataTableOpt = {
+   //custom datatable options
+  // or load data through ajax call also
+  "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+  };
+
+  $scope.dataScheduleTableOpt = {
+   //custom datatable options
+  // or load data through ajax call also
+  "aLengthMenu": [[-1, 10, 20, 30, 50], ['All', 10, 20, 30, 50]],
+  };
+
+  $scope.mac = $stateParams.devicemac;
+  $scope.cropid = $stateParams.cropid;
+
+  ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
+    console.log(1234);
+    console.log(result);
+    $scope.listSchedule = result.data.data;
+  })
 
   CropService.getCropById($stateParams.cropid).then(function (result) {
 
@@ -126,13 +147,6 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
       closedate: new Date($scope.crop.closedate),
       reporttime: $scope.crop.reporttime
     }
-
-    $scope.dataTableOpt = {
-     //custom datatable options
-    // or load data through ajax call also
-    "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
-    };
-
   })
 
   function reload() {
