@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   var Actuator = sequelize.define('Actuator', {
     name: {
       type: DataTypes.STRING,
-      primaryKey: true
+      allowNull: false
     },
     type: {
       type: DataTypes.STRING,

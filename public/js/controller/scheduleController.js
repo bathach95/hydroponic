@@ -32,6 +32,7 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
 
   ActuatorService.getAllActuatorsByMac($stateParams.devicemac).then(function(result){
     $scope.listActuators = result.data.data;
+    console.log($scope.listActuators);
   });
 
   $scope.addSchedule = function() {
@@ -45,23 +46,25 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
 
     var newScheduleItem = {
       CropId: $scope.newSchedule.CropId,
-      ActuatorName: $scope.newSchedule.ActuatorName,
+      ActuatorId: $scope.newSchedule.ActuatorId,
       starttime: starttimeString,
       endtime: endtimeString,
       intervaltime: $scope.newSchedule.intervaltime,
       delaytime: $scope.newSchedule.delaytime
     }
-    $('#addScheduleModal').modal('hide');
+    $('#addScheduleModal').modal('toggle');
     ScheduleService.addScheduleSetting(newScheduleItem).then(function(result){
       if (result.data.success)
       {
         console.log(result);
         flash.success = result.data.message;
+
         $state.reload();
       }
       else {
         flash.error = result.data.message;
       }
+
     })
   }
   /*$scope.typeSettingSelected = function(type) {

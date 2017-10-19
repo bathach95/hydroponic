@@ -433,7 +433,7 @@ display: none;
                                   <tbody>
                                     <tr ng-repeat="item in listSchedule">
                                       <td><a class="device-link"></a>{{item.Actuator.type}}</td>
-                                      <td>{{item.ActuatorName}}</td>
+                                      <td>{{item.Actuator.name}}</td>
                                       <td>{{item.starttime}}</td>
                                       <td>{{item.endtime}}</td>
                                       <td>{{item.intervaltime}}</td>
@@ -519,7 +519,7 @@ display: none;
           </div>--->
         </div>
         <div class="modal-footer">
-          <button ng-click="addActuator()" type="button" class="btn btn-1 btn-primary">OK</button>
+          <button ng-click="addActuator()" type="button" class="btn btn-1 btn-primary" data-dismiss="modal">OK</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -570,7 +570,7 @@ display: none;
               </center>
             </div>
             <div class="col-md-4 col-sm-4">
-              <select name="name" ng-model="newSchedule.ActuatorName" ng-options="item.name as item.name for item in listActuators| filter: {type: newScheduleType}">
+              <select name="name" ng-model="newSchedule.ActuatorId" ng-options="item.id as item.name for item in listActuators| filter: {type: newScheduleType}">
                 <!--<option ng-show="(listActuators| filter: {type: newSchedule.type}).length == 0">--No relay found---</option>
                 <option ng-repeat="item in listActuators| filter: {type: newSchedule.type}" value="item.name">{{item.name}}</option>
                 <option value="Fan">Fan</option>
