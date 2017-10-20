@@ -43,11 +43,6 @@ controller.controller('CropCtrl', function ($http, $state, $stateParams, $scope,
 
     })
   }
-
-  function reload() {
-    $window.location.reload();
-  }
-
   /* delete crop */
   $scope.deleteCrop = function (index, cropId, status) {
     // TODO: a crop must be finished if u want to delete it
@@ -123,12 +118,6 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
 
   $scope.mac = $stateParams.devicemac;
   $scope.cropid = $stateParams.cropid;
-
-  ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
-    console.log(1234);
-    console.log(result);
-    $scope.listSchedule = result.data.data;
-  })
 
   CropService.getCropById($stateParams.cropid).then(function (result) {
 

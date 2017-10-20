@@ -212,7 +212,7 @@ router.put('/status', user.authenticate(), function(req, res){
           else {
             newStatusCode = '0';
           }
-          var statusMessageToDevice = '00' + newStatusCode;
+          var statusMessageToDevice = req.body.mac + '03' + '0003' + '00' + newStatusCode;
           sendDeviceStatusToDevice(req.body.mac, statusMessageToDevice);
 
           res.json({

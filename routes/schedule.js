@@ -2,13 +2,34 @@ var express = require('express');
 var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
-var mqtt = require('mqtt');
+const mqtt = require('mqtt');
+const client = mqtt.connect('mqtt://13.58.114.56:1883');
 var device = require('./device.js');
 
 
 // client.on('connect', function(){
 //   client.
 // })
+function timeToMessageString(time) {
+  var result = time.replace(/:/g, "");
+  return result;
+}
+
+function normalizeHundredToString(id){
+  if (id < 10)
+  {
+    return '0'+id.toString();
+  }
+  else
+  {
+    return id.toString();
+  }
+}
+
+function normalizeNumber(number, max) {
+  var str = number.toString();
+  return str.length < max ? normalizeNumber("0" + str, max) : str;
+}
 
 router.put('edit', user.authenticate(), function(req, res){
   var schedule = req.body;
@@ -60,14 +81,89 @@ router.get('/all', user.authenticate(), function(req, res){
 })
 
 router.delete('/delete', user.authenticate(), function(req, res){
-  var cropId = req.query.cropId;
+  var scheduleId = req.query.scheduleId;
 
-  models.Schedule.deleteScheduleByCropId(cropId, function(result){
-    console.log("Successfully delete all schedule with crop Id!");
+  models.Schedule.deleteScheduleById(scheduleId, function(result){
+    console.log("Successfully delete schedule with id!");
     res.send({
-      success:true
+      success:true,
+      message: "Successfully delete schedule with id!"
+    });
+  }, function(result){
+    res.send({
+      success:true,
+      message:"Something wrong, cannot delete schedule..."
     });
   });
+})
+
+router.get('/sync', user.authenticate(), function(req, res){
+  var cropId = req.query.cropId;
+  var mac = req.query.mac;
+  var commandId = '02';
+  var message = mac+commandId;
+  var dataLength = 0;
+  var topic = 'device/' + mac + '/esp';
+  models.Device.getDeviceByMac(mac, function(deviceItem){
+    if (deviceItem)
+    {
+      var query = {
+        include: models.Schedule,
+      }
+      deviceItem.getActuators(query).then(function(actuators){
+        var listStrings = [];
+        //actuators.forEach(function(item, index) {
+        for (i = 0; i < actuators.length; i++)
+        {
+          if (actuators[i].dataValues.Schedules.length > 0)
+          {
+            dataLength = dataLength + (2 + 2 + 6*2*actuators[i].dataValues.Schedules.length);
+            var string = normalizeNumber(i + 1, 2) + normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
+            //item.dataValues.Schedules.forEach(function(scheduleItem){
+            for (j = 0; j < actuators[i].dataValues.Schedules.length; j++)
+            {
+              string = string.concat(timeToMessageString(actuators[i].dataValues.Schedules[j].starttime)).concat(timeToMessageString(actuators[i].dataValues.Schedules[j].endtime));
+            }
+            listStrings.push(string);
+          }
+          else
+          {
+            break;
+          }
+        }
+        //listStrings.forEach(function(item){
+        message = message.concat(normalizeNumber(dataLength, 4));
+        for (i = 0; i < listStrings.length; i++)
+        {
+          message = message.concat(listStrings[i]);
+        }
+        device.client.publish(topic, message);
+        res.json({
+          success:true,
+          data: message,
+          message: "Successfully to get all actuators!"
+        })
+      })
+    }
+    else {
+      res.json({
+        success:false,
+        message: "MAC address is not matched with any device on database!"
+      })
+    }
+  })
+  /*
+  models.Schedule.getScheduleByCropId(scheduleSetting.CropId, function(result){
+    result.forEach(function(item) {
+      var itemstarttime = new Date('1970-01-01T' + item.starttime + 'Z');
+      var itemendtime = new Date('1970-01-01T' + item.endtime + 'Z');
+    })
+  }, function(result){
+    res.send({
+      success: false,
+      message: "Error when get all settings!"
+    });
+  }, models);*/
 })
 
 router.post('/add', user.authenticate(), function(req, res){

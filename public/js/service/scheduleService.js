@@ -7,10 +7,10 @@ service.service('ScheduleService', function($http){
     })
   }
 
-  this.deleteScheduleSettingByCropId = function(cropId){
+  this.deleteScheduleSettingById = function(scheduleId){
     return $http.delete('/schedule/delete', {
       params:{
-        cropId: cropId
+        scheduleId: scheduleId
       }
     });
   }
@@ -19,4 +19,12 @@ service.service('ScheduleService', function($http){
     return $http.post('/schedule/add', scheduleSetting);
   }
 
+  this.syncScheduleSettings = function(cropId, mac) {
+    return $http.get('/schedule/sync', {
+      params:{
+        cropId: cropId,
+        mac: mac
+      }
+    });
+  }
 })

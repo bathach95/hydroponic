@@ -1,17 +1,47 @@
-controller.controller('ScheduleCtrl', function($http, $stateParams, $scope, ScheduleService) {
+controller.controller('ScheduleCtrl', function($http, $stateParams, $state, $scope, $timeout, ScheduleService, flash) {
+$scope.deviceMac = $stateParams.mac;
+$scope.cropId = $stateParams.cropid;
   ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
-    $scope.selectedActuator = 1;
-    //var obj = result.data.filter(function(item){
-    //  return item.actuatorid === $scope.selectedActuator;
-    //})[0];
-    //$scope.turnonevery = obj.turnonevery;
-    $scope.scheduleListWatering = result.data.watering;
-    $scope.scheduleTypeSelected = 'watering';
+    console.log(result);
+    $scope.listSchedule = result.data.data;
   })
-  $scope.typeSelected = function(type) {
-    $scope.scheduleTypeSelected = type;
+
+  $scope.deleteSchedule = function (scheduleId) {
+    bootbox.confirm("Do you want to delete this setting?", function (result) {
+      if (result)
+      {
+        ScheduleService.deleteScheduleSettingById(scheduleId).then(function(result){
+          if (result.data.success)
+          {
+            flash.success = result.data.message;
+            $state.reload();
+          }
+          else {
+            flash.error = result.data.message;
+          }
+        })
+      }
+    })
   }
 
+  $scope.syncScheduleSettings = function(cropId, mac) {
+    $("#syncButton").button('loading');
+    $(".overlay").show();
+    setTimeout(function () {
+      ScheduleService.syncScheduleSettings(cropId, mac).then(function(result) {
+        $("#syncButton").button('reset');
+        $(".overlay").hide();
+        if (result.data.success)
+        {
+          console.log(result.data.data);
+          flash.success = result.data.message;
+        }
+        else {
+          flash.error = result.data.message;
+        }
+      })
+    }, 1000);
+  }
 });
 
 controller.controller('ScheduleSettingCtrl', function($http, $window, $stateParams, $state, $scope, $route, $timeout, ScheduleService, ActuatorService, flash) {
@@ -32,7 +62,6 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
 
   ActuatorService.getAllActuatorsByMac($stateParams.devicemac).then(function(result){
     $scope.listActuators = result.data.data;
-
   });
 
   $scope.addSchedule = function() {
@@ -53,11 +82,11 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
       if (result.data.success)
       {
         flash.success = result.data.message;
-        $state.reload();
       }
       else {
         flash.error = result.data.message;
       }
+      $state.reload();
     })
   }
 
