@@ -23,7 +23,7 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
     $scope.scheduleSettingListLighting = result.data.lighting;
     $scope.scheduleSettingListOxygen = result.data.oxygen;
   })*/
-
+  $scope.newSchedule = {}
 
   $scope.newSchedule = {
     CropId: $stateParams.cropid,
@@ -32,41 +32,35 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
 
   ActuatorService.getAllActuatorsByMac($stateParams.devicemac).then(function(result){
     $scope.listActuators = result.data.data;
-    console.log($scope.listActuators);
+
   });
 
   $scope.addSchedule = function() {
-    console.log($scope.newSchedule);
+    var starttimeString = moment($scope.newSchedule.starttime).format('HH:mm:ss');
 
-    var starttime = new Date($scope.newSchedule.starttime);
-    var starttimeString = starttime.getHours() + ":" + starttime.getMinutes() + ":" + starttime.getSeconds();
+    var endtimeString = moment($scope.newSchedule.endtime).format('HH:mm:ss')
 
-    var endtime = new Date($scope.newSchedule.endtime);
-    var endtimeString = endtime.getHours() + ":" + endtime.getMinutes() + ":" + endtime.getSeconds();
-
-    var newScheduleItem = {
-      CropId: $scope.newSchedule.CropId,
-      ActuatorId: $scope.newSchedule.ActuatorId,
-      starttime: starttimeString,
-      endtime: endtimeString,
-      intervaltime: $scope.newSchedule.intervaltime,
-      delaytime: $scope.newSchedule.delaytime
-    }
+    var newScheduleItem ={
+        CropId: parseInt($scope.newSchedule.CropId),
+        ActuatorId: $scope.newSchedule.ActuatorId,
+        starttime: starttimeString,
+        endtime: endtimeString,
+        intervaltime: $scope.newSchedule.intervaltime,
+        delaytime: $scope.newSchedule.delaytime
+      }
     $('#addScheduleModal').modal('toggle');
     ScheduleService.addScheduleSetting(newScheduleItem).then(function(result){
       if (result.data.success)
       {
-        console.log(result);
         flash.success = result.data.message;
-
         $state.reload();
       }
       else {
         flash.error = result.data.message;
       }
-
     })
   }
+
   /*$scope.typeSettingSelected = function(type) {
     $scope.scheduleSettingTypeSelected = type;
   }

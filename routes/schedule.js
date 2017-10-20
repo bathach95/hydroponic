@@ -75,12 +75,65 @@ router.post('/add', user.authenticate(), function(req, res){
   //TODO: format data like numberOfTimeSet_hhmmss(starttime)_hhmmss(endtime)_hhmmss(lasttime)_hhmmss(Delay)
   // encrypt data before sending
   var scheduleSetting = req.body;
-  models.Schedule.createSchedule(scheduleSetting, function(result){
+  console.log(scheduleSetting);
+  models.Schedule.getScheduleByCropId(scheduleSetting.CropId, function(result){
+    console.log("It's ok!");
+    var isOverlapped = false;
+    var newstarttime = new Date('1970-01-01T' + scheduleSetting.starttime + 'Z');
+    var newendtime = new Date('1970-01-01T' + scheduleSetting.endtime + 'Z');
+    for (i = 0; i < result.length; i++)
+    {
+      var itemstarttime = new Date('1970-01-01T' + result[i].starttime + 'Z');
+      var itemendtime = new Date('1970-01-01T' + result[i].endtime + 'Z');
+      if (result[i].ActuatorId == scheduleSetting.ActuatorId)
+      {
+        if (itemstarttime >= newendtime)
+          continue;
+        else
+        {
+          if (itemstarttime <= newstarttime)
+          {
+            if (itemendtime > newstarttime)
+            {
+              isOverlapped = true;
+              break;
+            }
+            else
+            {
+              isOverlapped = false;
+              continue;
+            }
+          }
+          else
+          {
+            isOverlapped = true;
+            break;
+          }
+        }
+      }
+    };
+    if (isOverlapped)
+    {
+      res.send({
+        success: false,
+        message: "Overlaped new setting time! Please input other time."
+      });
+    }
+    else {
+      models.Schedule.createSchedule(scheduleSetting, function(result){
+        res.send({
+          success:true,
+          message:"Add setting successfully!"
+        });
+      })
+    };
+  }, function(result){
     res.send({
-      success:true,
-      message:"Add setting successfully!"
+      success: false,
+      message: "Error when get all settings!"
     });
-  })
+  }, models);
+
 /*
   listScheduleSetting.watering.forEach(function(item, index){
     models.Schedule.createSchedule(item, function(result){
