@@ -1,7 +1,6 @@
-controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $rootScope, $scope, ThresholdService, GetTimeService) {
+controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $rootScope, $scope, ThresholdService, GetTimeService, flash) {
   ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function(result) {
     if (result.data) {
-      console.log(12345555);
       $rootScope.threshold = result.data;
       $scope.threshold = result.data;
       var dateTime = GetTimeService.getDateTime(result.data.createdAt);
@@ -21,9 +20,6 @@ controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $r
     }
   });
 
-function reload(){
-  $window.location.reload();
-}
   // add new threshold
   $scope.addThreshold = function() {
 
@@ -36,7 +32,11 @@ function reload(){
 
         // if success, update view
         if (result.data.success){
-          setTimeout(reload, 2000);
+          flash.success = result.data.message;
+          $state.reload();
+        }
+        else {
+          flash.error = result.data.message;
         }
 
       });

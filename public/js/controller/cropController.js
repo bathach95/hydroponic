@@ -149,11 +149,6 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
     }
   })
 
-  function reload() {
-    $window.location.reload();
-  }
-
-
   $scope.editCrop = function () {
     $('#editCropModal').modal('hide');
     CropService.editCrop($scope.cropEdit).then(function (result) {

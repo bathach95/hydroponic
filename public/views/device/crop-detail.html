@@ -366,7 +366,7 @@ display: none;
                           </div>
                           <div class="row">
                             <div class="col-md-12">
-                              <button type="submit" class="button-refesh-data"><i class="fa fa-cog"></i>&nbsp; Set Threshold</button>
+                              <button type="submit" data-toggle="modal" data-target="#editThresholdModal" class="button-refesh-data"><i class="fa fa-cog"></i>&nbsp; Set Threshold</button>
                             </div>
                           </div>
                         </div>
@@ -488,6 +488,96 @@ display: none;
       border: 1px solid #e3e3e3;
     }
   </style>
+
+  <!-- Edit threshold modal -->
+  <div ng-controller="ThresholdCtrl" class="modal fade" id="editThresholdModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit threshold</h4>
+        </div>
+        <div class="modal-body">
+          <style media="screen">
+            #editThresholdModal label, input{
+              width: 100%;
+              margin: 20px 0px;
+            }
+
+            #editThresholdModal input{
+              padding: 5px 0px;
+            }
+          </style>
+          <center>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <label for="">Lowest</label>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <label for="">Highest</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="">Temperature</label>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input ng-model="newThreshold.temperatureLower" type="number" name="lower-temp" />
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input ng-model="newThreshold.temperatureUpper" type="number" name="upper-temp" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="">Humidity</label>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input ng-model="newThreshold.humidityLower" type="number" name="lower-humidity" />
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input ng-model="newThreshold.humidityUpper" type="number" name="upper-humidity" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="">ppm</label>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input ng-model="newThreshold.ppmLower" type="number" name="lower-ppm" />
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input ng-model="newThreshold.ppmUpper" type="number" name="upper-ppm" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="">pH</label>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input ng-model="newThreshold.phLower" type="number" name="lower-ph" />
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <input ng-model="newThreshold.phUpper" type="number" name="upper-ph" />
+            </div>
+          </div>
+        </center>
+          <div class="row">
+            <p ng-attr-style="{{editThresholdSuccess && 'color: green' || 'color: red'}}">{{editThresholdMessage}}</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button ng-click="addThreshold()" type="button" class="btn btn-1 btn-primary">OK</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End edit threshold modal -->
+
   <div class="modal fade" id="addActuatorModal" role="dialog" ng-controller="ActuatorCtrl">
     <div class="modal-dialog">
       <!-- Modal content-->
