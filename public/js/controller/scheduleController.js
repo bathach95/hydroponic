@@ -1,6 +1,7 @@
 controller.controller('ScheduleCtrl', function($http, $stateParams, $state, $scope, $timeout, ScheduleService, flash) {
 $scope.deviceMac = $stateParams.mac;
 $scope.cropId = $stateParams.cropid;
+console.log($stateParams.cropid)
   ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
     console.log(result);
     $scope.listSchedule = result.data.data;

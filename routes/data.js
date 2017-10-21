@@ -107,7 +107,19 @@ router.get('/newest', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
 
   models.Data.getNewestDataByCropId(cropId, function (result) {
-    res.send(result);
+    if (result){
+      res.json({
+        success: true,
+        data: result.dataValues,
+        message: 'Get newest data success !'
+      });
+    } else {
+      res.json({
+        success: false,
+        message: 'No data'
+      });
+    }
+
   });
 })
 

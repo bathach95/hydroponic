@@ -8,8 +8,11 @@ controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $sc
 
       $scope.data = result.data.data;
       // status of data
+      // TODO: query threshold from database, not from rootScope
       $scope.threshold = $rootScope.threshold;
+      console.log($rootScope.threshold)
       var status = DataStatusService.getStatus($scope.data, $scope.threshold);
+
       $scope.badStatus = status.badStatus;
       $scope.status = status.status;
     }
@@ -29,8 +32,9 @@ var runningDevicesData = []
           Promise.all(result.data.data.map(function(item){
             return new Promise(function(resolve, reject){
               ThresholdService.getNewestThresholdByCropId(item.crop.id).then(function(result) {
-                var status = DataStatusService.getStatus(item.data, result.data);
+                var status = DataStatusService.getStatus(item.data, result.data.data);
                 runningDevicesData.push({devicecropdata: item, status: status});
+                
                 resolve(status);
                 });
             });
@@ -48,6 +52,7 @@ var runningDevicesData = []
       })
     }).then(function(){
       $scope.runningDevicesData = runningDevicesData;
+      console.log(runningDevicesData);
     })
   }
 });

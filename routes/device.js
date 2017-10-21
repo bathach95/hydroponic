@@ -18,6 +18,13 @@ models.Device.findAll({
   });
 })
 
+
+function sendDeviceStatusToDevice(mac, newStatusMessageToDevice) {
+  var deviceTopic = 'device/' + mac + "/esp";
+  client.publish(deviceTopic, newStatusMessageToDevice);
+
+}
+
 //================================ end ===================================
 
 router.get('/all', user.authenticate(), function (req, res) {
@@ -48,6 +55,102 @@ router.get('/all', user.authenticate(), function (req, res) {
 
 
 })
+
+router.get('/running', user.authenticate(), function(req, res){
+  models.User.getUserById(req.user.id, function (user) {
+    if (user) {
+      user.getDevices({
+        where:{
+          status: 'running'
+        }
+      }).then(function (result) {
+        var deviceDataList = [];
+
+        Promise.all(result.map(function(item){
+          console.log(item);
+          return new Promise(function(resolve, reject) {
+            item.getCrops({
+              where:{
+                status: true
+              }
+            }).then(function (cropResult) {
+              return new Promise(function(result, reject){
+                cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
+                  if (dataResult[0])
+                  {
+                    var returnValue = {
+                      device: item.dataValues,
+                      crop: cropResult[0].dataValues,
+                      data: dataResult[0].dataValues
+                    };
+                    deviceDataList.push(returnValue);
+                    resolve(dataResult[0]);
+                  }
+                  else {
+                    var returnValue = {
+                      device: item.dataValues,
+                      crop: cropResult[0].dataValues,
+                      data: {}
+                    };
+                    deviceDataList.push(returnValue);
+                    resolve(dataResult[0]);
+                  }
+                });
+              });
+            })
+          });
+        })).then(function(value) {
+          res.json({
+            success: true,
+            data: deviceDataList,
+            message: 'Get running device success!'
+          });
+        })
+      })
+    }
+    else
+    {
+      res.json({
+        success: false,
+        message: 'User does not exist!'
+      })
+      console.log(5678);
+    }
+  });
+})
+
+router.put('/status', user.authenticate(), function(req, res){
+  setTimeout(function () {
+    models.Device.getDeviceByMac(req.body.mac, function (device) {
+      if (device) {
+        device.updateStatus(req.body.status, function () {
+          var newStatusCode;
+          if (req.body.status == 'running')
+          {
+            newStatusCode = '1';
+          }
+          else {
+            newStatusCode = '0';
+          }
+          var statusMessageToDevice = req.body.mac + '03' + '0003' + '00' + newStatusCode;
+          sendDeviceStatusToDevice(req.body.mac, statusMessageToDevice);
+
+          res.json({
+            success: true,
+            message: 'Update device status success !'
+          })
+        })
+      } else {
+        res.json({
+          success: false,
+          message: 'Device does not exist !'
+        })
+      }
+    })
+  }, 1500);
+})
+
+
 
 router.get('/one', user.authenticate(), function (req, res) {
   console.log(req.query)

@@ -15,7 +15,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 		<div>
 			<div class="list-group">
-				<a ng-repeat="article in articleList | filter: {checked: true}" ui-sref="single_article({id: article.id})" class="list-group-item">{{article.title}}</a>
+				<a ng-repeat="article in articleList" ui-sref="single_article({id: article.id})" class="list-group-item">{{article.title}}</a>
 			</div>
 		</div>
 
