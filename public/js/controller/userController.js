@@ -40,7 +40,6 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
           $('#loginBtn').button('reset');
         }, 1000);
       }
-
     })
     } else {
       $scope.loginMessage = isEmpty.message;

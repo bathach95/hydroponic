@@ -135,7 +135,7 @@ router.put('/share', user.authenticate(), function (req, res) {
         crop.updateShare(req.body.share, function () {
           res.json({
             success: true,
-            message: 'Update share status success !'
+            message: 'Update share status successfully !'
           })
         })
       } else {

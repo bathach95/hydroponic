@@ -45,7 +45,7 @@
   	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeInDown">
   		<h1>List of crops</h1>
   		<p class="lead">
-  			List of crops of your device.
+  			List of crops of your device: <b>{{mac}}</b>
   		</p>
   	</div>
   </div>
@@ -180,37 +180,164 @@
 </section>
 <!--  SECTION-2 -->
 <section id="Section-2" class="fullbg">
-<div class="section-divider">
-</div>
+  <div class="section-divider">
+  </div>
   <div class="container animated fadeInDown">
-  	<h1>Details of your device</h1>
+  	<h1>Details of your device: <b>{{mac}}</b></h1>
+    <h3 class="lead" style="font-weight:bold; color:#fff;">
+      List relays
+    </h3>
+  </div>
+  <div class="row color-white" ng-controller="ActuatorCtrl">
+  	<div class="container animated fadeInUp">
+  	  <!--<div class="table-list-device-header">
+  	    <table class="table-list-device" cellpadding="0" cellspacing="0" border="0">
+  	    </table>
+  	  </div>-->
+  	  <div ng-if="listActuators" class="table-list-device-content">
+  	    <table class="table-list-device" cellpadding="0" cellspacing="0" border="0" ui-jq="dataTable" ui-options="dataTableOpt">
+          <thead class="table-list-device-header">
+  	        <tr>
+  	          <th>No.</th>
+              <th>Actuator ID</th>
+  	          <th>Name</th>
+  	          <th>Type</th>
+              <th>Priority</th>
+  	          <th>Status</th>
+  	          <th>Created Date</th>
+  	          <th>Operation</th>
+  	        </tr>
+  	      </thead>
+          <tbody>
+  	        <tr ng-repeat="actuator in listActuators">
+  	          <td>{{$index + 1}}</td>
+              <td>{{actuator.actuatorid}}</td>
+              <td>{{actuator.name}}
+  	          <td>{{actuator.type}}</td>
+              <td>{{actuator.priority}}</td>
+  	          <td>{{actuator.status}}</td>
+  	          <td>{{actuator.createdAt | date:'dd-MM-yyyy HH:mm:ss Z'}}</td>
+  	          <td>
+                  <a ng-if="actuator.status=='off'" ng-click="toggleActuator($index, actuator.actuatorid, actuator.id, 'on')" data-toggle="tooltip" title="Start this actuator" data-placement="bottom" tooltip>
+                    <i class="fa fa-play-circle-o"></i>
+                  </a>
+                  <a ng-if="actuator.status=='on'" ng-click="toggleActuator($index, actuator.actuatorid, actuator.id, 'off')" data-toggle="tooltip" title="Stop this actuator" data-placement="bottom" tooltip>
+                    <i class="fa fa-pause-circle-o"></i>
+                  </a>
+                  &nbsp;
+  		          	<a ng-click="deleteActuator($index, crop.id, crop.status)" href="" data-toggle="tooltip" title="Delete this actuator" data-placement="bottom" tooltip>
+  		          		<i class="fa fa-trash"></i>
+  		          	</a>
+  	          </td>
+  	        </tr>
+  	      </tbody>
+  	    </table>
+  	  </div>
+      <div class="row">
+        <center>
+        <div class="col-md-12 add-device-container">
+          <button type="button" data-toggle="modal" data-target="#addActuatorModal" class="button-refesh-data animated fadeInLeftBig"><i class="fa fa-tasks"></i>&nbsp; New Relay</button>
+        </div>
+      </center>
+      </div>
+  	</div>
   </div>
 
-  	<!--<div class="user-info">
-	  <img alt="" src="assets/img/avatar.jpg">
-	</div>
-	<h2>Ta Chi Tay</h2>
-	  <div class="profile-item-container col-md-12 animated fadeInUpNow">
-	    <div class="profile-item">
-		  <i class="fa fa-envelope"></i>
-		  <h3>chitayta@gmail.com
-		  </h3>
-		</div>
-	    <div class="profile-item">
-	      <i class="fa fa-phone-square"></i>
-		  <h3>092867092
-		  </h3>
-		</div>
-		<div id="List-Devices-Link" class="profile-item">
-			<a href="#Section-1">
-		  <i class="fa fa-plug"></i>
-		  <h3>List Devices
-		  </h3>
-		</a>
-		</div>
-	  </div>
-	  <div class="animated fadeInUpNow">
-		<button type="submit" onclick="window.location.href='edit-profile.html'" class="button-edit-profile" style="text-decoration:none;"><i class="fa fa-cog"></i>&nbsp; Edit profile</button>
-  	  </div>-->
+  <style media="screen">
+    #addActuatorModal {
+      font-size: 15px;
+      text-align: center;
+    }
+    #addActuatorModal input{
+      font-size: 15px;
+      text-align: center;
+      color: #000;
+      font-size: 15px;
+      border: 1px solid #e3e3e3;
+    }
+  </style>
+  <!-- Start add actuator modal -->
+  <div class="modal fade" id="addActuatorModal" role="dialog" ng-controller="ActuatorCtrl">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add new actuator for this device</h4>
+        </div>
+        <div class="modal-body">
+          <style media="screen">
+            #addActuatorModal label, #addActuatorModal input, #addActuatorModal select{
+              width: 100%;
+              margin: 20px 0px;
+            }
+
+            #addActuatorModal input, #addActuatorModal select{
+              padding: 5px 0px;
+            }
+          </style>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="name">ID</label>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <input ng-model="newActuator.actuator.actuatorid" type="number" name="actuatorid" min="11" max="49"/>
+            </div>
+            <div class="col-md-2 col-sm-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="type">Priority</label>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <select name="type" ng-model="newActuator.actuator.priority">
+                <option value="">---Please select---</option>
+                <option value="Primary">Primary</option>
+                <option value="Secondary">Secondary</option>
+              </select>
+            </div>
+            <div class="col-md-2 col-sm-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="name">Name</label>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <input ng-model="newActuator.actuator.name"  type="text" name="name"/>
+            </div>
+            <div class="col-md-2 col-sm-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="type">Type</label>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <select name="type" ng-model="newActuator.actuator.type">
+                <option value="">---Please select---</option>
+                <option value="Water">Water</option>
+                <option value="Fan">Fan</option>
+                <option value="Lighting">Lighting</option>
+                <option value="Oxygen">Oxygen</option>
+              </select>
+            </div>
+            <div class="col-md-2 col-sm-2">
+            </div>
+          </div>
+          <br>
+          <!--<div class="row" style="text-align:center;">
+            <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
+          </div>--->
+        </div>
+        <div class="modal-footer">
+          <button ng-click="addActuator()" type="button" class="btn btn-1 btn-primary" data-dismiss="modal">OK</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- end row -->
 
 </section>

@@ -10,19 +10,30 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    priority: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     status: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    actuatorid: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     instanceMethods: {
-      updateStatus: function (newStatus, callback) {
+      updateStatus: function (newStatus, callback, err) {
         this.update({
           status: newStatus
-        }).then(callback);
+        }).then(callback).catch(err);
       }
     },
     classMethods: {
+      getActuatorById: function (id, callback, err) {
+        Actuator.findById(id).then(callback).catch(err);
+      },
       createActuator: function(actuator, callback, err){
         Actuator.create(actuator).then(callback).catch(err);
       },

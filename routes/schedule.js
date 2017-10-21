@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
-const mqtt = require('mqtt');
-const client = mqtt.connect('mqtt://13.58.114.56:1883');
 var device = require('./device.js');
 
 
@@ -29,6 +27,18 @@ function normalizeHundredToString(id){
 function normalizeNumber(number, max) {
   var str = number.toString();
   return str.length < max ? normalizeNumber("0" + str, max) : str;
+}
+
+function secondsToHMS(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+    return {
+      hours: normalizeNumber(h, 2),
+      mins: normalizeNumber(m, 2),
+      seconds: normalizeNumber(s, 2)
+    }
 }
 
 router.put('edit', user.authenticate(), function(req, res){
@@ -117,12 +127,16 @@ router.get('/sync', user.authenticate(), function(req, res){
         {
           if (actuators[i].dataValues.Schedules.length > 0)
           {
-            dataLength = dataLength + (2 + 2 + 6*2*actuators[i].dataValues.Schedules.length);
+            dataLength = dataLength + (2 + 2 + 6*4*actuators[i].dataValues.Schedules.length);
             var string = normalizeNumber(i + 1, 2) + normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
             //item.dataValues.Schedules.forEach(function(scheduleItem){
             for (j = 0; j < actuators[i].dataValues.Schedules.length; j++)
             {
-              string = string.concat(timeToMessageString(actuators[i].dataValues.Schedules[j].starttime)).concat(timeToMessageString(actuators[i].dataValues.Schedules[j].endtime));
+              var starttimeString = timeToMessageString(actuators[i].dataValues.Schedules[j].starttime);
+              var endtimeString = timeToMessageString(actuators[i].dataValues.Schedules[j].endtime);
+              var intervaltimeString = secondsToHMS(actuators[i].dataValues.Schedules[j].intervaltime);
+              var delaytimeString = secondsToHMS(actuators[i].dataValues.Schedules[j].delaytime);
+              string = string.concat(starttimeString).concat(endtimeString).concat(intervaltimeString.hours+intervaltimeString.mins+intervaltimeString.seconds).concat(delaytimeString.hours+delaytimeString.mins+delaytimeString.seconds);
             }
             listStrings.push(string);
           }
