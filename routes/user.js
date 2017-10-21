@@ -77,6 +77,26 @@ router.get('/info', authenticate(), function (req, res) {
   })
 });
 
+router.post('/checkemail', function(req, res) {
+
+  console.log(req.body);
+  models.User.getUserByEmail(req.body.email, function (user) {
+      console.log(user);
+    if (user) {
+      res.json({
+        success: false,
+        message: 'Email is invalid.'
+      });
+    }
+    else {
+      res.json({
+        success: true,
+        message: 'Email is valid.'
+      });
+    }
+  })
+});
+
 /* register action */
 router.post('/register', function (req, res) {
 
@@ -294,7 +314,6 @@ router.put('/active', function (req, res) {
 
 /* ensure authentication */
 router.get('/verifytoken', function (req, res) {
-
   jwt.verify(req.headers.token, secretKey, function (err, decoded) {
     if (err) {
       res.json({

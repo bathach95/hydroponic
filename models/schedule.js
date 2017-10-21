@@ -1,24 +1,13 @@
+
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
   var Schedule = sequelize.define('Schedule', {
-    type: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    actuatorid:{
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    turnonevery: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    timefrom: {
+    starttime: {
       type: DataTypes.TIME,
       allowNull: false
     },
-    timeto: {
+    endtime: {
       type: DataTypes.TIME,
       allowNull: false
     },
@@ -26,34 +15,36 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    lasttime: {
+    intervaltime: {
       type: DataTypes.FLOAT,
       allowNull: false
     }
   }, {
     classMethods: {
+      // association N:M with User
+      associate: function(models){
+        Schedule.belongsTo(models.Actuator);
+      },
       createSchedule: function(newSchedule, callback){
         Schedule.create(newSchedule).then(callback);
       },
-      getScheduleByCropId: function(cropId, callback, err){
+      getScheduleByCropId: function(cropId, callback, err, models){
         var query = {
-          where: {
-            CropId: cropId
-          },
-          order: [['timefrom', 'ASC']]
-        }
-        Schedule.findAll(query).then(callback).catch(err);
-      },
-      deleteScheduleByCropId: function(cropId, callback){
-        var query = {
+          include: models.Actuator,
           where: {
             CropId: cropId
           }
         }
-        Schedule.destroy(query).then(callback);
+        Schedule.findAll(query).then(callback).catch(err);
+        //sequelize.query('SELECT * FROM Schedule, Actuator WHERE Schedule.name = Actuator.name').success(callback);
       },
-      // association N:M with User
-      associate: function(models){
+      deleteScheduleById: function(scheduleId, callback, err){
+        var query = {
+          where: {
+            id: scheduleId
+          }
+        }
+        Schedule.destroy(query).then(callback).catch(err);
       }
     },
     tableName: 'Schedule'

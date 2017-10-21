@@ -1,43 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container">
-        <h1>SEARCH RESULT</h1>
-        <div>
-            <table class="table table-hover table-striped table-bordered table-list">
-                <thead>
-                  <tr>
-                    <th class="hidden-xs">No.</th>
-                    <th>Crop Name</th>
-                    <th>Type</th>
-                    <th>Tree Species</th>
-                    <th>Starting Date</th>
-                    <th>Closing Date</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="crop in searchResult">
-                  <!-- <tr ng-repeat="crop in listCropPage"> -->
-                    <!-- <td class="hidden-x  s">{{((currentPage-1)*5)+($index + 1)}}</td> -->
-                    <td>{{$index + 1}}</td>
-                    <td><a ui-sref="crop_detail({devicemac: crop.DeviceMac, cropid: crop.id})">{{crop.name}}</a></td>
-                    <td>{{crop.type}}</td>
-                    <td>{{crop.treetype}}</td>
-                    <td>{{crop.startdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
-                    <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-                    <td ng-if="crop.status">Running</td>
-                    <td ng-if="!crop.status">Finished</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
-    </div>
-</body>
-</html>
+<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="container">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+  </div>
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav navbar-right">
+			<li><a ui-sref="home">Home</a></li>
+			<li><a ui-sref="home">Systems</a></li>
+			<li><a ui-sref="home">Acticle</a></li>
+			<li><a ui-sref="home">Forum</a></li>
+			<li><a ui-sref="home">About</a></li>
+	    <li ng-show="userLogin" class="dropdown active">
+				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+				<span class="caret"></span></a>
+				<ul class="dropdown-menu" ng-controller="LoginCtrl">
+					<li><a ui-sref="profile">Profile</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+					<li><a ui-sref="change_password">Change your password</a></li>
+					<li><a href="" ng-click="logout()">Log out</a></li>
+				</ul>
+			</li>
+		</ul>
+  </div>
+  <!-- /.navbar-collapse -->
+</div>
+</nav>
+
+
+<!--SECTION - DEVICES -->
+<section id="Section-1" class="fullbg">
+<div class="section-divider">
+</div>
+<div class="container">
+<div class="row">
+	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeInDown">
+		<h1>Search Result</h1>
+		<p class="lead">
+			List of crops for search string: {{searchData.data}}
+		</p>
+	</div>
+</div>
+<div class="row color-white">
+	<div>
+	<div class="container animated fadeInUp">
+	  <div class="table-list-device-content">
+	    <table ng-if="searchResult" class="table-list-device" cellpadding="0" cellspacing="0" border="0" ui-jq="dataTable" ui-options="dataTableOpt">
+        <thead class="table-list-device-header">
+	        <tr>
+	          <th>No.</th>
+	          <th>Crop Name</th>
+	          <th>Type of Hydroponics</th>
+	          <th>Tree Type</th>
+	          <th>Start Date</th>
+	          <th>End Date</th>
+	          <th>Status</th>
+	        </tr>
+	      </thead>
+        <tbody>
+	        <tr ng-repeat="crop in searchResult">
+	          <td>{{$index + 1}}</td>
+	          <td><a class="crop-link"  ui-sref="crop_detail({devicemac: crop.DeviceMac, cropid: crop.id})">{{crop.name}}</a></td>
+	          <td>{{crop.type}}</td>
+	          <td>{{crop.treetype}}</td>
+	          <td>{{crop.startdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+	          <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+            <td ng-if="crop.status">Running</td>
+            <td ng-if="!crop.status">Finished</td>
+	        </tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+</div>
+<!-- end row -->
+</div>
+</section>

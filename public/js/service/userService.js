@@ -15,16 +15,6 @@ service.service('AuthService', function ($cookies, $http) {
     } else {
       return false;
     }
-    // var promise = new Promise(function (resolve, reject) {
-    //   $http.get('/user/verifytoken').then(function (result) {
-    //     if (result.data.success){
-    //       resolve(result.data.data);
-    //     } else {
-    //       reject(result.data.message);
-    //     }
-    //   })
-    // })
-    // return promise;
   }
 
   function checkEmptyLogin(user) {
@@ -104,14 +94,20 @@ service.service('AuthService', function ($cookies, $http) {
 
 service.service('UserService', function ($http, $cookies) {
 
-  this.getUserRole = function (callback) {
-    this.getUserDetail().then(function (result) {
-      if (result.data.success) {
+  this.getUserRole = function(callback){
+    this.getUserDetail().then(function(result){
+      if (result.data.success){
         callback(result.data.data.role);
       } else {
         callback(null);
       }
     })
+  }
+
+  this.checkEmail = function(user) {
+    return $http.post('/user/checkemail', user, {
+      ignoreLoadingBar: true
+    });
   }
 
   this.getUserDetail = function () {
@@ -147,7 +143,5 @@ service.service('UserService', function ($http, $cookies) {
     angular.forEach(cookies, function (v, k) {
       $cookies.remove(k);
     });
-    // $cookieStore.remove('token');
-    // $cookieStore.remove('name');
   }
 });

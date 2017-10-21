@@ -17,6 +17,40 @@ controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $sc
   })
 });
 
+controller.controller('HomePageDataCtrl', function ($http, $stateParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService, DeviceService, ThresholdService) {
+
+var runningDevicesData = []
+  if ($scope.userLogin)
+  {
+    new Promise(function(resolve, reject){
+      DeviceService.getRunningDevice().then(function(result){
+        if (result.data.success)
+        {
+          Promise.all(result.data.data.map(function(item){
+            return new Promise(function(resolve, reject){
+              ThresholdService.getNewestThresholdByCropId(item.crop.id).then(function(result) {
+                var status = DataStatusService.getStatus(item.data, result.data);
+                runningDevicesData.push({devicecropdata: item, status: status});
+                resolve(status);
+                });
+            });
+          })).then(function(result)
+          {
+            //resolve(result);
+          })
+        }
+        else
+        {
+            console.log("Not OK!!");
+        };
+      }).then(function(result){
+        resolve(result);
+      })
+    }).then(function(){
+      $scope.runningDevicesData = runningDevicesData;
+    })
+  }
+});
 
 controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, ThresholdService, DataService, GetTimeService, DataStatusService, flash) {
   // get threshold to compare

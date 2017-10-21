@@ -1,243 +1,343 @@
-<!--Author: W3layouts
-  Author URL: http://w3layouts.com
-  License: Creative Commons Attribution 3.0 Unported
-  License URL: http://creativecommons.org/licenses/by/3.0/
-  -->
-<!DOCTYPE HTML>
-<html>
-
-<head>
-  <title>Hydroponic</title>
-</head>
-
-<body>
-
-  <!--banner start here-->
-  <div class="banner-two">
+<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="container">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#top-section">BK Hydroponics</a>
   </div>
-  <!--banner end here-->
-  <div class="container margin-container">
-    <div class="page-title">
-      <h2>Device Details</h2>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div>
-          <div class="rslides_container">
-            <ul class="rslides" id="slider1">
-              <li><img class="img-responsive" src="/images/images/1.jpg" alt=""></li>
-              <li><img class="img-responsive" src="/images/images/2.jpg" alt=""></li>
-              <li><img class="img-responsive" src="/images/images/3.jpg" alt=""></li>
-              <li><img class="img-responsive" src="/images/images/4.jpg" alt=""></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <table class="table table-hover">
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav navbar-right">
+			<li><a ui-sref="home">Home</a></li>
+			<li><a ui-sref="home">Systems</a></li>
+			<li><a ui-sref="home">Acticle</a></li>
+			<li><a ui-sref="home">Forum</a></li>
+			<li><a ui-sref="home">About</a></li>
+	    <li ng-show="userLogin" class="dropdown active">
+				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+				<span class="caret"></span></a>
+				<ul class="dropdown-menu" ng-controller="LoginCtrl">
+					<li><a ui-sref="profile">Profile</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+					<li><a ui-sref="change_password">Change your password</a></li>
+					<li><a href="" ng-click="logout()">Log out</a></li>
+				</ul>
+			</li>
+		</ul>
+  </div>
+  <!-- /.navbar-collapse -->
+</div>
+</nav>
+
+
+<!--SECTION - DEVICES -->
+<section id="Section-1" class="fullbg" ng-controller="CropCtrl">
+<div class="section-divider">
+</div>
+<div class="container">
+  <div class="row">
+  	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeInDown">
+  		<h1>List of crops</h1>
+  		<p class="lead">
+  			List of crops of your device: <b>{{mac}}</b>
+  		</p>
+  	</div>
+  </div>
+  <div class="row color-white">
+  	<div class="container animated fadeInUp">
+  	  <!--<div class="table-list-device-header">
+  	    <table class="table-list-device" cellpadding="0" cellspacing="0" border="0">
+  	    </table>
+  	  </div>-->
+  	  <div class="table-list-device-content">
+  	    <table ng-if="cropList" class="table-list-device" cellpadding="0" cellspacing="0" border="0" ui-jq="dataTable" ui-options="dataTableOpt">
+          <thead class="table-list-device-header">
+  	        <tr>
+  	          <th>No.</th>
+  	          <th>Crop Name</th>
+  	          <th>Type of Hydroponics</th>
+  	          <th>Tree Type</th>
+  	          <th>Start Date</th>
+  	          <th>End Date</th>
+  	          <th>Status</th>
+  	          <th>Operation</th>
+  	          <th>Share</th>
+  	        </tr>
+  	      </thead>
           <tbody>
-            <tr class="info">
-              <td>Device MAC</td>
-              <td>{{device.mac}}</td>
-            </tr>
-            <tr>
-              <td>Device Name</td>
-              <td>{{device.name}}</td>
-            </tr>
-            <tr class="info">
-              <td>Manufacturer</td>
-              <td>{{device.manufacturer}}</td>
-            </tr>
-            <tr>
-              <td>Installing Date</td>
-              <td>{{device.createdAt | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-            </tr>
-            <tr class="info">
-              <td>Status</td>
-              <td>{{device.status}}</td>
-            </tr>
-          </tbody>
-        </table>
+  	        <tr ng-repeat="crop in cropList">
+  	          <td>{{$index + 1}}</td>
+  	          <td><a class="crop-link" ui-sref="crop_detail({devicemac: deviceMac, cropid: crop.id})">{{crop.name}}</a></td>
+  	          <td>{{crop.type}}</td>
+  	          <td>{{crop.treetype}}</td>
+  	          <td>{{crop.startdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+  	          <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+              <td ng-if="crop.status">Running</td>
+  	          <td>
+  		          	<a ng-click="deleteCrop($index, crop.id, crop.status)" href="" data-toggle="tooltip" title="Delete this crop" data-placement="bottom" tooltip>
+  		          		<i class="fa fa-trash"></i>
+  		          	</a>
+  	          </td>
+  	          <td>
+  		          	<a ng-if="!crop.share" ng-click="share(crop.id, true, $index)" href="" data-toggle="tooltip" title="Share this crop" data-placement="bottom" tooltip>
+  		          		<i class="fa fa-share-alt-square"></i>
+  		          	</a>
+  		          	<a ng-if="crop.share" ng-click="share(crop.id, false, $index)" href="" data-toggle="tooltip" title="Unshare this crop" data-placement="bottom" tooltip>
+  		          		<i class="fa fa-lock"></i>
+  		          	</a>
+  	          </td>
+
+  	        </tr>
+  	      </tbody>
+  	    </table>
+  	  </div>
+  	  <div class="add-device-container">
+  	  	<button type="button" data-toggle="modal" data-target="#addCropModal" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-plus-circle"></i>&nbsp; Add new crop</button>
+      </div>
+  	</div>
+  </div>
+<!-- end row -->
+</div>
+<style media="screen">
+  #addCropModal {
+    font-size: 15px;
+
+    text-align: center;
+  }
+
+  #addCropModal input{
+    color: #000;
+    font-size: 15px;
+    border: 1px solid #e3e3e3;
+  }
+</style>
+<div class="modal fade" id="addCropModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add new crop for this device</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <label for="name" class="col-md-4 col-sm-4">Crop Name</label>
+          <input ng-model="newCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
+        </div>
+        <br>
+        <div class="row">
+          <label for="tree-species" class="col-md-4 col-sm-4">Tree Type</label>
+          <input ng-model="newCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species" />
+        </div>
+        <br>
+        <div class="row">
+          <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
+          <input ng-model="newCrop.startdate" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date" />
+        </div>
+        <br>
+        <div class="row">
+          <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
+          <input ng-model="newCrop.closedate" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date" />
+        </div>
+        <br>
+        <div class="row">
+          <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
+          <input ng-model="newCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="seconds" />
+        </div>
+        <br>
+        <div class="row">
+          <label for="type" class="col-md-4 col-sm-4">Type:</label>
+          <select class="col-md-7 col-sm-7" name="type" ng-model="newCrop.type">
+          <option value="">---Please select---</option>
+          <option value="drip system">Drip System</option>
+          <option value="ebb-flow">EBB-Flow</option>
+          <option value="nft">NFT</option>
+          <option value="water culture">Water Culture</option>
+          <option value="aeroponics">Aeroponics</option>
+          <option value="wick system">Wick System</option>
+        </select>
+        </div>
+        <!--<div class="row" style="text-align:center;">
+          <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
+        </div>--->
+      </div>
+      <div class="modal-footer">
+        <button ng-click="addCrop()" type="button" class="btn btn-1 btn-primary">OK</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
+
+  </div>
+</div>
+
+</section>
+<!--  SECTION-2 -->
+<section id="Section-2" class="fullbg">
+  <div class="section-divider">
+  </div>
+  <div class="container animated fadeInDown">
+  	<h1>Details of your device: <b>{{mac}}</b></h1>
+    <h3 class="lead" style="font-weight:bold; color:#fff;">
+      List relays
+    </h3>
+  </div>
+  <div class="row color-white" ng-controller="ActuatorCtrl">
+  	<div class="container animated fadeInUp">
+  	  <!--<div class="table-list-device-header">
+  	    <table class="table-list-device" cellpadding="0" cellspacing="0" border="0">
+  	    </table>
+  	  </div>-->
+  	  <div ng-if="listActuators" class="table-list-device-content">
+  	    <table class="table-list-device" cellpadding="0" cellspacing="0" border="0" ui-jq="dataTable" ui-options="dataTableOpt">
+          <thead class="table-list-device-header">
+  	        <tr>
+  	          <th>No.</th>
+              <th>Actuator ID</th>
+  	          <th>Name</th>
+  	          <th>Type</th>
+              <th>Priority</th>
+  	          <th>Status</th>
+  	          <th>Created Date</th>
+  	          <th>Operation</th>
+  	        </tr>
+  	      </thead>
+          <tbody>
+  	        <tr ng-repeat="actuator in listActuators">
+  	          <td>{{$index + 1}}</td>
+              <td>{{actuator.actuatorid}}</td>
+              <td>{{actuator.name}}
+  	          <td>{{actuator.type}}</td>
+              <td>{{actuator.priority}}</td>
+  	          <td>{{actuator.status}}</td>
+  	          <td>{{actuator.createdAt | date:'dd-MM-yyyy HH:mm:ss Z'}}</td>
+  	          <td>
+                  <a ng-if="actuator.status=='off'" ng-click="toggleActuator($index, actuator.actuatorid, actuator.id, 'on')" data-toggle="tooltip" title="Start this actuator" data-placement="bottom" tooltip>
+                    <i class="fa fa-play-circle-o"></i>
+                  </a>
+                  <a ng-if="actuator.status=='on'" ng-click="toggleActuator($index, actuator.actuatorid, actuator.id, 'off')" data-toggle="tooltip" title="Stop this actuator" data-placement="bottom" tooltip>
+                    <i class="fa fa-pause-circle-o"></i>
+                  </a>
+                  &nbsp;
+  		          	<a ng-click="deleteActuator($index, crop.id, crop.status)" href="" data-toggle="tooltip" title="Delete this actuator" data-placement="bottom" tooltip>
+  		          		<i class="fa fa-trash"></i>
+  		          	</a>
+  	          </td>
+  	        </tr>
+  	      </tbody>
+  	    </table>
+  	  </div>
+      <div class="row">
+        <center>
+        <div class="col-md-12 add-device-container">
+          <button type="button" data-toggle="modal" data-target="#addActuatorModal" class="button-refesh-data animated fadeInLeftBig"><i class="fa fa-tasks"></i>&nbsp; New Relay</button>
+        </div>
+      </center>
+      </div>
+  	</div>
   </div>
 
-  <!-- Crops area -->
-  <div ng-controller="CropCtrl">
-    <div class="container">
-      <div class="page-title">
-        <h2>Crop List </h2>
-      </div>
-      <div class="crop-list-panel">
-        <div class="panel panel-info panel-table">
-          <div class="panel-heading">
-            <div class="row">
-              <div class="col col-xs-6">
-                <h3 class="panel-title">Device ID - Device Name</h3>
-              </div>
-              <div class="col col-xs-6 text-right">
-                <button type="button" class="btn btn-sm btn-primary btn-create" data-toggle="modal" data-target="#addCropModal">Create New Crop</button>
-              </div>
-            </div>
-          </div>
-          <div class="panel-body">
-            <table class="table table-hover table-striped table-bordered table-list">
-              <thead>
-                <tr>
-                  <th class="hidden-xs">No.</th>
-                  <th>Crop Name</th>
-                  <th>Type</th>
-                  <th>Tree Species</th>
-                  <th>Starting Date</th>
-                  <th>Closing Date</th>
-                  <th>Status</th>
-                  <th>Sharing</th>
-                  <th>Rating</th>
-                  <th><em class="fa fa-cog"></em></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="crop in cropList">
-                <!-- <tr ng-repeat="crop in listCropPage"> -->
-                  <!-- <td class="hidden-x  s">{{((currentPage-1)*5)+($index + 1)}}</td> -->
-                  <td>{{$index + 1}}</td>
-                  <td><a ui-sref="crop_detail({devicemac: deviceMac, cropid: crop.id})">{{crop.name}}</a></td>
-                  <td>{{crop.type}}</td>
-                  <td>{{crop.treetype}}</td>
-                  <td>{{crop.startdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
-                  <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-                  <td ng-if="crop.status">Running</td>
-                  <td ng-if="!crop.status">Finished</td>
-                  <td>
-                    <div ng-if="crop.share">
-                      <button ng-click="share(crop.id, false, $index)" class="btn btn-warning">Unshare</button>
-                    </div>
-                    <div ng-if="!crop.share">
-                      <button ng-click="share(crop.id, true, $index)" class="btn btn-primary">Share</button>
-                    </div>
-                  </td>
-                  <td><jk-rating-stars 
-                    class="my-custom-stars"
-                    max-rating="5" 
-                    rating="rate" 
-                    on-rating="onItemRating(crop.id, rating)">
-                  </jk-rating-stars></td>
-                  <td>
-                    <button ng-click="deleteCrop($index, crop.id, crop.status)" class="btn btn-danger"><em class="glyphicon glyphicon-trash"></em></button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  <style media="screen">
+    #addActuatorModal {
+      font-size: 15px;
+      text-align: center;
+    }
+    #addActuatorModal input{
+      font-size: 15px;
+      text-align: center;
+      color: #000;
+      font-size: 15px;
+      border: 1px solid #e3e3e3;
+    }
+  </style>
+  <!-- Start add actuator modal -->
+  <div class="modal fade" id="addActuatorModal" role="dialog" ng-controller="ActuatorCtrl">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add new actuator for this device</h4>
+        </div>
+        <div class="modal-body">
+          <style media="screen">
+            #addActuatorModal label, #addActuatorModal input, #addActuatorModal select{
+              width: 100%;
+              margin: 20px 0px;
+            }
 
-          </div>
-          <div class="panel-footer">
-            <div class="row">
-              <div class="col col-xs-4">
-                <ul class="pagination hidden-xs pull-left">
-                  <li><a href ng-if="currentPage != 1" ng-click="previousPagination(currentPage - 1)"><em class="glyphicon glyphicon-chevron-left"></em></a></li>
-                </ul>
-              </div>
-              <div class="col col-xs-4" style="text-align:center;">Page {{currentPage}} of {{numberPagination}}
-              </div>
-              <div class="col col-xs-4">
-                <ul class="pagination hidden-xs pull-right">
-                  <!--<li><a href="#">{{$index}}</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                  -->
-                  <li><a href ng-if="currentPage != numberPagination" ng-click="nextPagination(currentPage + 1)"><em class="glyphicon glyphicon-chevron-right"></em></a></li>
-                </ul>
-                <ul class="pagination visible-xs pull-right">
-                  <li><a href="#">«</a></li>
-                  <li><a href="#">»</a></li>
-                </ul>
-              </div>
+            #addActuatorModal input, #addActuatorModal select{
+              padding: 5px 0px;
+            }
+          </style>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="name">ID</label>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <input ng-model="newActuator.actuator.actuatorid" type="number" name="actuatorid" min="11" max="49"/>
+            </div>
+            <div class="col-md-2 col-sm-2">
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="type">Priority</label>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <select name="type" ng-model="newActuator.actuator.priority">
+                <option value="">---Please select---</option>
+                <option value="Primary">Primary</option>
+                <option value="Secondary">Secondary</option>
+              </select>
+            </div>
+            <div class="col-md-2 col-sm-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="name">Name</label>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <input ng-model="newActuator.actuator.name"  type="text" name="name"/>
+            </div>
+            <div class="col-md-2 col-sm-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <label for="type">Type</label>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <select name="type" ng-model="newActuator.actuator.type">
+                <option value="">---Please select---</option>
+                <option value="Water">Water</option>
+                <option value="Fan">Fan</option>
+                <option value="Lighting">Lighting</option>
+                <option value="Oxygen">Oxygen</option>
+              </select>
+            </div>
+            <div class="col-md-2 col-sm-2">
+            </div>
+          </div>
+          <br>
+          <!--<div class="row" style="text-align:center;">
+            <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
+          </div>--->
+        </div>
+        <div class="modal-footer">
+          <button ng-click="addActuator()" type="button" class="btn btn-1 btn-primary" data-dismiss="modal">OK</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
-
-    <!-- Add crop modal -->
-    <div class="modal fade" id="addCropModal" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Add new crop for this device</h4>
-          </div>
-          <div class="modal-body">
-
-            <div class="row">
-              <label for="name" class="col-md-4 col-sm-4">Crop Name:</label>
-              <input ng-model="newCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
-            </div>
-            <br>
-            <div class="row">
-              <label for="tree-species" class="col-md-4 col-sm-4">Tree Species:</label>
-              <input ng-model="newCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species" />
-            </div>
-            <br>
-            <div class="row">
-              <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
-              <input ng-model="newCrop.startdate" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date" />
-            </div>
-            <br>
-            <div class="row">
-              <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
-              <input ng-model="newCrop.closedate" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date" />
-            </div>
-            <br>
-            <div class="row">
-              <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
-              <input ng-model="newCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="minutes" />
-            </div>
-            <br>
-            <div class="row">
-              <label for="type" class="col-md-4 col-sm-4">Type:</label>
-              <select name="type" ng-model="newCrop.type">
-              <option value="">---Please select---</option>
-              <option value="drip system">Drip System</option>
-              <option value="ebb-flow">EBB-Flow</option>
-              <option value="nft">NFT</option>
-              <option value="water culture">Water Culture</option>
-              <option value="aeroponics">Aeroponics</option>
-              <option value="wick system">Wick System</option>
-            </select>
-            </div>
-            <br>
-            <div class="row" style="text-align:center;">
-              <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
-            </div>
-            <br>
-          </div>
-          <div class="modal-footer">
-            <button ng-click="addCrop()" type="button" class="btn btn-1 btn-primary">OK</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
   </div>
-   <!-- End crops area -->
-  <script>
-    $(function () {
+<!-- end row -->
 
-      // Slideshow 1
-      $("#slider1").responsiveSlides({
-        auto: false,
-        pager: true,
-        nav: true,
-        speed: 500,
-        maxwidth: 800,
-        namespace: "centered-btns"
-      });
-    });
-  </script>
-</body>
-
-</html>
+</section>

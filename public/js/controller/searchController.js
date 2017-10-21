@@ -16,6 +16,7 @@ controller.controller('SearchResultCtrl', function ($scope, $stateParams, Standa
     }
     SearchService.search(searchData).then(function (result) {
         $scope.searchResult = result.data.data;
+        $scope.searchData = searchData;
         if ($scope.searchResult.length > 0){
             flash.success = 'Search success !';
         } else {

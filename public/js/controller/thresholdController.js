@@ -21,9 +21,6 @@ controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $r
     }
   });
 
-function reload(){
-  $window.location.reload();
-}
   // add new threshold
   $scope.addThreshold = function() {
 
@@ -36,7 +33,11 @@ function reload(){
 
         // if success, update view
         if (result.data.success){
-          setTimeout(reload, 2000);
+          flash.success = result.data.message;
+          $state.reload();
+        }
+        else {
+          flash.error = result.data.message;
         }
 
       });
@@ -45,4 +46,31 @@ function reload(){
       $scope.editThresholdMessage = isEmpty.message;
     }
   }
+});
+
+controller.controller('HomePageThresholdCtrl', function($http, $window, $stateParams, $rootScope, $scope, ThresholdService, GetTimeService) {
+  if ($scope.userLogin)
+  {
+  ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function(result) {
+    if (result.data) {
+      console.log(12345555);
+      $rootScope.threshold = result.data;
+      $scope.threshold = result.data;
+      var dateTime = GetTimeService.getDateTime(result.data.createdAt);
+      $scope.threshold.date = dateTime.date;
+      $scope.threshold.time = dateTime.time;
+
+      $scope.newThreshold = {
+        temperatureLower: $scope.threshold.temperatureLower,
+        temperatureUpper: $scope.threshold.temperatureUpper,
+        humidityLower: $scope.threshold.humidityLower,
+        humidityUpper: $scope.threshold.humidityUpper,
+        ppmLower: $scope.threshold.ppmLower,
+        ppmUpper: $scope.threshold.ppmUpper,
+        phLower: $scope.threshold.phLower,
+        phUpper: $scope.threshold.phUpper
+      }
+    }
+  });
+}
 });

@@ -1,7 +1,11 @@
 service.service('DeviceService', function($http) {
 
-    this.getAllDevicesByUserId = function(userid) {
+    this.getAllDevicesByUserId = function() {
         return $http.get('/device/all');
+    }
+
+    this.getRunningDevice = function() {
+      return $http.get('/device/running');
     }
 
     this.getDeviceByMac = function(mac) {
@@ -10,6 +14,10 @@ service.service('DeviceService', function($http) {
                 mac: mac
             }
         });
+    }
+
+    this.updateStatus = function(device) {
+      return $http.put('/device/status', device);
     }
 
     this.addDevice = function(device){
