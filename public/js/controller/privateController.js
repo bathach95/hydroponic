@@ -6,10 +6,16 @@ controller.controller('ModCtrl', function ($scope) {
 
 });
 
-controller.controller('UserManagementCtrl', function ($scope, UserManagementService, flash) {
+controller.controller('UserManagementCtrl', function ($scope, UserManagementService, flash, $state) {
     UserManagementService.getAllUser().then(function (result) {
         if (result.data.success) {
             $scope.listUser = result.data.data;
+
+            $scope.dataTableOpt = {
+             //custom datatable options
+            // or load data through ajax call also
+            "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+            };
         }
     })
 
@@ -19,6 +25,7 @@ controller.controller('UserManagementCtrl', function ($scope, UserManagementServ
                 UserManagementService.deleteUser({ userId: userId }).then(function (result) {
                     if (result.data.success) {
                         $scope.listUser.splice(index, 1);
+                        $state.reload();
                         flash.success = result.data.message;
                     } else {
                         flash.error = result.data.message;
@@ -61,6 +68,12 @@ controller.controller('ArticleManagementCtrl', function($scope, ArticleService, 
     ArticleService.getAllArticles().then(function (result) {
         if (result.data.success) {
             $scope.articleList = result.data.data;
+
+            $scope.dataTableOpt = {
+             //custom datatable options
+            // or load data through ajax call also
+            "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+            };
         }
     })
 

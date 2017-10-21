@@ -8,17 +8,6 @@ router.get("/", function (req, res) {
   res.render("index");
 });
 
-router.post('/', function(req, res){
-  res.send('post');
-})
-
-router.put('/', function(req, res){
-  res.send('put')
-})
-
-router.delete('/', function(req, res){
-  res.send('delete')
-})
 
 router.get("/admin", [user.authenticate(), user.acl.middleware(1, utils.getUserId)], function (req, res) {
   res.json({

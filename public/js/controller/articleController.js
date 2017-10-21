@@ -18,7 +18,7 @@ controller.controller('SingleArticleCtrl', function ($scope, $state, $stateParam
 
     $scope.checkArticle = function(articleId, check){
 
-        bootbox.confirm('Do you want to check or uncheck this article ?', function(yes){
+        bootbox.confirm('Do you want to ' + (check==true? 'verify': 'unverify') +' this article ?', function(yes){
             if (yes){
                 var article = {
                     articleId: articleId,
@@ -26,7 +26,7 @@ controller.controller('SingleArticleCtrl', function ($scope, $state, $stateParam
                 }
                 ArticleManagementService.checkArticle(article).then(function(result){
                     if (result.data.success){
-                        $state.go('article_manager');
+                        $state.reload();
                         flash.success = result.data.message;
                     } else {
                         flash.error = result.data.message;
@@ -34,12 +34,11 @@ controller.controller('SingleArticleCtrl', function ($scope, $state, $stateParam
                 })
             }
         })
-        
     }
 
 })
 
-controller.controller('WriteArticleCtrl', function ($scope, $state, ArticleService, flash) {
+controller.controller('WriteArticleCtrl', function ($scope, $cookies, $state, ArticleService, flash) {
 
     $scope.article = {};
 

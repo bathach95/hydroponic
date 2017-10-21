@@ -11,17 +11,6 @@ module.exports = function(sequelize, DataTypes) {
       createComment: function(newComment, callback){
         Comment.create(newComment).then(callback);
       },
-      getCommentsByContent: function(content, callback){
-        var str = '%' + content + '%';
-        var query = {
-          where: {
-            content: {
-              $like: str
-            }
-          }
-        };
-        Comment.findAll(query).then(callback);
-      },
       getCommentsByArticleId: function(User, articleId, callback){
         var query = {
           where: {
@@ -52,3 +41,4 @@ module.exports = function(sequelize, DataTypes) {
   });
   return Comment;
 };
+

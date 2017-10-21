@@ -1,23 +1,62 @@
-<div class="margin-container">
-    <form class="form-horizontal" ng-submit="resetPassword()">
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="email">Email:</label>
-        <div class="col-sm-8">
-          <input required ng-model="user.email" type="email" class="form-control" id="email" placeholder="Enter email">
-        </div>
-      </div>
-
-      <div class="form-group"> 
-        <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary">Reset</button>
-        </div>
-      </div>
-
-      <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <p ng-attr-style="{{success && 'color: green' || 'color: red'}}">{{message}}</p>
-            </div>
-      </div>
-    </form>
-    
+<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="container">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav navbar-right">
+      <li><a ui-sref="home">Home</a></li>
+			<li><a ui-sref="home">Systems</a></li>
+			<li><a ui-sref="home">Acticle</a></li>
+			<li><a ui-sref="home">Forum</a></li>
+			<li><a ui-sref="home">About</a></li>
+			<li class="active"><a ui-sref="login">Sign In</a></li>
+			<li><a ui-sref="register">Sign Up</a></li>
+		</ul>
+	</div>
+	<!-- /.navbar-collapse -->
 </div>
+</nav>
+<!--  SECTION-1 -->
+<section id="Section-4" class="fullbg">
+<div class="section-divider">
+</div>
+  <div class="form-container form animated fadeInDown">
+
+        <div id="login">
+          <h1>Reset your password</h1>
+
+          <form ng-submit="resetPassword()">
+
+            <div class="field-wrap">
+            <label>
+              Your Email<span class="req">*</span>
+            </label>
+            <input type="email" required ng-model="user.email" autocomplete="off"/>
+          </div>
+
+          <div class="field-button">
+          	<button class="button-sign button-block" type="submit">Reset</button>
+          </div>
+
+          <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <p ng-attr-style="{{success && 'color: green' || 'color: red'}}">{{message}}</p>
+                </div>
+          </div>
+
+          </form>
+
+        </div>
+
+</div> <!-- /form -->
+</section>
+<script src='/js/libs/login-page.js'></script>

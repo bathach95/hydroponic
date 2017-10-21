@@ -1,36 +1,46 @@
 var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
-controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookies, $scope, $rootScope, $state, UserService, AuthService, flash) {
+controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookies, $scope, $rootScope, $state, $timeout, UserService, AuthService, flash) {
 
   $scope.user = {};
 
   $scope.login = function () {
-
+    $('#loginBtn').button('loading');
     var isEmpty = AuthService.checkEmptyLogin($scope.user);
     if (!isEmpty.isErr) {
-      UserService.login($scope.user).then(function (result) {
-        if (result.data.success) {
-          $rootScope.userLogin = result.data.data.name;
+      new Promise(function(resolve, reject){
+        UserService.login($scope.user).then(function (result) {
 
-          //------------------
-          var day = new Date();
-          day.setDate(day.getDay() + 30);
+          resolve(result);
 
-          var options = {
-            domain: "13.58.114.56",
-            httpOnly: true,
-            expires: day
-          };
-          $cookies.put('token', result.data.data.token, options);
-          $cookies.put('name', result.data.data.name, options);
-          // TODO: remember me feature
-          $sessionStorage.user = 'heheeheh';
-          flash.success = result.data.message;
-          $state.go('home');
-        } else {
-          flash.error = result.data.message;
-        }
       });
+    }).then(function(result){
+      if (result.data.success) {
+        $rootScope.userLogin = result.data.data.name;
+        $rootScope.emailLogin = result.data.data.email;
+        //------------------
+        var day = new Date();
+        day.setDate(day.getDay() + 30);
+
+        var options = {
+          domain: "13.58.114.56",
+          httpOnly: true,
+          expires: day
+        };
+        $cookies.put('token', result.data.data.token, options);
+        $cookies.put('name', result.data.data.name, options);
+        $sessionStorage.user = 'heheeheh';
+        flash.success = result.data.message;
+        $state.go('home');
+      }
+      else
+      {
+        flash.error = result.data.message;
+        $timeout(function () {
+          $('#loginBtn').button('reset');
+        }, 1000);
+      }
+    })
     } else {
       $scope.loginMessage = isEmpty.message;
     }
@@ -62,21 +72,33 @@ controller.controller('ResetPassCtrl', function ($scope, UserService) {
 
 });
 
-controller.controller('RegisterCtrl', function ($http, $state, $scope, UserService, AuthService, flash) {
+controller.controller('RegisterCtrl', function ($http, $state, $scope, $q, $timeout, UserService, AuthService, flash) {
   $scope.user = {};
-
   $scope.register = function () {
+    $('#registerBtn').button('loading');
     var isEmpty = AuthService.checkEmptyReg($scope.user);
     if (!isEmpty.isErr) {
-      UserService.register($scope.user).then(function (result) {
+      new Promise(function(resolve, reject){
+        UserService.register($scope.user).then(function (result) {
+
+          resolve(result);
+
+        });
+      }).then(function(result){
 
         $scope.message = result.data.message;
         $scope.success = result.data.success;
 
         if (result.data.success) {
           flash.success = result.data.message;
-        } else {
+          $state.go('registered');
+        }
+        else
+        {
           flash.error = result.data.message;
+          $timeout(function() {
+            $('#registerBtn').button('reset');
+          }, 1000);
         }
       });
     } else {
@@ -85,6 +107,70 @@ controller.controller('RegisterCtrl', function ($http, $state, $scope, UserServi
     }
   }
 
+  $scope.confirmPasswordValidation = function (modelValue, viewValue) {
+    var value = modelValue || viewValue;
+    var passwordValue = $scope.user.password;
+    var deferred = $q.defer();
+    if (value === '')
+    {
+      deferred.resolve();
+    }
+    else {
+      $timeout(function() {
+      if (value === passwordValue)
+      {
+        deferred.resolve();
+      }
+      else {
+        deferred.reject();
+      }
+      }, 2000);
+    }
+    return deferred.promise;
+  }
+
+  // The validation function
+  $scope.myValidation = function (modelValue, viewValue) {
+
+      // Get the value
+      var value = modelValue || viewValue;
+
+      var deferred = $q.defer();
+
+      if (value === '')
+      {
+        deferred.resolve();
+      }
+      else {
+        $timeout(function() {
+          new Promise(function(resolve, reject) {
+            var user ={
+              email: value
+            }
+            UserService.checkEmail(user).then(function (result) {
+              resolve(result);
+            });
+          }).then(function(result){
+            // Check if is already taken
+            if(!result.data.success) {
+            //    // Username exists, this means validation fails
+                return deferred.reject();
+            } else {
+                // Username does not exist, therefore this validation passes
+                return deferred.resolve();
+           };
+         })
+     }, 2000);
+    }
+    return deferred.promise;
+  }
+
+
+});
+controller.controller('RegisteredCtrl', function ($http, $state, $scope, $q, $timeout, flash) {
+  $timeout(function() {
+    $state.go('home');
+  }, 8000);
 });
 
 controller.controller('ActiveUserCtrl', function ($stateParams, $scope, UserService, flash) {
@@ -101,7 +187,7 @@ controller.controller('ActiveUserCtrl', function ($stateParams, $scope, UserServ
   })
 });
 
-controller.controller('ProfileCtrl', function ($http, $window, $state, $http, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
+controller.controller('ProfileCtrl', function ($http, $window, $state, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
 
   /*----------------------- user ------------------------*/
   $scope.currentUser = {};
@@ -121,9 +207,10 @@ controller.controller('ProfileCtrl', function ($http, $window, $state, $http, $s
     UserService.update($scope.userUpdate).then(function (result) {
       if (result.data.success) {
         flash.success = result.data.message;
-        bootbox.confirm(result.data.message, function () {
-          $window.location.reload();
-        })
+        $state.go('profile');
+        // bootbox.confirm(result.data.message, function () {
+        //
+        // })
       } else {
         flash.error = result.data.message;
       }

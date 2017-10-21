@@ -1,111 +1,202 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    <div class="container">
-
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#member">Member</a></li>
-            <li><a data-toggle="tab" href="#mod">Moderator</a></li>
-            <li><a data-toggle="tab" href="#admin">Admin</a></li>
-        </ul>
-
-        <div class="tab-content">
-            <div id="admin" class="tab-pane fade">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Index</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Created at</th>
-                            <th>Status</th>
-                            <th>Update role</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="user in listUser | filter: {role : 'admin'}">
-                            <td>{{$index + 1}}</td>
-                            <td>{{user.name}}</td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.role}}</td>
-                            <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{user.status}}</td>
-                            <td><button ui-sref="update_role({id: user.id})" ng-click="updateRole()" class="btn btn-warning">Update role</button></td>
-                            <td><button ng-click="delete($index, user.id)" class="btn btn-danger">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+  <body class="sidebar-mini fixed">
+    <div class="wrapper">
+      <!-- Navbar-->
+      <header class="main-header hidden-print"><a class="logo" href="index.html">BK Hydroponics</a>
+        <nav class="navbar navbar-static-top">
+          <!-- Sidebar toggle button--><a class="sidebar-toggle" href="#" data-toggle="offcanvas"></a>
+          <!-- Navbar Right Menu-->
+          <div class="navbar-custom-menu">
+            <ul class="top-nav">
+              <!-- User Menu-->
+              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i></a>
+                <ul class="dropdown-menu settings-menu">
+                  <li><a ui-sref="home"><i class="fa fa-home fa-lg"></i> Back to Home Page</a></li>
+                  <li><a href="" ng-click="logout()"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- Side-Nav-->
+      <aside class="main-sidebar hidden-print">
+        <section class="sidebar">
+          <div class="user-panel">
+            <div class="pull-left image"><img class="img-circle" src="/images/profile-images/default.jpg" alt="User Image"></div>
+            <div class="pull-left info">
+              <p>{{userLogin}}</p>
+              <p class="designation">{{emailLogin}}</p>
             </div>
-
-            <div id="member" class="tab-pane fade in active">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Index</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Created at</th>
-                            <th>Status</th>
-                            <th>Update role</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="user in listUser | filter: {role : 'member'}">
-                            <td>{{$index + 1}}</td>
-                            <td>{{user.name}}</td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.role}}</td>
-                            <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{user.status}}</td>
-                            <td><button ui-sref="update_role({id: user.id})" class="btn btn-warning">Update role</button></td>
-                            <td><button ng-click="delete($index, user.id)" class="btn btn-danger">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div id="mod" class="tab-pane fade">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Index</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Created at</th>
-                            <th>Status</th>
-                            <th>Update role</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="user in listUser | filter: {role : 'mod'}">
-                            <td>{{$index + 1}}</td>
-                            <td>{{user.name}}</td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.role}}</td>
-                            <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
-                            <td>{{user.status}}</td>
-                            <td><button ui-sref="update_role({id: user.id})" class="btn btn-warning">Update role</button></td>
-                            <td><button ng-click="delete($index,user.id)" class="btn btn-danger">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+          </div>
+          <!-- Sidebar Menu-->
+          <ul class="sidebar-menu">
+            <li class="treeview"><a ui-sref="home"><i class="fa fa-home"></i><span>Back to Home Page</span></a></li>
+            <li class="treeview"><a ui-sref="admin"><i class="fa fa-server"></i><span>Administration</span></a></li>
+            <li class="active"><a ui-sref="user_manager"><i class="fa fa-user-circle"></i><span>Manage Users</span></a></li>
+            <li class="treeview"><a ui-sref="article_manager_admin"><i class="fa fa-newspaper-o"></i><span>Manage Articles</span></a></li>
+          </ul>
+        </section>
+      </aside>
+      <div class="content-wrapper" ng-controller="UserManagementCtrl">
+        <div class="page-title">
+          <div>
+            <h1><i class="fa fa-user-circle"></i> Manage Users</h1>
+            <p>Panel for managing all users.</p>
+          </div>
+          <div>
+            <ul class="breadcrumb">
+              <li><i class="fa fa-home fa-lg"></i></li>
+              <li><a href="#">Manage Users</a></li>
+            </ul>
+          </div>
         </div>
-    </div>
-</body>
+        <div class="card">
+          <div class="bs-component">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#members" data-toggle="tab">Members</a></li>
+              <li><a href="#moderators" data-toggle="tab">Moderators</a></li>
+              <li><a href="#administrators" data-toggle="tab">Administrators</a></li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade active in" id="members">
+               <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <table class="table table-hover table-bordered" ng-if="listUser" id="membersTable" ui-jq="dataTable" ui-options="dataTableOpt">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Role</th>
+                              <th>Created At</th>
+                              <th>Account Activation</th>
+                              <th>Operation</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="user in listUser | filter: {role : 'member'}">
+                              <td>{{$index + 1}}</td>
+                              <td>{{user.name}}</td>
+                              <td>{{user.email}}</td>
+                              <td>{{user.role}}</td>
+                              <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
+                              <td>{{user.status}}</td>
+                              <td>
+                                <a href="" ui-sref="update_role({id: user.id})" data-toggle="tooltip" title="Update Role" data-placement="bottom" tooltip>
+                                  <i class="fa fa-users"></i>
+                                </a>
+                                <a href="" ng-click="delete($index, user.id)" data-toggle="tooltip" title="Delete" data-placement="bottom" tooltip>
+                                  <i class="fa fa-trash"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="administrators">
+               <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <table class="table table-hover table-bordered" ng-if="listUser" datatable="ng" id="administratorsTable" ui-jq="dataTable" ui-options="dataTableOpt">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Role</th>
+                              <th>Created At</th>
+                              <th>Account Activation</th>
+                              <th>Operation</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="user in listUser | filter: {role : 'admin'}">
+                              <td>{{$index + 1}}</td>
+                              <td>{{user.name}}</td>
+                              <td>{{user.email}}</td>
+                              <td>{{user.role}}</td>
+                              <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
+                              <td>{{user.status}}</td>
+                              <td>
+                                <a href="" ui-sref="update_role({id: user.id})" data-toggle="tooltip" title="Update Role" data-placement="bottom" tooltip>
+                                  <i class="fa fa-users"></i>
+                                </a>
+                                <a href="" ng-click="delete($index, user.id)" data-toggle="tooltip" title="Delete" data-placement="bottom" tooltip>
+                                  <i class="fa fa-trash"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="moderators">
+               <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <table class="table table-hover table-bordered" ng-if="listUser" datatable="ng" id="moderatorsTable" ui-jq="dataTable" ui-options="dataTableOpt">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Role</th>
+                              <th>Created At</th>
+                              <th>Account Activation</th>
+                              <th>Operation</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="user in listUser | filter: {role : 'mod'}">
+                              <td>{{$index + 1}}</td>
+                              <td>{{user.name}}</td>
+                              <td>{{user.email}}</td>
+                              <td>{{user.role}}</td>
+                              <td>{{user.createdAt | date: 'dd/MM/yyyy'}}</td>
+                              <td>{{user.status}}</td>
+                              <td>
+                                <a href="" ui-sref="update_role({id: user.id})" data-toggle="tooltip" title="Update Role" data-placement="bottom" tooltip>
+                                  <i class="fa fa-users"></i>
+                                </a>
+                                <a href="" ng-click="delete($index, user.id)" data-toggle="tooltip" title="Delete" data-placement="bottom" tooltip>
+                                  <i class="fa fa-trash"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div></div>
 
-</html>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Javascripts-->
+    <script src="/js/main.js"></script>
+        <!-- Data table plugin-->
+
+  <!--<script type="text/javascript">
+      $('#membersTable').DataTable();
+      $('#moderatorsTable').DataTable();
+      $('#administratorsTable').DataTable();
+    </script>
+-->
+  </body>

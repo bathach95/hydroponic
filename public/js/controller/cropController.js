@@ -1,4 +1,5 @@
-controller.controller('CropCtrl', function ($http, $state, $stateParams, $scope, $window, CropService, GetTimeService, flash) {
+controller
+.controller('CropCtrl', function ($http, $state, $stateParams, $scope, $window, CropService, GetTimeService, flash) {
   $scope.deviceMac = $stateParams.mac;
   /* get all crops of device */
   CropService.getAllCrops($stateParams.mac).then(function (result) {
@@ -43,11 +44,6 @@ controller.controller('CropCtrl', function ($http, $state, $stateParams, $scope,
 
     })
   }
-
-  function reload() {
-    $window.location.reload();
-  }
-
   /* delete crop */
   $scope.deleteCrop = function (index, cropId, status) {
     // TODO: a crop must be finished if u want to delete it
@@ -78,6 +74,7 @@ controller.controller('CropCtrl', function ($http, $state, $stateParams, $scope,
     CropService.updateShareStatus(crop).then(function (result) {
       if (result.data.success) {
         $scope.cropList[index].share = newShare;
+        flash.success = result.data.message;
       } else {
         flash.error = result.data.message;
       }
@@ -91,9 +88,38 @@ controller.controller('CropCtrl', function ($http, $state, $stateParams, $scope,
     //TODO: implement this if u want to rate crop
     console.log(cropId + " " + rating);
   }
+})
+.directive('tooltip', function(){
+  return {
+  restrict: 'A',
+  link: function(scope, element, attrs){
+      $(element).hover(function(){
+          // on mouseenter
+          $(element).tooltip('show');
+      }, function(){
+          // on mouseleave
+          $(element).tooltip('hide');
+      });
+  }
+};
 });
 
-controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stateParams, CropService, flash) {
+controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stateParams, $state, CropService, ScheduleService, flash) {
+
+  $scope.dataTableOpt = {
+   //custom datatable options
+  // or load data through ajax call also
+  "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+  };
+
+  $scope.dataScheduleTableOpt = {
+   //custom datatable options
+  // or load data through ajax call also
+  "aLengthMenu": [[-1, 10, 20, 30, 50], ['All', 10, 20, 30, 50]],
+  };
+
+  $scope.mac = $stateParams.devicemac;
+  $scope.cropid = $stateParams.cropid;
 
   CropService.getCropById($stateParams.cropid).then(function (result) {
 
@@ -112,13 +138,7 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
       closedate: new Date($scope.crop.closedate),
       reporttime: $scope.crop.reporttime
     }
-
   })
-
-  function reload() {
-    $window.location.reload();
-  }
-
 
   $scope.editCrop = function () {
     $('#editCropModal').modal('hide');
@@ -126,7 +146,7 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
       $scope.editSuccess = result.data.success;
       $scope.editMessage = result.data.message;
       if (result.data.success) {
-        setTimeout(reload, 1000);
+        $state.reload();
       }
     }).catch(function (err) {
       console.log(err);

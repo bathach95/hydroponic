@@ -20,4 +20,12 @@ service.service('ScheduleService', function($http){
     return $http.post('/schedule/add', listScheduleSetting);
   }
 
+  this.syncScheduleSettings = function(cropId, mac) {
+    return $http.get('/schedule/sync', {
+      params:{
+        cropId: cropId,
+        mac: mac
+      }
+    });
+  }
 })

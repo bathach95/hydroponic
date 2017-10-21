@@ -2,7 +2,6 @@
 
 var myApp = angular.module('myApp',
     [
-        // 'ngMaterial',        
         'ngCookies',
         'ui.router',
         'ngRoute',
@@ -14,11 +13,17 @@ var myApp = angular.module('myApp',
         'myApp.controllers',
         'myApp.factory',
         'myApp.service',
-        'myApp.filter']);
+        'myApp.filter',
+        'angular-async-validation',
+        'angular-loading-bar'
+      ]);
 
-myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
-    
+myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthService, flash) {
 
+      // display username after login
+    if (AuthService.isLoggedIn) {
+        $rootScope.userLogin = $cookies.get('name');
+    }
 
     $transitions.onStart( { to: 'login' }, function(trans) {
         var AuthService = trans.injector().get('AuthService');
@@ -30,6 +35,7 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
       });
 
     $transitions.onStart({}, function (trans) {
+
         // scroll to top of the page when state changed
         document.body.scrollTop = document.documentElement.scrollTop = 0;
 
@@ -56,27 +62,14 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, flash) {
                 }
             })
         }
-
-        // AuthService.isLoggedIn()
-        //     .then(function (result) {
-
-        //         $rootScope.userLogin = result.username;
-        //         $rootScope.userRole = result.role;
-
-        //         if (access.roles && !access.roles.includes(result.role)) {
-        //             flash.error = 'You cannot go to this page!';
-        //             $state.go('home');
-        //         }
-
-        //     })
-        //     .catch(function (err) {
-        //         if (access.requiredLogin) {
-        //             flash.error = 'You have log in to access this page';
-        //             $state.go('login');
-        //         }
-        //     })
-
     });
+
+});
+
+/* Loading bar */
+myApp.config(function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.includeSpinner = true;
+}).controller('LoadingBarCtrl', function($scope, $http, $timeout, cfpLoadingBar){
 
 });
 
@@ -176,6 +169,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: false
             }
         })
+        .state('registered', {
+            url: '/register',
+            templateUrl: 'views/registered.html',
+            controller: 'RegisteredCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
         .state('active_account', {
             url: '/user/active/:email/:token',
             templateUrl: 'views/notice.html',
@@ -192,6 +193,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: false
             }
         })
+        .state('change_password', {
+            url: '/changepass.html',
+            templateUrl: 'views/changepass.html',
+            controller: 'ProfileCtrl',
+            access: {
+                  requiredLogin: true
+            }
+        })
         .state('profile', {
             url: '/profile.html',
             templateUrl: 'views/user/profile.html',
@@ -199,6 +208,22 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             access: {
                 requiredLogin: true
             }
+        })
+        .state('edit_profile', {
+          url:'/profile/editprofile',
+          templateUrl: 'views/user/editprofile.html',
+          controller: 'ProfileCtrl',
+          access: {
+            requiredLogin: true
+          }
+        })
+        .state('new_device', {
+          url:'/profile/newdevice.html',
+          templateUrl: 'views/user/add-new-device.html',
+          controller: 'DeviceCtrl',
+          access: {
+            requiredLogin: true
+          }
         })
         .state('device_detail', {
             url: '/device/:mac',
@@ -256,16 +281,25 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: 'views/private/user/mod.html',
             controller: 'ModCtrl',
             access: {
-                roles: ['admin', 'mod'],
+                roles: ['mod'],
                 requiredLogin: true
             }
         })
-        .state('article_manager', {
+        .state('article_manager_admin', {
             url: '/mod/article-manager.html',
-            templateUrl: 'views/private/article/manager.html',
+            templateUrl: 'views/private/article/manager_admin.html',
             controller: 'ArticleManagementCtrl',
             access: {
-                roles: ['admin', 'mod'],
+                roles: ['admin'],
+                requiredLogin: true
+            }
+        })
+        .state('article_manager_mod', {
+            url: '/mod/article-manager.html',
+            templateUrl: 'views/private/article/manager_mod.html',
+            controller: 'ArticleManagementCtrl',
+            access: {
+                roles: ['mod'],
                 requiredLogin: true
             }
         })
@@ -277,4 +311,3 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
 });
-
