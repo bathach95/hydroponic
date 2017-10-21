@@ -5,288 +5,155 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE HTML>
 <html ng-app="myApp">
-
 <head>
-	<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="/js/libs/jquery-3.2.0.min.js"></script>
-	<!-- boostrap js (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="/js/libs/bootstrap.min.js"></script>
-	<!-- Custom Theme files -->
-	<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<title>BK Hydroponics System</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- Le styles -->
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
+	<link href="/css/animate.css" rel="stylesheet">
+	<link href="/css/skin-blue.css" rel="stylesheet">
+	<link rel="stylesheet" href="/js/libs/textAngular-1.5.16/dist/textAngular.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/jk-rating-stars.min.css">
 	<link href="/css/tttn.css" rel="stylesheet" type="text/css" media="all" />
 
-	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/css/image-gallery/themes.css">
-
-
-	<!-- Custom Theme files -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-
-	<script type="application/x-javascript">
-		addEventListener("load", function() {
-			setTimeout(hideURLbar, 0);
-		}, false);
-
-		function hideURLbar() {
-			window.scrollTo(0, 1);
-		}
-	</script>
-	<meta name="keywords" content="Agrom Responsive web template, Bootstrap Web Templates, Flat Web Templates, AndriodCompatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design"/>
-
-
+	<!-- Le fav -->
+	<link rel="shortcut icon" href="/ico/favicon.png">
+	<base href="/" target="_blank">
 </head>
+<body data-spy="scroll" data-target=".navbar" ng-controller="LoadingBarCtrl">
 
-<body>
-	<!--header start here-->
-	<div class="header">
-		<div class="container">
-			<div class="header-main">
-				<div class="row">
-				<div class="col-md-3">
-					<div class="search">
-						<a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i> </i></a>
-					</div>
-					<div id="small-dialog" class="mfp-hide">
-						<div class="search-top">
-							<div class="login">
-								<input type="submit" value="">
-								<input type="text" value="Search Here..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
-							</div>
-							<p>BK Hydroponics</p>
-						</div>
-					</div>
-					<!---->
-					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-6">
-					<div class="logo">
-						<h1><a href="/">BK Hydroponics</a></h1>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<!-- before login -->
-					<!-- login modal -->
-					<div ng-cloak ng-hide="userLogin" class="header-login">
-						<div class="top-nav-right">
-							<div id="loginContainer"><a href="#" id="loginButton"><span>Login</span></a>
-								<div id="loginBox">
-									<form id="loginForm" ng-controller="LoginCtrl">
-										<fieldset id="body">
-											<fieldset>
-												<label for="email" >Email Address</label>
-												<input type="email" ng-model="user.email" name="email" required>
-											</fieldset>
-											<fieldset>
-												<label for="password">Password</label>
-												<input type="password" ng-model="user.password" name="password" required>
-											</fieldset>
-											<fieldset>
-												<p style="color: red">{{loginMessage}}</p>
-											</fieldset>
-											<input type="button" id="login" ng-click="login()" value="Sign in">
-										</fieldset>
-										<span><a href="#">Forgot your password?</a></span>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- end login modal -->
-					<!-- register modal -->
-					<div ng-cloak ng-hide="userLogin" class="header-login">
-						<div class="top-nav-right">
-							<div id="registerContainer"><a href="#" id="registerButton"><span>Register</span></a>
-								<div id="registerBox">
-									<form id="registerForm" ng-controller="RegisterCtrl">
-										<fieldset id="body">
-											<fieldset>
-												<label for="reg_name">Name</label>
-												<input type="text" ng-model="user.name" name="reg_name" id="reg_name">
-											</fieldset>
-											<fieldset>
-												<label for="reg_name">Phone number</label>
-												<input type="number" ng-model="user.phone" name="reg_phone" id="reg_phone">
-											</fieldset>
-											<fieldset>
-												<label for="reg_email">Email Address</label>
-												<input type="email" ng-model="user.email" name="reg_email" id="reg_email">
-											</fieldset>
-											<fieldset>
-												<label for="reg_password">Password</label>
-												<input type="password" ng-model="user.password" name="reg_password" id="reg_password">
-											</fieldset>
-
-											<fieldset>
-												<label for="confirm_password">Confirm password</label>
-												<input type="password" ng-model="user.confirm_password" name="confirm_password" id="confirm_password">
-											</fieldset>
-											<fieldset>
-												<p ng-attr-style="{{success && 'color: green' || 'color: red'}}">{{regMessage}}</p>
-											</fieldset>
-											<input type="button" ng-click="register()" id="register" value="Register">
-										</fieldset>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- end register modal-->
-					<!-- end before login -->
-
-					<!-- after login -->
-					<div ng-cloak ng-show="userLogin" class="header-login">
-						<div class="top-nav-right">
-							<div id="loggedInContainer">
-								<button type="button" class="btn-customize btn btn-primary" id="loggedInButton" name="button"><span>Hello! {{userLogin}}</span></button>
-								<div id="loggedInBox">
-									<form id="loggedInForm">
-										<fieldset id="body">
-											<fieldset>
-												<a ng-href="#/profile" class="btn-customize btn btn-primary logged-in-btn">Profile</a>
-											</fieldset>
-											<fieldset  ng-controller="LoginCtrl">
-												<a href="" ng-click="logout()" class="btn-customize btn btn-primary logged-in-btn" >Logout</a>
-											</fieldset>
-										</fieldset>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- end after login -->
-
-					<div class="clearfix"> </div>
-				</div>
-			</div>
-
-				<div class="clearfix"> </div>
-			</div>
+	<!--body start here-->
+	<div ng-controller="LoginCtrl">
+		<div ui-view >
+			<div ng-bind-html="admin"></div>
 		</div>
 	</div>
-	<!--header end here-->
-	<!--top nav start here-->
-	<div class="top-navg-main">
-		<div class="container">
-			<div class="top-navg">
-				<span class="menu"> <img src="/images/icon.png" alt=""/></span>
-				<ul class="res">
-					<li><a ng-href="#/" class="active hvr-sweep-to-bottom">Home</a></li>
-					<li><a class="hvr-sweep-to-bottom" href="#/system">System</a></li>
-					<li><a class="hvr-sweep-to-bottom" ng-href="#/article">Article</a></li>
-					<li><a class="hvr-sweep-to-bottom" ng-href="#/forum">Forum</a></li>
-					<li><a class="hvr-sweep-to-bottom" ng-href="#/about">About</a></li>
-					<li><a class="hvr-sweep-to-bottom" ng-href="#/contact">Contact</a></li>
-				</ul>
-				<!-- script-for-menu -->
-				<script>
-					$("span.menu").click(function() {
-						$("ul.res").slideToggle(300, function() {
-							// Animation complete.
-						});
-					});
-				</script>
-				<!-- /script-for-menu -->
-			</div>
+
+
+	<!-- FOOTER -->
+	<footer id="foot-sec" ng-hide="fakeIntro">
+	<div class="footerdivide">
+	</div>
+	<div flash-alert="error" active-class="in alert-flash" class="fade">
+		<button type="button" class="close" ng-click="hide()">&times;</button>
+		<strong class="alert-heading">Thông báo!</strong>
+		<span class="alert-message">{{flash.message}}</span>
+	</div>
+	<div flash-alert="success" active-class="in alert-flash" class="fade">
+		<button type="button" class="close" ng-click="hide()">&times;</button>
+		<strong class="alert-heading">Thông báo!</strong>
+		<span class="alert-message" ng-bind-html="flash.message | unsafe"></span>
+	</div>
+	<div class="container ">
+	<div class="row">
+		<div class="text-center color-white col-sm-12 col-lg-12">
+			<ul class="social-icons">
+				<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+				<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+				<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+				<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+				<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+			</ul>
+			<p>
+				 © BK Hydroponics Project.
+			</p>
+			<!--<p>
+				<a href="http://www.wowthemes.net/premium-themes-templates/">Official Website</a> | <a href="http://www.wowthemes.net/support/">Theme Support</a> | <a href="http://www.wowthemes.net/frequently-asked-questions/">F.A.Q.</a>
+			</p>-->
 		</div>
 	</div>
-	<!--top nav end here-->
-
-  <!--body start here-->
-  <div ng-view></div>
-  <!--body end here-->
-
-	<!--footer start here-->
-	<div class="footer">
-		<div class="container">
-			<div class="row footer-main">
-				<div class="col-md-3 ftr-grd centered-items">
-					<p>© 2017 Bach Khoa University</p>
-					<p> All rights reserved </p>
-				</div>
-				<div class="col-md-6 ftr-grd centered-items">
-					<h3>Contact Us</h3>
-					<ul>
-						<li><a href="#"><span class="fa"> </span></a></li>
-						<li><a href="#"><span class="tw"> </span></a></li>
-						<li><a href="#"><span class="g"> </span></a></li>
-						<li><a href="#"><span class="in"> </span></a></li>
-					</ul>
-				</div>
-				<div class="col-md-3 ftr-grd centered-items">
-					<p>Hydroponics Project</p>
-					<p>Bach Khoa University</p>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
 	</div>
-	<!--//footer-->
+	</footer>
 
-	<!---//pop-up-box---->
-	<script>
-		$(document).ready(function() {
-			$('.popup-with-zoom-anim').magnificPopup({
-				type: 'inline',
-				fixedContentPos: false,
-				fixedBgPos: true,
-				overflowY: 'auto',
-				closeBtnInside: true,
-				preloader: false,
-				midClick: true,
-				removalDelay: 300,
-				mainClass: 'my-mfp-zoom-in'
-			});
-		});
+
+
+	<!--body end here-->
+	<script src="/js/libs/jquery.min.js" type="text/javascript"></script>
+	<script src="/js/libs/bootstrap.js"></script>
+	<script src="/js/libs/jquery.parallax-1.1.3.js" type="text/javascript"></script>
+	<script src="/js/libs/jquery.localScroll.min.js" type="text/javascript"></script>
+	<script src="/js/libs/jquery.scrollTo.min.js" type="text/javascript"></script>
+	<script src="/js/libs/jquery.bxslider.min.js"></script>
+	<script src="/js/libs/jquery.placeholder.js"></script>
+	<script src="/js/libs/modernizr.custom.js"></script>
+	<script src="/js/libs/toucheffects.js"></script>
+	<script src="/js/libs/animations.js"></script>
+	<!-- angular js -->
+	<script src="/js/libs/angular.min.js" type="text/javascript"></script>
+	<script src="/js/libs/jk-rating-stars.min.js"></script>
+	<!--<script>
+		window.paceOptions = {
+		    document: true, // disabled
+		    eventLag: true,
+		    restartOnPushState: true,
+		    restartOnRequestAfter: true,
+		    ajax: {
+		        trackMethods: [ 'GET', 'PUT', 'DELETE']
+		    }
+
+		};
 	</script>
+  <script src="/js/libs/pace.min.js"></script>
+	-->
+	<script src="/js/libs/angular-animate.min.js"></script>
+
+	<!-- loadingbar -->
+	<script src="/js/libs/loading-bar.min.js"></script>
+	<link href='/css/loading-bar.min.css' rel='stylesheet' />
+
+	<script src="/js/libs/angular-cookies.js" type="text/javascript"></script>
+	<script src="/js/libs/angular-route.js" type="text/javascript"></script>
+	<script src="/js/libs/ngStorage.min.js" type="text/javascript"></script>
+	<script src="/js/libs/angular-flash.min.js" type="text/javascript"></script>
+	<script src="/js/libs/angular-ui.min.js" type="text/javascript"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+	<!--<script type="text/javascript" src="/js/libs/ui-bootstrap-tpls-2.5.0.min.js"></script>
+	<script type="text/javascript" src="/js/libs/angular-ui-utils.min.js"></script>-->
+	<script type="text/javascript" src="/js/libs/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/js/libs/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/libs/angular-async-validation.min.js"></script>
+
+	<script src="/js/libs/textAngular-1.5.16/dist/textAngular-rangy.min.js"></script>
+	<script src="/js/libs/textAngular-1.5.16/dist/textAngular-sanitize.min.js"></script>
+	<script src="/js/libs/textAngular-1.5.16/dist/textAngular.min.js"></script>
+	<script src="/js/factory/factory.js" type="text/javascript"></script>
+	<script src="/js/service/userService.js" type="text/javascript"></script>
+	<script src="/js/service/cropService.js" type="text/javascript"></script>
+	<script src="/js/service/thresholdService.js" type="text/javascript"></script>
+	<script src="/js/service/scheduleService.js" type="text/javascript"></script>
+	<script src="/js/service/dataService.js" type="text/javascript"></script>
+	<script src="/js/service/deviceService.js" type="text/javascript"></script>
+	<script src="/js/service/utilsService.js" type="text/javascript"></script>
+	<script src="/js/service/commentService.js" type="text/javascript"></script>
+	<script src="/js/service/articleService.js" type="text/javascript"></script>
+	<script src="/js/service/privateService.js" type="text/javascript"></script>
+	<script src="/js/service/searchService.js" type="text/javascript"></script>
+	<script src="/js/service/actuatorService.js" type="text/javascript"></script>
+	<script src="/js/controller/userController.js" type="text/javascript"></script>
+	<script src="/js/controller/privateController.js" type="text/javascript"></script>
+	<script src="/js/controller/cropController.js" type="text/javascript"></script>
+	<script src="/js/controller/deviceController.js" type="text/javascript"></script>
+	<script src="/js/controller/dataController.js" type="text/javascript"></script>
+	<script src="/js/controller/scheduleController.js" type="text/javascript"></script>
+	<script src="/js/controller/thresholdController.js" type="text/javascript"></script>
+	<script src="/js/controller/articleController.js" type="text/javascript"></script>
+	<script src="/js/controller/commentController.js" type="text/javascript"></script>
+	<script src="/js/controller/searchController.js" type="text/javascript"></script>
+	<script src="/js/controller/actuatorController.js" type="text/javascript"></script>
+	<script src="/js/filters.js" type="text/javascript"></script>
+	<script src="/js/app.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="/js/libs/bootbox.min.js"></script>
+
 </body>
 
-<script src="/js/libs/image-gallery/responsiveslides.min.js"></script>
-<!-- start-smoth-scrolling -->
-<script type="text/javascript" src="/js/libs/move-top.js"></script>
-<script type="text/javascript" src="/js/libs/easing.js"></script>
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$(".scroll").click(function(event) {
-			event.preventDefault();
-			$('html,body').animate({
-				scrollTop: $(this.hash).offset().top
-			}, 1000);
-		});
-	});
-</script>
-<!-- //end-smoth-scrolling -->
-<script src="/js/libs/menu_jquery.js"></script>
-<script src="/js/tttn.js"></script>
-
-<!---pop-up-box---->
-<link href="/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
-<script src="/js/libs/jquery.magnific-popup.js" type="text/javascript"></script>
-
-<!---modal dialog--->
-<script src="/js/libs/bootbox.min.js" type="text/javascript"></script>
-
-<!-- angular js -->
-<script src="/js/libs/angular.min.js" type="text/javascript"></script>
-<script src="/js/libs/angular-cookies.js" type="text/javascript"></script>
-<script src="/js/libs/angular-route.js" type="text/javascript"></script>
-<script src="/js/libs/ngStorage.min.js" type="text/javascript"></script>
-<script src="/js/libs/angular-ui.min.js" type="text/javascript"></script>
-<script src="/js/factory/factory.js" type="text/javascript"></script>
-<script src="/js/service/userService.js" type="text/javascript"></script>
-<script src="/js/service/cropService.js" type="text/javascript"></script>
-<script src="/js/service/thresholdService.js" type="text/javascript"></script>
-<script src="/js/service/scheduleService.js" type="text/javascript"></script>
-<script src="/js/service/dataService.js" type="text/javascript"></script>
-<script src="/js/service/deviceService.js" type="text/javascript"></script>
-<script src="/js/service/utilsService.js" type="text/javascript"></script>
-<script src="/js/controller/userController.js" type="text/javascript"></script>
-<script src="/js/controller/cropController.js" type="text/javascript"></script>
-<script src="/js/controller/deviceController.js" type="text/javascript"></script>
-<script src="/js/controller/dataController.js" type="text/javascript"></script>
-<script src="/js/controller/scheduleController.js" type="text/javascript"></script>
-<script src="/js/controller/thresholdController.js" type="text/javascript"></script>
-<script src="/js/app.js" type="text/javascript"></script>
 </html>

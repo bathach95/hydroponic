@@ -3,7 +3,7 @@
 var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");
-var env       = "production";
+var env       = "development";
 var config    = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
 var sequelize = module.exports = new Sequelize(config.database, config.username, config.password, config);
 var db = {};
@@ -28,3 +28,4 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
+

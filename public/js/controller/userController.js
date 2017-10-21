@@ -1,161 +1,239 @@
-var controller = angular.module('myApp.controllers', ['ui.directives','ui.filters']);
+var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
-controller.controller('LoginCtrl', function($scope, $rootScope, $localStorage, $window, UserService, AuthService) {
-  $scope.user = {
-    email: '',
-    password: ''
-  };
-  $scope.login = function() {
+controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookies, $scope, $rootScope, $state, $timeout, UserService, AuthService, flash) {
+
+  $scope.user = {};
+
+  $scope.login = function () {
+    $('#loginBtn').button('loading');
     var isEmpty = AuthService.checkEmptyLogin($scope.user);
     if (!isEmpty.isErr) {
-      UserService.login($scope.user).then(function(result) {
-        if (result.data.success) {
-          $rootScope.userLogin = result.data.data.name;
-          // save data to localStorage
-          $localStorage.token = result.data.token;
-          $localStorage.name = result.data.data.name;
-          $localStorage.email = result.data.data.email;
-          $localStorage.phone = result.data.data.phone;
-          //------------------
-          bootbox.alert('Login success!');
-        } else {
-          $scope.loginMessage = result.data.error;
-        }
+      new Promise(function(resolve, reject){
+        UserService.login($scope.user).then(function (result) {
+
+          resolve(result);
+
       });
+    }).then(function(result){
+      if (result.data.success) {
+        $rootScope.userLogin = result.data.data.name;
+        $rootScope.emailLogin = result.data.data.email;
+        //------------------
+        var day = new Date();
+        day.setDate(day.getDay() + 30);
+
+        var options = {
+          domain: "13.58.114.56",
+          httpOnly: true,
+          expires: day
+        };
+        $cookies.put('token', result.data.data.token, options);
+        $cookies.put('name', result.data.data.name, options);
+        $sessionStorage.user = 'heheeheh';
+        flash.success = result.data.message;
+        $state.go('home');
+      }
+      else
+      {
+        flash.error = result.data.message;
+        $timeout(function () {
+          $('#loginBtn').button('reset');
+        }, 1000);
+      }
+    })
     } else {
       $scope.loginMessage = isEmpty.message;
     }
   }
 
-  $scope.logout = function() {
+  $scope.logout = function () {
     UserService.logout();
-    var url = "http://" + $window.location.host + "/";
-    $window.location.href = url;
+    $rootScope.userLogin = null;
+    flash.success = 'Logout success!'
+    $state.go('home');
   }
 
-  $rootScope.userLogin = $localStorage.name;
+
+
 });
 
-controller.controller('RegisterCtrl', function($http, $scope, UserService, AuthService) {
-  $scope.user = {
-    name: '',
-    password: '',
-    confirm_password:'',
-    email: '',
-    phone: ''
-  };
-  $scope.register = function() {
+controller.controller('ResetPassCtrl', function ($scope, UserService) {
+
+  $scope.user = {};
+
+  $scope.resetPassword = function () {
+    if ($scope.user.email) {
+      UserService.resetPass($scope.user).then(function (result) {
+        $scope.success = result.data.success;
+        $scope.message = result.data.message;
+      })
+    }
+  }
+
+});
+
+controller.controller('RegisterCtrl', function ($http, $state, $scope, $q, $timeout, UserService, AuthService, flash) {
+  $scope.user = {};
+  $scope.register = function () {
+    $('#registerBtn').button('loading');
     var isEmpty = AuthService.checkEmptyReg($scope.user);
     if (!isEmpty.isErr) {
-      UserService.register($scope.user).then(function(result) {
+      new Promise(function(resolve, reject){
+        UserService.register($scope.user).then(function (result) {
+
+          resolve(result);
+
+        });
+      }).then(function(result){
+
+        $scope.message = result.data.message;
         $scope.success = result.data.success;
-        $scope.regMessage = result.data.data.message;
+
+        if (result.data.success) {
+          flash.success = result.data.message;
+          $state.go('registered');
+        }
+        else
+        {
+          flash.error = result.data.message;
+          $timeout(function() {
+            $('#registerBtn').button('reset');
+          }, 1000);
+        }
       });
     } else {
       $scope.success = false;
-      $scope.regMessage = isEmpty.message;
+      $scope.message = isEmpty.message;
     }
   }
+
+  $scope.confirmPasswordValidation = function (modelValue, viewValue) {
+    var value = modelValue || viewValue;
+    var passwordValue = $scope.user.password;
+    var deferred = $q.defer();
+    if (value === '')
+    {
+      deferred.resolve();
+    }
+    else {
+      $timeout(function() {
+      if (value === passwordValue)
+      {
+        deferred.resolve();
+      }
+      else {
+        deferred.reject();
+      }
+      }, 2000);
+    }
+    return deferred.promise;
+  }
+
+  // The validation function
+  $scope.myValidation = function (modelValue, viewValue) {
+
+      // Get the value
+      var value = modelValue || viewValue;
+
+      var deferred = $q.defer();
+
+      if (value === '')
+      {
+        deferred.resolve();
+      }
+      else {
+        $timeout(function() {
+          new Promise(function(resolve, reject) {
+            var user ={
+              email: value
+            }
+            UserService.checkEmail(user).then(function (result) {
+              resolve(result);
+            });
+          }).then(function(result){
+            // Check if is already taken
+            if(!result.data.success) {
+            //    // Username exists, this means validation fails
+                return deferred.reject();
+            } else {
+                // Username does not exist, therefore this validation passes
+                return deferred.resolve();
+           };
+         })
+     }, 2000);
+    }
+    return deferred.promise;
+  }
+
+
+});
+controller.controller('RegisteredCtrl', function ($http, $state, $scope, $q, $timeout, flash) {
+  $timeout(function() {
+    $state.go('home');
+  }, 8000);
 });
 
-controller.controller('ProfileCtrl', function($http, $window, $localStorage, $scope, DeviceService, UserService, GetTimeService, AuthService) {
+controller.controller('ActiveUserCtrl', function ($stateParams, $scope, UserService, flash) {
+  UserService.activeAccount($stateParams).then(function (result) {
 
-  /*---------------------- device ----------------------*/
+    $scope.success = result.data.success;
+    $scope.message = result.data.message;
 
-  // display all devices of user and display on profile.html
-  DeviceService.getAllDevicesByEmail($localStorage.email).then(function(result) {
-    $scope.listDevice = result.data;
-    $scope.listDevice.forEach(function(item) {
-      var dateTime = GetTimeService.getDateTime(item.createdAt);
-      item.date = dateTime.date;
-      item.time = dateTime.time;
-    });
-  });
-
-  // add a new device
-  $scope.newDevice = {
-    mac: '',
-    name: '',
-    manufacturer: '',
-    status: "no connection",
-    UserEmail: $localStorage.email
-  }
-
-  $scope.addDevice = function() {
-    var isEmpty = DeviceService.checkDataAddDevice($scope.newDevice);
-    if (!isEmpty.isErr) {
-      DeviceService.addDevice($scope.newDevice).then(function(result) {
-        $scope.addDeviceSuccess = result.data.success;
-        $scope.addDeviceMessage = result.data.message;
-        if (result.data.success) {
-          var date = (new Date()).toString().split(' ');
-          $scope.newDevice.date = date[1] + ' ' + date[2] + ' ' + date[3];
-          $scope.newDevice.time = date[4];
-          $scope.listDevice.push($scope.newDevice);
-        }
-      });
+    if (result.data.success) {
+      flash.success = result.data.message;
     } else {
-      $scope.addDeviceSuccess = false;
-      $scope.addDeviceMessage = isEmpty.message;
+      flash.error = result.data.message;
     }
-  }
+  })
+});
 
-  $scope.deleteDevice = function(index, mac) {
-    var device = {
-      mac: mac
-    };
-    if (window.confirm("Do you want to delete this device ?")) {
-      DeviceService.deleteDevice(device).then(function(result) {
-        if (result.data.success) {
-          $scope.listDevice.splice(index, 1);
-        }
-        bootbox.alert(result.data.message);
-      });
-    }
-
-  }
-  /*-------------------- end device ---------------------*/
+controller.controller('ProfileCtrl', function ($http, $window, $state, $http, $cookies, $scope, DeviceService, UserService, GetTimeService, AuthService, flash) {
 
   /*----------------------- user ------------------------*/
-  // update infos
-  $scope.userUpdate = {
-    email: $localStorage.email,
-    name: $localStorage.name,
-    phone: $localStorage.phone
-  }
+  $scope.currentUser = {};
+  $scope.userUpdate = {};
 
-  $scope.update = function() {
-    var isEmpty = AuthService.checkEmptyUpdate($scope.userUpdate);
-    if (!isEmpty.isErr) {
-      UserService.update($scope.userUpdate).then(function(result) {
-        $localStorage.phone = $scope.userUpdate.phone;
-        $localStorage.name = $scope.userUpdate.name;
-        bootbox.alert(result.data);
-        $window.location.reload();
-      });
+  UserService.getUserDetail().then(function (result) {
+    if (result.data.success) {
+      $scope.currentUser = result.data.data;
+      $scope.userUpdate = result.data.data;
     } else {
-      $scope.updateMessage = isEmpty.message;
+      flash.error = result.data.message;
     }
+  })
+  // update infos
+
+  $scope.update = function () {
+    UserService.update($scope.userUpdate).then(function (result) {
+      if (result.data.success) {
+        flash.success = result.data.message;
+        $state.go('profile');
+        // bootbox.confirm(result.data.message, function () {
+        //
+        // })
+      } else {
+        flash.error = result.data.message;
+      }
+    });
   }
 
   //----- change pass -----------
-  $scope.pass = {
-    email: $localStorage.email,
-    currPass: '',
-    newPass: '',
-    confNewPass: ''
-  }
+  $scope.pass = {};
 
-  $scope.changePass = function() {
+  $scope.changePass = function () {
     var error = AuthService.checkDataChangePass($scope.pass);
     if (!error.isErr) {
-      UserService.changePass($scope.pass).then(function(result) {
-        $scope.changePassSucc = result.data.success;
-        $scope.changePassMessage = result.data.message;
+      UserService.changePass($scope.pass).then(function (result) {
+        if (result.data.success) {
+          flash.success = result.data.message;
+        } else {
+          flash.error = result.data.message;
+        }
       })
     } else {
       $scope.changePassMessage = error.message;
     }
   }
   /*--------------------- end user -------------------------*/
+
 });

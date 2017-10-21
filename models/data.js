@@ -2,10 +2,6 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Data = sequelize.define('Data', {
-    // time: {
-    //   type: DataTypes.DATE,
-    //   allowNull: false
-    // },
     ph: {
       type: DataTypes.FLOAT,
       allowNull: false
@@ -52,3 +48,4 @@ module.exports = function(sequelize, DataTypes) {
   });
   return Data;
 };
+

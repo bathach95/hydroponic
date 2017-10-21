@@ -6,7 +6,6 @@ service.service('CropService', function($http) {
             }
         })
     }
-
     this.getCropById = function(id) {
         return $http.get('crop/one', {
             params: {
@@ -27,6 +26,10 @@ service.service('CropService', function($http) {
 
     this.editCrop = function(crop){
       return $http.put('/crop/edit', crop);
+    }
+
+    this.updateShareStatus = function(crop){
+      return $http.put('/crop/share', crop);
     }
 
     this.checkDataEditCrop = function(crop){

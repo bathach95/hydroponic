@@ -1,196 +1,142 @@
-<!--Author: W3layouts
-  Author URL: http://w3layouts.com
-  License: Creative Commons Attribution 3.0 Unported
-  License URL: http://creativecommons.org/licenses/by/3.0/
-  -->
-<!DOCTYPE HTML>
-<html>
-
-<head>
-  <title>Hydroponic</title>
-</head>
-
-<body>
-
-  <div class="banner-two">
+  <nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+  <div class="container">
+  	<!-- Brand and toggle get grouped for better mobile display -->
+  	<div class="navbar-header">
+  		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+  		<span class="sr-only">Toggle navigation</span>
+  		<span class="icon-bar"></span>
+  		<span class="icon-bar"></span>
+  		<span class="icon-bar"></span>
+  		</button>
+  		<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+  	</div>
+  	<!-- Collect the nav links, forms, and other content for toggling -->
+  	<div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+  			<li><a ui-sref="home">Home</a></li>
+  			<li><a ui-sref="home">Systems</a></li>
+  			<li><a ui-sref="home">Acticle</a></li>
+  			<li><a ui-sref="home">Forum</a></li>
+  			<li><a ui-sref="home">About</a></li>
+  	    <li ng-show="userLogin" class="active dropdown">
+  				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+  				<span class="caret"></span></a>
+  				<ul class="dropdown-menu" ng-controller="LoginCtrl">
+  					<li><a ui-sref="profile">Profile</a></li>
+  					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+  					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+  					<li><a ui-sref="change_password">Change your password</a></li>
+  					<li><a href="" ng-click="logout()">Log out</a></li>
+  				</ul>
+  			</li>
+  		</ul>
+  	</div>
+  	<!-- /.navbar-collapse -->
   </div>
-  <!--banner end here-->
-  <!--services start here-->
-  <div class="services">
-    <div class="container">
-      <!-- User avatar -->
-      <div class="row">
-        <!-- <div class="col-sm-2 col-md-2 col-md-offset-6 col-sm-offset-6">
-            <img src="http://thetransformedmale.files.wordpress.com/2011/06/bruce-wayne-armani.jpg" alt="" class="img-rounded img-responsive" />
-          </div> -->
-        <div class="col-sm-3 col-md-3 col-md-offset-7 col-sm-offset-7">
-          <blockquote>
-            <p>{{userUpdate.name}}</p>
-          </blockquote>
-          <p>
-            <i class="glyphicon glyphicon-envelope"></i> {{userUpdate.email}}
-            <br>
-            <i class="glyphicon glyphicon-phone"></i> {{userUpdate.phone}}
-          </p>
-          </p>
-        </div>
-        <div class="row">
-          <button class="btn btn-1 btn-primary btn-customize col-md-offset-9 col-sm-offset-9" type="button" data-toggle="modal" data-target="#editModal">Edit Profile</button>
-          <button class="btn btn-1 btn-primary btn-customize" type="button" data-toggle="modal" data-target="#changePassModal">Change password</button>
-        </div>
-      </div>
+  </nav>
+  <!-- HOMEPAGE -->
 
-      <!-- Edit user profile modal -->
-      <div class="modal fade" id="editModal" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Edit profile</h4>
-            </div>
-            <div class="modal-body">
 
-              <div class="row">
-                <label for="username" class="col-md-4 col-sm-4">Name:</label>
-                <input id="username" ng-model="userUpdate.name" class="col-md-7 col-sm-7" type="text" name="username" />
-              </div>
-              <br>
-              <div class="row">
-                <label for="phonenumber" class="col-md-4 col-sm-4">Phone number:</label>
-                <input id="phonenumber" ng-model="userUpdate.phone" class="col-md-7 col-sm-7" type="text" name="phonenumber" />
-              </div>
-              <br>
-              <div class="row">
-                <p style="color: red">{{updateMessage}}</p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" ng-click="update()" class="btn btn-1 btn-primary">OK</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <!-- End edit profile modal-->
-      <!-- Change pass modal-->
-      <div class="modal fade" id="changePassModal" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Edit profile</h4>
-            </div>
-            <div class="modal-body">
-
-              <div class="row">
-                <label for="curr_pass" class="col-md-4 col-sm-4">Current password:</label>
-                <input ng-model="pass.currPass" class="col-md-7 col-sm-7" type="password" name="curr_pass" />
-              </div>
-              <br>
-              <div class="row">
-                <label for="new_pass" class="col-md-4 col-sm-4">New password:</label>
-                <input ng-model="pass.newPass" class="col-md-7 col-sm-7" type="password" name="new_pass" />
-              </div>
-              <br>
-              <div class="row">
-                <label for="conf_new_pass" class="col-md-4 col-sm-4">Confirm new password:</label>
-                <input ng-model="pass.confNewPass" class="col-md-7 col-sm-7" type="password" name="conf_new_pass" />
-              </div>
-              <br>
-              <div class="row">
-                <p ng-attr-style="{{changePassSucc && 'color: green' || 'color: red'}}">{{changePassMessage}}</p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" ng-click="changePass()" class="btn btn-1 btn-primary">OK</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <!-- End change pass modal-->
-      <br>
-      <div class="row table-of-devices">
-        <h3 class="">Table of Devices</h3>
-      </div>
-      <div class="row">
-        <div class="col-md-10 col-sm-10 col-md-offset-1 col-sm-offset-1">
-          <button type="button" class="btn btn-1 btn-primary btn-customize" data-toggle="modal" data-target="#addDeviceModal">Add new device</button>
-
-          <table class="table table-hover table-customize">
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>MAC</th>
-                <th>Name</th>
-                <th>Installation Date</th>
-                <th>Status</th>
-                <th>Manufacturer</th>
-                <th>Operation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="item in listDevice">
-                <td>{{$index + 1}}</td>
-                <td><a ng-href="#/device/{{item.mac}}">{{item.mac}}</a></td>
-                <td>{{item.name}}</td>
-                <td>{{item.date}} {{item.time}}</td>
-                <td>{{item.status}}</td>
-                <td>{{item.manufacturer}}</td>
-                <td><button class="btn btn-danger" ng-click="deleteDevice($index, item.mac)"><em class="glyphicon glyphicon-trash"></em></button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Add device modal -->
-      <div class="modal fade" id="addDeviceModal" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Add device</h4>
-            </div>
-            <div class="modal-body">
-
-              <div class="row">
-                <label for="mac" class="col-md-4 col-sm-4">MAC:</label>
-                <input ng-model="newDevice.mac" class="col-md-7 col-sm-7" type="text" placeholder="aa:bb:cc:dd:ee:ff" name="mac" />
-              </div>
-              <br>
-              <div class="row">
-                <label for="name" class="col-md-4 col-sm-4">Name:</label>
-                <input ng-model="newDevice.name" class="col-md-7 col-sm-7" type="text" name="name" />
-              </div>
-              <br>
-              <div class="row">
-                <label for="manufacturer" class="col-md-4 col-sm-4">Manufacturer:</label>
-                <input ng-model="newDevice.manufacturer" class="col-md-7 col-sm-7" type="text" name="manufacturer" />
-              </div>
-              <br>
-              <div class="row">
-                <p ng-attr-style="{{addDeviceSuccess && 'color: green' || 'color: red'}}">{{addDeviceMessage}}</p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button ng-click="addDevice()" type="button" class="btn btn-1 btn-primary">OK</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <!-- End add device modal -->
-    </div>
+  <!--  SECTION-2 -->
+  <section id="Section-2" class="fullbg">
+  <div class="section-divider">
   </div>
-  <!--services end here-->
+    <div class="container animated fadeInDown">
+    	<h1>Your Profile</h1>
+    	<div class="user-info">
+  	  <img alt="" src="images/profile-images/default.jpg">
+  	</div>
+  	<h2>{{currentUser.name}}</h2>
+  	  <div class="profile-item-container col-md-12 animated fadeInUp">
+  	    <div class="profile-item">
+  		  <i class="fa fa-envelope"></i>
+  		  <h3>{{currentUser.email}}
+  		  </h3>
+  		</div>
+  	    <div class="profile-item">
+  	      <i class="fa fa-phone-square"></i>
+  		  <h3>{{currentUser.phone}}
+  		  </h3>
+  		</div>
+  		<div id="List-Devices-Link" class="profile-item">
+  			<a href="#Section-1">
+    		  <i class="fa fa-plug"></i>
+    		  <h3>List Devices
+    		  </h3>
+  		  </a>
+  		</div>
+  	  </div>
+  	  <div class="animated fadeInUpNow">
+  		<button type="button" ui-sref="edit_profile" class="button-edit-profile" style="text-decoration:none;"><i class="fa fa-cog"></i>&nbsp; Edit profile</button>
+    	  </div>
+    </div> <!-- /form -->
 
-</body>
+  </section>
 
-</html>
+  <!--SECTION - DEVICES -->
+  <section id="Section-1" class="fullbg" ng-controller="DeviceCtrl">
+  <div class="section-divider">
+  </div>
+  <div class="container">
+  <div class="row">
+  	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fade">
+  		<h1>YOUR DEVICES</h1>
+  		<p class="lead">
+  			List of your devices.
+  		</p>
+  	</div>
+  </div>
+  <div class="row color-white">
+  	<div>
+  	<div class="container animated fadeInUpNow">
+  	  <!--<div class="table-list-device-header">
+  	    <table class="table-list-device" cellpadding="0" cellspacing="0" border="0" >
+
+  	    </table>
+  	  </div>-->
+  	  <div class="table-list-device-content">
+  	    <table ng-if="listDevice" class="table-list-device" cellpadding="0" cellspacing="0" border="0" id="membersTable" ui-jq="dataTable" ui-options="dataTableOpt">
+          <thead class="table-list-device-header">
+  	        <tr>
+  	          <th>No.</th>
+  	          <th>MAC Address</th>
+  	          <th>Device Name</th>
+  	          <th>Installation Date</th>
+  	          <th>Status</th>
+  	          <th>Remarks</th>
+  	          <th>Operation</th>
+  	        </tr>
+  	      </thead>
+          <tbody>
+  	        <tr ng-repeat="item in listDevice">
+  	          <td>{{$index + 1}}</td>
+  	          <td><a class="device-link" ui-sref="device_detail({mac: item.mac})">{{item.mac}}</a></td>
+  	          <td>{{item.name}}</td>
+  	          <td>{{item.createdAt | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+  	          <td>{{item.status}}</td>
+  	          <td>{{item.manufacturer}}</td>
+  	          <td>
+                <a ng-if="item.status=='running'" ng-click="status($index, item.mac, 'paused')" href="" data-toggle="tooltip" title="Pause this device" data-placement="bottom" tooltip>
+                  <i class="fa fa-pause"></i>
+                </a>
+                <a ng-if="item.status=='paused'" ng-click="status($index, item.mac, 'running')" href="" data-toggle="tooltip" title="Restart this device" data-placement="bottom" tooltip>
+                  <i class="fa fa-play"></i>
+                </a>
+                &nbsp;
+  	          	<a ng-click="deleteDevice($index, item.mac)" href="" data-toggle="tooltip" title="Delete this device" data-placement="bottom" tooltip>
+  	          		<i class="fa fa-trash"></i>
+  	          	</a>
+  	          </td>
+  	        </tr>
+  	      </tbody>
+  	    </table>
+  	  </div>
+  	  <div class="add-device-container">
+  	  	<button type="button" ui-sref="new_device" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-plus-circle"></i>&nbsp; Add new device</button>
+  	   </div>
+  	</div>
+  	</div>
+  </div>
+  <!-- end row -->
+  </div>
+  </section>

@@ -1,3 +1,4 @@
+
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
@@ -19,6 +20,13 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
+    instanceMethods: {
+      updateStatus: function (newStatus, callback) {
+        this.update({
+          status: newStatus
+        }).then(callback);
+      }
+    },
     classMethods: {
       createDevice: function(device, callback, err){
         Device.create(device).then(callback).catch(err);
@@ -31,14 +39,6 @@ module.exports = function(sequelize, DataTypes) {
         };
         Device.findOne(query).then(callback).catch(err);
       },
-      getDevicesByUserEmail: function(email, callback, err){
-        var query = {
-          where: {
-            UserEmail: email
-          }
-        }
-        Device.findAll(query).then(callback).catch(err);
-      },
       deleteDevice : function(mac, callback){
         var query = {
           where: {
@@ -50,6 +50,8 @@ module.exports = function(sequelize, DataTypes) {
       // association N:M with User
       associate: function(models){
         Device.hasMany(models.Crop, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'});
+        Device.hasMany(models.Actuator, {onDelete: 'cascade', hooks: true, onUpdate: 'cascade'})
+        Device.belongsTo(models.User);
       }
     },
     tableName: 'Device'
