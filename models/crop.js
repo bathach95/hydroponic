@@ -23,7 +23,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     status: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING,
       allowNull: false
     },
     share: {
@@ -61,7 +61,7 @@ module.exports = function (sequelize, DataTypes) {
           var query = {
             where: {
               DeviceMac: deviceMac,
-              status: true
+              status: 'running'
             },
             order: [['closedate', 'DESC']]
           }

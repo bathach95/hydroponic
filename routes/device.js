@@ -3,7 +3,7 @@ var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
 const mqtt = require('mqtt');
-const client = mqtt.connect('mqtt://test.mosquitto.org');
+const client = mqtt.connect('mqtt://13.58.114.56:1883');
 
 //====== auto query mac from database and subscribe to that chanel =======
 

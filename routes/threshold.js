@@ -3,11 +3,12 @@ var router = express.Router();
 var user = require('./user.js')
 var models = require('../models');
 
-router.get('/newest', user.authenticate(), function(req, res) {
+
+router.get('/newest', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
 
-  models.Threshold.getNewestThresholdByCropId(cropId, function(result) {
-    if (result){
+  models.Threshold.getNewestThresholdByCropId(cropId, function (result) {
+    if (result) {
       res.json({
         success: true,
         data: result.dataValues,
@@ -22,16 +23,16 @@ router.get('/newest', user.authenticate(), function(req, res) {
   });
 })
 
-router.post('/add', user.authenticate(), function(req, res) {
+router.post('/add', user.authenticate(), function (req, res) {
   var newThreshold = req.body;
   models.Threshold.createThreshold(newThreshold,
-    function() {
+    function () {
       res.send({
         success: true,
         message: "Edit threshold success"
       })
     },
-    function() {
+    function () {
       res.send({
         success: false,
         message: "Edit threshold failed"
