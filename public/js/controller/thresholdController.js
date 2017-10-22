@@ -53,8 +53,6 @@ controller.controller('HomePageThresholdCtrl', function($http, $window, $statePa
   {
   ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function(result) {
     if (result.data) {
-      console.log(12345555);
-      $rootScope.threshold = result.data;
       $scope.threshold = result.data;
       var dateTime = GetTimeService.getDateTime(result.data.createdAt);
       $scope.threshold.date = dateTime.date;

@@ -1,22 +1,21 @@
 
-controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService) {
+controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService, ThresholdService) {
   $scope.deviceMac = $stateParams.devicemac;
   $scope.cropId = $stateParams.cropid;
 
-  DataService.getNewestDataByCropId($scope.cropId).then(function (result) {
-    if (result.data.success) {
+  DataService.getNewestDataByCropId($scope.cropId).then(function (dataResult) {
+    if (dataResult.data.success) {
 
-      $scope.data = result.data.data;
+      $scope.data = dataResult.data.data;
       // status of data
-      // TODO: query threshold from database, not from rootScope
-      $scope.threshold = $rootScope.threshold;
-      console.log($rootScope.threshold)
-      var status = DataStatusService.getStatus($scope.data, $scope.threshold);
 
+      ThresholdService.getNewestThresholdByCropId($scope.cropId).then(function(thresholdResult) {
+      var status = DataStatusService.getStatus(dataResult.data.data, thresholdResult.data.data);
+      $scope.threshold = thresholdResult.data.data;
       $scope.badStatus = status.badStatus;
       $scope.status = status.status;
+      });
     }
-
   })
 });
 
@@ -34,7 +33,7 @@ var runningDevicesData = []
               ThresholdService.getNewestThresholdByCropId(item.crop.id).then(function(result) {
                 var status = DataStatusService.getStatus(item.data, result.data.data);
                 runningDevicesData.push({devicecropdata: item, status: status});
-                
+
                 resolve(status);
                 });
             });
