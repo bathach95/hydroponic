@@ -88,8 +88,24 @@ function decrypt(dataString) {
 }
 
 
+function getDataStatus(data, threshold) {
+
+  var status = {
+    badStatus: {
+      temp: data.temperature < threshold.temperatureLower || data.temperature > threshold.temperatureUpper,
+      humidity: data.humidity < threshold.humidityLower || data.humidity > threshold.humidityUpper,
+      ppm: data.ppm < threshold.ppmLower || data.ppm > threshold.ppmUpper,
+      ph: data.ph < threshold.phLower || data.ph > threshold.phUpper
+    }
+  }
+
+  status.status = status.badStatus.temp || status.badStatus.humidity || status.badStatus.ppm || status.badStatus.ph;
+  return status;
+}
+
 module.exports = {
   getDateFromGMT: getDateFromGMT,
+  getDataStatus: getDataStatus,
   setRole: setRole,
   getUserId: getUserId,
   encrypt: encrypt,
