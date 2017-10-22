@@ -67,7 +67,7 @@ router.get('/one', user.authenticate(), function (req, res) {
 
 router.get('/newest', user.authenticate(), function (req, res) {
   
-    models.Crop.getNewestCropByDeviceMac(req.query.mac, function (result) {
+    models.Crop.getNewestRunningCropByDeviceMac(req.query.mac, function (result) {
       if (result) {
         res.json({
           success: true,

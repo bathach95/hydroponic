@@ -20,8 +20,8 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     classMethods: {
-      createData: function(data, callback){
-        Data.create(data).then(callback);
+      createData: function(data, callback, err){
+        Data.create(data).then(callback).catch(err);
       },
       getNewestDataByCropId: function(cropId, callback){
         var query = {

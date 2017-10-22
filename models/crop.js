@@ -57,13 +57,24 @@ module.exports = function (sequelize, DataTypes) {
 
           Crop.destroy(query).then(callback);
         },
-        getNewestCropByDeviceMac: function (deviceMac, callback) {
+        getNewestRunningCropByDeviceMac: function (deviceMac, callback) {
           var query = {
             where: {
               DeviceMac: deviceMac,
               status: 'running'
             },
             order: [['closedate', 'DESC']]
+          }
+
+          Crop.findOne(query).then(callback);
+        },
+        getOldestPendingCropByDeviceMac: function (deviceMac, callback) {
+          var query = {
+            where: {
+              DeviceMac: deviceMac,
+              status: 'pending'
+            },
+            order: [['startdate', 'ASC']]
           }
 
           Crop.findOne(query).then(callback);

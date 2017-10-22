@@ -545,6 +545,7 @@
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">
+        <form ng-submit="addThreshold()">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Edit threshold</h4>
@@ -576,10 +577,10 @@
               <label for="">Temperature</label>
             </div>
             <div class="col-md-4 col-sm-4">
-              <input ng-model="newThreshold.temperatureLower" type="number" name="lower-temp" />
+              <input required ng-model="newThreshold.temperatureLower" type="number" name="lower-temp" />
             </div>
             <div class="col-md-4 col-sm-4">
-              <input ng-model="newThreshold.temperatureUpper" type="number" name="upper-temp" />
+              <input required ng-model="newThreshold.temperatureUpper" type="number" name="upper-temp" />
             </div>
           </div>
           <div class="row">
@@ -587,10 +588,10 @@
               <label for="">Humidity</label>
             </div>
             <div class="col-md-4 col-sm-4">
-              <input ng-model="newThreshold.humidityLower" type="number" name="lower-humidity" />
+              <input required ng-model="newThreshold.humidityLower" type="number" name="lower-humidity" />
             </div>
             <div class="col-md-4 col-sm-4">
-              <input ng-model="newThreshold.humidityUpper" type="number" name="upper-humidity" />
+              <input required ng-model="newThreshold.humidityUpper" type="number" name="upper-humidity" />
             </div>
           </div>
           <div class="row">
@@ -598,10 +599,10 @@
               <label for="">ppm</label>
             </div>
             <div class="col-md-4 col-sm-4">
-              <input ng-model="newThreshold.ppmLower" type="number" name="lower-ppm" />
+              <input required ng-model="newThreshold.ppmLower" type="number" name="lower-ppm" />
             </div>
             <div class="col-md-4 col-sm-4">
-              <input ng-model="newThreshold.ppmUpper" type="number" name="upper-ppm" />
+              <input required ng-model="newThreshold.ppmUpper" type="number" name="upper-ppm" />
             </div>
           </div>
           <div class="row">
@@ -609,21 +610,19 @@
               <label for="">pH</label>
             </div>
             <div class="col-md-4 col-sm-4">
-              <input ng-model="newThreshold.phLower" type="number" name="lower-ph" />
+              <input required ng-model="newThreshold.phLower" type="number" name="lower-ph" />
             </div>
             <div class="col-md-4 col-sm-4">
-              <input ng-model="newThreshold.phUpper" type="number" name="upper-ph" />
+              <input required ng-model="newThreshold.phUpper" type="number" name="upper-ph" />
             </div>
           </div>
         </center>
-          <div class="row">
-            <p ng-attr-style="{{editThresholdSuccess && 'color: green' || 'color: red'}}">{{editThresholdMessage}}</p>
-          </div>
         </div>
         <div class="modal-footer">
-          <button ng-click="addThreshold()" type="button" class="btn btn-1 btn-primary">OK</button>
+          <button type="submit" class="btn btn-1 btn-primary">OK</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
+      </form>
       </div>
     </div>
   </div>
@@ -734,9 +733,6 @@
             <div class="col-md-4 col-sm-4">
             </div>
           </div>
-          <!--<div class="row" style="text-align:center;">
-            <p ng-attr-style="{{addCropSuccess && 'color: green' || 'color: red'}}">{{addCropMessage}}</p>
-          </div>--->
 
         </div>
         <div class="modal-footer">
