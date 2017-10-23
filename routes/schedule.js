@@ -54,7 +54,7 @@ router.get('/all', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
 
   models.Schedule.getScheduleByCropId(cropId, function (result) {
-
+    console.log(result);
     var listScheduleSetting = [];
     result.forEach(function (item) {
       listScheduleSetting.push(item);
@@ -65,6 +65,7 @@ router.get('/all', user.authenticate(), function (req, res) {
       message: "Get all settings successfully!"
     });
   }, function (result) {
+    console.log(result);
     res.send({
       success: false,
       message: "Error: Get all settings!"

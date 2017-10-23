@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
-    actuatorid: {
+    idonboard: {
       type: DataTypes.INTEGER,
       allowNull: false
     }

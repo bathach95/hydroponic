@@ -14,10 +14,10 @@
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav navbar-right">
 			<li><a ui-sref="home">Home</a></li>
-			<li><a ui-sref="home">Systems</a></li>
-			<li><a ui-sref="home">Acticle</a></li>
-			<li><a ui-sref="home">Forum</a></li>
-			<li><a ui-sref="home">About</a></li>
+			<li><a ui-sref="system">Systems</a></li>
+			<li><a ui-sref="article">Acticle</a></li>
+			<li><a href="http://localhost:4567">Forum</a></li>
+			<li><a ui-sref="about">About</a></li>
 	    <li ng-show="userLogin" class="dropdown active">
 				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
 				<span class="caret"></span></a>
@@ -199,7 +199,7 @@
           <thead class="table-list-device-header">
   	        <tr>
   	          <th>No.</th>
-              <th>Actuator ID</th>
+              <th>ID On Board</th>
   	          <th>Name</th>
   	          <th>Type</th>
               <th>Priority</th>
@@ -211,7 +211,7 @@
           <tbody>
   	        <tr ng-repeat="actuator in listActuators">
   	          <td>{{$index + 1}}</td>
-              <td>{{actuator.actuatorid}}</td>
+              <td>{{actuator.idonboard}}</td>
               <td>{{actuator.name}}
   	          <td>{{actuator.type}}</td>
               <td>{{actuator.priority}}</td>
@@ -281,7 +281,7 @@
               <label for="name">ID</label>
             </div>
             <div class="col-md-6 col-sm-6">
-              <input ng-model="newActuator.actuator.actuatorid" type="number" name="actuatorid" min="11" max="49"/>
+              <input ng-model="newActuator.actuator.idonboard" type="number" name="idonboard" min="11" max="49"/>
             </div>
             <div class="col-md-2 col-sm-2">
             </div>
