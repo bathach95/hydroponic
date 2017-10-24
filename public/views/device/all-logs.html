@@ -11,78 +11,92 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 
 <body>
-	<!--header start here-->
-	<div class="container margin-container">
-		<div class="page-heading">
-			<h2>All data</h2>
+	<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
 		</div>
-		<div class="panel panel-success panel-table">
-			<div class="panel-heading">
-				<div class="row">
-					<div class="col col-xs-6">
-						Diary Log
-					</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a ui-sref="home">Home</a></li>
+				<li><a ui-sref="system">Systems</a></li>
+				<li><a ui-sref="article">Acticle</a></li>
+				<li><a href="http://138.68.74.17:4567">Forum</a></li>
+				<li><a ui-sref="about">About</a></li>
+				<li ng-show="userLogin" class="dropdown active">
+					<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu" ng-controller="LoginCtrl">
+						<li><a ui-sref="profile">Profile</a></li>
+						<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+						<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+						<li><a ui-sref="change_password">Change your password</a></li>
+						<li><a href="" ng-click="logout()">Log out</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+	</div>
+	</nav>
 
-				</div>
-			</div>
-			<div class="panel-body">
-				<div ng-repeat="item in data" class="row current-condition-table">
-					<div class="col-md-2">
-						<div class="time-stamp status-normal">
-							<table class="table table-remove-bottom-margin">
-								<tr>
-									<td>{{item.date}}</td>
-								</tr>
-								<tr>
-									<td>{{item.time}}</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-					<div class="col-md-8">
-						<table class="table">
-							<thead>
-								<tr>
-										<th ng-attr-style="{{item.badStatus.temp && 'color: red' || ''}}">Temperature (&#8451;) </th>
-										<th ng-attr-style="{{item.badStatus.humidity && 'color: red' || ''}}">Humidity (%)</th>
-										<th ng-attr-style="{{item.badStatus.ppm && 'color: red' || ''}}">ppm</th>
-										<th ng-attr-style="{{item.badStatus.ph && 'color: red' || ''}}">pH</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td ng-attr-style="{{item.badStatus.temp && 'color: red' || ''}}">{{item.temperature}}</td>
-									<td ng-attr-style="{{item.badStatus.humidity && 'color: red' || ''}}">{{item.humidity}}</td>
-									<td ng-attr-style="{{item.badStatus.ppm && 'color: red' || ''}}">{{item.ppm}}</td>
-									<td ng-attr-style="{{item.badStatus.ph && 'color: red' || ''}}">{{item.ph}}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="col-md-2">
-						<div class="current-condition-status">
-							<table class="table">
-								<tr>
-									<td ng-if="!item.status">
-											<em class="glyphicon glyphicon-ok"></em>
-									</td>
 
-									<td ng-if="item.status">
-											<em class="glyphicon glyphicon-warning-sign" style="color: red"></em>
-									</td>
-								</tr>
-								<tr>
-									<td ng-if="!item.status">Normal</td>
-									<td ng-if="item.status" style="color: red">Warning</td>
-								</tr>
-							</table>
-						</div>
-					</div>
+	<section id="Section-1" class="fullbg">
+	<div class="section-divider">
+	</div>
+	<div class="container">
+	  <div class="row">
+	  	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeInDown">
+	  		<h1>All data from device</h1>
+	  		<p class="lead">
+	  			Device: <b>{{devicemac}}</b>
+	  		</p>
+				<p class="lead">
+	  			Crop: <b>{{cropid}}</b>
+	  		</p>
+	  	</div>
+			<button type="button" ui-sref="crop_detail({devicemac: devicemac, cropid: cropid})" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-arrow-left"></i>&nbsp; Crop Detail</button>
+	  </div>
+	  <div class="row color-white">
+	  	<div class="container animated fadeInUp">
+	  	  <div class="table-list-device-content">
+	  	    <table ng-if="data" class="table-list-device" cellpadding="0" cellspacing="0" border="0" ui-jq="dataTable" ui-options="dataTableOpt">
+	          <thead class="table-list-device-header">
+	  	        <tr>
+	  	          <th>Time Stamp</th>
+	  	          <th>Temperature</th>
+	  	          <th>Humidity</th>
+	  	          <th>ppm</th>
+	  	          <th>pH</th>
+	  	          <th>Status</th>
+	  	        </tr>
+	  	      </thead>
+	          <tbody>
+							<tr ng-repeat="item in data">
+								<td>{{item.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+								<td ng-attr-style="{{!item.badStatus.temp && 'color: #FFA7A7' || ''}}">{{item.temperature}}</td>
+								<td ng-attr-style="{{!item.badStatus.humidity && 'color: #FFA7A7' || ''}}">{{item.humidity}}</td>
+								<td ng-attr-style="{{!item.badStatus.ppm && 'color: #FFA7A7' || ''}}">{{item.ppm}}</td>
+								<td ng-attr-style="{{!item.badStatus.ph && 'color: #FFA7A7' || ''}}">{{item.ph}}</td>
+								<td>
+									<i ng-if="item.status" class="fa fa-check-square" style="color: #6BFF9F;"></i>
+									<i ng-if="!item.status" class="fa fa-exclamation-triangle" style="color: #FFA7A7;"></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!--//footer-->
 </body>
 
 </html>

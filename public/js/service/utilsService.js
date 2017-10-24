@@ -39,7 +39,8 @@ service.service('DataStatusService', function() {
             }
         }
 
-        status.status = status.badStatus.temp || status.badStatus.humidity || status.badStatus.ppm || status.badStatus.ph;
+        status.status = status.badStatus.temp && status.badStatus.humidity && status.badStatus.ppm && status.badStatus.ph;
+        
         return status;
     }
 });

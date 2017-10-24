@@ -67,7 +67,6 @@ router.get('/running', user.authenticate(), function(req, res){
         var deviceDataList = [];
 
         Promise.all(result.map(function(item){
-          console.log(item);
           return new Promise(function(resolve, reject) {
             item.getCrops({
               where:{
