@@ -34,6 +34,11 @@ module.exports = function (sequelize, DataTypes) {
     reporttime: {
       type: DataTypes.FLOAT,
       allowNull: false
+    },
+    synchronized: {
+      type: DataTypes.BOOLEAN,
+      allowNull:false,
+      defaultValue: true
     }
   }, {
 
@@ -42,7 +47,12 @@ module.exports = function (sequelize, DataTypes) {
           this.update({
             share: newShare
           }).then(callback);
-        }
+        },
+        updateSynchronized: function (newSynchronized, callback) {
+          this.update({
+            synchronized: newSynchronized
+          }).then(callback);
+        },
       },
       classMethods: {
         createCrop: function (crop, callback) {
@@ -110,4 +120,3 @@ module.exports = function (sequelize, DataTypes) {
     });
   return Crop;
 };
-

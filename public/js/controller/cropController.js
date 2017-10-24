@@ -16,7 +16,8 @@ controller
   /* add new crop to device */
   $scope.newCrop = {
     DeviceMac: $stateParams.mac,
-    status: true
+    status: true,
+    synchronized: true
   }
   $scope.addCrop = function () {
 

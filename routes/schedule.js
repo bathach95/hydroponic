@@ -74,12 +74,32 @@ router.get('/all', user.authenticate(), function (req, res) {
 })
 
 router.delete('/delete', user.authenticate(), function (req, res) {
+  var scheduleId = req.query.scheduleId;
   var cropId = req.query.cropId;
+  models.Schedule.deleteScheduleSettingById(scheduleId, function (result) {
+    models.Crop.getCropById(cropId, function (crop) {
+      if (crop)
+      {
+        crop.updateSynchronized(false, function () {
+          res.send({
+            success: true,
+            message: "Successfully delete schedule setting!"
+          });
+        })
+      }
+      else {
+        res.send({
+          success: false,
+          message: "Cannot get crop to update synchronized!"
+        });
+      }
+    })
+  }, function(result){
 
-  models.Schedule.deleteScheduleByCropId(cropId, function (result) {
-    console.log("Successfully delete all schedule with crop Id!");
+    console.log(result);
     res.send({
-      success: true
+      success: false,
+      message: "Cannot delete schedule setting!"
     });
   });
 })
@@ -123,10 +143,23 @@ router.get('/sync', user.authenticate(), function (req, res) {
           message = message.concat(listStrings[i]);
         }
         device.client.publish(topic, message);
-        res.json({
-          success: true,
-          data: message,
-          message: "Successfully to get all actuators!"
+        models.Crop.getCropById(cropId, function (crop) {
+          if (crop)
+          {
+            crop.updateSynchronized(true, function () {
+              res.json({
+                success: true,
+                data: message,
+                message: "Successfully to synchronized setting with device!"
+              })
+            })
+          }
+          else {
+            res.send({
+              success: false,
+              message: "Cannot get crop!"
+            });
+          }
         })
       })
     }
@@ -183,10 +216,33 @@ router.post('/add', user.authenticate(), function (req, res) {
     }
     else {
       models.Schedule.createSchedule(scheduleSetting, function (result) {
-        res.send({
-          success: true,
-          message: "Add setting successfully!"
-        });
+        if (result)
+        {
+          models.Crop.getCropById(scheduleSetting.CropId, function (crop) {
+            if (crop)
+            {
+              crop.updateSynchronized(false, function () {
+                res.send({
+                  success: true,
+                  message: "Add setting successfully!"
+                });
+              })
+            }
+            else {
+              res.send({
+                success: false,
+                message: "Cannot get crop!"
+              });
+            }
+          })
+        }
+        else
+        {
+          res.send({
+            success: false,
+            message: "Cannot create schedule setting!"
+          });
+        }
       })
     };
   }, function (result) {

@@ -350,7 +350,7 @@
                               </div>-->
                             </div>
                             <div ng-hide="data">
-                                <p>There aren't any data from your device. </p>
+                                <p>No data available from your device. </p>
                               </div>
                           </div>
                           <div class="row">
@@ -473,13 +473,30 @@
                             <h3>Hardware Settings</h3>
                           </div>
                           <div class="col-md-6">
-                            <p style="float:right; ">Status: Not synchonized</p>
+                            <p style="float:right;">Status:
+                              <i ng-if="synchronized" style="color:#4ba2dc; font-size:200%; cursor: pointer;" class='fa fa-check-square-o' data-toggle="tooltip" title="Synchronized!" data-placement="top" tooltip></i>
+                              <i ng-if="!synchronized" style="color:#4ba2dc; font-size:200%; cursor: pointer;" class='fa fa-exclamation-triangle' data-toggle="tooltip" title="Unsynchronized!" data-placement="top" tooltip></i>
+                            </p>
                           </div>
                           <div class="col-md-6">
                           <style media="screen">
-                            #syncButtton:disabled{cursor:not-allowed;}
+                            #syncButton{
+                              width:20%;
+                              background-color:#fff;
+                              float:right;
+                              padding:4px;
+                              border-radius: 4px;
+                              border: 1px solid #4ba2dc;
+                              color:#4ba2dc;
+                              text-decoration: none !important;
+                            }
+                            #syncButton[disabled], #syncButton[disabled] i{
+                              cursor:not-allowed;
+                              border-color:#BDBDBD;
+                              color:#BDBDBD;
+                            }
                           </style>
-                            <button id="syncButton" ng-click="syncScheduleSettings(cropId, mac)" data-loading-text="<i class='fa fa-spinner fa-spin'></i>"  style="width:20%; background-color:#fff; float:right; padding:4px; border-radius: 4px; border: 1px solid #4ba2dc; color:#4ba2dc; text-decoration: none !important;"><i class="fa fa-refresh"></i> sync</button>
+                            <button ng-disabled="synchronized" id="syncButton" ng-click="syncScheduleSettings(cropId, mac)" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">  <i class="fa fa-refresh"></i> sync</button>
                           </div>
                         </div>
                         <br>
