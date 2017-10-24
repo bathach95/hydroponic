@@ -16,13 +16,15 @@
 			<li><a ui-sref="home">Home</a></li>
 			<li><a ui-sref="system">Systems</a></li>
 			<li><a ui-sref="article">Acticle</a></li>
-			<li><a href="http://localhost:4567">Forum</a></li>
+			<li><a href="http://138.68.74.17:4567">Forum</a></li>
 			<li><a ui-sref="about">About</a></li>
 		  <li class="dropdown active">
 	        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
 	        <span class="caret"></span></a>
 	        <ul class="dropdown-menu">
 	          <li><a ui-sref="profile">Profile</a></li>
+						<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+						<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
 	          <li><a ui-sref="change_password">Change your password</a></li>
 	          <li><a ng-click="logout()">Log out</a></li>
 	        </ul>
