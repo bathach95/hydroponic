@@ -78,7 +78,7 @@
   	          <td>{{crop.treetype}}</td>
   	          <td>{{crop.startdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
   	          <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-              <td ng-if="crop.status">Running</td>
+              <td>{{crop.status}}</td>
   	          <td>
   		          	<a ng-click="deleteCrop($index, crop.id, crop.status)" href="" data-toggle="tooltip" title="Delete this crop" data-placement="bottom" tooltip>
   		          		<i class="fa fa-trash"></i>

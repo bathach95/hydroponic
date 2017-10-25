@@ -67,11 +67,23 @@ var runningDevicesData = []
             return new Promise(function(resolve, reject){
               ThresholdService.getNewestThresholdByCropId(item.crop.id).then(function(thresholdResult) {
                   var status;
-                  if (thresholdResult.data.data)
+                  if (thresholdResult.data.success)
                   {
                     status = DataStatusService.getStatus(item.data, thresholdResult.data.data);
-                    runningDevicesData.push({devicecropdata: item, status: status});
                   }
+                  else
+                  {
+                    status = {
+                      badStatus:{
+                        temp: false,
+                        humidity: false,
+                        ppm: false,
+                        ph: false
+                      },
+                      status: false
+                    }
+                  }
+                  runningDevicesData.push({devicecropdata: item, status: status});
                   resolve(status);
                 });
             });
@@ -113,12 +125,12 @@ controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, Thres
           //----status----
           var status = {
             badStatus: {
-              temp: true,
-              humidity: true,
-              ppm: true,
-              ph: true
+              temp: false,
+              humidity: false,
+              ppm: false,
+              ph: false
             },
-            status: true
+            status: false
           }
           console.log(thresholdResult);
           if (thresholdResult.data.success)

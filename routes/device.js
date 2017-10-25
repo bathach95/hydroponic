@@ -70,7 +70,7 @@ router.get('/running', user.authenticate(), function(req, res){
           return new Promise(function(resolve, reject) {
             item.getCrops({
               where:{
-                status: true
+                status: 'true'
               }
             }).then(function (cropResult) {
               return new Promise(function(result, reject){
