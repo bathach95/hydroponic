@@ -218,10 +218,10 @@
   	          <td>{{actuator.status}}</td>
   	          <td>{{actuator.createdAt | date:'dd-MM-yyyy HH:mm:ss Z'}}</td>
   	          <td>
-                  <a ng-if="actuator.status=='off'" ng-click="toggleActuator($index, actuator.actuatorid, actuator.id, 'on')" data-toggle="tooltip" title="Start this actuator" data-placement="bottom" tooltip>
+                  <a ng-if="actuator.status=='off'" ng-click="toggleActuator($index, actuator.idonboard, actuator.id, 'on')" data-toggle="tooltip" title="Start this actuator" data-placement="bottom" tooltip>
                     <i class="fa fa-play-circle-o"></i>
                   </a>
-                  <a ng-if="actuator.status=='on'" ng-click="toggleActuator($index, actuator.actuatorid, actuator.id, 'off')" data-toggle="tooltip" title="Stop this actuator" data-placement="bottom" tooltip>
+                  <a ng-if="actuator.status=='on'" ng-click="toggleActuator($index, actuator.idonboard, actuator.id, 'off')" data-toggle="tooltip" title="Stop this actuator" data-placement="bottom" tooltip>
                     <i class="fa fa-pause-circle-o"></i>
                   </a>
                   &nbsp;

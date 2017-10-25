@@ -92,7 +92,7 @@ router.put('/status', user.authenticate(), function(req, res) {
       else {
         status = '0';
       }
-      var message = req.body.mac + '03' + '0003' + req.body.actuatorid.toString() + status;
+      var message = req.body.mac + '03' + '0003' + req.body.idonboard.toString() + status;
       device.client.publish(topic, message);
       res.json({
         success: true,

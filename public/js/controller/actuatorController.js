@@ -29,12 +29,12 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
     })
   }
 
-  $scope.toggleActuator = function (index, actuatorid, id, newstatus) {
+  $scope.toggleActuator = function (index, idonboard, id, newstatus) {
     var actuator = {
       id: id,
       status: newstatus,
       mac: $stateParams.mac,
-      actuatorid: actuatorid
+      idonboard: idonboard
     }
     ActuatorService.updateActuatorStatus(actuator).then(function (result) {
       if (result.data.success) {
