@@ -14,4 +14,14 @@ service.service('ActuatorService', function($http) {
         }
       });
     }
+
+    this.deleteActuator = function(actuator) {
+      return $http.delete('/actuator/delete', {
+        params:{
+          id: actuator.id,
+          mac: actuator.mac,
+          priority: actuator.priority
+        }
+      })
+    }
 });

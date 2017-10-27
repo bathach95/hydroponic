@@ -112,4 +112,30 @@ router.put('/status', user.authenticate(), function(req, res) {
   })
 })
 
+router.delete('/delete', user.authenticate(), function(req, res) {
+  console.log(req.query);
+  models.Actuator.deleteActuator(req.query.id, function(){
+    var topic = "device/" + req.query.mac + "/esp";
+    var priority;
+    if (req.query.priority == 'Primary')
+    {
+      priority = '0';
+    }
+    else {
+      priority = '1';
+    }
+    var message = req.query.mac + '06' + '0004' + '1' + priority;
+    device.client.publish(topic, message);
+    res.json({
+      success: true,
+      message: 'Deleted actuator!'
+    })
+  }, function() {
+    res.json({
+      success: false,
+      message: 'Error when delete actuator!'
+    })
+  })
+})
+
 module.exports.router = router;

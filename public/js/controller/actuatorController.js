@@ -46,4 +46,25 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
     })
   }
 
+  $scope.deleteActuator = function (idonboard, id, priority) {
+
+    bootbox.confirm('Do you want to delete this device ?', function (yes) {
+      if (yes) {
+        var actuator = {
+          id: id,
+          mac: $stateParams.mac,
+          idonboard: idonboard,
+          priority: priority
+        }
+        ActuatorService.deleteActuator(actuator).then(function (result) {
+          if (result.data.success) {
+            flash.success = result.data.message;
+            $state.reload();
+          } else {
+            flash.error = result.data.message;
+          }
+        })
+      }
+    })
+  }
 })

@@ -1,4 +1,4 @@
-controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $rootScope, $scope, ThresholdService, GetTimeService) {
+controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $state, $rootScope, $scope, ThresholdService, GetTimeService, flash) {
   ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function(result) {
     if (result.data.success) {
 
@@ -30,7 +30,7 @@ controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $r
       ThresholdService.addThreshold($scope.newThreshold).then(function(result) {
         $scope.editThresholdSuccess = result.data.success;
         $scope.editThresholdMessage = result.data.message;
-
+        $('#editThresholdModal').modal('hide');
         // if success, update view
         if (result.data.success){
           flash.success = result.data.message;
@@ -39,7 +39,6 @@ controller.controller('ThresholdCtrl', function($http, $window, $stateParams, $r
         else {
           flash.error = result.data.message;
         }
-
       });
     } else {
       $scope.editThresholdSuccess = false;

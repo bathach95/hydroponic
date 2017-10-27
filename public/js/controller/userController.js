@@ -1,5 +1,8 @@
 var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
+controller.controller('DomReadyCtrl', function($timeout, $scope){
+  $(".se-pre-con").fadeOut("slow");
+});
 controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookies, $scope, $rootScope, $state, $timeout, UserService, AuthService, flash) {
 
   $scope.user = {};

@@ -6,7 +6,7 @@
 
 //----Parallax---//
 jQuery(document).ready(function(){
-	console.log("TCT  - 1");
+	$(".se-pre-con").fadeOut("slow");
 	jQuery('#topnav').localScroll(3000);
 	jQuery('#top-section').localScroll(6000);
 	jQuery('#List-Devices-Link').localScroll();
@@ -22,8 +22,6 @@ jQuery(document).ready(function(){
 	jQuery('#Section-8').parallax("50%", 0.1);
 	jQuery('#Section-9').parallax("50%", 0.1);
 	jQuery('#foot-sec').parallax("50%", 0.1);
-	
-	console.log("TCT - 2");
 })
 
 

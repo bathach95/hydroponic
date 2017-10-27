@@ -82,13 +82,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	          <tbody>
 							<tr ng-repeat="item in data">
 								<td>{{item.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-								<td ng-attr-style="{{!item.badStatus.temp && 'color: #FFA7A7' || ''}}">{{item.temperature}}</td>
-								<td ng-attr-style="{{!item.badStatus.humidity && 'color: #FFA7A7' || ''}}">{{item.humidity}}</td>
-								<td ng-attr-style="{{!item.badStatus.ppm && 'color: #FFA7A7' || ''}}">{{item.ppm}}</td>
-								<td ng-attr-style="{{!item.badStatus.ph && 'color: #FFA7A7' || ''}}">{{item.ph}}</td>
+								<td ng-attr-style="{{item.badStatus.temp && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.temperature}}</td>
+								<td ng-attr-style="{{item.badStatus.humidity && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.humidity}}</td>
+								<td ng-attr-style="{{item.badStatus.ppm && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.ppm}}</td>
+								<td ng-attr-style="{{item.badStatus.ph && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.ph}}</td>
 								<td>
-									<i ng-if="item.status" class="fa fa-check-square" style="color: #6BFF9F;"></i>
-									<i ng-if="!item.status" class="fa fa-exclamation-triangle" style="color: #FFA7A7;"></i>
+									<i ng-if="!item.status" class="fa fa-check-square" style="color: #6BFF9F;"></i>
+									<i ng-if="item.status" class="fa fa-exclamation-triangle" style="color: #FFA7A7;"></i>
 								</td>
 							</tr>
 						</tbody>

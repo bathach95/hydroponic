@@ -225,7 +225,7 @@
                     <i class="fa fa-pause-circle-o"></i>
                   </a>
                   &nbsp;
-  		          	<a ng-click="deleteActuator($index, crop.id, crop.status)" href="" data-toggle="tooltip" title="Delete this actuator" data-placement="bottom" tooltip>
+  		          	<a ng-click="deleteActuator(actuator.idonboard, actuator.id, actuator.priority)" href="" data-toggle="tooltip" title="Delete this actuator" data-placement="bottom" tooltip>
   		          		<i class="fa fa-trash"></i>
   		          	</a>
   	          </td>
@@ -244,7 +244,7 @@
   </div>
 
   <style media="screen">
-    #addActuatorModal {
+    #addActuatorModal{
       font-size: 15px;
       text-align: center;
     }
@@ -254,6 +254,16 @@
       color: #000;
       font-size: 15px;
       border: 1px solid #e3e3e3;
+    }
+  </style>
+  <style media="screen">
+    #addActuatorModal label, #addActuatorModal input, #addActuatorModal select{
+      width: 100%;
+      margin: 20px 0px;
+    }
+
+    #addActuatorModal input, #addActuatorModal select{
+      padding: 5px 0px;
     }
   </style>
   <!-- Start add actuator modal -->
@@ -266,16 +276,6 @@
           <h4 class="modal-title">Add new actuator for this device</h4>
         </div>
         <div class="modal-body">
-          <style media="screen">
-            #addActuatorModal label, #addActuatorModal input, #addActuatorModal select{
-              width: 100%;
-              margin: 20px 0px;
-            }
-
-            #addActuatorModal input, #addActuatorModal select{
-              padding: 5px 0px;
-            }
-          </style>
           <div class="row">
             <div class="col-md-4 col-sm-4">
               <label for="name">ID</label>

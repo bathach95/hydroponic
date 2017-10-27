@@ -45,13 +45,13 @@ module.exports = function(sequelize, DataTypes) {
         };
         Actuator.findOne(query).then(callback).catch(err);
       },
-      deleteActuator : function(name, callback){
+      deleteActuator : function(id, callback, err){
         var query = {
           where: {
-            name: name
+            id: id
           }
         }
-        Actuator.destroy(query).then(callback);
+        Actuator.destroy(query).then(callback).catch(err);
       },
       // association N:M with User
       associate: function(models){
