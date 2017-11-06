@@ -25,18 +25,7 @@ function secondsToHMS(d) {
 }
 
 function sendSettingToDevice(data, callback) {
-  var startdate = utils.getDateFromGMT(data.startdate);
   var topic = 'device/' + data.DeviceMac + '/esp';
-  var closedate = utils.getDateFromGMT(data.closedate);
-  var publishData = {
-    mac: data.DeviceMac,
-    type: "setting",
-    reporttime: data.reporttime,
-    startdate: startdate.date + '_' + startdate.month + '_' + startdate.year,
-    closedate: closedate.date + '_' + closedate.month + '_' + closedate.year
-  }
-
-  //device.client.publish(topic, JSON.stringify(publishData), callback);
   var message = data.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(data.startdate).format("YYYYMMDDHHmmss") + moment(data.closedate).format("YYYYMMDDHHmmss") + secondsToHMS(data.reporttime);
   device.client.publish(topic, message, callback);
 }
@@ -87,7 +76,7 @@ router.get('/one', user.authenticate(), function (req, res) {
 })
 
 router.get('/newest', user.authenticate(), function (req, res) {
-  
+
     models.Crop.getNewestRunningCropByDeviceMac(req.query.mac, function (result) {
       if (result) {
         res.json({
