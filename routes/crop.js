@@ -4,6 +4,25 @@ var user = require('./user.js');
 var models = require('../models');
 var device = require('./device.js');
 var utils = require('./utils.js');
+var moment = require('moment');
+
+function timeToMessageString(time) {
+  var result = time.replace(/:/g, "");
+  return result;
+}
+
+function normalizeNumber(number, max) {
+  var str = number.toString();
+  return str.length < max ? normalizeNumber("0" + str, max) : str;
+}
+
+function secondsToHMS(d) {
+  d = Number(d);
+  var h = Math.floor(d / 3600);
+  var m = Math.floor(d % 3600 / 60);
+  var s = Math.floor(d % 3600 % 60);
+  return normalizeNumber(h, 2) + normalizeNumber(m, 2) + normalizeNumber(s, 2);
+}
 
 function sendSettingToDevice(data, callback) {
   var startdate = utils.getDateFromGMT(data.startdate);
@@ -17,7 +36,9 @@ function sendSettingToDevice(data, callback) {
     closedate: closedate.date + '_' + closedate.month + '_' + closedate.year
   }
 
-  device.client.publish(topic, JSON.stringify(publishData), callback);
+  //device.client.publish(topic, JSON.stringify(publishData), callback);
+  var message = data.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(data.startdate).format("YYYYMMDDHHmmss") + moment(data.closedate).format("YYYYMMDDHHmmss") + secondsToHMS(data.reporttime);
+  device.client.publish(topic, message, callback);
 }
 
 
@@ -66,7 +87,7 @@ router.get('/one', user.authenticate(), function (req, res) {
 })
 
 router.get('/newest', user.authenticate(), function (req, res) {
-  
+
     models.Crop.getNewestCropByDeviceMac(req.query.mac, function (result) {
       if (result) {
         res.json({
