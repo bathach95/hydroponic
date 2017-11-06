@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
-
+var moment = require('moment');
 var device = require('./device.js');
 
 // update device status function
@@ -13,75 +13,107 @@ function updateDeviceStatus(mac) {
         status: "running"
       }).then(function (res) {
         if (res) {
-          console.log("update success");
+          console.log("update device status success");
         } else {
-          console.log("update fail");
+          console.log("update device status fail");
+        }
+      });
+    }
+  });
+}
+// update crop status
+function updateCropStatus(cropId){
+  models.Crop.getCropById(cropId, function (crop) {
+    if (crop.dataValues.status === "pending") {
+      crop.update({
+        status: "running"
+      }).then(function (res) {
+        if (res) {
+          console.log("update crop status success");
+        } else {
+          console.log("update crop status fail");
         }
       });
     }
   });
 }
 
-// add new data to table
-function createNewData(newData, mac, ackTopic) {
-  models.Data.createData(newData, function (res) {
-    //========== send ack ===========
+// parse data from mqtt message
+// ex: 11:22:33:44:55:660400102260070400
+function parseReceivedData(message, sensorDataCmdId, sensorDataLength) {
+  if (message.length === 33) {
+    var mac = message.substr(0, 17);
+    var cmdId = message.substr(17, 2);
+    var dataLength = message.substr(19, 4);
 
-    var ackData = {
-      mac: mac,
-      type: 'ack',
-      message: 'success'
+    if (cmdId === sensorDataCmdId && dataLength === sensorDataLength) {
+      var data = message.substr(23, 10);
+
+      return {
+        mac: mac,
+        temp: Number(data.substr(0, 2)),
+        humidity: Number(data.substr(2, 2)),
+        ph: Number(data.substr(4, 2)),
+        ppm: Number(data.substr(6, 4))
+      }
+    } else {
+      return null;
     }
-    device.client.publish(ackTopic, JSON.stringify(ackData));
-    //=========== end send ack =========
-
-    //=========== update status of device ========
-    updateDeviceStatus(mac);
-    //========== end update status of device ============
-  });
+  } else {
+    return null;
+  }
 }
 
 // receive data from device and add to database
 device.client.on('message', function (topic, message) {
 
-  try {
-    var data = JSON.parse(message.toString());
-    console.log(data);
-    var ackTopic = 'device/' + data.mac + '/esp';
+  var data = parseReceivedData(message.toString(), '04', '0010');
 
-    if (data.type === "sensor_data") {
+  if (data) {
+    models.Crop.getNewestRunningCropByDeviceMac(data.mac, function (runningCrop) {
 
-      models.Crop.getNewestCropByDeviceMac(data.mac, function (crop) {
-        if (crop) {
-          var newData = {
-            CropId: crop.dataValues.id,
-            temperature: data.temp,
-            humidity: data.hum,
-            ppm: data.ppm,
-            ph: data.ph
+      var newData = {
+        ph: data.ph,
+        ppm: data.ppm,
+        humidity: data.humidity,
+        temperature: data.temp
+      }
+
+      if (runningCrop && (runningCrop.dataValues.closedate > new Date())) {
+        // if there is a running crop, add data to it
+        newData.CropId = runningCrop.id;
+
+        models.Data.createData(newData, 
+          function (res) {
+          console.log("add data success to running crop")
+        }, function(err){
+          console.log("add data running" + err)
+        })
+      } else {
+        // if no running crop, add data to nearest pending crop
+        models.Crop.getOldestPendingCropByDeviceMac(data.mac, function (pendingCrop) {
+          if (pendingCrop) {
+            newData.CropId = pendingCrop.id;
+
+            models.Data.createData(newData, 
+              function (res) {
+              console.log("add data success to pending crop")
+              updateDeviceStatus(data.mac);
+              updateCropStatus(pendingCrop.id);
+
+            }, function(err){
+              console.log("Add data pending " + err)
+            })
+
+          } else {
+            console.log('No running or pending crop')
           }
-          createNewData(newData, data.mac, ackTopic);
-
-        } else {
-          //====== send ack ======
-          var ackData = {
-            mac: data.mac,
-            type: 'ack',
-            message: 'fail'
-          }
-          device.client.publish(ackTopic, JSON.stringify(ackData));
-          // ====== end send ack ======
-        }
-
-      })
-
-    } else {
-      console.log(data);
-    }
-  } catch (err) {
-    console.log(err);
+        })
+      }
+    })
+  } else {
+    console.log("Data is not right !")
   }
-
 
 });
 // ======================== end =================
@@ -107,7 +139,7 @@ router.get('/newest', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
 
   models.Data.getNewestDataByCropId(cropId, function (result) {
-    if (result){
+    if (result) {
       res.json({
         success: true,
         data: result.dataValues,
