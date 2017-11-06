@@ -15,6 +15,10 @@ service.service('ActuatorService', function($http) {
       });
     }
 
+    this.updateActuatorPriority = function(actuator) {
+      return $http.put('/actuator/priority', actuator);
+    }
+
     this.deleteActuator = function(actuator) {
       return $http.delete('/actuator/delete', {
         params:{

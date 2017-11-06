@@ -112,6 +112,38 @@ router.put('/status', user.authenticate(), function(req, res) {
   })
 })
 
+router.put('/priority', user.authenticate(), function(req, res) {
+  models.Actuator.getActuatorById(req.body.id, function(actuator){
+    actuator.updatePriority(req.body.priority, function() {
+      var topic = "device/" + req.body.mac + "/esp";
+      var priority;
+      if (req.body == 'Primary')
+      {
+        priority = '0';
+      }
+      else {
+        priority = '1';
+      }
+      var message = req.body.mac + '06' + '0004' + req.body.idonboard.toString() + '2' + priority;
+      device.client.publish(topic, message);
+      res.json({
+        success: true,
+        message: 'Update actuator priority successfully!'
+      })
+    }, function(){
+      res.json({
+        success: false,
+        message: 'Something wrong: Cannot update actuator priority!'
+      })
+    })
+  }, function(result){
+    res.json({
+      success: false,
+      message: 'Error when getting actuator!'
+    })
+  })
+})
+
 router.delete('/delete', user.authenticate(), function(req, res) {
   console.log(req.query);
   models.Actuator.deleteActuator(req.query.id, function(){
@@ -124,7 +156,7 @@ router.delete('/delete', user.authenticate(), function(req, res) {
     else {
       priority = '1';
     }
-    var message = req.query.mac + '06' + '0004' + '1' + priority;
+    var message = req.query.mac + '06' + '0004' + req.body.idonboard.toString() + '1' + priority;
     device.client.publish(topic, message);
     res.json({
       success: true,

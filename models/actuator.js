@@ -28,6 +28,11 @@ module.exports = function(sequelize, DataTypes) {
         this.update({
           status: newStatus
         }).then(callback).catch(err);
+      },
+      updatePriority: function (newPriority, callback, err) {
+        this.update({
+          priority: newPriority
+        }).then(callback).catch(err);
       }
     },
     classMethods: {
