@@ -41,19 +41,24 @@ function updateCropStatus(cropId){
 // parse data from mqtt message
 // ex: 11:22:33:44:55:660400102260070400
 function parseReceivedData(message, sensorDataCmdId, sensorDataLength) {
-  if (message.length === 33) {
-    var mac = message.substr(0, 17);
-    var cmdId = message.substr(17, 2);
-    var dataLength = message.substr(19, 4);
+  if (message.length === 28) {
+    var mac = message.substr(0, 2)
+              + ':' + message.substr(2, 2)
+              + ':' + message.substr(4, 2)
+              + ':' + message.substr(6, 2)
+              + ':' + message.substr(8, 2)
+              + ':' + message.substr(10, 2);
+    var cmdId = message.substr(12, 2);
+    var dataLength = message.substr(14, 4);
 
     if (cmdId === sensorDataCmdId && dataLength === sensorDataLength) {
-      var data = message.substr(23, 10);
+      var data = message.substr(18, 10);
 
       return {
         mac: mac,
         temp: Number(data.substr(0, 2)),
         humidity: Number(data.substr(2, 2)),
-        ph: Number(data.substr(4, 2)),
+        ph: Number(data.substr(4, 1) + '.' + data.substr(5, 1)),
         ppm: Number(data.substr(6, 4))
       }
     } else {
@@ -82,8 +87,7 @@ device.client.on('message', function (topic, message) {
       if (runningCrop && (runningCrop.dataValues.closedate > new Date())) {
         // if there is a running crop, add data to it
         newData.CropId = runningCrop.id;
-
-        models.Data.createData(newData, 
+        models.Data.createData(newData,
           function (res) {
           console.log("add data success to running crop")
         }, function(err){
@@ -95,7 +99,7 @@ device.client.on('message', function (topic, message) {
           if (pendingCrop) {
             newData.CropId = pendingCrop.id;
 
-            models.Data.createData(newData, 
+            models.Data.createData(newData,
               function (res) {
               console.log("add data success to pending crop")
               updateDeviceStatus(data.mac);

@@ -108,7 +108,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
   var mac = req.query.mac;
   var commandId = '02';
-  var message = mac + commandId;
+  var message = mac.replace(/:/g,"").toUpperCase() + commandId;
   var dataLength = 0;
   var topic = 'device/' + mac + '/esp';
   models.Device.getDeviceByMac(mac, function (deviceItem) {

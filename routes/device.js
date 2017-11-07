@@ -70,7 +70,7 @@ router.get('/running', user.authenticate(), function(req, res){
           return new Promise(function(resolve, reject) {
             item.getCrops({
               where:{
-                status: 'true'
+                status: 'running'
               }
             }).then(function (cropResult) {
               return new Promise(function(result, reject){
@@ -131,7 +131,7 @@ router.put('/status', user.authenticate(), function(req, res){
           else {
             newStatusCode = '0';
           }
-          var statusMessageToDevice = req.body.mac + '03' + '0003' + '00' + newStatusCode;
+          var statusMessageToDevice = req.body.mac.replace(/:/g,"").toUpperCase() + '03' + '0003' + '00' + newStatusCode;
           sendDeviceStatusToDevice(req.body.mac, statusMessageToDevice);
 
           res.json({
