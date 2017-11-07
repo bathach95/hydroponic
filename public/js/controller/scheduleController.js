@@ -53,7 +53,10 @@ console.log($stateParams.cropid)
 
 controller.controller('ScheduleSettingCtrl', function($http, $window, $stateParams, $state, $scope, $route, $timeout, ScheduleService, ActuatorService, flash) {
 
-  $scope.newSchedule = {}
+  $scope.newSchedule = {
+    starttime:'',
+    endtime:''
+  }
 
   $scope.newSchedule = {
     CropId: $stateParams.cropid,
@@ -65,15 +68,15 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
   });
 
   $scope.addSchedule = function() {
-    var starttimeString = moment($scope.newSchedule.starttime).format('HH:mm:ss');
+    var starttimeString = moment($scope.newSchedule.starttime).format('HH:mm');
 
-    var endtimeString = moment($scope.newSchedule.endtime).format('HH:mm:ss')
+    var endtimeString = moment($scope.newSchedule.endtime).format('HH:mm')
 
     var newScheduleItem ={
         CropId: parseInt($scope.newSchedule.CropId),
         ActuatorId: $scope.newSchedule.ActuatorId,
-        starttime: starttimeString,
-        endtime: endtimeString,
+        starttime: $("#starttime").val(),
+        endtime: $("#endtime").val(),
         intervaltime: $scope.newSchedule.intervaltime,
         delaytime: $scope.newSchedule.delaytime
       }

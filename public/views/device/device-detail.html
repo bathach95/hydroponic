@@ -139,12 +139,44 @@
             <br>
             <div class="row">
               <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
-              <input required ng-model="newCrop.startdate" class="col-md-7 col-sm-7" type="datetime-local" name="starting-date" />
+              <div class='col-md-7 col-sm-7'>
+                <div class="form-group">
+                  <div class='input-group date' id='datetimepickerstartdate'>
+                      <input required id="startdate" ng-model="newCrop.startdate" type='text' name="starting-date" class="form-control" />
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <script type="text/javascript">
+              $(function () {
+                  $('#datetimepickerstartdate').datetimepicker({
+                    minDate:new Date()
+                  });
+              });
+              </script>
             </div>
             <br>
             <div class="row">
               <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
-              <input required ng-model="newCrop.closedate" class="col-md-7 col-sm-7" type="datetime-local" name="closing-date" />
+              <div class='col-md-7 col-sm-7'>
+                <div class="form-group">
+                  <div class='input-group date' id='datetimepickerclosedate'>
+                      <input required id="closedate" ng-model="newCrop.closedate" type='text' name="closing-date" class="form-control" />
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <script type="text/javascript">
+              $(function () {
+                  $('#datetimepickerclosedate').datetimepicker({
+                    minDate:new Date()
+                  });
+              });
+              </script>
             </div>
             <br>
             <div class="row">
