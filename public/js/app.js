@@ -146,10 +146,35 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: false
             }
         })
-        .state('search_result', {
-            url: '/search/:type/:data',
+        .state('search_result_bytree', {
+            url: '/searchbytree/:type/:tree',
             templateUrl: 'views/home/search-result.html',
             controller: 'SearchResultCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('search_result_bymonth', {
+            url: '/searchbymonth/:type/:month',
+            templateUrl: 'views/home/search-result.html',
+            controller: 'SearchResultCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('search_result_byboth', {
+            url: '/search/:type/:tree/:month',
+            templateUrl: 'views/home/search-result.html',
+            controller: 'SearchResultCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('search', {
+            //url: '/search/:type/:data',
+            url: '/search',
+            templateUrl: 'views/home/search.html',
+            controller: 'SearchCtrl',
             access: {
                 requiredLogin: false
             }

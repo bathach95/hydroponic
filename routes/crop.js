@@ -174,11 +174,9 @@ router.put('/share', user.authenticate(), function (req, res) {
 })
 
 router.get('/search', function (req, res) {
-
   if (req.query.type === 'tree') {
     // search by tree
-    models.Crop.getCropsByTree(req.query.data, function (result) {
-
+    models.Crop.getCropsByTree(req.query.tree, function (result) {
       var data = [];
       result.forEach(function (element) {
         data.push(element.dataValues);
@@ -189,10 +187,11 @@ router.get('/search', function (req, res) {
         data: data,
         message: 'Search success !'
       })
-    })
+    }, models)
   } else if (req.query.type === 'month') {
     // search by month
-    models.Crop.getCropByMonth(req.query.data, function (result) {
+
+    models.Crop.getCropByMonth(req.query.month, function (result) {
       res.json({
         success: true,
         data: result,
@@ -200,10 +199,23 @@ router.get('/search', function (req, res) {
       })
     })
   } else {
-    res.json({
-      success: false,
-      message: 'Cannot search !'
-    })
+    if (req.query.type === 'both')
+    {
+
+      models.Crop.getCropByBoth(req.query.tree, req.query.month , function (result) {
+        res.json({
+          success: true,
+          data: result,
+          message: 'Search success !'
+        })
+      })
+    }
+    else {
+      res.json({
+        success: false,
+        message: 'Cannot search !'
+      })
+    }
   }
 
 

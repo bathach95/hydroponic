@@ -11,6 +11,7 @@
             "idle": 10000
         },
         "logging": false
+        "timezone": "+07:00"
     },
     "test": {
         "username": "root",

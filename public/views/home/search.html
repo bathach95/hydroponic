@@ -1,0 +1,146 @@
+<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="container">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+  </div>
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav navbar-right">
+			<li><a ui-sref="home">Home</a></li>
+      <li><a ui-sref="system">Systems</a></li>
+			<li><a ui-sref="article">Acticle</a></li>
+			<li><a href="http://138.68.74.17:4567">Forum</a></li>
+			<li><a ui-sref="about">About</a></li>
+      <li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
+      <li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+	    <li ng-show="userLogin" class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+				<span class="caret"></span></a>
+				<ul class="dropdown-menu" ng-controller="LoginCtrl">
+					<li><a ui-sref="profile">Profile</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+					<li><a ui-sref="change_password">Change your password</a></li>
+					<li><a href="" ng-click="logout()">Log out</a></li>
+				</ul>
+			</li>
+      <li class="active"><a ui-sref="search"><i class="fa fa-search"></i></a></li>
+		</ul>
+  </div>
+  <!-- /.navbar-collapse -->
+</div>
+</nav>
+
+
+<!--SECTION - DEVICES -->
+<section id="Section-1" class="fullbg">
+<div class="section-divider">
+</div>
+<div class="container">
+<div class="row">
+	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeInDown">
+		<h1>Search for crop</h1>
+	</div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label class="control-label col-md-4">Tree name</label>
+        <div class="col-md-5">
+          <input class="form-control" id="treetypeinput" type="text" placeholder="Enter tree name" ng-model="searchData.treetype">
+        </div>
+        <div class="col-md-3">
+          <div class="toggle">
+            <label>
+              <input type="checkbox" id="treetypeSelector" checked><span class="button-indecator" data-toggle="tooltip" title="Search by name: on/off" data-placement="bottom" tooltip></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-4">Month</label>
+        <div class="col-md-5">
+          <div class='input-group date datepickersren' id='datetimepickermonth'>
+              <input type='text' id="monthinput" class="form-control" ng-model="searchData.month" required/>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar">
+                  </span>
+              </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="toggle">
+            <label>
+              <input type="checkbox" id="monthSelector" checked><span data-toggle="tooltip" title="Search by month: on/off" data-placement="bottom" tooltip class="button-indecator"></span>
+            </label>
+          </div>
+        </div>
+        <style media="screen">
+          .datepickersren .picker-switch{
+            display: none !important;
+          }
+          .datepickersren .prev{
+            display: none !important;
+          }
+          .datepickersren .next{
+            display: none !important;
+          }
+        </style>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepickermonth').datetimepicker({
+                    format: 'MMMM'
+                });
+
+                $('#treetypeSelector').change(function(){
+                  if ($('#treetypeSelector').is(":checked"))
+                  {
+                    ($('#searchbutton')).prop('disabled', false);
+                    ($('#treetypeinput')).prop('disabled', false);
+                  }
+                  else {
+                    ($('#treetypeinput')).prop('disabled', true);
+                    if (!($('#monthSelector').is(":checked")))
+                    {
+                      $('#searchbutton').prop('disabled', true);
+                    }
+                  }
+                })
+
+                $('#monthSelector').change(function(){
+                  if ($('#monthSelector').is(":checked"))
+                  {
+                    ($('#searchbutton')).prop('disabled', false);
+                    ($('#monthinput')).prop('disabled', false);
+                  }
+                  else {
+                    ($('#monthinput')).prop('disabled', true);
+                    if (!($('#treetypeSelector').is(":checked")))
+                    {
+                      $('#searchbutton').prop('disabled', true);
+                    }
+                  }
+                })
+            });
+        </script>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-md-12 col-md-offset-5">
+        <button id="searchbutton" class="btn btn-primary icon-btn" type="button" ng-click="search()"><i class="fa fa-search"></i>Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>

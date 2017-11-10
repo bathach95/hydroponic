@@ -31,6 +31,7 @@
 					<li><a href="" ng-click="logout()">Log out</a></li>
 				</ul>
 			</li>
+			<li><a ui-sref="search"><i class="fa fa-search"></i></a></li>
 		</ul>
 	</div>
 	<!-- /.navbar-collapse -->
@@ -45,24 +46,24 @@
 					<div class="animated fadeInDownBig">
 						 <h1>Welcome to BK Hydroponics! </h1>
 						 <p>You'll be able to find information about anything related to hydroponics.</p>
-						 <script type="text/javascript">
+						 <!--<script type="text/javascript">
 							 $('.search-button').click(function(){
 								 $(this).parent().toggleClass('open');
 								});
-						 </script>
-						 <div id="searchInput" ng-controller="SearchCtrl">
-								 <form class="search" ng-submit="search()">
-									 <span class="search-button">
+						 </script>-->
+						 <div id="searchInput" class="search">
+								 <!--<form class="search" ng-submit="search()">-->
+									 <span class="search-button" ui-sref="search">
 										 <span class="search-icon"></span>
 								   </span>
-									 <input type="search" required ng-model="searchData.data"placeholder="Enter search string..." class="search-box" />
-									 <!--<div class="radio">
+									 <!--<input type="search" required ng-model="searchData.data"placeholder="Enter search string..." class="search-box" />
+									 <div class="radio">
 										 <label><input type="radio" ng-model="searchData.type" value="tree">Search by tree</label>
 									 </div>
 									 <div class="radio">
 										 <label><input type="radio" ng-model="searchData.type" value="month">Search by month</label>
 									 </div>-->
-								 </form>
+								 <!--</form>-->
 						</div>
 					</div>
 					<br/>

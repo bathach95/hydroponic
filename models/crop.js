@@ -103,28 +103,46 @@ module.exports = function (sequelize, DataTypes) {
           Crop.findById(id).then(callback);
         },
         // get all crop with tree name like %name%
-        getCropsByTree: function (tree, callback) {
+        getCropsByTree: function (tree, callback, models) {
           var str = '%' + tree + '%';
           var query = {
+            include: [{
+              model: models.Device,
+              include: [{
+                model: models.User
+              }]
+            }],
             where: {
               treetype: {
-                $like: str
+                $iLike: str
               },
               share: true
             }
           };
           Crop.findAll(query).then(callback);
+          /*var query = 'SELECT * FROM "Crop" WHERE LOWER(treetype) LIKE :tree';
+          sequelize.query(query,
+          {replacements: { tree: str}, type: sequelize.QueryTypes.SELECT }
+        ).then(callback)*/
         },
         getCropByMonth: function(month, callback){
-          var query = 'SELECT * FROM "Crop" WHERE EXTRACT(MONTH FROM startdate) = :month'
+          var query = "SELECT \"Crop\".*, \"User\".\"name\" as username FROM ((\"Crop\" JOIN \"Device\" ON \"Crop\".\"DeviceMac\" = \"Device\".\"mac\") JOIN \"User\" ON \"User\".\"id\" = \"Device\".\"UserId\") WHERE EXTRACT(MONTH FROM startdate) = :month AND share = true";
           sequelize.query(query,
-          {replacements: { month: month}, type: sequelize.QueryTypes.SELECT }
-        ).then(callback)
+            {replacements: { month: month }, type: sequelize.QueryTypes.SELECT }
+          ).then(callback)
+        },
+        getCropByBoth: function(tree, month, callback){
+          var str = '%' + tree + '%';
+          var query = "SELECT \"Crop\".*, \"User\".\"name\" as username FROM ((\"Crop\" JOIN \"Device\" ON \"Crop\".\"DeviceMac\" = \"Device\".\"mac\") JOIN \"User\" ON \"User\".\"id\" = \"Device\".\"UserId\") WHERE LOWER(treetype) LIKE :tree AND EXTRACT(MONTH FROM startdate) = :month AND share = true";
+          sequelize.query(query,
+            {replacements: { month: month, tree: str }, type: sequelize.QueryTypes.SELECT }
+          ).then(callback)
         },
         associate: function (models) {
           Crop.hasMany(models.Schedule, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
           Crop.hasMany(models.Threshold, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
           Crop.hasMany(models.Data, { onDelete: 'cascade', hooks: true, onUpdate: 'cascade' });
+          Crop.belongsTo(models.Device);
         }
       },
       tableName: 'Crop'
