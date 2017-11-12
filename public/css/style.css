@@ -1528,10 +1528,10 @@ ul.social-icons li a:hover {
 	height:0;
 	margin:10px auto 0;
 	display:block;
-	border-bottom:30px solid transparent;
+	border-top:30px solid transparent;
 	border-left:30px solid transparent;
 	border-right:30px solid transparent;
-	border-bottom-color: rgba(255,255,255,1);
+	border-top-color: rgba(255,255,255,1);
 }
 
 

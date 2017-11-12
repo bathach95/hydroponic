@@ -11,14 +11,14 @@ controller
       }
     });
 
-    //TODO: create a button for user to end up a crop
-
     /* add new crop to device */
     $scope.newCrop = {
       DeviceMac: $stateParams.mac,
+      status: true,
+      synchronized: true
     }
-
     $scope.addCrop = function () {
+    //TODO: create a button for user to end up a crop
 
       if ($scope.newCrop.startdate > $scope.newCrop.closedate) {
         flash.error = "Close date must be after start date !";

@@ -14,10 +14,10 @@
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav navbar-right">
 			<li class="active"><a ui-sref="home">Home</a></li>
-			<li><a href="#Section-1">Systems</a></li>
-			<li><a ui-sref="home">Acticle</a></li>
-			<li><a ui-sref="home">Forum</a></li>
-			<li><a ui-sref="home">About</a></li>
+			<li><a ui-sref="system">Systems</a></li>
+			<li><a ui-sref="article">Acticle</a></li>
+			<li><a href="http://138.68.74.17:4567">Forum</a></li>
+			<li><a ui-sref="about">About</a></li>
 			<li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
 			<li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
 	    <li ng-show="userLogin" class="dropdown">
@@ -56,12 +56,12 @@
 										 <span class="search-icon"></span>
 								   </span>
 									 <input type="search" required ng-model="searchData.data"placeholder="Enter search string..." class="search-box" />
-									 <div class="radio">
+									 <!--<div class="radio">
 										 <label><input type="radio" ng-model="searchData.type" value="tree">Search by tree</label>
 									 </div>
 									 <div class="radio">
 										 <label><input type="radio" ng-model="searchData.type" value="month">Search by month</label>
-									 </div>
+									 </div>-->
 								 </form>
 						</div>
 					</div>
@@ -118,7 +118,7 @@
 			</div>
 			<div ng-if="!item.status.badStatus.temp" class="boxservice box-status-normal">
 				<i class="fa fa-thermometer-quarter"></i>
-				<h3>{{item.devicecropdata.temperature}} &deg;C
+				<h3>{{item.devicecropdata.data.temperature}} &deg;C
 					&#10;
 				</h3>
 				<p>
@@ -237,6 +237,7 @@
 </div>
 <div class="row animated fadeInUpNow">
 	<div class="col-sm-12 col-lg-12">
+		<!--
 		<ul class="grid cs-style-4">
 			<li>
 			<figure>
@@ -311,6 +312,7 @@
 			</figure>
 			</li>
 		</ul>
+	-->
 	</div>
 </div>
 </div>
@@ -332,61 +334,8 @@
 	<div class="col-sm-12 col-lg-12">
 		<div class="arrow">
 		</div>
-		<div class="testimonials-slider">
-			<div class="slide">
-				<div class="testimonials-carousel-thumbnail">
-					<img width="120" alt="" src="assets/img/avatar.jpg">
-				</div>
-				<div class="testimonials-carousel-context">
-					<div class="testimonials-name">
-						 Bill Robinson <span>google.com</span>
-					</div>
-					<div class="testimonials-carousel-content">
-						<p>
-							 "Our party was a great success and the marquee was perfect for the occasion and so fortunately was the weather! Thank you to you and your team for erecting it so smoothly and professionally.
-						</p>
-						<p>
-							 Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo.Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo."
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="slide">
-				<div class="testimonials-carousel-thumbnail">
-					<img width="120" alt="" src="assets/img/avatar.jpg">
-				</div>
-				<div class="testimonials-carousel-context">
-					<div class="testimonials-name">
-						 Michael Rocks <span>yahoo.com</span>
-					</div>
-					<div class="testimonials-carousel-content">
-						<p>
-							 "Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis. Fusce dapibus, tellus ac cursus commodo.
-						</p>
-					</div>
-					<p>
-						 Our party was a great success and the marquee was perfect for the occasion and so fortunately was the weather! Thank you to you and your team for erecting it so smoothly and professionally."
-					</p>
-				</div>
-			</div>
-			<div class="slide">
-				<div class="testimonials-carousel-thumbnail">
-					<img width="120" alt="" src="assets/img/avatar.jpg">
-				</div>
-				<div class="testimonials-carousel-context">
-					<div class="testimonials-name">
-						 Andrew Bilson <span>wowthemes.net</span>
-					</div>
-					<div class="testimonials-carousel-content">
-						<p>
-							 "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.
-						</p>
-					</div>
-					<p>
-						 Our party was a great success and the marquee was perfect for the occasion and so fortunately was the weather! Thank you to you and your team for erecting it so smoothly and professionally."
-					</p>
-				</div>
-			</div>
+		<div class="add-device-container">
+			<a href="http://138.68.74.17:4567" style="text-decoration:none;" ><button type="button"  class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-users"></i>&nbsp; Forum</button></a>
 		</div>
 	</div>
 </div>
@@ -400,9 +349,9 @@
 <div class="row">
 	<div class="page-header text-center col-sm-12 col-lg-12 animated fade">
 		<h1>Our Team</h1>
-		<p class="lead">
+		<!--<p class="lead">
 			 People behind this product.
-		</p>
+		</p>-->
 	</div>
 </div>
 <div class="row animated fadeInUpNow">
@@ -410,7 +359,7 @@
 		<div class="thumbnail">
 			<img src="images/profile-images/ThachHB.jpg" alt="">
 			<div class="caption">
-				<h4>Ba Thach Huynh</h4>
+				<h4>Thach Huynh</h4>
 				<span class="primarycol">- Computer Science -</span>
 				<!--<p>
 					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
@@ -428,16 +377,16 @@
 		<div class="thumbnail">
 			<img src="images/profile-images/TayTC.jpg" alt="">
 			<div class="caption">
-				<h4>Chi Tay Ta</h4>
+				<h4>Tay Ta</h4>
 				<span class="primarycol">- Computer Science -</span>
 				<!--<p>
 					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
 				</p>-->
 				<ul class="social-icons">
 					<li><a href="https://www.facebook.com/TCT126" target="_blank"><i class="fa fa-facebook"></i></a></li>
-					<li><a href="https://twitter.com/tachitaytct" target="_blank"><i class="fa fa-twitter"></i></a></li>
+					<!--<li><a href="https://twitter.com/tachitaytct" target="_blank"><i class="fa fa-twitter"></i></a></li>
 					<li><a href="https://www.linkedin.com/in/chi-tay-ta-364861a1/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-					<li><a href="https://plus.google.com/112505178366401106585" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+					<li><a href="https://plus.google.com/112505178366401106585" target="_blank"><i class="fa fa-google-plus"></i></a></li>-->
 				</ul>
 			</div>
 		</div>
@@ -446,7 +395,7 @@
 		<div class="thumbnail">
 			<img src="images/profile-images/DungND.jpg" alt="">
 			<div class="caption">
-				<h4>Dinh Dung Nguyen</h4>
+				<h4>Dung Nguyen</h4>
 				<span class="primarycol">- Computer Engineering -</span>
 				<!--<p>
 					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
@@ -462,15 +411,12 @@
 	</div>
 	<div class="col-md-3">
 		<div class="thumbnail">
-			<img src="images/profile-images/KeoNV.jpg" alt="">
+			<img src="images/profile-images/KhoiNLD.jpg" alt="">
 			<div class="caption">
-				<h4>Van Keo Nguyen</h4>
+				<h4>Khoi Nguyen</h4>
 				<span class="primarycol">- Computer Engineering -</span>
-				<!--<p>
-					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
-				</p>-->
 				<ul class="social-icons">
-					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="https://www.facebook.com/le.khoi.1233" target="_blank"><i class="fa fa-facebook"></i></a></li>
 					<!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>
 					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
 					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->

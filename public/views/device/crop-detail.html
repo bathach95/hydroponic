@@ -27,12 +27,10 @@
   	<div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav navbar-right">
   			<li><a ui-sref="home">Home</a></li>
-  			<li><a ui-sref="home">Systems</a></li>
-  			<li><a ui-sref="home">Acticle</a></li>
-  			<li><a ui-sref="home">Forum</a></li>
-  			<li><a ui-sref="home">About</a></li>
-  			<li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
-  			<li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+        <li><a ui-sref="system">Systems</a></li>
+  			<li><a ui-sref="article">Acticle</a></li>
+  			<li><a href="http://138.68.74.17:4567">Forum</a></li>
+  			<li><a ui-sref="about">About</a></li>
   	    <li ng-show="userLogin" class="dropdown active">
   				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
   				<span class="caret"></span></a>
@@ -246,7 +244,8 @@
                           <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Data from your device</h3>
                           <br>
                           <center>
-                          <div ng-controller="DataCtrl"  class="row">
+                          <div ng-controller="DataCtrl">
+                          <div class="row">
                             <div class="col-md-12" ng-show="data">
                               <div class="box-unborder box-info">
                                 <i class="fa fa-clock-o"></i>
@@ -352,16 +351,17 @@
                               </div>-->
                             </div>
                             <div ng-hide="data">
-                                <p>There aren't any data from your device. </p>
+                                <p>No data available from your device. </p>
                               </div>
                           </div>
                           <div class="row">
                             <div class="col-md-6">
-                              <button id="button-refresh-data" type="submit" class="button-refesh-data" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Refreshing data"><i class="fa fa-refresh"></i>&nbsp; Refresh</button>
+                              <button id="refreshDataButton" ng-click="refreshLatestData()" type="submit" class="button-refesh-data" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Refreshing data"><i class="fa fa-refresh"></i>&nbsp; Refresh</button>
                             </div>
                             <div class="col-md-6">
-                              <button type="submit" class="button-refesh-data" style="text-decoration:none;"><i class="fa fa-list"></i>&nbsp; All data</button>
+                              <button type="submit" ui-sref="all_data({devicemac: deviceMac, cropid: crop.id})" class="button-refesh-data" style="text-decoration:none;"><i class="fa fa-list"></i>&nbsp; All data</button>
                             </div>
+                          </div>
                           </div>
                         </center>
                       </br>
@@ -475,13 +475,30 @@
                             <h3>Hardware Settings</h3>
                           </div>
                           <div class="col-md-6">
-                            <p style="float:right; ">Status: Not synchonized</p>
+                            <p style="float:right;">Status:
+                              <i ng-if="synchronized" style="color:#4ba2dc; font-size:200%; cursor: pointer;" class='fa fa-check-square-o' data-toggle="tooltip" title="Synchronized!" data-placement="top" tooltip></i>
+                              <i ng-if="!synchronized" style="color:#4ba2dc; font-size:200%; cursor: pointer;" class='fa fa-exclamation-triangle' data-toggle="tooltip" title="Unsynchronized!" data-placement="top" tooltip></i>
+                            </p>
                           </div>
                           <div class="col-md-6">
                           <style media="screen">
-                            #syncButtton:disabled{cursor:not-allowed;}
+                            #syncButton{
+                              width:20%;
+                              background-color:#fff;
+                              float:right;
+                              padding:4px;
+                              border-radius: 4px;
+                              border: 1px solid #4ba2dc;
+                              color:#4ba2dc;
+                              text-decoration: none !important;
+                            }
+                            #syncButton[disabled], #syncButton[disabled] i{
+                              cursor:not-allowed;
+                              border-color:#BDBDBD;
+                              color:#BDBDBD;
+                            }
                           </style>
-                            <button id="syncButton" ng-click="syncScheduleSettings(cropId, mac)" data-loading-text="<i class='fa fa-spinner fa-spin'></i>"  style="width:20%; background-color:#fff; float:right; padding:4px; border-radius: 4px; border: 1px solid #4ba2dc; color:#4ba2dc; text-decoration: none !important;"><i class="fa fa-refresh"></i> sync</button>
+                            <button ng-disabled="synchronized" id="syncButton" ng-click="syncScheduleSettings(cropId, mac)" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">  <i class="fa fa-refresh"></i> sync</button>
                           </div>
                         </div>
                         <br>

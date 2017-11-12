@@ -1,4 +1,4 @@
-controller.controller('ScheduleCtrl', function($http, $stateParams, $state, $scope, $timeout, ScheduleService, flash) {
+controller.controller('ScheduleCtrl', function($http, $stateParams, $state, $scope, $timeout, ScheduleService, flash, CropService) {
 $scope.deviceMac = $stateParams.mac;
 $scope.cropId = $stateParams.cropid;
 console.log($stateParams.cropid)
@@ -7,11 +7,16 @@ console.log($stateParams.cropid)
     $scope.listSchedule = result.data.data;
   })
 
+  CropService.getCropById($stateParams.cropid).then(function(result){
+    $scope.synchronized = result.data.data.synchronized;
+    console.log(result.data.data.synchronized);
+  })
+
   $scope.deleteSchedule = function (scheduleId) {
     bootbox.confirm("Do you want to delete this setting?", function (result) {
       if (result)
       {
-        ScheduleService.deleteScheduleSettingById(scheduleId).then(function(result){
+        ScheduleService.deleteScheduleSettingById(scheduleId, $stateParams.cropid).then(function(result){
           if (result.data.success)
           {
             flash.success = result.data.message;
@@ -35,6 +40,7 @@ console.log($stateParams.cropid)
         if (result.data.success)
         {
           console.log(result.data.data);
+          $state.reload();
           flash.success = result.data.message;
         }
         else {
@@ -71,7 +77,7 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
         intervaltime: $scope.newSchedule.intervaltime,
         delaytime: $scope.newSchedule.delaytime
       }
-    $('#addScheduleModal').modal('toggle');
+    $('#addScheduleModal').modal('hide');
     ScheduleService.addScheduleSetting(newScheduleItem).then(function(result){
       if (result.data.success)
       {
@@ -80,7 +86,9 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
       else {
         flash.error = result.data.message;
       }
-      $state.reload();
+      bootbox.alert(result.data.message, function(){
+        $state.reload();
+      })
     })
   }
 });

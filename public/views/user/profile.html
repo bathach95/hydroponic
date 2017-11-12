@@ -13,22 +13,22 @@
   	<!-- Collect the nav links, forms, and other content for toggling -->
   	<div class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav navbar-right">
-  			<li><a ui-sref="home">Home</a></li>
-  			<li><a ui-sref="home">Systems</a></li>
-  			<li><a ui-sref="home">Acticle</a></li>
-  			<li><a ui-sref="home">Forum</a></li>
-  			<li><a ui-sref="home">About</a></li>
-  	    <li ng-show="userLogin" class="active dropdown">
-  				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
-  				<span class="caret"></span></a>
-  				<ul class="dropdown-menu" ng-controller="LoginCtrl">
-  					<li><a ui-sref="profile">Profile</a></li>
-  					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
-  					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
-  					<li><a ui-sref="change_password">Change your password</a></li>
-  					<li><a href="" ng-click="logout()">Log out</a></li>
-  				</ul>
-  			</li>
+        <li><a ui-sref="home">Home</a></li>
+        <li><a ui-sref="system">Systems</a></li>
+        <li><a ui-sref="article">Acticle</a></li>
+        <li><a href="http://138.68.74.17:4567">Forum</a></li>
+        <li><a ui-sref="about">About</a></li>
+        <li ng-show="userLogin" class="active dropdown">
+        	<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+        	<span class="caret"></span></a>
+        	<ul class="dropdown-menu" ng-controller="LoginCtrl">
+        		<li><a ui-sref="profile">Profile</a></li>
+        		<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+        		<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+        		<li><a ui-sref="change_password">Change your password</a></li>
+        		<li><a href="" ng-click="logout()">Log out</a></li>
+        	</ul>
+        </li>
   		</ul>
   	</div>
   	<!-- /.navbar-collapse -->
@@ -131,9 +131,9 @@
   	      </tbody>
   	    </table>
   	  </div>
-  	  <div class="add-device-container">
+      <div class="add-device-container">
   	  	<button type="button" ui-sref="new_device" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-plus-circle"></i>&nbsp; Add new device</button>
-  	   </div>
+      </div>
   	</div>
   	</div>
   </div>

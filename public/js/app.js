@@ -27,7 +27,7 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthServi
 
     $transitions.onStart( { to: 'login' }, function(trans) {
         var AuthService = trans.injector().get('AuthService');
-        
+
         if (AuthService.isLoggedIn()){
             flash.success = "You are logged in"
             $state.go('home');
@@ -101,11 +101,12 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('system', {
-            url: '/system.html',
-            templateUrl: 'views/home/services.html',
-            access: {
-                requiredLogin: false
-            }
+          url: '/profile.html',
+          templateUrl: 'views/user/profile.html',
+          controller: 'ProfileCtrl',
+          access: {
+              requiredLogin: true
+          }
         })
         .state('article', {
             url: '/article.html',

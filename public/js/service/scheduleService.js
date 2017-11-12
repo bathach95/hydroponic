@@ -7,10 +7,10 @@ service.service('ScheduleService', function($http){
     })
   }
 
-  this.deleteScheduleSettingByCropId = function(cropId){
-    console.log("Service");
+  this.deleteScheduleSettingById = function(scheduleId, cropId){
     return $http.delete('/schedule/delete', {
       params:{
+        scheduleId: scheduleId,
         cropId: cropId
       }
     });

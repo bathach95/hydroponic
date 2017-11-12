@@ -1,5 +1,8 @@
 var controller = angular.module('myApp.controllers', ['ui.directives', 'ui.filters', 'ngCookies']);
 
+controller.controller('DomReadyCtrl', function($timeout, $scope){
+  $(".se-pre-con").fadeOut("slow");
+});
 controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $cookies, $scope, $rootScope, $state, $timeout, UserService, AuthService, flash) {
 
   $scope.user = {};
@@ -23,7 +26,7 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
         day.setDate(day.getDay() + 30);
 
         var options = {
-          domain: "13.58.114.56",
+          domain: "localhost",
           httpOnly: true,
           expires: day
         };
@@ -78,13 +81,13 @@ controller.controller('RegisterCtrl', function ($http, $state, $scope, $q, $time
     $('#registerBtn').button('loading');
     var isEmpty = AuthService.checkEmptyReg($scope.user);
     if (!isEmpty.isErr) {
-      new Promise(function(resolve, reject){
+      //new Promise(function(resolve, reject){
         UserService.register($scope.user).then(function (result) {
 
-          resolve(result);
+        //  resolve(result);
 
-        });
-      }).then(function(result){
+        //});
+      //}).then(function(result){
 
         $scope.message = result.data.message;
         $scope.success = result.data.success;

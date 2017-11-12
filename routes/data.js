@@ -76,7 +76,7 @@ function parseReceivedData(message, sensorDataCmdId, sensorDataLength) {
         mac: mac,
         temp: Number(data.substr(0, 2)),
         humidity: Number(data.substr(2, 2)),
-        ph: Number(data.substr(4, 2)),
+        ph: Number(data.substr(4, 1) + '.' + data.substr(5, 1)),
         ppm: Number(data.substr(6, 4))
       }
     } else {

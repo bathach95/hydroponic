@@ -1,23 +1,57 @@
 
-controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService) {
+controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService, ThresholdService) {
   $scope.deviceMac = $stateParams.devicemac;
   $scope.cropId = $stateParams.cropid;
 
-  DataService.getNewestDataByCropId($scope.cropId).then(function (result) {
-    if (result.data.success) {
+  DataService.getNewestDataByCropId($scope.cropId).then(function (dataResult) {
+    if (dataResult.data.success) {
 
-      $scope.data = result.data.data;
+      $scope.data = dataResult.data.data;
       // status of data
-      // TODO: query threshold from database, not from rootScope
-      $scope.threshold = $rootScope.threshold;
-      console.log($rootScope.threshold)
-      var status = DataStatusService.getStatus($scope.data, $scope.threshold);
 
-      $scope.badStatus = status.badStatus;
-      $scope.status = status.status;
+      ThresholdService.getNewestThresholdByCropId($scope.cropId).then(function(thresholdResult) {
+        if (thresholdResult.data.data)
+        {
+          var status = DataStatusService.getStatus(dataResult.data.data, thresholdResult.data.data);
+          $scope.threshold = thresholdResult.data.data;
+          $scope.badStatus = status.badStatus;
+          $scope.status = status.status;
+        }
+      });
     }
-
   })
+
+  $scope.refreshLatestData = function() {
+    $("#refreshDataButton").button("loading");
+    $(".overlay").show();
+    setTimeout(function () {
+      DataService.getNewestDataByCropId($scope.cropId).then(function (dataResult) {
+        $("#refreshDataButton").button("reset");
+        $(".overlay").hide();
+        if (dataResult.data.success) {
+
+          $scope.data = dataResult.data.data;
+          // status of data
+
+          ThresholdService.getNewestThresholdByCropId($scope.cropId).then(function(thresholdResult) {
+            if(thresholdResult.data.data)
+            {
+              var status = DataStatusService.getStatus(dataResult.data.data, thresholdResult.data.data);
+              $scope.threshold = thresholdResult.data.data;
+              $scope.badStatus = status.badStatus;
+              $scope.status = status.status;
+            }
+            else {
+
+            }
+          });
+        }
+        else {
+
+        }
+      })
+    }, 1000);
+  }
 });
 
 controller.controller('HomePageDataCtrl', function ($http, $stateParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService, DeviceService, ThresholdService) {
@@ -31,11 +65,26 @@ var runningDevicesData = []
         {
           Promise.all(result.data.data.map(function(item){
             return new Promise(function(resolve, reject){
-              ThresholdService.getNewestThresholdByCropId(item.crop.id).then(function(result) {
-                var status = DataStatusService.getStatus(item.data, result.data.data);
-                runningDevicesData.push({devicecropdata: item, status: status});
-                
-                resolve(status);
+              ThresholdService.getNewestThresholdByCropId(item.crop.id).then(function(thresholdResult) {
+                  var status;
+                  if (thresholdResult.data.success)
+                  {
+                    status = DataStatusService.getStatus(item.data, thresholdResult.data.data);
+                  }
+                  else
+                  {
+                    status = {
+                      badStatus:{
+                        temp: false,
+                        humidity: false,
+                        ppm: false,
+                        ph: false
+                      },
+                      status: false
+                    }
+                  }
+                  runningDevicesData.push({devicecropdata: item, status: status});
+                  resolve(status);
                 });
             });
           })).then(function(result)
@@ -59,20 +108,40 @@ var runningDevicesData = []
 
 controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, ThresholdService, DataService, GetTimeService, DataStatusService, flash) {
   // get threshold to compare
-  ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function (result) {
-    $scope.threshold = result.data;
-  });
   //
+  $scope.devicemac = $stateParams.devicemac;
+  $scope.cropid = $stateParams.cropid;
+  $scope.dataTableOpt = {
+  "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+  };
   DataService.getAllData($stateParams.cropid).then(function (result) {
 
     if (result.data.success) {
       $scope.data = result.data.data;
-      $scope.data.forEach(function (item) {
-        //----status----
-        var status = DataStatusService.getStatus(item, $scope.threshold);
-        item.badStatus = status.badStatus;
-        item.status = status.status;
-        //--------------
+
+      ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function (thresholdResult) {
+        $scope.threshold = thresholdResult.data.data;
+        $scope.data.forEach(function (item) {
+          //----status----
+          var status = {
+            badStatus: {
+              temp: false,
+              humidity: false,
+              ppm: false,
+              ph: false
+            },
+            status: false
+          }
+          console.log(thresholdResult);
+          if (thresholdResult.data.success)
+          {
+            status = DataStatusService.getStatus(item, $scope.threshold);
+          }
+          console.log(status);
+          item.badStatus = status.badStatus;
+          item.status = status.status;
+          //--------------
+        });
       });
     } else {
       flash.error = result.data.message;

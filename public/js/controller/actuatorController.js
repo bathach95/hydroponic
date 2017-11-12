@@ -29,21 +29,68 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
     })
   }
 
-  $scope.toggleActuator = function (index, actuatorid, id, newstatus) {
-    var actuator = {
-      id: id,
-      status: newstatus,
-      mac: $stateParams.mac,
-      actuatorid: actuatorid
-    }
-    ActuatorService.updateActuatorStatus(actuator).then(function (result) {
-      if (result.data.success) {
-        $scope.listActuators[index].status = newstatus;
-        flash.success = result.data.message;
-      } else {
-        flash.error = result.data.message;
+  $scope.toggleActuator = function (index, idonboard, id, newstatus) {
+    bootbox.confirm('Do you want to turn ' + newstatus + ' this actuator?', function (yes) {
+      if (yes) {
+        var actuator = {
+          id: id,
+          status: newstatus,
+          mac: $stateParams.mac,
+          idonboard: idonboard
+        }
+        ActuatorService.updateActuatorStatus(actuator).then(function (result) {
+          if (result.data.success) {
+            $scope.listActuators[index].status = newstatus;
+            flash.success = result.data.message;
+          } else {
+            flash.error = result.data.message;
+          }
+        })
+      }
+    });
+  }
+
+  $scope.changeActuatorPriority = function(index, idonboard, id, priority){
+    var newPriority = priority == 'Primary'? 'Secondary' : 'Primary';
+    bootbox.confirm('Do you want to change priority of this device to \'' + newPriority + '\' ?', function (yes) {
+      if (yes) {
+        var actuator = {
+          id: id,
+          mac: $stateParams.mac,
+          idonboard: idonboard,
+          priority: newPriority
+        }
+        ActuatorService.updateActuatorPriority(actuator).then(function (result) {
+          if (result.data.success) {
+            $scope.listActuators[index].priority = newPriority;
+            flash.success = result.data.message;
+          } else {
+            flash.error = result.data.message;
+          }
+        })
+      };
+    });
+  }
+
+  $scope.deleteActuator = function (idonboard, id, priority) {
+
+    bootbox.confirm('Do you want to delete this device ?', function (yes) {
+      if (yes) {
+        var actuator = {
+          id: id,
+          mac: $stateParams.mac,
+          idonboard: idonboard,
+          priority: priority
+        }
+        ActuatorService.deleteActuator(actuator).then(function (result) {
+          if (result.data.success) {
+            flash.success = result.data.message;
+            $state.reload();
+          } else {
+            flash.error = result.data.message;
+          }
+        })
       }
     })
   }
-
 })

@@ -1,84 +1,129 @@
-<!--Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Hydroponic</title>
-
-</head>
-<body>
-
-<!--banner start here-->
-<div class="banner-two">
+<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+<div class="container">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li><a ui-sref="home">Home</a></li>
+			<li><a ui-sref="system">Systems</a></li>
+			<li><a ui-sref="article">Acticle</a></li>
+			<li><a href="http://138.68.74.17:4567">Forum</a></li>
+			<li class="active"><a ui-sref="about">About</a></li>
+			<li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
+			<li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+	    <li ng-show="userLogin" class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+				<span class="caret"></span></a>
+				<ul class="dropdown-menu" ng-controller="LoginCtrl">
+					<li><a ui-sref="profile">Profile</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+					<li><a ui-sref="change_password">Change your password</a></li>
+					<li><a href="" ng-click="logout()">Log out</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<!-- /.navbar-collapse -->
 </div>
-<!--banner end here-->
-<!--start-about-->
-<div class="about">
-	<div class="container">
-		<div class="about-main">
-			<div class="col-md-4 about-left">
-				<h3>About us</h3>
-				<a href="single.html"><img src="/images/ab.jpg" alt=""></a>
-			</div>
-			<div class="col-md-4 about-left">
-				<h3>Why choose us</h3>
-				<h4>scrambled it to make a type specimen</h4>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry.</p>
-				<h4>scrambled it to make a type specimen</h4>
-				<p>Since the 1500s, when an unknown printer a galley of type and scrambled specimen book.</p>
-			    <h4>scrambled it to make a type specimen</h4>
-			    <p> It has survivednot only five centuries, but also the leap into electronic typesetting.</p>
-			</div>
-			<div class="col-md-4 about-left">
-				<h3>Job opportunities</h3>
-				<h4>Typi non habent claritatem</h4>
-				<p>On the other hand, we denounce with righteous indignation and dislike men.</p>
-				<ul>
-					<li><a href="#">Sed ut perspiciatis unde omnis iste </a></li>
-					<li><a href="#">veritatis quasi architecto beatae vitae</a></li>
-					<li><a href="#">Nemo enim ipsam voluptatem quia voluptas</a></li>
-					<li><a href="#">Neque porro quisquam est, qui dolorem</a></li>
-					<li><a href="#">Ut enim ad minima veniam, quis nostrum</a></li>
-					<li><a href="#">Duis aute irure dolor reprehenderit velit</a></li>
+</nav>
+
+<!-- SECTION-4(team) -->
+<section id="Section-4" class="fullbg color-white">
+<div class="section-divider">
+</div>
+<div class="container demo-3">
+<div class="row">
+	<div class="page-header text-center col-sm-12 col-lg-12 animated fadeInUp">
+		<h1>Our Team</h1>
+		<!--<p class="lead">
+			 People behind this product.
+		</p>-->
+	</div>
+</div>
+<div class="row animated fadeInUp">
+	<div class="col-md-3">
+		<div class="thumbnail">
+			<img src="images/profile-images/ThachHB.jpg" alt="">
+			<div class="caption">
+				<h4>Thach Huynh</h4>
+				<span class="primarycol">- Computer Science -</span>
+				<!--<p>
+					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
+				</p>-->
+				<ul class="social-icons">
+					<li><a href="https://www.facebook.com/hbthach" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
 				</ul>
 			</div>
-		  <div class="clearfix"> </div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="thumbnail">
+			<img src="images/profile-images/TayTC.jpg" alt="">
+			<div class="caption">
+				<h4>Tay Ta</h4>
+				<span class="primarycol">- Computer Science -</span>
+				<!--<p>
+					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
+				</p>-->
+				<ul class="social-icons">
+					<li><a href="https://www.facebook.com/TCT126" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<!--<li><a href="https://twitter.com/tachitaytct" target="_blank"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="https://www.linkedin.com/in/chi-tay-ta-364861a1/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+					<li><a href="https://plus.google.com/112505178366401106585" target="_blank"><i class="fa fa-google-plus"></i></a></li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="thumbnail">
+			<img src="images/profile-images/DungND.jpg" alt="">
+			<div class="caption">
+				<h4>Dung Nguyen</h4>
+				<span class="primarycol">- Computer Engineering -</span>
+				<!--<p>
+					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
+				</p>-->
+				<ul class="social-icons">
+					<li><a href="https://www.facebook.com/dinhdung.socialnetwork" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="thumbnail">
+			<img src="images/profile-images/KhoiNLD.jpg" alt="">
+			<div class="caption">
+				<h4>Khoi Nguyen</h4>
+				<span class="primarycol">- Computer Engineering -</span>
+				<!--<p>
+					 Praesent id metus ante, ut condimentum magna. Nam bibendum, felis eget.<br>
+				</p>-->
+				<ul class="social-icons">
+					<li><a href="https://www.facebook.com/le.khoi.1233" target="_blank"><i class="fa fa-facebook"></i></a></li>
+					<!--<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+					<li><a href="#"><i class="fa fa-google-plus"></i></a></li>-->
+				</ul>
+			</div>
 		</div>
 	</div>
 </div>
-<div class="histort">
-	<div class="container">
-		<div class="history-main">
-			<h3>Our History</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione</p>
-		    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto</p>
-		</div>
-	</div>
 </div>
-<div class="team">
-	<div class="container">
-		<div class="team-main" >
-			<h3>Our Team</h3>
-			 <div class="col-md-3 team-grids wow bounceIn" data-wow-delay="0.4s">
-			 	<img src="/images/t4.jpg" alt=""/>
-			 </div>
-			 <div class="col-md-3 team-grids wow bounceIn" data-wow-delay="0.4s">
-			 	<img src="/images/t1.jpg" alt=""/>
-			 </div>
-			 <div class="col-md-3 team-grids wow bounceIn" data-wow-delay="0.4s">
-			 	<img src="/images/t3.jpg" alt=""/>
-			 </div>
-			 <div class="col-md-3 team-grids wow bounceIn" data-wow-delay="0.4s">
-			 	<img src="/images/t2.jpg" alt=""/>
-			 </div>
-		  <div class="clearfix"> </div>
-		</div>
-	</div>
-</div>
-<!--about end here-->
-
-</body>
-</html>
+</section>
+<script src="/js/libs/init.js"></script>
