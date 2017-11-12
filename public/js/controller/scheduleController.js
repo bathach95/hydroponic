@@ -77,7 +77,7 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
         intervaltime: $scope.newSchedule.intervaltime,
         delaytime: $scope.newSchedule.delaytime
       }
-    $('#addScheduleModal').modal('toggle');
+    $('#addScheduleModal').modal('hide');
     ScheduleService.addScheduleSetting(newScheduleItem).then(function(result){
       if (result.data.success)
       {
@@ -86,7 +86,9 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
       else {
         flash.error = result.data.message;
       }
-      $state.reload();
+      bootbox.alert(result.data.message, function(){
+        $state.reload();
+      })
     })
   }
 });
