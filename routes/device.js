@@ -152,7 +152,6 @@ router.put('/status', user.authenticate(), function(req, res){
 
 
 router.get('/one', user.authenticate(), function (req, res) {
-  console.log(req.query)
   var mac = req.query.mac;
 
   models.Device.getDeviceByMac(mac,
@@ -168,8 +167,6 @@ router.get('/one', user.authenticate(), function (req, res) {
 router.post('/add', user.authenticate(), function (req, res) {
   var newDevice = req.body;
   newDevice.UserId = req.user.id;
-
-  console.log(newDevice);
   models.Device.getDeviceByMac(newDevice.mac,
     function (result) {
       if (result) {

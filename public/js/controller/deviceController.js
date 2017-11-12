@@ -41,6 +41,7 @@ controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $wind
   $scope.addDevice = function () {
     //$('#addDeviceModal').modal('hide');
     $('#addNewDeviceButton').button('loading');
+    $scope.newDevice.mac = $scope.newDevice.mac.toUpperCase();
     DeviceService.addDevice($scope.newDevice).then(function (result) {
       if (result.data.success) {
         flash.success = result.data.message;
