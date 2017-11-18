@@ -4,7 +4,7 @@ var user = require('./user.js');
 var models = require('../models');
 var mqtt = require('mqtt');
 var device = require('./device.js');
-
+var utils = require('./utils');
 
 // client.on('connect', function(){
 //   client.
@@ -142,7 +142,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
         for (i = 0; i < listStrings.length; i++) {
           message = message.concat(listStrings[i]);
         }
-        device.client.publish(topic, message);
+        device.client.publish(topic, utils.encrypt(message));
         models.Crop.getCropById(cropId, function (crop) {
           if (crop)
           {

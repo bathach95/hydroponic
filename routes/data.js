@@ -90,7 +90,7 @@ function parseReceivedData(message, sensorDataCmdId, sensorDataLength) {
 // receive data from device and add to database
 device.client.on('message', function (topic, message) {
 
-  var data = parseReceivedData(message.toString(), '04', '0010');
+  var data = parseReceivedData(utils.decrypt(message), '04', '0010');
 
   if (data) {
     models.Crop.getNewestRunningCropByDeviceMac(data.mac, function (runningCrop) {

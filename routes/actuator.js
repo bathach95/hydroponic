@@ -3,6 +3,7 @@ var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
 var device = require('./device.js');
+var utils =  require('./utils');
 //====== auto query mac from database and subscribe to that chanel =======
 
 //================================ end ===================================
@@ -20,7 +21,7 @@ router.post('/addactuator', user.authenticate(), function(req, res) {
       priority = '1';
     }
     var message = req.body.devicemac.replace(/:/g,"").toUpperCase() + '06' + '0004' + '0' + priority;
-    device.client.publish(topic, message);
+    device.client.publish(topic, utils.encrypt(message));
     res.json({
       success: true,
       message: "Add actuator success"
@@ -93,7 +94,7 @@ router.put('/status', user.authenticate(), function(req, res) {
         status = '0';
       }
       var message = req.body.mac.replace(/:/g,"").toUpperCase() + '03' + '0003' + req.body.idonboard.toString() + status;
-      device.client.publish(topic, message);
+      device.client.publish(topic, utils.encrypt(message));
       res.json({
         success: true,
         message: 'Update actuator status successfully!'
@@ -125,7 +126,7 @@ router.put('/priority', user.authenticate(), function(req, res) {
         priority = '1';
       }
       var message = req.body.mac.replace(/:/g,"").toUpperCase() + '06' + '0004' + req.body.idonboard.toString() + '2' + priority;
-      device.client.publish(topic, message);
+      device.client.publish(topic, utils.encrypt(message));
       res.json({
         success: true,
         message: 'Update actuator priority successfully!'
@@ -157,7 +158,7 @@ router.delete('/delete', user.authenticate(), function(req, res) {
       priority = '1';
     }
     var message = req.query.mac.replace(/:/g,"").toUpperCase() + '06' + '0004' + req.body.idonboard.toString() + '1' + priority;
-    device.client.publish(topic, message);
+    device.client.publish(topic, utils.encrypt(message));
     res.json({
       success: true,
       message: 'Deleted actuator!'

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
+var utils = require('./utils');
 const mqtt = require('mqtt');
 const client = mqtt.connect('mqtt://13.58.114.56:1883');
 
@@ -21,8 +22,7 @@ models.Device.findAll({
 
 function sendDeviceStatusToDevice(mac, newStatusMessageToDevice) {
   var deviceTopic = 'device/' + mac + "/esp";
-  client.publish(deviceTopic, newStatusMessageToDevice);
-
+  client.publish(deviceTopic, utils.encrypt(newStatusMessageToDevice));
 }
 
 //================================ end ===================================
@@ -56,27 +56,26 @@ router.get('/all', user.authenticate(), function (req, res) {
 
 })
 
-router.get('/running', user.authenticate(), function(req, res){
+router.get('/running', user.authenticate(), function (req, res) {
   models.User.getUserById(req.user.id, function (user) {
     if (user) {
       user.getDevices({
-        where:{
+        where: {
           status: 'running'
         }
       }).then(function (result) {
         var deviceDataList = [];
 
-        Promise.all(result.map(function(item){
-          return new Promise(function(resolve, reject) {
+        Promise.all(result.map(function (item) {
+          return new Promise(function (resolve, reject) {
             item.getCrops({
-              where:{
+              where: {
                 status: 'running'
               }
             }).then(function (cropResult) {
-              return new Promise(function(result, reject){
+              return new Promise(function (result, reject) {
                 cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
-                  if (dataResult[0])
-                  {
+                  if (dataResult[0]) {
                     var returnValue = {
                       device: item.dataValues,
                       crop: cropResult[0].dataValues,
@@ -98,7 +97,7 @@ router.get('/running', user.authenticate(), function(req, res){
               });
             })
           });
-        })).then(function(value) {
+        })).then(function (value) {
           res.json({
             success: true,
             data: deviceDataList,
@@ -107,8 +106,7 @@ router.get('/running', user.authenticate(), function(req, res){
         })
       })
     }
-    else
-    {
+    else {
       res.json({
         success: false,
         message: 'User does not exist!'
@@ -118,20 +116,19 @@ router.get('/running', user.authenticate(), function(req, res){
   });
 })
 
-router.put('/status', user.authenticate(), function(req, res){
+router.put('/status', user.authenticate(), function (req, res) {
   setTimeout(function () {
     models.Device.getDeviceByMac(req.body.mac, function (device) {
       if (device) {
         device.updateStatus(req.body.status, function () {
           var newStatusCode;
-          if (req.body.status == 'running')
-          {
+          if (req.body.status == 'running') {
             newStatusCode = '1';
           }
           else {
             newStatusCode = '0';
           }
-          var statusMessageToDevice = req.body.mac.replace(/:/g,"").toUpperCase() + '03' + '0003' + '00' + newStatusCode;
+          var statusMessageToDevice = req.body.mac.replace(/:/g, "").toUpperCase() + '03' + '0003' + '00' + newStatusCode;
           sendDeviceStatusToDevice(req.body.mac, statusMessageToDevice);
 
           res.json({
