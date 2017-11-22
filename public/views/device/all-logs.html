@@ -64,10 +64,53 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	  			Crop: <b>{{cropid}}</b>
 	  		</p>
 	  	</div>
-			<button type="button" ui-sref="crop_detail({devicemac: devicemac, cropid: cropid})" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-arrow-left"></i>&nbsp; Crop Detail</button>
 	  </div>
-	  <div class="row color-white">
-	  	<div class="container animated fadeInUp">
+	</div>
+	<div class="container" style="width:90%;">
+		<div class="card">
+			<ul class="nav nav-tabs">
+		    <li class="active"><a data-toggle="tab" href="#temperature">Temperature</a></li>
+		    <li><a data-toggle="tab" href="#humidity">Humidity</a></li>
+		    <li><a data-toggle="tab" href="#ppm">PPM</a></li>
+		    <li><a data-toggle="tab" href="#ph">PH</a></li>
+		  </ul>
+			<div class="tab-content">
+				<div id="temperature" class="tab-pane fade in active">
+					<h3>Temperature (&deg;C)</h3>
+					<canvas id="lineTemperature" class="chart chart-line" chart-data="dataTemperature"
+					chart-labels="labels" chart-series="seriesTemperature" chart-options="options"
+					chart-dataset-override="datasetOverride" chart-click="onClick">
+					</canvas>
+				</div>
+				<div id="humidity" class="tab-pane fade">
+					<h3>Humidity (%)</h3>
+					<canvas id="lineHumidity" class="chart chart-line" chart-data="dataHumidity"
+					chart-labels="labels" chart-series="seriesHumidity" chart-options="options"
+					chart-dataset-override="datasetOverride" chart-click="onClick">
+					</canvas>
+				</div>
+				<div id="ppm" class="tab-pane fade">
+					<h3>PPM</h3>
+					<canvas id="line" class="chart chart-line" chart-data="dataPPM"
+					chart-labels="labels" chart-series="seriesPPM" chart-options="options"
+					chart-dataset-override="datasetOverride" chart-click="onClick">
+					</canvas>
+				</div>
+				<div id="ph" class="tab-pane fade">
+					<h3>PH</h3>
+					<canvas id="line" class="chart chart-line" chart-data="dataPH"
+					chart-labels="labels" chart-series="seriesPH" chart-options="options"
+					chart-dataset-override="datasetOverride" chart-click="onClick">
+					</canvas>
+				</div>
+				<div class="">
+
+				</div>
+			</div>
+		</div>
+	  <div class="card">
+			<h3 class="card-title">All data</h3>
+	  	<div class="animated fadeInUp">
 	  	  <div class="table-list-device-content">
 	  	    <table ng-if="data" class="table-list-device" cellpadding="0" cellspacing="0" border="0" ui-jq="dataTable" ui-options="dataTableOpt">
 	          <thead class="table-list-device-header">
@@ -98,6 +141,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 		</div>
 	</div>
+	<button type="button" ui-sref="crop_detail({devicemac: devicemac, cropid: cropid})" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-arrow-left"></i>&nbsp; Crop Detail</button>
+</section>
 </body>
-
 </html>

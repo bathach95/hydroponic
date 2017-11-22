@@ -1,9 +1,7 @@
 controller.controller('ScheduleCtrl', function($http, $stateParams, $state, $scope, $timeout, ScheduleService, flash, CropService) {
-$scope.deviceMac = $stateParams.mac;
-$scope.cropId = $stateParams.cropid;
-console.log($stateParams.cropid)
+  $scope.deviceMac = $stateParams.mac;
+  $scope.cropId = $stateParams.cropid;
   ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
-    console.log(result);
     $scope.listSchedule = result.data.data;
   })
 
@@ -51,7 +49,7 @@ console.log($stateParams.cropid)
   }
 });
 
-controller.controller('ScheduleSettingCtrl', function($http, $window, $stateParams, $state, $scope, $route, $timeout, ScheduleService, ActuatorService, flash) {
+controller.controller('ScheduleSettingCtrl', function($http, $stateParams, $state, $scope, $route, $timeout, ScheduleService, ActuatorService, flash) {
 
   $scope.newSchedule = {
     starttime:'',
@@ -92,4 +90,10 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
       $state.reload();
     })
   }
+});
+
+controller.controller('ScheduleSearchCtrl', function($http, $stateParams, $state, $scope, $timeout, ScheduleService, flash, CropService) {
+  ScheduleService.getScheduleSearchByCropId($stateParams.cropid).then(function(result){
+    $scope.listSchedule = result.data.data;
+  })
 });

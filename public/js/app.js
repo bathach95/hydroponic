@@ -15,7 +15,8 @@ var myApp = angular.module('myApp',
         'myApp.service',
         'myApp.filter',
         'angular-async-validation',
-        'angular-loading-bar'
+        'angular-loading-bar',
+        'chart.js'
       ]);
 
 myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthService, flash) {
@@ -175,6 +176,14 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/search',
             templateUrl: 'views/home/search.html',
             controller: 'SearchCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('crop_detail_search', {
+          url: '/search/crop?id=:cropid',
+          templateUrl: 'views/device/crop-detail-search.html',
+          controller: 'CropDetailSearchCtrl',
             access: {
                 requiredLogin: false
             }

@@ -54,7 +54,6 @@ router.get('/all', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
 
   models.Schedule.getScheduleByCropId(cropId, function (result) {
-    console.log(result);
     var listScheduleSetting = [];
     result.forEach(function (item) {
       listScheduleSetting.push(item);
@@ -65,13 +64,48 @@ router.get('/all', user.authenticate(), function (req, res) {
       message: "Get all settings successfully!"
     });
   }, function (result) {
-    console.log(result);
     res.send({
       success: false,
       message: "Error: Get all settings!"
     });
   }, models)
 })
+
+router.get('/searchall', function (req, res) {
+  var cropId = req.query.cropId;
+
+  models.Crop.getCropById(cropId, function (result) {
+    console.log(result);
+    if (result.dataValues.share)
+    {
+      console.log(result.dataValues.share);
+      result.getSchedules().then(function (schedules) {
+        console.log(schedules);
+        var listScheduleSetting = [];
+        schedules.forEach(function (item) {
+          listScheduleSetting.push(item);
+        })
+        res.send({
+          success: true,
+          data: listScheduleSetting,
+          message: "Get all settings successfully!"
+        });
+      })
+    }
+    else {
+      res.send({
+        success: false,
+        message: "This crop is not shared!"
+      });
+    }
+  }, function (result) {
+    res.send({
+      success: false,
+      message: "Error when getting crop info!"
+    });
+  })
+})
+
 
 router.delete('/delete', user.authenticate(), function (req, res) {
   var scheduleId = req.query.scheduleId;

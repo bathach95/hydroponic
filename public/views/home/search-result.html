@@ -54,7 +54,7 @@
       Start Month: "<b>{{searchData.month}}</b>"
     </p>
 	</div>
-  <button type="button" ui-sref="search" data-toggle="modal" data-target="#addCropModal" class="button-add-new-device animated fadeInLeftBig">
+  <button type="button" ui-sref="search" data-toggle="modal" data-target="#addCropModal" class="button-add-new-device animated fadeInDown">
     <i class="fa fa-search"></i>&nbsp; Back to Search</button>
 </div>
 <div class="card">
@@ -78,7 +78,7 @@
 	        <tr ng-repeat="crop in searchResult">
 	          <td ng-if="searchData.type=='tree'">{{crop.Device.User.name}}</td>
 	          <td ng-if="searchData.type=='month'||searchData.type=='both'">{{crop.username}}</td>
-	          <td><a class="crop-link"  ui-sref="crop_detail({devicemac: crop.DeviceMac, cropid: crop.id})">{{crop.name}}</a></td>
+	          <td><a class="crop-link"  ui-sref="crop_detail_search({devicemac: crop.DeviceMac, cropid: crop.id})">{{crop.name}}</a></td>
 	          <td>{{crop.type}}</td>
 	          <td>{{crop.treetype}}</td>
 	          <td>{{crop.startdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>

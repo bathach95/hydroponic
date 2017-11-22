@@ -14,6 +14,14 @@ service.service('CropService', function($http) {
         })
     }
 
+    this.getSearchCropById = function(id) {
+        return $http.get('crop/searchdetail', {
+            params: {
+                id: id
+            }
+        })
+    }
+
     this.addCrop = function(newCrop){
       return $http.post('/crop/add', newCrop);
     }
@@ -30,6 +38,18 @@ service.service('CropService', function($http) {
 
     this.updateShareStatus = function(crop){
       return $http.put('/crop/share', crop);
+    }
+
+    this.getAllReviews = function(id){
+      return $http.get('/crop/reviews', {
+          params: {
+              id: id
+          }
+      })
+    }
+
+    this.sendNewReview = function(review) {
+      return $http.post('/crop/sendreview', review);
     }
 
     this.checkDataEditCrop = function(crop){
