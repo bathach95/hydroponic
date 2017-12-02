@@ -154,4 +154,14 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
       console.log(err);
     })
   }
+
+  $scope.exportSettingFile = function(){
+    ScheduleService.exportToSettingFile($scope.cropid).then(function(res){
+      console.log(res.data)
+    })
+  }
+
+  $scope.importSettingFile = function(){
+    console.log("imported")
+  }
 })

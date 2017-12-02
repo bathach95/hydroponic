@@ -23,13 +23,13 @@ service.service('DeviceService', function($http) {
     this.addDevice = function(device){
       return $http.post('/device/add', device);
     }
-// 18:FE:34:E5:E2:3C
+// 18FE34E5E23C
     this.checkDataAddDevice = function(device){
       var isErr = true;
       var message = '';
       if (device.mac === ''){
         message = "Empty mac";
-      } else if (!(/^([0-9A-Za-z][0-9A-Za-z]:){5}[0-9A-Za-z][0-9A-Za-z]$/.test(device.mac))) {
+      } else if (!(/^([0-9A-Za-z][0-9A-Za-z]){6}$/.test(device.mac))) {
         message = "Wrong MAC format"
       } else if (device.name === ''){
         message = "Empty name";

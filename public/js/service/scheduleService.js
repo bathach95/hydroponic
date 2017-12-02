@@ -7,6 +7,14 @@ service.service('ScheduleService', function($http){
     })
   }
 
+  this.exportToSettingFile = function(cropId){
+    return $http.get('/schedule/export', {
+      params:{
+        cropId: cropId
+      }
+    })
+  }
+
   this.deleteScheduleSettingById = function(scheduleId, cropId){
     return $http.delete('/schedule/delete', {
       params:{

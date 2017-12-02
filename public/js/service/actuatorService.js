@@ -24,6 +24,7 @@ service.service('ActuatorService', function($http) {
         params:{
           id: actuator.id,
           mac: actuator.mac,
+          idonboard: actuator.idonboard,
           priority: actuator.priority
         }
       })

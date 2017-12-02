@@ -1,4 +1,4 @@
-var aesjs = require('aes-js');
+var xxtea = require('xxtea-node');
 
 function getDateFromGMT(dateTime) {
   // dateTime format: '2017-08-24T17:00:00.000Z'

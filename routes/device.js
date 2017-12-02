@@ -117,33 +117,32 @@ router.get('/running', user.authenticate(), function (req, res) {
 })
 
 router.put('/status', user.authenticate(), function (req, res) {
-  setTimeout(function () {
-    models.Device.getDeviceByMac(req.body.mac, function (device) {
-      if (device) {
-        device.updateStatus(req.body.status, function () {
-          var newStatusCode;
-          if (req.body.status == 'running') {
-            newStatusCode = '1';
-          }
-          else {
-            newStatusCode = '0';
-          }
-          var statusMessageToDevice = req.body.mac.replace(/:/g, "").toUpperCase() + '03' + '0003' + '00' + newStatusCode;
-          sendDeviceStatusToDevice(req.body.mac, statusMessageToDevice);
+  console.log(req.body)
+  models.Device.getDeviceByMac(req.body.mac, function (device) {
+    if (device) {
+      device.updateStatus(req.body.status, function () {
+        var newStatusCode;
+        if (req.body.status == 'running') {
+          newStatusCode = '1';
+        }
+        else {
+          newStatusCode = '0';
+        }
+        var statusMessageToDevice = req.body.mac.replace(/:/g, "").toUpperCase() + '03' + '0003' + '00' + newStatusCode;
+        sendDeviceStatusToDevice(req.body.mac, statusMessageToDevice);
 
-          res.json({
-            success: true,
-            message: 'Update device status success !'
-          })
-        })
-      } else {
         res.json({
-          success: false,
-          message: 'Device does not exist !'
+          success: true,
+          message: 'Update device status success !'
         })
-      }
-    })
-  }, 1500);
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'Device does not exist !'
+      })
+    }
+  })
 })
 
 
@@ -172,22 +171,20 @@ router.post('/add', user.authenticate(), function (req, res) {
           message: "Device has already existed"
         });
       } else {
-        models.Device.createDevice(newDevice,
-          function () {
+        models.Device.createDevice(newDevice, function () {
 
-            // this topic is for send and receive data
-            var topic = 'device/' + newDevice.mac + '/server'
+          // this topic is for send and receive data
+          var topic = 'device/' + newDevice.mac + '/server'
 
-            client.subscribe(topic, function () {
-              console.log("subscribe success after add new device");
-            });
+          client.subscribe(topic, function () {
+            console.log("subscribe success after add new device");
 
             res.json({
               success: true,
               message: "Add device success"
             });
-
-          },
+          });
+        },
           function (err) {
             res.json({
               success: false,

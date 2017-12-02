@@ -8,29 +8,28 @@ controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $wind
     if (result.data.success) {
       $scope.listDevice = result.data.data;
       $scope.dataTableOpt = {
-      "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+        "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50, 'All']],
       };
 
     } else {
       flash.error = result.data.message;
     }
   });
-  $scope.status = function(index, deviceMac, newStatus) {
+  $scope.status = function (index, deviceMac, newStatus) {
     var device = {
       mac: deviceMac,
       status: newStatus
     }
 
-      DeviceService.updateStatus(device).then(function (result) {
-        if (result.data.success) {
-          $scope.listDevice[index].status = newStatus;
-          flash.success = result.data.message;
-        }
-        else
-        {
-          flash.error = result.data.message;
-        }
-      })
+    DeviceService.updateStatus(device).then(function (result) {
+      if (result.data.success) {
+        $scope.listDevice[index].status = newStatus;
+        flash.success = result.data.message;
+      }
+      else {
+        flash.error = result.data.message;
+      }
+    })
   }
 
   // add a new device
@@ -39,22 +38,25 @@ controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $wind
   }
 
   $scope.addDevice = function () {
-    //$('#addDeviceModal').modal('hide');
-    $('#addNewDeviceButton').button('loading');
-    $scope.newDevice.mac = $scope.newDevice.mac.toUpperCase();
-    DeviceService.addDevice($scope.newDevice).then(function (result) {
-      if (result.data.success) {
-        flash.success = result.data.message;
-        $state.go('profile');
-        bootbox.alert(result.data.message);
-      } else {
-        flash.error = result.data.message;
-      }
-      $timeout(function () {
+    var addDeviceValidate = DeviceService.checkDataAddDevice($scope.newDevice);
+    if (addDeviceValidate.isErr) {
+      flash.error = addDeviceValidate.message;
+    } else {
+      $('#addNewDeviceButton').button('loading');
+      $scope.newDevice.mac = $scope.newDevice.mac.toUpperCase();
+      DeviceService.addDevice($scope.newDevice).then(function (result) {
+        if (result.data.success) {
+          flash.success = result.data.message;
+          $state.go('profile');
+          bootbox.alert(result.data.message);
+        } else {
+          flash.error = result.data.message;
+        }
+        $timeout(function () {
           $('#addNewDeviceButton').button('reset');
         }, 1000);
-    });
-
+      });
+    }
   }
 
   $scope.deleteDevice = function (index, mac) {
@@ -83,7 +85,7 @@ controller.controller('DeviceDetailCtrl', function ($stateParams, $scope, Device
   $scope.mac = $stateParams.mac;
 
   $scope.dataTableOpt = {
-    "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+    "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50, 'All']],
   };
 
   DeviceService.getDeviceByMac($stateParams.mac).then(function (result) {

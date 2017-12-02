@@ -16,23 +16,18 @@ var myApp = angular.module('myApp',
         'myApp.filter',
         'angular-async-validation',
         'angular-loading-bar'
-      ]);
+    ]);
 
 myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthService, flash) {
 
-      // display username after login
-    if (AuthService.isLoggedIn) {
-        $rootScope.userLogin = $cookies.get('name');
-    }
-
-    $transitions.onStart( { to: 'login' }, function(trans) {
+    $transitions.onStart({ to: 'login' }, function (trans) {
         var AuthService = trans.injector().get('AuthService');
 
-        if (AuthService.isLoggedIn()){
+        AuthService.isLoggedIn().then(function() {
             flash.success = "You are logged in"
             $state.go('home');
-        }
-      });
+        })
+    });
 
     $transitions.onStart({}, function (trans) {
 
@@ -43,33 +38,32 @@ myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthServi
         var AuthService = trans.injector().get('AuthService');
         var UserService = trans.injector().get('UserService');
 
-        if (access.requiredLogin && !AuthService.isLoggedIn()) {
-            flash.error = 'You have log in to access this page';
-            $state.go('login');
-        } else if (AuthService.isLoggedIn()) {
-            $rootScope.userLogin = $cookies.get('name');
+        AuthService.isLoggedIn()
+            .then(function (result) {
 
-            // if there are special roles to go to this state
-            UserService.getUserRole(function (role) {
-                if (role) {
-                    $rootScope.userRole = role;
-                    if (access.roles && !access.roles.includes(role)) {
-                        flash.error = 'You cannot go to this page!';
-                        $state.go('home');
-                    }
-                } else {
-                    console.log('Cannot get role');
+                $rootScope.userLogin = result.username;
+                $rootScope.userRole = result.role;
+
+                if (access.roles && !access.roles.includes(result.role)) {
+                    flash.error = 'You cannot go to this page!';
+                    $state.go('home');
+                }
+
+            })
+            .catch(function (err) {
+                if (access.requiredLogin) {
+                    flash.error = 'You have log in to access this page';
+                    $state.go('login');
                 }
             })
-        }
     });
 
 });
 
 /* Loading bar */
-myApp.config(function(cfpLoadingBarProvider) {
+myApp.config(function (cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = true;
-}).controller('LoadingBarCtrl', function($scope, $http, $timeout, cfpLoadingBar){
+}).controller('LoadingBarCtrl', function ($scope, $http, $timeout, cfpLoadingBar) {
 
 });
 
@@ -101,12 +95,12 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('system', {
-          url: '/profile.html',
-          templateUrl: 'views/user/profile.html',
-          controller: 'ProfileCtrl',
-          access: {
-              requiredLogin: true
-          }
+            url: '/profile.html',
+            templateUrl: 'views/user/profile.html',
+            controller: 'ProfileCtrl',
+            access: {
+                requiredLogin: true
+            }
         })
         .state('article', {
             url: '/article.html',
@@ -199,7 +193,7 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: 'views/changepass.html',
             controller: 'ProfileCtrl',
             access: {
-                  requiredLogin: true
+                requiredLogin: true
             }
         })
         .state('profile', {
@@ -211,20 +205,20 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         })
         .state('edit_profile', {
-          url:'/profile/editprofile',
-          templateUrl: 'views/user/editprofile.html',
-          controller: 'ProfileCtrl',
-          access: {
-            requiredLogin: true
-          }
+            url: '/profile/editprofile',
+            templateUrl: 'views/user/editprofile.html',
+            controller: 'ProfileCtrl',
+            access: {
+                requiredLogin: true
+            }
         })
         .state('new_device', {
-          url:'/profile/newdevice.html',
-          templateUrl: 'views/user/add-new-device.html',
-          controller: 'DeviceCtrl',
-          access: {
-            requiredLogin: true
-          }
+            url: '/profile/newdevice.html',
+            templateUrl: 'views/user/add-new-device.html',
+            controller: 'DeviceCtrl',
+            access: {
+                requiredLogin: true
+            }
         })
         .state('device_detail', {
             url: '/device/:mac',

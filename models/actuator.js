@@ -36,6 +36,18 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     classMethods: {
+
+      getActuatorByIdOnboardAndDeviceMac: function(idonboard, deviceMac, callback, err){
+        var query = {
+          where: {
+            idonboard: idonboard,
+            DeviceMac: deviceMac
+          }
+        };
+
+        Actuator.findOne(query).then(callback).catch(err);
+      },
+
       getActuatorById: function (id, callback, err) {
         Actuator.findById(id).then(callback).catch(err);
       },

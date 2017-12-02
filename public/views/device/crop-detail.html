@@ -540,6 +540,8 @@
                             <div class="row">
                               <div class="col-md-12 add-device-container">
                                 <button type="button" data-toggle="modal" data-target="#addScheduleModal" class="button-refesh-data animated fadeInLeftBig"><i class="fa fa-calendar-plus-o"></i>&nbsp; New setting</button>
+                                <button type="button" data-toggle="modal" data-target="#" class="button-refesh-data animated fadeInLeftBig" ng-click="exportSettingFile()">Export schedule file</button>
+                                <button type="button" data-toggle="modal" data-target="#" class="button-refesh-data animated fadeInLeftBig" ng-click="importSettingFile()">Import schedule file</button>
                               </div>
                             </div>
                           </center>
@@ -691,11 +693,6 @@
             </div>
             <div class="col-md-4 col-sm-4">
               <select name="name" ng-model="newSchedule.ActuatorId" ng-options="item.id as item.name for item in listActuators| filter: {type: newScheduleType}">
-                <!--<option ng-show="(listActuators| filter: {type: newSchedule.type}).length == 0">--No relay found---</option>
-                <option ng-repeat="item in listActuators| filter: {type: newSchedule.type}" value="item.name">{{item.name}}</option>
-                <option value="Fan">Fan</option>
-                <option value="Lighting">Lighting</option>
-                <option value="Oxygen">Oxygen</option>-->
               </select>
             </div>
             <div class="col-md-4 col-sm-4">
@@ -745,7 +742,7 @@
               </center>
             </div>
             <div class="col-md-4 col-sm-4">
-              <input type="number" placeholder="seconds" ng-model="newSchedule.delaytime">
+              <input required type="number" placeholder="seconds" ng-model="newSchedule.delaytime">
             </div>
             <div class="col-md-4 col-sm-4">
             </div>

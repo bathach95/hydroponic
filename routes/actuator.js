@@ -10,29 +10,44 @@ var utils =  require('./utils');
 router.post('/addactuator', user.authenticate(), function(req, res) {
   var newActuator = req.body.actuator;
   newActuator.DeviceMac = req.body.devicemac;
-  models.Actuator.createActuator(newActuator, function() {
-    var topic = "device/" + req.body.devicemac + "/esp";
-    var priority;
-    if (newActuator.priority == 'Primary')
-    {
-      priority = '0';
+
+  models.Actuator.getActuatorByIdOnboardAndDeviceMac(newActuator.idonboard, newActuator.DeviceMac, function(result){
+    if (result){ 
+       res.json({
+        success: false,
+        message: "This ID is already in use !"
+       });
+    } else {
+      models.Actuator.createActuator(newActuator, function() {
+        var topic = "device/" + req.body.devicemac + "/esp";
+        var priority = newActuator.priority === 'Primary' ? '0' : '1';
+        var message = req.body.devicemac.replace(/:/g,"").toUpperCase() + '06' + '0004' + newActuator.idonboard  + '0' + priority;
+        device.client.publish(topic, utils.encrypt(message), function(err){
+          if (err) {
+            console.log(err);
+            res.json({
+              success: false,
+              message: "Cannot send message to device"
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "Add actuator success"
+            });
+          }
+        });
+      },
+      function (err) {
+        console.log(err);
+        res.json({
+          success: false,
+          message: "Cannot add actuator !"
+        });
+      })
     }
-    else {
-      priority = '1';
-    }
-    var message = req.body.devicemac.replace(/:/g,"").toUpperCase() + '06' + '0004' + '0' + priority;
-    device.client.publish(topic, utils.encrypt(message));
-    res.json({
-      success: true,
-      message: "Add actuator success"
-    });
-  },
-  function (err) {
-    res.json({
-      success: false,
-      message: err
-    });
   })
+
+
 });
 
 router.get('/all', user.authenticate(), function(req, res){
@@ -149,21 +164,25 @@ router.delete('/delete', user.authenticate(), function(req, res) {
   console.log(req.query);
   models.Actuator.deleteActuator(req.query.id, function(){
     var topic = "device/" + req.query.mac + "/esp";
-    var priority;
-    if (req.query.priority == 'Primary')
-    {
-      priority = '0';
-    }
-    else {
-      priority = '1';
-    }
-    var message = req.query.mac.replace(/:/g,"").toUpperCase() + '06' + '0004' + req.body.idonboard.toString() + '1' + priority;
-    device.client.publish(topic, utils.encrypt(message));
-    res.json({
-      success: true,
-      message: 'Deleted actuator!'
-    })
-  }, function() {
+    var priority = req.query.priority === 'Primary' ? '0' : '1';
+    var message = req.query.mac.replace(/:/g,"").toUpperCase() + '06' + '0004' + req.query.idonboard + '1' + priority;
+    device.client.publish(topic, utils.encrypt(message), function(err){
+      if (err){
+        console.log(err);
+        res.json({
+          success: false,
+          message: 'Error when delete actuator!'
+        })
+      } else {
+        res.json({
+          success: true,
+          message: 'Deleted actuator!'
+        })
+      }
+    });
+
+  }, function(err) {
+    console.log(err);
     res.json({
       success: false,
       message: 'Error when delete actuator!'

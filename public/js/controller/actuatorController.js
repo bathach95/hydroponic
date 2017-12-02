@@ -51,7 +51,7 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
   }
 
   $scope.changeActuatorPriority = function(index, idonboard, id, priority){
-    var newPriority = priority == 'Primary'? 'Secondary' : 'Primary';
+    var newPriority = priority === 'Primary'? 'Secondary' : 'Primary';
     bootbox.confirm('Do you want to change priority of this device to \'' + newPriority + '\' ?', function (yes) {
       if (yes) {
         var actuator = {

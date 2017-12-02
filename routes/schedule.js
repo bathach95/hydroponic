@@ -5,7 +5,9 @@ var models = require('../models');
 var mqtt = require('mqtt');
 var device = require('./device.js');
 var utils = require('./utils');
-
+var jsonfile = require('jsonfile');
+var path = require('path');
+var fs = require('fs');
 // client.on('connect', function(){
 //   client.
 // })
@@ -72,6 +74,31 @@ router.get('/all', user.authenticate(), function (req, res) {
     });
   }, models)
 })
+
+
+// router.get('/export', function(req, res){
+//   models.Schedule.getScheduleByCropId(req.query.cropId, function (result) {
+//     var file = path.join(__dirname, 'exported', 'setting2.json');
+//     jsonfile.writeFile(file, result, function(err){
+//       if (err){
+//         res.send({
+//           success: false,
+//           message: err
+//         });
+//       } else {
+//         res.download(file, function(){
+//           console.log("hehehehehe")
+//         });
+//       }
+//     })
+    
+//   }, function (err) {
+//     res.send({
+//       success: false,
+//       message: "Cannot export file!"
+//     });
+//   }, models)
+// })
 
 router.delete('/delete', user.authenticate(), function (req, res) {
   var scheduleId = req.query.scheduleId;
