@@ -17,8 +17,8 @@ controller.controller('ThresholdCtrl', function ($http, $state, $stateParams, $r
         humidityUpper: $scope.threshold.humidityUpper,
         ppmLower: $scope.threshold.ppmLower,
         ppmUpper: $scope.threshold.ppmUpper,
-        phLower: $scope.threshold.phLower,
-        phUpper: $scope.threshold.phUpper
+        lightLower: $scope.threshold.lightLower,
+        lightUpper: $scope.threshold.lightUpper
       }
     }
   });
@@ -55,8 +55,8 @@ controller.controller('HomePageThresholdCtrl', function ($http, $state, $statePa
           humidityUpper: $scope.threshold.humidityUpper,
           ppmLower: $scope.threshold.ppmLower,
           ppmUpper: $scope.threshold.ppmUpper,
-          phLower: $scope.threshold.phLower,
-          phUpper: $scope.threshold.phUpper
+          lightLower: $scope.threshold.lightLower,
+          lightUpper: $scope.threshold.lightUpper
         }
       }
     });

@@ -78,7 +78,7 @@ var runningDevicesData = []
                         temp: false,
                         humidity: false,
                         ppm: false,
-                        ph: false
+                        light: false
                       },
                       status: false
                     }
@@ -128,13 +128,11 @@ controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, Thres
               temp: false,
               humidity: false,
               ppm: false,
-              ph: false
+              light: false
             },
             status: false
           }
-          console.log(thresholdResult);
-          if (thresholdResult.data.success)
-          {
+          if (thresholdResult.data.success){
             status = DataStatusService.getStatus(item, $scope.threshold);
           }
           console.log(status);

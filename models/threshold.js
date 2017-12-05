@@ -6,11 +6,11 @@ module.exports = function(sequelize, DataTypes) {
     //   type: DataTypes.DATE,
     //   allowNull: false
     // },
-    phLower: {
+    lightLower: {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    phUpper: {
+    lightUpper: {
       type: DataTypes.FLOAT,
       allowNull: false
     },

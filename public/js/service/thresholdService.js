@@ -13,7 +13,7 @@ service.service('ThresholdService', function($http) {
       if (threshold.temperatureLower === null || threshold.temperatureUpper === null
           || threshold.humidityLower === null || threshold.humidityUpper === null
           || threshold.ppmLower === null || threshold.ppmUpper === null
-          || threshold.phLower === null || threshold.phUpper === null){
+          || threshold.lightLower === null || threshold.lightUpper === null){
             message = "You have to input all value";
           } else {
             isErr = false;

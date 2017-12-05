@@ -4,7 +4,7 @@ var user = require('./user.js');
 var models = require('../models');
 var mqtt = require('mqtt');
 var device = require('./device.js');
-var utils = require('./utils');
+var utils = require('../utils/utils');
 var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
@@ -56,7 +56,6 @@ router.get('/all', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
 
   models.Schedule.getScheduleByCropId(cropId, function (result) {
-    console.log(result);
     var listScheduleSetting = [];
     result.forEach(function (item) {
       listScheduleSetting.push(item);
@@ -67,7 +66,6 @@ router.get('/all', user.authenticate(), function (req, res) {
       message: "Get all settings successfully!"
     });
   }, function (result) {
-    console.log(result);
     res.send({
       success: false,
       message: "Error: Get all settings!"
@@ -87,7 +85,6 @@ router.get('/all', user.authenticate(), function (req, res) {
 //         });
 //       } else {
 //         res.download(file, function(){
-//           console.log("hehehehehe")
 //         });
 //       }
 //     })
@@ -123,7 +120,6 @@ router.delete('/delete', user.authenticate(), function (req, res) {
     })
   }, function(result){
 
-    console.log(result);
     res.send({
       success: false,
       message: "Cannot delete schedule setting!"
@@ -203,11 +199,8 @@ router.get('/sync', user.authenticate(), function (req, res) {
 router.post('/add', user.authenticate(), function (req, res) {
 
   //TODO: format data like numberOfTimeSet_hhmmss(starttime)_hhmmss(endtime)_hhmmss(lasttime)_hhmmss(Delay)
-  // encrypt data before sending
   var scheduleSetting = req.body;
-  console.log(scheduleSetting);
   models.Schedule.getScheduleByCropId(scheduleSetting.CropId, function (result) {
-    console.log("It's ok!");
     var isOverlapped = false;
     var newstarttime = new Date('1970-01-01T' + scheduleSetting.starttime + 'Z');
     var newendtime = new Date('1970-01-01T' + scheduleSetting.endtime + 'Z');

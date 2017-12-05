@@ -306,22 +306,22 @@
                                   ppm
                                 </p>
                               </div>
-                              <div ng-if="!badStatus.ph" class="boxservice bottomb box-status-normal">
+                              <div ng-if="!badStatus.light" class="boxservice bottomb box-status-normal">
                                 <i class="fa fa-flask"></i>
-                                <h3>{{data.ph}}
+                                <h3>{{data.light}}
                                   &#10;
                                 </h3>
                                 <p>
-                                  pH
+                                  light
                                 </p>
                               </div>
-                              <div ng-if="badStatus.ph" class="boxservice bottomb box-status-warning">
+                              <div ng-if="badStatus.light" class="boxservice bottomb box-status-warning">
                                 <i class="fa fa-flask"></i>
-                                <h3>{{data.ph}}
+                                <h3>{{data.light}}
                                   &#10;
                                 </h3>
                                 <p>
-                                  pH
+                                  light
                                 </p>
                               </div>
                               <div ng-if="!status" class="box-unborder box-status-normal">
@@ -342,13 +342,6 @@
                                   Status
                                 </p>
                               </div>
-                              <!--<div class="boxservice rightb bottomb">
-                                <i class="fa fa-microphone"></i>
-                                <h3>Static & Dynamic</h3>
-                                <p>
-                                  Web templates can be used like the template of a form letter to generate "static" web pages in advance or to produce.
-                                </p>
-                              </div>-->
                             </div>
                             <div ng-hide="data">
                                 <p>No data available from your device. </p>
@@ -397,22 +390,15 @@
                                 </p>
                               </div>
                               <div class="boxservice bottomb">
-                                <h3>{{threshold.phLower}} - {{threshold.phUpper}}
+                                <h3>{{threshold.lightLower}} - {{threshold.lightUpper}}
                                   &#10;
                                 </h3>
                                 <p>
-                                  pH
+                                  light
                                 </p>
                               </div>
                               <div class="box-unborder box-status-normal">
                               </div>
-                              <!--<div class="boxservice rightb bottomb">
-                                <i class="fa fa-microphone"></i>
-                                <h3>Static & Dynamic</h3>
-                                <p>
-                                  Web templates can be used like the template of a form letter to generate "static" web pages in advance or to produce.
-                                </p>
-                              </div>-->
                             </div>
                           </div>
                 						<!-- end row -->
@@ -626,13 +612,13 @@
           </div>
           <div class="row">
             <div class="col-md-4 col-sm-4">
-              <label for="">pH</label>
+              <label for="">light</label>
             </div>
             <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.phLower" type="number" name="lower-ph" />
+              <input required ng-model="newThreshold.lightLower" type="number" name="lower-light" />
             </div>
             <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.phUpper" type="number" name="upper-ph" />
+              <input required ng-model="newThreshold.lightUpper" type="number" name="upper-light" />
             </div>
           </div>
         </center>

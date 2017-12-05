@@ -3,7 +3,7 @@ var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
 var device = require('./device.js');
-var utils =  require('./utils');
+var utils =  require('../utils/utils');
 //====== auto query mac from database and subscribe to that chanel =======
 
 //================================ end ===================================
@@ -24,6 +24,7 @@ router.post('/addactuator', user.authenticate(), function(req, res) {
         var message = req.body.devicemac.replace(/:/g,"").toUpperCase() + '06' + '0004' + newActuator.idonboard  + '0' + priority;
         device.client.publish(topic, utils.encrypt(message), function(err){
           if (err) {
+            utils.log.error(err);
             console.log(err);
             res.json({
               success: false,
@@ -38,6 +39,7 @@ router.post('/addactuator', user.authenticate(), function(req, res) {
         });
       },
       function (err) {
+        utils.log.error(err);
         console.log(err);
         res.json({
           success: false,
@@ -100,14 +102,7 @@ router.put('/status', user.authenticate(), function(req, res) {
   models.Actuator.getActuatorById(req.body.id, function(actuator){
     actuator.updateStatus(req.body.status, function() {
       var topic = "device/" + req.body.mac + "/esp";
-      var status;
-      if (req.body.status == 'on')
-      {
-        status = '1';
-      }
-      else {
-        status = '0';
-      }
+      var status = req.body.status === 'on' ? '1' : '0';
       var message = req.body.mac.replace(/:/g,"").toUpperCase() + '03' + '0003' + req.body.idonboard.toString() + status;
       device.client.publish(topic, utils.encrypt(message));
       res.json({
@@ -132,14 +127,7 @@ router.put('/priority', user.authenticate(), function(req, res) {
   models.Actuator.getActuatorById(req.body.id, function(actuator){
     actuator.updatePriority(req.body.priority, function() {
       var topic = "device/" + req.body.mac + "/esp";
-      var priority;
-      if (req.body == 'Primary')
-      {
-        priority = '0';
-      }
-      else {
-        priority = '1';
-      }
+      var priority = req.body === 'Primary' ? '0' : '1';
       var message = req.body.mac.replace(/:/g,"").toUpperCase() + '06' + '0004' + req.body.idonboard.toString() + '2' + priority;
       device.client.publish(topic, utils.encrypt(message));
       res.json({
@@ -168,6 +156,7 @@ router.delete('/delete', user.authenticate(), function(req, res) {
     var message = req.query.mac.replace(/:/g,"").toUpperCase() + '06' + '0004' + req.query.idonboard + '1' + priority;
     device.client.publish(topic, utils.encrypt(message), function(err){
       if (err){
+        utils.log.error(err);        
         console.log(err);
         res.json({
           success: false,
@@ -182,6 +171,7 @@ router.delete('/delete', user.authenticate(), function(req, res) {
     });
 
   }, function(err) {
+    utils.log.error(err);
     console.log(err);
     res.json({
       success: false,

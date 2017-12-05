@@ -3,7 +3,7 @@ var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
 var device = require('./device.js');
-var utils = require('./utils.js');
+var utils = require('../utils/utils');
 var moment = require('moment');
 
 function timeToMessageString(time) {
@@ -25,7 +25,7 @@ function secondsToHMS(d) {
 }
 
 function sendSettingToDevice(data, callback) {
-  var topic = 'device/' + data.DeviceMac + '/esp';
+  var topic = utils.getDeviceTopic(data.DeviceMac);
   var message = data.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(data.startdate).format("YYYYMMDDHHmmss") + moment(data.closedate).format("YYYYMMDDHHmmss") + secondsToHMS(data.reporttime);
   device.client.publish(topic,  utils.encrypt(message), callback);
 }

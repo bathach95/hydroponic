@@ -35,11 +35,11 @@ service.service('DataStatusService', function() {
                 temp: data.temperature < threshold.temperatureLower || data.temperature > threshold.temperatureUpper,
                 humidity: data.humidity < threshold.humidityLower || data.humidity > threshold.humidityUpper,
                 ppm: data.ppm < threshold.ppmLower || data.ppm > threshold.ppmUpper,
-                ph: data.ph < threshold.phLower || data.ph > threshold.phUpper
+                light: data.light < threshold.lightLower || data.light > threshold.lightUpper
             }
         }
 
-        status.status = status.badStatus.temp || status.badStatus.humidity || status.badStatus.ppm || status.badStatus.ph;
+        status.status = status.badStatus.temp || status.badStatus.humidity || status.badStatus.ppm || status.badStatus.light;
 
         return status;
     }

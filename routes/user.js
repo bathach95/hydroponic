@@ -10,7 +10,7 @@ var flash = require('req-flash');
 var Cookies = require('cookies');
 var nodemailer = require('nodemailer');
 var randToken = require('rand-token');
-var utils = require('./utils.js')
+var utils = require('../utils/utils')
 /* config acl and acl-sequelize */
 
 var path = require("path");
@@ -78,10 +78,7 @@ router.get('/info', authenticate(), function (req, res) {
 });
 
 router.post('/checkemail', function(req, res) {
-
-  console.log(req.body);
   models.User.getUserByEmail(req.body.email, function (user) {
-      console.log(user);
     if (user) {
       res.json({
         success: false,
@@ -139,6 +136,7 @@ router.post('/register', function (req, res) {
             });
           }
           else {
+            utils.log.info('Message sent: ' + info.response);
             console.log('Message sent: ' + info.response);
             res.json({
               success: true,
@@ -260,6 +258,7 @@ router.post('/resetpass', function (req, res) {
             });
           }
           else {
+            utils.log.info('Message sent: ' + info.response);
             console.log('Message sent: ' + info.response);
             res.json({
               success: true,

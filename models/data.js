@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Data = sequelize.define('Data', {
-    ph: {
+    light: {
       type: DataTypes.FLOAT,
       allowNull: false
     },

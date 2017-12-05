@@ -76,12 +76,30 @@ function getDataStatus(data, threshold) {
       temp: data.temperature < threshold.temperatureLower || data.temperature > threshold.temperatureUpper,
       humidity: data.humidity < threshold.humidityLower || data.humidity > threshold.humidityUpper,
       ppm: data.ppm < threshold.ppmLower || data.ppm > threshold.ppmUpper,
-      ph: data.ph < threshold.phLower || data.ph > threshold.phUpper
+      light: data.light < threshold.lightLower || data.light > threshold.lightUpper
     }
   }
 
-  status.status = status.badStatus.temp || status.badStatus.humidity || status.badStatus.ppm || status.badStatus.ph;
+  status.status = status.badStatus.temp || status.badStatus.humidity || status.badStatus.ppm || status.badStatus.light;
   return status;
+}
+
+/* log file */
+var opts = {
+  logDirectory: './public/log',
+  fileNamePattern: 'roll-<DATE>.log',
+  dateFormat: 'YYYY.MM.DD'
+};
+var log = require('simple-node-logger').createRollingFileLogger( opts );
+
+/* get mqtt topic */
+
+function getDeviceTopic(mac) {
+  return 'device/' + mac+ "/esp";
+}
+
+function getServerTopic(mac){
+  return 'device/' + mac + "/server";
 }
 
 module.exports = {
@@ -90,5 +108,8 @@ module.exports = {
   setRole: setRole,
   getUserId: getUserId,
   encrypt: encrypt,
-  decrypt: decrypt
+  decrypt: decrypt,
+  log: log,
+  getServerTopic: getServerTopic,
+  getDeviceTopic: getDeviceTopic
 }

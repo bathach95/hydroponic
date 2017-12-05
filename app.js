@@ -20,11 +20,10 @@ var schedule = require('./routes/schedule');
 var article = require('./routes/article');
 var comment = require('./routes/comment');
 var actuator = require('./routes/actuator');
-//----------------
-
+var utils = require('./utils/utils');
 var cors = require('cors');
-
 var app = express();
+//----------------
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -85,6 +84,7 @@ models.sequelize.sync().then(function () {
   // check whether admin account was created or not
   models.User.getUserByEmail('hbathach@gmail.com', function (admin) {
     if (admin) {
+      utils.log.info('Admin account was created');
       console.log('Admin account was created');
     } else {
       var admin = {
@@ -100,11 +100,13 @@ models.sequelize.sync().then(function () {
       models.User.createUser(admin, function (result) {
         // add admin role
         user.acl.addUserRoles(result.dataValues.id, 'admin');
+        utils.log.info('Admin account created');
         console.log('Admin account created')
       })
     }
   })
 }).catch(function (err) {
+  utils.log.error(err);
   console.log(err);
 });
 

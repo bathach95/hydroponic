@@ -2,28 +2,24 @@ var express = require('express');
 var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
-var utils = require('./utils');
+var utils = require('../utils/utils');
 const mqtt = require('mqtt');
 const client = mqtt.connect('mqtt://13.58.114.56:1883');
-
+var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
+var protocolConstant = require('../utils/protocolConstant');
 //====== auto query mac from database and subscribe to that chanel =======
 
-models.Device.findAll({
-  attributes: ['mac']
-}).then(function (result) {
-  result.forEach(function (item) {
-    var topic = 'device/' + item.dataValues.mac + '/server';
-    client.subscribe(topic, function () {
-      console.log("subscribe success to " + topic);
-    });
-  });
-})
-
-
-function sendDeviceStatusToDevice(mac, newStatusMessageToDevice) {
-  var deviceTopic = 'device/' + mac + "/esp";
-  client.publish(deviceTopic, utils.encrypt(newStatusMessageToDevice));
-}
+// models.Device.findAll({
+//   attributes: ['mac']
+// }).then(function (result) {
+//   result.forEach(function (item) {
+//     var topic = 'device/' + item.dataValues.mac + '/server';
+//     client.subscribe(topic, function () {
+//       utils.log.info("subscribe success to " + topic)
+//       console.log("subscribe success to " + topic);
+//     });
+//   });
+// })
 
 //================================ end ===================================
 
@@ -111,41 +107,67 @@ router.get('/running', user.authenticate(), function (req, res) {
         success: false,
         message: 'User does not exist!'
       })
-      console.log(5678);
     }
   });
 })
 
 router.put('/status', user.authenticate(), function (req, res) {
-  console.log(req.body)
-  models.Device.getDeviceByMac(req.body.mac, function (device) {
-    if (device) {
-      device.updateStatus(req.body.status, function () {
-        var newStatusCode;
-        if (req.body.status == 'running') {
-          newStatusCode = '1';
-        }
-        else {
-          newStatusCode = '0';
-        }
-        var statusMessageToDevice = req.body.mac.replace(/:/g, "").toUpperCase() + '03' + '0003' + '00' + newStatusCode;
-        sendDeviceStatusToDevice(req.body.mac, statusMessageToDevice);
+  var deviceMac = req.body.mac;
+  var deviceTopic = utils.getDeviceTopic(deviceMac);
+  var serverTopic = utils.getServerTopic(deviceMac);
+  const client = mqtt.connect('mqtt://13.58.114.56:1883');
 
+  var newStatusCode = req.body.status === 'running' ? '1' : '0';
+  var statusMessageToDevice = deviceMac.toUpperCase() + '03' + '0003' + '00' + newStatusCode;
+
+  // subscribe to server topic to get ACK package from device
+  client.subscribe(serverTopic, function () {
+    console.log('this line subscribe success to ' + serverTopic)
+  })
+  // send update status message to device
+  client.publish(deviceTopic, utils.encrypt(statusMessageToDevice), function (err) {
+    if (err) {
+      console.log(err);
+      utils.log.err(err);
+      client.end(false, function () {
         res.json({
-          success: true,
-          message: 'Update device status success !'
+          success: false,
+          message: 'Cannot send MQTT update status message to device'
         })
       })
+
     } else {
-      res.json({
-        success: false,
-        message: 'Device does not exist !'
+      // wait for ack message from device
+      client.on('message', function (topic, payload) {
+        var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+        client.end();
+        if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+          // if device received message, update database
+          models.Device.getDeviceByMac(deviceMac, function (device) {
+            if (device) {
+              device.updateStatus(req.body.status, function () {
+                res.json({
+                  success: true,
+                  message: 'Update device status success !'
+                })
+              })
+            } else {
+              res.json({
+                success: false,
+                message: 'Device does not exist !'
+              })
+            }
+          })
+        } else {
+          res.json({
+            success: false,
+            message: 'Cannot send MQTT update status message to device'
+          })
+        }
       })
     }
-  })
+  });
 })
-
-
 
 router.get('/one', user.authenticate(), function (req, res) {
   var mac = req.query.mac;
@@ -159,6 +181,28 @@ router.get('/one', user.authenticate(), function (req, res) {
     }
   );
 })
+
+// ------- success -----
+router.post('/addtest', user.authenticate(), function (req, res) {
+  var newDevice = req.body;
+  models.User.getUserById(req.user.id, function (user) {
+    user.createDevice(newDevice).then(function () {
+      utils.log.info('Created device' + newDevice)
+
+      res.json({
+        success: true,
+        message: "add success !!!!"
+      })
+    }).catch(function (err) {
+      utils.log.error(err)
+
+      res.json({
+        success: false,
+        message: "Deviced has already existed !"
+      })
+    })
+  })
+});
 
 router.post('/add', user.authenticate(), function (req, res) {
   var newDevice = req.body;
@@ -177,8 +221,8 @@ router.post('/add', user.authenticate(), function (req, res) {
           var topic = 'device/' + newDevice.mac + '/server'
 
           client.subscribe(topic, function () {
+            utils.log.info("subscribe success after add new device");
             console.log("subscribe success after add new device");
-
             res.json({
               success: true,
               message: "Add device success"

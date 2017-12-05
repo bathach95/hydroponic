@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 var user = require('./user.js');
-var utils = require('./utils.js')
+var utils = require('../utils/utils')
 
 router.get('/all', function (req, res) {
     models.Article.getAllArticle(models.User, function (result) {

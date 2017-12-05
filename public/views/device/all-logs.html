@@ -75,7 +75,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	  	          <th>Temperature</th>
 	  	          <th>Humidity</th>
 	  	          <th>ppm</th>
-	  	          <th>pH</th>
+	  	          <th>light</th>
 	  	          <th>Status</th>
 	  	        </tr>
 	  	      </thead>
@@ -85,7 +85,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 								<td ng-attr-style="{{item.badStatus.temp && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.temperature}}</td>
 								<td ng-attr-style="{{item.badStatus.humidity && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.humidity}}</td>
 								<td ng-attr-style="{{item.badStatus.ppm && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.ppm}}</td>
-								<td ng-attr-style="{{item.badStatus.ph && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.ph}}</td>
+								<td ng-attr-style="{{item.badStatus.light && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.light}}</td>
 								<td>
 									<i ng-if="!item.status" class="fa fa-check-square" style="color: #6BFF9F;"></i>
 									<i ng-if="item.status" class="fa fa-exclamation-triangle" style="color: #FFA7A7;"></i>

@@ -5,7 +5,7 @@ var models = require('../models');
 var moment = require('moment');
 var device = require('./device.js');
 var FCM = require('fcm-node');
-var utils = require('./utils');
+var utils = require('../utils/utils');
 var serverKey = 'AIzaSyD0XtvqNAw6kTO34Ot50WsJkQF568kDuR4';
 var fcm = new FCM(serverKey);
 
@@ -21,8 +21,10 @@ function sendNotifyToMobile(topicMac, type) {
 
   fcm.send(message, function (err, response) {
     if (err) {
+      utils.log.error("Notify err: " + err);
       console.log("Notify err: " + err)
     } else {
+      utils.log.info("Notify sucess: " + response);
       console.log("Notify sucess: " + response);
     }
   });
@@ -36,8 +38,10 @@ function updateDeviceStatus(mac) {
         status: "running"
       }).then(function (res) {
         if (res) {
+          utils.log.info(mac + " update device status success")
           console.log("update device status success");
         } else {
+          utils.log.error(mac + " update device status fail")
           console.log("update device status fail");
         }
       });
@@ -45,15 +49,17 @@ function updateDeviceStatus(mac) {
   });
 }
 // update crop status
-function updateCropStatus(cropId) {
+function updateCropStatus(cropId, fromStatus, toStatus) {
   models.Crop.getCropById(cropId, function (crop) {
-    if (crop.dataValues.status === "pending") {
+    if (crop.dataValues.status === fromStatus) {
       crop.update({
-        status: "running"
+        status: toStatus
       }).then(function (res) {
         if (res) {
+          utils.log.info(cropId + " update crop status success");
           console.log("update crop status success");
         } else {
+          utils.log.error(cropId + " update crop status fail");
           console.log("update crop status fail");
         }
       });
@@ -76,7 +82,7 @@ function parseReceivedData(message, sensorDataCmdId, sensorDataLength) {
         mac: mac,
         temp: Number(data.substr(0, 2)),
         humidity: Number(data.substr(2, 2)),
-        ph: Number(data.substr(4, 1) + '.' + data.substr(5, 1)),
+        light: Number(data.substr(4, 1) + '.' + data.substr(5, 1)),
         ppm: Number(data.substr(6, 4))
       }
     } else {
@@ -96,7 +102,7 @@ device.client.on('message', function (topic, message) {
     models.Crop.getNewestRunningCropByDeviceMac(data.mac, function (runningCrop) {
 
       var newData = {
-        ph: data.ph,
+        light: data.light,
         ppm: data.ppm,
         humidity: data.humidity,
         temperature: data.temp
@@ -110,9 +116,11 @@ device.client.on('message', function (topic, message) {
           // if there is a running crop, add data to it
           models.Data.createData(newData,
             function (res) {
+              utils.log.info(runningCrop.id + " add data success to running crop");
               console.log("add data success to running crop")
             }, function (err) {
-              console.log("add data running" + err)
+              utils.log.error(runningCrop.id + err);
+              console.log("add data error" + err)
             })
 
           if (oldData) {
@@ -124,7 +132,7 @@ device.client.on('message', function (topic, message) {
                 var notifyStatus = {
                   temp: oldDataStatus.badStatus.temp && newDataStatus.badStatus.temp,
                   humidity: oldDataStatus.badStatus.humidity && newDataStatus.badStatus.humidity,
-                  ph: oldDataStatus.badStatus.ph && newDataStatus.badStatus.ph,
+                  light: oldDataStatus.badStatus.light && newDataStatus.badStatus.light,
                   ppm: oldDataStatus.badStatus.ppm && newDataStatus.badStatus.ppm
                 }
 
@@ -136,8 +144,8 @@ device.client.on('message', function (topic, message) {
                   sendNotifyToMobile(data.mac, "humidity");
                 }
 
-                if (notifyStatus.ph) {
-                  sendNotifyToMobile(data.mac, "ph");
+                if (notifyStatus.light) {
+                  sendNotifyToMobile(data.mac, "light");
                 }
 
                 if (notifyStatus.ppm) {
@@ -160,19 +168,22 @@ device.client.on('message', function (topic, message) {
               function (res) {
                 console.log("add data success to pending crop")
                 updateDeviceStatus(data.mac);
-                updateCropStatus(pendingCrop.id);
+                updateCropStatus(pendingCrop.id, "pending", "running");
 
               }, function (err) {
+                utils.log.error("Add data pending " + err);
                 console.log("Add data pending " + err)
               })
 
           } else {
+            utils.log.info('No running or pending crop');
             console.log('No running or pending crop')
           }
         })
       }
     })
   } else {
+    utils.log.error("Incoming data is not right format");
     console.log("Data is not right !")
   }
 

@@ -170,22 +170,22 @@
 					ppm
 				</p>
 			</div>
-			<div ng-if="!item.status.badStatus.ph" class="boxservice bottomb box-status-normal">
+			<div ng-if="!item.status.badStatus.light" class="boxservice bottomb box-status-normal">
 				<i class="fa fa-flask"></i>
-				<h3>{{item.devicecropdata.data.ph}}
+				<h3>{{item.devicecropdata.data.light}}
 					&#10;
 				</h3>
 				<p>
-					pH
+					light
 				</p>
 			</div>
-			<div ng-if="item.status.badStatus.ph" class="boxservice bottomb box-status-warning">
+			<div ng-if="item.status.badStatus.light" class="boxservice bottomb box-status-warning">
 				<i class="fa fa-flask"></i>
-				<h3>{{item.devicecropdata.data.ph}}
+				<h3>{{item.devicecropdata.data.light}}
 					&#10;
 				</h3>
 				<p>
-					pH
+					light
 				</p>
 			</div>
 			<div ng-if="!item.status.status" class="box-unborder box-status-normal">
@@ -206,14 +206,6 @@
 					Status
 				</p>
 			</div>
-
-			<!--<div class="boxservice rightb bottomb">
-				<i class="fa fa-microphone"></i>
-				<h3>Static & Dynamic</h3>
-				<p>
-					Web templates can be used like the template of a form letter to generate "static" web pages in advance or to produce.
-				</p>
-			</div>-->
 		</div>
 	</div>
 	</div>
