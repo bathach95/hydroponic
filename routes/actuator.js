@@ -116,8 +116,9 @@ router.put('/status', user.authenticate(), function (req, res) {
     console.log('this line subscribe success to ' + serverTopic)
   })
 
-  var status = req.body.status === 'on' ? '1' : '0';
+  var status = req.body.status === 'on' ? '0' : '1';
   var message = deviceMac.replace(/:/g, "").toUpperCase() + '03' + '0003' + req.body.idonboard.toString() + status;
+  console.log(message);
   client.publish(deviceTopic, utils.encrypt(message), function (err) {
     if (err) {
       console.log(err);
@@ -173,9 +174,16 @@ router.put('/priority', user.authenticate(), function (req, res) {
     console.log('this line subscribe success to ' + serverTopic)
   })
 
-  var priority = req.body === 'Primary' ? '0' : '1';
+  var priority;
+  if (req.body.priority === 'Primary')
+  {
+    priority = '0';
+  }else {
+    priority =  '1';
+  }
   var message = deviceMac.replace(/:/g, "").toUpperCase() + '06' + '0004' + req.body.idonboard.toString() + '2' + priority;
 
+  console.log(message);
   client.publish(deviceTopic, utils.encrypt(message), function (err) {
     if (err) {
       console.log(err);

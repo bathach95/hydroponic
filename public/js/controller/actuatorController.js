@@ -40,7 +40,8 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
         }
         ActuatorService.updateActuatorStatus(actuator).then(function (result) {
           if (result.data.success) {
-            $scope.listActuators[index].status = newstatus;
+            //$scope.listActuators[index].status = newstatus;
+            $state.reload();
             flash.success = result.data.message;
           } else {
             flash.error = result.data.message;
@@ -51,7 +52,15 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
   }
 
   $scope.changeActuatorPriority = function(index, idonboard, id, priority){
-    var newPriority = priority === 'Primary'? 'Secondary' : 'Primary';
+    var newPriority;
+    // = priority === 'Primary'? 'Secondary' : 'Primary';
+    if (priority === 'Primary')
+    {
+      newPriority = 'Secondary';
+    }
+    else {
+      newPriority = 'Primary';
+    }
     bootbox.confirm('Do you want to change priority of this device to \'' + newPriority + '\' ?', function (yes) {
       if (yes) {
         var actuator = {
@@ -60,9 +69,11 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
           idonboard: idonboard,
           priority: newPriority
         }
+        console.log(actuator);
         ActuatorService.updateActuatorPriority(actuator).then(function (result) {
           if (result.data.success) {
-            $scope.listActuators[index].priority = newPriority;
+            //$scope.listActuators[index].priority = newPriority;
+            $state.reload();
             flash.success = result.data.message;
           } else {
             flash.error = result.data.message;
