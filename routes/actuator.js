@@ -9,12 +9,12 @@ var protocolConstant = require('../utils/protocolConstant');
 var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
 //====== auto query mac from database and subscribe to that chanel =======
 
+
 //================================ end ===================================
 router.post('/addactuator', user.authenticate(), function (req, res) {
   var newActuator = req.body.actuator;
   var deviceMac = req.body.devicemac;
   newActuator.DeviceMac = deviceMac;
-
   models.Actuator.getActuatorByIdOnboardAndDeviceMac(newActuator.idonboard, newActuator.DeviceMac, function (result) {
     if (result) {
       res.json({
@@ -47,27 +47,29 @@ router.post('/addactuator', user.authenticate(), function (req, res) {
         } else {
           client.on('message', function (topic, payload) {
             var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-            client.end();
-            if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-              // if device received message, update database
-              models.Actuator.createActuator(newActuator, function () {
-                res.json({
-                  success: true,
-                  message: "Add actuator success"
-                });
-              }, function (err) {
-                utils.log.error(err);
-                console.log(err);
+            if (ack) {
+              client.end();
+              if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+                // if device received message, update database
+                models.Actuator.createActuator(newActuator, function () {
+                  res.json({
+                    success: true,
+                    message: "Add actuator success"
+                  });
+                }, function (err) {
+                  utils.log.error(err);
+                  console.log(err);
+                  res.json({
+                    success: false,
+                    message: "Cannot add actuator !"
+                  });
+                })
+              } else {
                 res.json({
                   success: false,
-                  message: "Cannot add actuator !"
-                });
-              })
-            } else {
-              res.json({
-                success: false,
-                message: 'Cannot send MQTT message to device'
-              })
+                  message: 'Cannot send MQTT message to device'
+                })
+              }
             }
           })
         }
@@ -130,27 +132,29 @@ router.put('/status', user.authenticate(), function (req, res) {
       // wait for ack message from device
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-        client.end();
-        if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-          // if device received message, update database
-          models.Actuator.getActuatorById(req.body.id, function (actuator) {
-            actuator.updateStatus(req.body.status, function () {
-              res.json({
-                success: true,
-                message: 'Update actuator status successfully!'
-              })
-            }, function () {
-              res.json({
-                success: false,
-                message: 'Something wrong: Cannot update actuator status!'
+        if (ack) {
+          client.end();
+          if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+            // if device received message, update database
+            models.Actuator.getActuatorById(req.body.id, function (actuator) {
+              actuator.updateStatus(req.body.status, function () {
+                res.json({
+                  success: true,
+                  message: 'Update actuator status successfully!'
+                })
+              }, function () {
+                res.json({
+                  success: false,
+                  message: 'Something wrong: Cannot update actuator status!'
+                })
               })
             })
-          })
-        } else {
-          res.json({
-            success: false,
-            message: 'Cannot send MQTT message to device'
-          })
+          } else {
+            res.json({
+              success: false,
+              message: 'Cannot send MQTT message to device'
+            })
+          }
         }
       })
     }
@@ -186,28 +190,30 @@ router.put('/priority', user.authenticate(), function (req, res) {
       // wait for ack message from device
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-        client.end();
-        if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-          // if device received message, update database
-          models.Actuator.getActuatorById(req.body.id, function (actuator) {
-            actuator.updatePriority(req.body.priority, function () {
-              res.json({
-                success: true,
-                message: 'Update actuator priority successfully!'
-              })
-            }, function () {
-              res.json({
-                success: false,
-                message: 'Something wrong: Cannot update actuator priority!'
+        if (ack) {
+          client.end();
+          if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+            // if device received message, update database
+            models.Actuator.getActuatorById(req.body.id, function (actuator) {
+              actuator.updatePriority(req.body.priority, function () {
+                res.json({
+                  success: true,
+                  message: 'Update actuator priority successfully!'
+                })
+              }, function () {
+                res.json({
+                  success: false,
+                  message: 'Something wrong: Cannot update actuator priority!'
+                })
               })
             })
-          })
 
-        } else {
-          res.json({
-            success: false,
-            message: 'Cannot send MQTT message to device'
-          })
+          } else {
+            res.json({
+              success: false,
+              message: 'Cannot send MQTT message to device'
+            })
+          }
         }
       })
     }
@@ -232,7 +238,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
     if (err) {
       utils.log.error(err);
       console.log(err);
-      client.end(false, function(){
+      client.end(false, function () {
         res.json({
           success: false,
           message: 'Error when send delete actuator msg MQTT!'
@@ -242,28 +248,32 @@ router.delete('/delete', user.authenticate(), function (req, res) {
       // wait for ack message from device
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-        client.end();
-        if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-          // if device received message, update database
-          models.Actuator.deleteActuator(req.query.id, function () {
-            res.json({
-              success: true,
-              message: 'Deleted actuator!'
+        if (ack) {
+
+          client.end();
+          if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+            // if device received message, update database
+            models.Actuator.deleteActuator(req.query.id, function () {
+              res.json({
+                success: true,
+                message: 'Deleted actuator!'
+              })
+            }, function (err) {
+              utils.log.error(err);
+              console.log(err);
+              res.json({
+                success: false,
+                message: 'Error when delete actuator!'
+              })
             })
-          }, function(err){
-            utils.log.error(err);
-            console.log(err);
+          } else {
             res.json({
               success: false,
-              message: 'Error when delete actuator!'
+              message: 'Cannot send MQTT delete message to device'
             })
-          })            
-        } else {
-          res.json({
-            success: false,
-            message: 'Cannot send MQTT delete message to device'
-          })
+          }
         }
+
       })
     }
   })
