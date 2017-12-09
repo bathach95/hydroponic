@@ -38,6 +38,7 @@
     "req-flash": "0.0.3",
     "sequelize": "^3.30.4",
     "serve-favicon": "~2.3.0",
-    "sqlite3": "^3.1.4"
+    "sqlite3": "^3.1.4",
+    "xxtea-node": "^1.1.2"
   }
 }

@@ -41,6 +41,16 @@ module.exports = function(sequelize, DataTypes) {
         }
         Data.findAll(query).then(callback);
       },
+      getLimitDataByCropId: function(cropId, number, callback){
+        var query = {
+          where: {
+            CropId: cropId
+          },
+          limit: number,
+          order: [['createdAt', 'DESC']]
+        }
+        Data.findAll(query).then(callback);
+      },
       associate: function(models){
       }
     },

@@ -27,7 +27,7 @@ function secondsToHMS(d) {
 function sendSettingToDevice(data, callback) {
   var topic = 'device/' + data.DeviceMac + '/esp';
   var message = data.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(data.startdate).format("YYYYMMDDHHmmss") + moment(data.closedate).format("YYYYMMDDHHmmss") + secondsToHMS(data.reporttime);
-  device.client.publish(topic, message, callback);
+  device.client.publish(topic,  utils.encrypt(message), callback);
 }
 
 

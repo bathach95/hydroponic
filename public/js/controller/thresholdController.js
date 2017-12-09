@@ -1,12 +1,16 @@
 controller.controller('ThresholdCtrl', function ($http, $state, $stateParams, $rootScope, $scope, ThresholdService, flash) {
   ThresholdService.getNewestThresholdByCropId($stateParams.cropid).then(function (result) {
-    if (result.data.success) {
 
+
+    $scope.newThreshold = {
+      CropId: $stateParams.cropid
+    }
+    
+    if (result.data.success) {
       $rootScope.threshold = result.data.data;
       $scope.threshold = result.data.data;
 
       $scope.newThreshold = {
-        CropId: $stateParams.cropid,
         temperatureLower: $scope.threshold.temperatureLower,
         temperatureUpper: $scope.threshold.temperatureUpper,
         humidityLower: $scope.threshold.humidityLower,
