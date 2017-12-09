@@ -6,6 +6,7 @@ var moment = require('moment');
 var device = require('./device.js');
 var FCM = require('fcm-node');
 var utils = require('../utils/utils');
+var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
 var serverKey = 'AIzaSyD0XtvqNAw6kTO34Ot50WsJkQF568kDuR4';
 var fcm = new FCM(serverKey);
 
@@ -67,36 +68,11 @@ function updateCropStatus(cropId, fromStatus, toStatus) {
   });
 }
 
-// parse data from mqtt message
-// ex: 1122334455660400102260070400
-function parseReceivedData(message, sensorDataCmdId, sensorDataLength) {
-  if (message.length === 28) {
-    var mac = message.substr(0, 12);
-    var cmdId = message.substr(12, 2);
-    var dataLength = message.substr(14, 4);
-
-    if (cmdId === sensorDataCmdId && dataLength === sensorDataLength) {
-      var data = message.substr(18, 10);
-
-      return {
-        mac: mac,
-        temp: Number(data.substr(0, 2)),
-        humidity: Number(data.substr(2, 2)),
-        light: Number(data.substr(4, 1) + '.' + data.substr(5, 1)),
-        ppm: Number(data.substr(6, 4))
-      }
-    } else {
-      return null;
-    }
-  } else {
-    return null;
-  }
-}
 
 // receive data from device and add to database
 device.client.on('message', function (topic, message) {
 
-  var data = parseReceivedData(utils.decrypt(message), '04', '0010');
+  var data = parseMqttMsgUtils.parseReceivedData(utils.decrypt(message));
 
   if (data) {
     models.Crop.getNewestRunningCropByDeviceMac(data.mac, function (runningCrop) {

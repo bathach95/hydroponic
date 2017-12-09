@@ -34,7 +34,33 @@ function parseAckMsg(message) {
         return null;
     }
 }
+
+/**
+ * parse sensor data from device
+ * @param {*} message : incoming data from device
+ */
+function parseReceivedData(message) {
+    if (message.length === protocolConstant.SENSOR_DATA.MSG_LENGTH) {
+        var header = getHeader(message);
+      if (header.cmdId === protocolConstant.SENSOR_DATA.CMD_ID 
+        && header.dataLength === protocolConstant.SENSOR_DATA.DATA_LENGTH) {
+        var data = message.substr(18, 12);
+        return {
+          mac: header.mac,
+          temp: Number(data.substr(0, 2)),
+          humidity: Number(data.substr(2, 2)),
+          light: Number(data.substr(4, 4)),
+          ppm: Number(data.substr(8, 4))
+        }
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
 module.exports = {
-    parseAckMsg: parseAckMsg
+    parseAckMsg: parseAckMsg,
+    parseReceivedData: parseReceivedData
 }
-// console.log(parseAckMsg('0A1A2A3B4F5D0700011'));
+console.log(parseReceivedData('0A1A2A3B4F5D040012306012341000'));
