@@ -8,14 +8,9 @@ var utils = require('../utils/utils');
 var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
-
-
-router.put('edit', user.authenticate(), function (req, res) {
-  var schedule = req.body;
-  models.Schedule.createSchedule(schedule, function () {
-    device.client.publish();
-  })
-})
+const client = mqtt.connect('mqtt://13.58.114.56:1883');
+var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
+var protocolConstant = require('../utils/protocolConstant');
 
 router.get('/all', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
@@ -105,13 +100,17 @@ router.delete('/delete', user.authenticate(), function (req, res) {
 })
 
 router.get('/sync', user.authenticate(), function (req, res) {
+  var deviceMac = req.query.mac;
+  var deviceTopic = utils.getDeviceTopic(deviceMac);
+  var serverTopic = utils.getServerTopic(deviceMac);
+  const client = mqtt.connect('mqtt://13.58.114.56:1883');
   var cropId = req.query.cropId;
-  var mac = req.query.mac;
   var commandId = '02';
-  var message = mac.replace(/:/g,"").toUpperCase() + commandId;
+  var message = deviceMac.replace(/:/g,"").toUpperCase() + commandId;
   var dataLength = 0;
-  var topic = 'device/' + mac + '/esp';
-  models.Device.getDeviceByMac(mac, function (deviceItem) {
+  //var topic = 'device/' + mac + '/esp';
+
+  models.Device.getDeviceByMac(deviceMac, function (deviceItem) {
     if (deviceItem) {
       var query = {
         include: models.Schedule,
@@ -142,25 +141,57 @@ router.get('/sync', user.authenticate(), function (req, res) {
         for (i = 0; i < listStrings.length; i++) {
           message = message.concat(listStrings[i]);
         }
-        device.client.publish(topic, utils.encrypt(message));
-        models.Crop.getCropById(cropId, function (crop) {
-          if (crop)
-          {
-            crop.updateSynchronized(true, function () {
+
+        // subscribe to server topic to get ACK package from device
+        client.subscribe(serverTopic, function () {
+          console.log('this line subscribe success to ' + serverTopic)
+        })
+        // send update status message to device
+        client.publish(deviceTopic, utils.encrypt(message), function (err) {
+          if (err) {
+            console.log(err);
+            utils.log.err(err);
+            client.end(false, function () {
               res.json({
-                success: true,
-                data: message,
-                message: "Successfully to synchronized setting with device!"
+                success: false,
+                message: 'Cannot send settings to device.'
               })
             })
+
+          } else {
+            // wait for ack message from device
+            client.on('message', function (topic, payload) {
+              var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+
+              if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+                client.end();
+                models.Crop.getCropById(cropId, function (crop) {
+                  if (crop)
+                  {
+                    crop.updateSynchronized(true, function () {
+                      res.json({
+                        success: true,
+                        data: message,
+                        message: "Successfully to synchronized setting with device!"
+                      })
+                    })
+                  }
+                  else {
+                    res.send({
+                      success: false,
+                      message: "Cannot get crop!"
+                    });
+                  }
+                })
+              } else {
+                res.json({
+                  success: false,
+                  message: 'Cannot send settings to device.'
+                })
+              }
+            })
           }
-          else {
-            res.send({
-              success: false,
-              message: "Cannot get crop!"
-            });
-          }
-        })
+        });
       })
     }
     else {

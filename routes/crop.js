@@ -4,32 +4,10 @@ var user = require('./user.js');
 var models = require('../models');
 var device = require('./device.js');
 var utils = require('../utils/utils');
+const mqtt = require('mqtt');
+var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
+var protocolConstant = require('../utils/protocolConstant');
 var moment = require('moment');
-
-function timeToMessageString(time) {
-  var result = time.replace(/:/g, "");
-  return result;
-}
-
-function normalizeNumber(number, max) {
-  var str = number.toString();
-  return str.length < max ? normalizeNumber("0" + str, max) : str;
-}
-
-function secondsToHMS(d) {
-  d = Number(d);
-  var h = Math.floor(d / 3600);
-  var m = Math.floor(d % 3600 / 60);
-  var s = Math.floor(d % 3600 % 60);
-  return normalizeNumber(h, 2) + normalizeNumber(m, 2) + normalizeNumber(s, 2);
-}
-
-function sendSettingToDevice(data, callback) {
-  var topic = utils.getDeviceTopic(data.DeviceMac);
-  var message = data.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(data.startdate).format("YYYYMMDDHHmmss") + moment(data.closedate).format("YYYYMMDDHHmmss") + secondsToHMS(data.reporttime);
-  device.client.publish(topic,  utils.encrypt(message), callback);
-}
-
 
 router.get('/all', user.authenticate(), function (req, res) {
   var mac = req.query.mac;
@@ -155,18 +133,54 @@ router.post('/add', user.authenticate(), function (req, res) {
     if (result) {
       res.json({
         success: false,
-        message: "Name has already existed"
+        message: "Crop name has already existed."
       });
     } else {
-      var newCrop = req.body;
-      models.Crop.createCrop(newCrop, function () {
-        // send to device
-        sendSettingToDevice(req.body, function () {
-          res.json({
-            success: true,
-            message: "Add crop success"
+      var deviceMac = req.body.DeviceMac;
+      var deviceTopic = utils.getDeviceTopic(deviceMac);
+      var serverTopic = utils.getServerTopic(deviceMac);
+      const client = mqtt.connect('mqtt://13.58.114.56:1883');
+
+      var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
+
+      // subscribe to server topic to get ACK package from device
+      client.subscribe(serverTopic, function () {
+        console.log('this line subscribe success to ' + serverTopic)
+      })
+      // send update status message to device
+      client.publish(deviceTopic, utils.encrypt(message), function (err) {
+        if (err) {
+          console.log(err);
+          utils.log.err(err);
+          client.end(false, function () {
+            res.json({
+              success: false,
+              message: 'Cannot send settings to device.'
+            })
           })
-        })
+
+        } else {
+          // wait for ack message from device
+          client.on('message', function (topic, payload) {
+            var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+
+            if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+              client.end();
+              var newCrop = req.body;
+              models.Crop.createCrop(newCrop, function () {
+                  res.json({
+                    success: true,
+                    message: "Add crop success"
+                  })
+              });
+            } else {
+              res.json({
+                success: false,
+                message: 'Cannot send settings to device.'
+              })
+            }
+          })
+        }
       });
     }
   });
@@ -198,6 +212,53 @@ router.put('/edit', user.authenticate(), function (req, res) {
       closedate: req.body.closedate,
       reporttime: req.body.reporttime
     }).then(function () {
+      var deviceMac = req.body.DeviceMac;
+      var deviceTopic = utils.getDeviceTopic(deviceMac);
+      var serverTopic = utils.getServerTopic(deviceMac);
+      const client = mqtt.connect('mqtt://13.58.114.56:1883');
+
+      var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
+
+      // subscribe to server topic to get ACK package from device
+      client.subscribe(serverTopic, function () {
+        console.log('this line subscribe success to ' + serverTopic)
+      })
+      // send update status message to device
+      client.publish(deviceTopic, utils.encrypt(message), function (err) {
+        if (err) {
+          console.log(err);
+          utils.log.err(err);
+          client.end(false, function () {
+            res.json({
+              success: false,
+              message: 'Cannot send settings to device.'
+            })
+          })
+
+        } else {
+          // wait for ack message from device
+          client.on('message', function (topic, payload) {
+            var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+
+            if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+              client.end();
+              var newCrop = req.body;
+              models.Crop.createCrop(newCrop, function () {
+                  res.json({
+                    success: true,
+                    message: "Add crop success"
+                  })
+              });
+            } else {
+              res.json({
+                success: false,
+                message: 'Cannot send settings to device.'
+              })
+            }
+          })
+        }
+      });
+      /*
       // send to device
       sendSettingToDevice(req.body, function () {
         res.send({
@@ -205,7 +266,7 @@ router.put('/edit', user.authenticate(), function (req, res) {
           message: "Edit success"
         })
       });
-
+      */
     });
   });
 
