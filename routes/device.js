@@ -3,23 +3,24 @@ var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
 var utils = require('../utils/utils');
-const mqtt = require('mqtt');
-const client = mqtt.connect('mqtt://13.58.114.56:1883');
 var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
 var protocolConstant = require('../utils/protocolConstant');
+const mqtt = require('mqtt');
+const client = mqtt.connect(protocolConstant.MQTT_BROKER);
+
 //====== auto query mac from database and subscribe to that chanel =======
 
-// models.Device.findAll({
-//   attributes: ['mac']
-// }).then(function (result) {
-//   result.forEach(function (item) {
-//     var topic = 'device/' + item.dataValues.mac + '/server';
-//     client.subscribe(topic, function () {
-//       utils.log.info("subscribe success to " + topic)
-//       console.log("subscribe success to " + topic);
-//     });
-//   });
-// })
+models.Device.findAll({
+  attributes: ['mac']
+}).then(function (result) {
+  result.forEach(function (item) {
+    var topic = 'device/' + item.dataValues.mac + '/server';
+    client.subscribe(topic, function () {
+      utils.log.info("subscribe success to " + topic)
+      console.log("subscribe success to " + topic);
+    });
+  });
+})
 
 //================================ end ===================================
 
@@ -115,7 +116,7 @@ router.put('/status', user.authenticate(), function (req, res) {
   var deviceMac = req.body.mac;
   var deviceTopic = utils.getDeviceTopic(deviceMac);
   var serverTopic = utils.getServerTopic(deviceMac);
-  const client = mqtt.connect('mqtt://13.58.114.56:1883');
+  const client = mqtt.connect(protocolConstant.MQTT_BROKER);
 
   var newStatusCode = req.body.status === 'running' ? '1' : '0';
   var statusMessageToDevice = deviceMac.toUpperCase() + '03' + '0003' + '00' + newStatusCode;
