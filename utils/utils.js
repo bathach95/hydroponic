@@ -102,6 +102,31 @@ function getServerTopic(mac){
   return 'device/' + mac + "/server";
 }
 
+/* schedule utils */
+function timeToMessageString(time) {
+  var result = time.replace(/:/g, "");
+  return result;
+}
+
+
+function normalizeNumber(number, max) {
+  var str = number.toString();
+  return str.length < max ? normalizeNumber("0" + str, max) : str;
+}
+
+function secondsToHMS(d) {
+  d = Number(d);
+  var h = Math.floor(d / 3600);
+  var m = Math.floor(d % 3600 / 60);
+  var s = Math.floor(d % 3600 % 60);
+  return {
+    hours: normalizeNumber(h, 2),
+    mins: normalizeNumber(m, 2),
+    seconds: normalizeNumber(s, 2)
+  }
+}
+
+
 module.exports = {
   getDateFromGMT: getDateFromGMT,
   getDataStatus: getDataStatus,
@@ -111,5 +136,8 @@ module.exports = {
   decrypt: decrypt,
   log: log,
   getServerTopic: getServerTopic,
-  getDeviceTopic: getDeviceTopic
+  getDeviceTopic: getDeviceTopic,
+  timeToMessageString: timeToMessageString,
+  normalizeNumber: normalizeNumber,
+  secondsToHMS: secondsToHMS
 }

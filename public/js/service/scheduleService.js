@@ -7,8 +7,8 @@ service.service('ScheduleService', function($http){
     })
   }
 
-  this.exportToSettingFile = function(cropId){
-    return $http.get('/schedule/export', {
+  this.getScheduleSearchByCropId = function(cropId){
+    return $http.get('/schedule/searchall', {
       params:{
         cropId: cropId
       }

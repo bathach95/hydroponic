@@ -114,6 +114,7 @@ controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, Thres
   $scope.dataTableOpt = {
   "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
   };
+
   DataService.getAllData($stateParams.cropid).then(function (result) {
 
     if (result.data.success) {
@@ -135,11 +136,69 @@ controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, Thres
           if (thresholdResult.data.success){
             status = DataStatusService.getStatus(item, $scope.threshold);
           }
-          console.log(status);
           item.badStatus = status.badStatus;
           item.status = status.status;
           //--------------
         });
+        var labels = [];
+        var temperaturedata = [];
+        var humiditydata = [];
+        var ppmdata = [];
+        var phdata = [];
+        if (result.data.data.length > 10)
+        {
+          for (i = 0; i < 10; i++)
+          {
+            labels.unshift(moment(result.data.data[i].createdAt).format('DD-MM-YYYY HH:mm:ss'));
+            temperaturedata.unshift(result.data.data[i].temperature);
+            humiditydata.unshift(result.data.data[i].humidity);
+            ppmdata.unshift(result.data.data[i].ppm);
+            phdata.unshift(result.data.data[i].ph);
+          }
+        }
+        else {
+          for (i = 0; i < result.data.data.length; i++)
+          {
+            labels.unshift(moment(result.data.data[i].createdAt).format('DD-MM-YYYY HH:mm:ss'));
+            temperaturedata.unshift(result.data.data[i].temperature);
+            humiditydata.unshift(result.data.data[i].humidity);
+            ppmdata.unshift(result.data.data[i].ppm);
+            phdata.unshift(result.data.data[i].ph);
+          }
+        }
+        $scope.labels = labels;
+        $scope.seriesPH = ['pH', 'Threshold'];
+        $scope.seriesPPM = ['ppm', 'Threshold'];
+        $scope.seriesTemperature = ['Temperature', 'Threshold'];
+        $scope.seriesHumidity = ['Humidity', 'Threshold'];
+        $scope.dataPH = [
+          phdata
+        ];
+        $scope.dataPPM = [
+          ppmdata
+        ];
+        $scope.dataTemperature = [
+          temperaturedata
+        ];
+        $scope.dataHumidity = [
+          humiditydata
+        ];
+        $scope.onClick = function (points, evt) {
+          console.log(points, evt);
+        };
+        $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+        $scope.options = {
+          scales: {
+            yAxes: [
+              {
+                id: 'y-axis-1',
+                type: 'linear',
+                display: true,
+                position: 'left'
+              }
+            ]
+          }
+        };
       });
     } else {
       flash.error = result.data.message;

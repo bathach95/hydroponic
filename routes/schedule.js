@@ -8,41 +8,6 @@ var utils = require('../utils/utils');
 var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
-// client.on('connect', function(){
-//   client.
-// })
-
-function timeToMessageString(time) {
-  var result = time.replace(/:/g, "");
-  return result;
-}
-
-function normalizeHundredToString(id) {
-  if (id < 10) {
-    return '0' + id.toString();
-  }
-  else {
-    return id.toString();
-  }
-}
-
-function normalizeNumber(number, max) {
-  var str = number.toString();
-  return str.length < max ? normalizeNumber("0" + str, max) : str;
-}
-
-function secondsToHMS(d) {
-  d = Number(d);
-  var h = Math.floor(d / 3600);
-  var m = Math.floor(d % 3600 / 60);
-  var s = Math.floor(d % 3600 % 60);
-  return {
-    hours: normalizeNumber(h, 2),
-    mins: normalizeNumber(m, 2),
-    seconds: normalizeNumber(s, 2)
-  }
-}
-
 
 
 router.put('edit', user.authenticate(), function (req, res) {
@@ -73,29 +38,41 @@ router.get('/all', user.authenticate(), function (req, res) {
   }, models)
 })
 
+router.get('/searchall', function (req, res) {
+  var cropId = req.query.cropId;
 
-// router.get('/export', function(req, res){
-//   models.Schedule.getScheduleByCropId(req.query.cropId, function (result) {
-//     var file = path.join(__dirname, 'exported', 'setting2.json');
-//     jsonfile.writeFile(file, result, function(err){
-//       if (err){
-//         res.send({
-//           success: false,
-//           message: err
-//         });
-//       } else {
-//         res.download(file, function(){
-//         });
-//       }
-//     })
-    
-//   }, function (err) {
-//     res.send({
-//       success: false,
-//       message: "Cannot export file!"
-//     });
-//   }, models)
-// })
+  models.Crop.getCropById(cropId, function (result) {
+    console.log(result);
+    if (result.dataValues.share)
+    {
+      console.log(result.dataValues.share);
+      result.getSchedules().then(function (schedules) {
+        console.log(schedules);
+        var listScheduleSetting = [];
+        schedules.forEach(function (item) {
+          listScheduleSetting.push(item);
+        })
+        res.send({
+          success: true,
+          data: listScheduleSetting,
+          message: "Get all settings successfully!"
+        });
+      })
+    }
+    else {
+      res.send({
+        success: false,
+        message: "This crop is not shared!"
+      });
+    }
+  }, function (result) {
+    res.send({
+      success: false,
+      message: "Error when getting crop info!"
+    });
+  })
+})
+
 
 router.delete('/delete', user.authenticate(), function (req, res) {
   var scheduleId = req.query.scheduleId;
@@ -145,13 +122,13 @@ router.get('/sync', user.authenticate(), function (req, res) {
         for (i = 0; i < actuators.length; i++) {
           if (actuators[i].dataValues.Schedules.length > 0) {
             dataLength = dataLength + (2 + 2 + 6 * 4 * actuators[i].dataValues.Schedules.length);
-            var string = normalizeNumber(i + 1, 2) + normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
+            var string = utils.normalizeNumber(i + 1, 2) + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
             //item.dataValues.Schedules.forEach(function(scheduleItem){
             for (j = 0; j < actuators[i].dataValues.Schedules.length; j++) {
-              var starttimeString = timeToMessageString(actuators[i].dataValues.Schedules[j].starttime);
-              var endtimeString = timeToMessageString(actuators[i].dataValues.Schedules[j].endtime);
-              var intervaltimeString = secondsToHMS(actuators[i].dataValues.Schedules[j].intervaltime);
-              var delaytimeString = secondsToHMS(actuators[i].dataValues.Schedules[j].delaytime);
+              var starttimeString = utils.timeToMessageString(actuators[i].dataValues.Schedules[j].starttime);
+              var endtimeString = utils.timeToMessageString(actuators[i].dataValues.Schedules[j].endtime);
+              var intervaltimeString = utils.secondsToHMS(actuators[i].dataValues.Schedules[j].intervaltime);
+              var delaytimeString = utils.secondsToHMS(actuators[i].dataValues.Schedules[j].delaytime);
               string = string.concat(starttimeString).concat(endtimeString).concat(intervaltimeString.hours + intervaltimeString.mins + intervaltimeString.seconds).concat(delaytimeString.hours + delaytimeString.mins + delaytimeString.seconds);
             }
             listStrings.push(string);
@@ -161,7 +138,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
           }
         }
         //listStrings.forEach(function(item){
-        message = message.concat(normalizeNumber(dataLength, 4));
+        message = message.concat(utils.normalizeNumber(dataLength, 4));
         for (i = 0; i < listStrings.length; i++) {
           message = message.concat(listStrings[i]);
         }

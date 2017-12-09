@@ -1,5 +1,5 @@
 controller
-  .controller('CropCtrl', function ($http, $state, $stateParams, $scope, $window, CropService, GetTimeService, flash) {
+  .controller('CropCtrl', function ($http, $state, $stateParams, $scope, CropService, GetTimeService, flash) {
     $scope.deviceMac = $stateParams.mac;
     /* get all crops of device */
     CropService.getAllCrops($stateParams.mac).then(function (result) {
@@ -14,12 +14,14 @@ controller
     /* add new crop to device */
     $scope.newCrop = {
       DeviceMac: $stateParams.mac,
-      status: true,
+      status: 'pending',
       synchronized: true
     }
     $scope.addCrop = function () {
     //TODO: create a button for user to end up a crop
 
+      $scope.newCrop.startdate = $("#startdate").val();
+      $scope.newCrop.closedate = $("#closedate").val();
       if ($scope.newCrop.startdate > $scope.newCrop.closedate) {
         flash.error = "Close date must be after start date !";
       } else if ($scope.newCrop.startdate < new Date()) {
@@ -106,7 +108,7 @@ controller
     };
   });
 
-controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stateParams, $state, CropService, ScheduleService, flash) {
+controller.controller('CropDetailCtrl', function ($scope, $stateParams, $state, CropService, ScheduleService, flash) {
 
   $scope.dataTableOpt = {
     //custom datatable options
@@ -164,4 +166,90 @@ controller.controller('CropDetailCtrl', function ($scope, $state, $window, $stat
   $scope.importSettingFile = function(){
     console.log("imported")
   }
+})
+
+
+controller.controller('CropDetailSearchCtrl', function ($scope, $stateParams, $state, CropService, ScheduleService, flash) {
+
+  $scope.dataTableOpt = {
+    //custom datatable options
+    // or load data through ajax call also
+    "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50, 'All']],
+  };
+
+  $scope.dataScheduleTableOpt = {
+    //custom datatable options
+    // or load data through ajax call also
+    "aLengthMenu": [[-1, 10, 20, 30, 50], ['All', 10, 20, 30, 50]],
+  };
+
+  $scope.mac = $stateParams.devicemac;
+  $scope.cropid = $stateParams.cropid;
+
+  CropService.getSearchCropById($stateParams.cropid).then(function (result) {
+
+    if (result.data.success) {
+      $scope.crop = result.data.data;
+    } else {
+      flash.error = result.data.message;
+      $state.go('404');
+    }
+  })
+})
+
+controller.controller('CropReviewCtrl', function ($scope, $stateParams, $state, CropService, PagerService, flash) {
+  var vm = this;
+  CropService.getAllReviews($stateParams.cropid).then(function(result){
+    vm.allReviews = result.data.data;
+    //vm.dummyItems = _.range(1, 151); // dummy array of items to be paged
+    vm.pager = {};
+    vm.setPage = setPage;
+
+    initController();
+    var sum = 0;
+    for (i = 0; i < result.data.data.length; i++)
+    {
+      sum += result.data.data[i].rating;
+    }
+    vm.ratingPoint = Math.round((sum/result.data.data.length)*100)/100;
+  })
+
+
+  function initController() {
+      // initialize to page 1
+      vm.setPage(1);
+  }
+
+  function setPage(page) {
+      if (page < 1 || page > vm.pager.totalPages) {
+          return;
+      }
+
+      // get pager object from service
+      vm.pager = PagerService.GetPager(vm.allReviews.length, page);
+
+      // get current page of items
+      vm.reviews = vm.allReviews.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
+  }
+
+
+  $scope.sendNewReview = function() {
+    var review = {
+      content:  $scope.review.comment,
+      rating: parseInt($('#newRatingPoint input:checked').val()),
+      CropId: parseInt($stateParams.cropid)
+    }
+    CropService.sendNewReview(review).then(function(result) {
+      if (result.data.success)
+      {
+        bootbox.alert(result.data.message, function () {
+          $state.reload();
+        });
+      }
+      else {
+        flash.error = result.data.message;
+      }
+    })
+  }
+
 })

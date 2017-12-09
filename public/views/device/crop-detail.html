@@ -42,6 +42,7 @@
   					<li><a href="" ng-click="logout()">Log out</a></li>
   				</ul>
   			</li>
+        <li><a ui-sref="search"><i class="fa fa-search"></i></a></li>
   		</ul>
   	</div>
   	<!-- /.navbar-collapse -->
@@ -688,11 +689,24 @@
             <div class="col-md-4 col-sm-4">
               <center>
               <label for="name" >Start Time</label>
-
               </center>
             </div>
             <div class="col-md-4 col-sm-4">
-              <input id="start" type="time" placeholder="HH:mm" ng-model="newSchedule.starttime">
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepickerstarttime'>
+                        <input id='starttime' type='text' class="form-control" ng-model="newSchedule.starttime"/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepickerstarttime').datetimepicker({
+                            format: 'HH:mm'
+                        });
+                    });
+                </script>
             </div>
             <div class="col-md-4 col-sm-4">
             </div>
@@ -704,7 +718,21 @@
               </center>
             </div>
             <div class="col-md-4 col-sm-4">
-              <input type="time" placeholder="HH:mm" ng-model="newSchedule.endtime">
+              <div class="form-group">
+                <div class='input-group date' id='datetimepickerendtime'>
+                    <input id='endtime' type='text' class="form-control" ng-model="newSchedule.endtime"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                </div>
+              </div>
+              <script type="text/javascript">
+                  $(function () {
+                      $('#datetimepickerendtime').datetimepicker({
+                          format: 'HH:mm'
+                      });
+                  });
+              </script>
             </div>
             <div class="col-md-4 col-sm-4">
             </div>

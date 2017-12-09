@@ -15,8 +15,9 @@ var myApp = angular.module('myApp',
         'myApp.service',
         'myApp.filter',
         'angular-async-validation',
-        'angular-loading-bar'
-    ]);
+        'angular-loading-bar',
+        'chart.js'
+      ]);
 
 myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthService, flash) {
 
@@ -140,10 +141,43 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: false
             }
         })
-        .state('search_result', {
-            url: '/search/:type/:data',
+        .state('search_result_bytree', {
+            url: '/searchbytree/:type/:tree',
             templateUrl: 'views/home/search-result.html',
             controller: 'SearchResultCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('search_result_bymonth', {
+            url: '/searchbymonth/:type/:month',
+            templateUrl: 'views/home/search-result.html',
+            controller: 'SearchResultCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('search_result_byboth', {
+            url: '/search/:type/:tree/:month',
+            templateUrl: 'views/home/search-result.html',
+            controller: 'SearchResultCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('search', {
+            //url: '/search/:type/:data',
+            url: '/search',
+            templateUrl: 'views/home/search.html',
+            controller: 'SearchCtrl',
+            access: {
+                requiredLogin: false
+            }
+        })
+        .state('crop_detail_search', {
+          url: '/search/crop?id=:cropid',
+          templateUrl: 'views/device/crop-detail-search.html',
+          controller: 'CropDetailSearchCtrl',
             access: {
                 requiredLogin: false
             }

@@ -1,9 +1,7 @@
 controller.controller('ScheduleCtrl', function($http, $stateParams, $state, $scope, $timeout, ScheduleService, flash, CropService) {
-$scope.deviceMac = $stateParams.mac;
-$scope.cropId = $stateParams.cropid;
-console.log($stateParams.cropid)
+  $scope.deviceMac = $stateParams.mac;
+  $scope.cropId = $stateParams.cropid;
   ScheduleService.getScheduleByCropId($stateParams.cropid).then(function(result){
-    console.log(result);
     $scope.listSchedule = result.data.data;
   })
 
@@ -51,9 +49,12 @@ console.log($stateParams.cropid)
   }
 });
 
-controller.controller('ScheduleSettingCtrl', function($http, $window, $stateParams, $state, $scope, $route, $timeout, ScheduleService, ActuatorService, flash) {
+controller.controller('ScheduleSettingCtrl', function($http, $stateParams, $state, $scope, $route, $timeout, ScheduleService, ActuatorService, flash) {
 
-  $scope.newSchedule = {}
+  $scope.newSchedule = {
+    starttime:'',
+    endtime:''
+  }
 
   $scope.newSchedule = {
     CropId: $stateParams.cropid,
@@ -65,15 +66,15 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
   });
 
   $scope.addSchedule = function() {
-    var starttimeString = moment($scope.newSchedule.starttime).format('HH:mm:ss');
+    var starttimeString = moment($scope.newSchedule.starttime).format('HH:mm');
 
-    var endtimeString = moment($scope.newSchedule.endtime).format('HH:mm:ss')
+    var endtimeString = moment($scope.newSchedule.endtime).format('HH:mm')
 
     var newScheduleItem ={
         CropId: parseInt($scope.newSchedule.CropId),
         ActuatorId: $scope.newSchedule.ActuatorId,
-        starttime: starttimeString,
-        endtime: endtimeString,
+        starttime: $("#starttime").val(),
+        endtime: $("#endtime").val(),
         intervaltime: $scope.newSchedule.intervaltime,
         delaytime: $scope.newSchedule.delaytime
       }
@@ -91,4 +92,10 @@ controller.controller('ScheduleSettingCtrl', function($http, $window, $statePara
       })
     })
   }
+});
+
+controller.controller('ScheduleSearchCtrl', function($http, $stateParams, $state, $scope, $timeout, ScheduleService, flash, CropService) {
+  ScheduleService.getScheduleSearchByCropId($stateParams.cropid).then(function(result){
+    $scope.listSchedule = result.data.data;
+  })
 });
