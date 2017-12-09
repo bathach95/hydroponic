@@ -121,7 +121,8 @@ router.get('/sync', user.authenticate(), function (req, res) {
         for (i = 0; i < actuators.length; i++) {
           if (actuators[i].dataValues.Schedules.length > 0) {
             dataLength = dataLength + (2 + 2 + 6 * 4 * actuators[i].dataValues.Schedules.length);
-            var string = utils.normalizeNumber(i + 1, 2) + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
+            //var string = utils.normalizeNumber(i + 1, 2) + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
+            var string = actuators[i].idonboard + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2) ;
             //item.dataValues.Schedules.forEach(function(scheduleItem){
             for (j = 0; j < actuators[i].dataValues.Schedules.length; j++) {
               var starttimeString = utils.timeToMessageString(actuators[i].dataValues.Schedules[j].starttime);
@@ -137,11 +138,12 @@ router.get('/sync', user.authenticate(), function (req, res) {
           }
         }
         //listStrings.forEach(function(item){
-        message = message.concat(utils.normalizeNumber(dataLength, 4));
+        message = message.concat(utils.normalizeNumber(dataLength + 2, 4));
+        message = message.concat(utils.normalizeNumber(actuators.length, 2))
         for (i = 0; i < listStrings.length; i++) {
           message = message.concat(listStrings[i]);
         }
-
+        console.log(message);
         // subscribe to server topic to get ACK package from device
         client.subscribe(serverTopic, function () {
           console.log('this line subscribe success to ' + serverTopic)
@@ -162,7 +164,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
             // wait for ack message from device
             client.on('message', function (topic, payload) {
               var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-
+              console.log(ack);
               if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                 client.end();
                 models.Crop.getCropById(cropId, function (crop) {

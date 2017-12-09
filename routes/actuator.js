@@ -12,7 +12,7 @@ router.post('/addactuator', user.authenticate(), function(req, res) {
   newActuator.DeviceMac = req.body.devicemac;
 
   models.Actuator.getActuatorByIdOnboardAndDeviceMac(newActuator.idonboard, newActuator.DeviceMac, function(result){
-    if (result){ 
+    if (result){
        res.json({
         success: false,
         message: "This ID is already in use !"
@@ -102,7 +102,7 @@ router.put('/status', user.authenticate(), function(req, res) {
   models.Actuator.getActuatorById(req.body.id, function(actuator){
     actuator.updateStatus(req.body.status, function() {
       var topic = "device/" + req.body.mac + "/esp";
-      var status = req.body.status === 'on' ? '1' : '0';
+      var status = req.body.status === 'on' ? '0' : '1';
       var message = req.body.mac.replace(/:/g,"").toUpperCase() + '03' + '0003' + req.body.idonboard.toString() + status;
       device.client.publish(topic, utils.encrypt(message));
       res.json({
@@ -156,7 +156,7 @@ router.delete('/delete', user.authenticate(), function(req, res) {
     var message = req.query.mac.replace(/:/g,"").toUpperCase() + '06' + '0004' + req.query.idonboard + '1' + priority;
     device.client.publish(topic, utils.encrypt(message), function(err){
       if (err){
-        utils.log.error(err);        
+        utils.log.error(err);
         console.log(err);
         res.json({
           success: false,
