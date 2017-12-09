@@ -29,6 +29,7 @@
         		<li><a href="" ng-click="logout()">Log out</a></li>
         	</ul>
         </li>
+        <li><a ui-sref="search"><i class="fa fa-search"></i></a></li>
   		</ul>
   	</div>
   	<!-- /.navbar-collapse -->
@@ -94,7 +95,8 @@
 
   	    </table>
   	  </div>-->
-  	  <div class="table-list-device-content">
+      <div class="card">
+      <div class="table-list-device-content">
   	    <table ng-if="listDevice" class="table-list-device" cellpadding="0" cellspacing="0" border="0" id="membersTable" ui-jq="dataTable" ui-options="dataTableOpt">
           <thead class="table-list-device-header">
   	        <tr>
@@ -131,6 +133,7 @@
   	      </tbody>
   	    </table>
   	  </div>
+    </div>
       <div class="add-device-container">
   	  	<button type="button" ui-sref="new_device" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-plus-circle"></i>&nbsp; Add new device</button>
       </div>

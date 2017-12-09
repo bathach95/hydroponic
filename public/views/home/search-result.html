@@ -18,7 +18,9 @@
 			<li><a ui-sref="article">Acticle</a></li>
 			<li><a href="http://138.68.74.17:4567">Forum</a></li>
 			<li><a ui-sref="about">About</a></li>
-	    <li ng-show="userLogin" class="dropdown active">
+      <li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
+      <li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+	    <li ng-show="userLogin" class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu" ng-controller="LoginCtrl">
@@ -29,6 +31,7 @@
 					<li><a href="" ng-click="logout()">Log out</a></li>
 				</ul>
 			</li>
+      <li class="active"><a ui-sref="search"><i class="fa fa-search"></i></a></li>
 		</ul>
   </div>
   <!-- /.navbar-collapse -->
@@ -43,20 +46,26 @@
 <div class="container">
 <div class="row">
 	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeInDown">
-		<h1>Search Result</h1>
-		<p class="lead">
-			List of crops for search string: {{searchData.data}}
-		</p>
+		<h1>Search results</h1>
+    <p class="lead" ng-if="searchData.type=='tree'||searchData.type=='both'">
+      Tree: "<b>{{searchData.tree}}</b>"
+    </p>
+    <p class="lead" ng-if="searchData.type=='month'||searchData.type=='both'">
+      Start Month: "<b>{{searchData.month}}</b>"
+    </p>
 	</div>
+  <button type="button" ui-sref="search" data-toggle="modal" data-target="#addCropModal" class="button-add-new-device animated fadeInDown">
+    <i class="fa fa-search"></i>&nbsp; Back to Search</button>
 </div>
-<div class="row color-white">
-	<div>
-	<div class="container animated fadeInUp">
-	  <div class="table-list-device-content">
-	    <table ng-if="searchResult" class="table-list-device" cellpadding="0" cellspacing="0" border="0" ui-jq="dataTable" ui-options="dataTableOpt">
-        <thead class="table-list-device-header">
+<div class="card">
+<div class="card-body">
+<div class="row">
+	<div class="animated fadeInUp">
+	  <div class="table-search-result-content">
+	    <table ng-if="searchResult" id="searchResultTable" class="table-search-result" cellpadding="0" cellspacing="0" border="0" ui-jq="dataTable" ui-options="dataTableOpt">
+        <thead class="table-search-result-header">
 	        <tr>
-	          <th>No.</th>
+	          <th>User</th>
 	          <th>Crop Name</th>
 	          <th>Type of Hydroponics</th>
 	          <th>Tree Type</th>
@@ -67,8 +76,9 @@
 	      </thead>
         <tbody>
 	        <tr ng-repeat="crop in searchResult">
-	          <td>{{$index + 1}}</td>
-	          <td><a class="crop-link"  ui-sref="crop_detail({devicemac: crop.DeviceMac, cropid: crop.id})">{{crop.name}}</a></td>
+	          <td ng-if="searchData.type=='tree'">{{crop.Device.User.name}}</td>
+	          <td ng-if="searchData.type=='month'||searchData.type=='both'">{{crop.username}}</td>
+	          <td><a class="crop-link"  ui-sref="crop_detail_search({devicemac: crop.DeviceMac, cropid: crop.id})">{{crop.name}}</a></td>
 	          <td>{{crop.type}}</td>
 	          <td>{{crop.treetype}}</td>
 	          <td>{{crop.startdate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
@@ -78,9 +88,16 @@
 	        </tr>
 	      </tbody>
 	    </table>
+      <!--<script type="text/javascript">
+        $(function () {
+          $('#searchResultTable').DataTable();
+        });
+      </script>-->
 	  </div>
 	</div>
 </div>
 <!-- end row -->
+</div>
+</div>
 </div>
 </section>

@@ -75,6 +75,62 @@ router.get('/one', user.authenticate(), function (req, res) {
   })
 })
 
+router.get('/searchdetail', function (req, res) {
+
+  models.Crop.getSearchCropById(req.query.id, function (result) {
+    if (result) {
+      if (result.dataValues.share)
+      {
+        res.json({
+          success: true,
+          data: result.dataValues,
+          message: 'Get crop success !'
+        })
+      }
+      else {
+        res.json({
+          success: false,
+          message: 'This crop is not shared !'
+        })
+      }
+    } else {
+      res.json({
+        success: false,
+        message: 'Crop does not exist !'
+      })
+    }
+  }, function() {
+    res.json({
+      success: false,
+      message: 'Error when getting crop !'
+    })
+  })
+})
+
+router.post('/sendreview', user.authenticate(), function (req, res) {
+  var review = {
+    content: req.body.content,
+    rating: req.body.rating,
+    UserId: req.user.id,
+    CropId: req.body.CropId
+  }
+  console.log(review);
+  models.Review.createReview(review, function (result) {
+    console.log(result);
+    if (result) {
+      res.json({
+        success: true,
+        message: 'Send review success !'
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'Error when sending review !'
+      })
+    }
+  })
+})
+
 router.get('/newest', user.authenticate(), function (req, res) {
 
     models.Crop.getNewestRunningCropByDeviceMac(req.query.mac, function (result) {
@@ -174,11 +230,9 @@ router.put('/share', user.authenticate(), function (req, res) {
 })
 
 router.get('/search', function (req, res) {
-
   if (req.query.type === 'tree') {
     // search by tree
-    models.Crop.getCropsByTree(req.query.data, function (result) {
-
+    models.Crop.getCropsByTree(req.query.tree, function (result) {
       var data = [];
       result.forEach(function (element) {
         data.push(element.dataValues);
@@ -189,10 +243,11 @@ router.get('/search', function (req, res) {
         data: data,
         message: 'Search success !'
       })
-    })
+    }, models)
   } else if (req.query.type === 'month') {
     // search by month
-    models.Crop.getCropByMonth(req.query.data, function (result) {
+
+    models.Crop.getCropByMonth(req.query.month, function (result) {
       res.json({
         success: true,
         data: result,
@@ -200,13 +255,34 @@ router.get('/search', function (req, res) {
       })
     })
   } else {
-    res.json({
-      success: false,
-      message: 'Cannot search !'
-    })
+    if (req.query.type === 'both')
+    {
+
+      models.Crop.getCropByBoth(req.query.tree, req.query.month , function (result) {
+        res.json({
+          success: true,
+          data: result,
+          message: 'Search success !'
+        })
+      })
+    }
+    else {
+      res.json({
+        success: false,
+        message: 'Cannot search !'
+      })
+    }
   }
-
-
-
 })
+
+router.get('/reviews', function (req, res) {
+  models.Review.getReviewsByCropId(req.query.id, function(reviews){
+    res.json({
+      success: true,
+      data: reviews,
+      message: 'Get reviews success !'
+    })
+  }, models)
+})
+
 module.exports.router = router;

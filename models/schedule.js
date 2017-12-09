@@ -24,6 +24,7 @@ module.exports = function(sequelize, DataTypes) {
       // association N:M with User
       associate: function(models){
         Schedule.belongsTo(models.Actuator);
+        Schedule.belongsTo(models.Crop);
       },
       createSchedule: function(newSchedule, callback){
         Schedule.create(newSchedule).then(callback);

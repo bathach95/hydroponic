@@ -7,6 +7,14 @@ service.service('ScheduleService', function($http){
     })
   }
 
+  this.getScheduleSearchByCropId = function(cropId){
+    return $http.get('/schedule/searchall', {
+      params:{
+        cropId: cropId
+      }
+    })
+  }
+
   this.deleteScheduleSettingById = function(scheduleId, cropId){
     return $http.delete('/schedule/delete', {
       params:{
