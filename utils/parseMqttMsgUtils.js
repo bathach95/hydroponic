@@ -63,4 +63,3 @@ module.exports = {
     parseAckMsg: parseAckMsg,
     parseReceivedData: parseReceivedData
 }
-console.log(parseReceivedData('0A1A2A3B4F5D040012306012341000'));

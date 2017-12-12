@@ -106,6 +106,7 @@ router.get('/all', user.authenticate(), function (req, res) {
 })
 
 router.put('/status', user.authenticate(), function (req, res) {
+
   var deviceMac = req.body.mac;
   var deviceTopic = utils.getDeviceTopic(deviceMac);
   var serverTopic = utils.getServerTopic(deviceMac);
@@ -118,7 +119,6 @@ router.put('/status', user.authenticate(), function (req, res) {
 
   var status = req.body.status === 'on' ? '0' : '1';
   var message = deviceMac.replace(/:/g, "").toUpperCase() + '03' + '0003' + req.body.idonboard.toString() + status;
-  console.log(message);
   client.publish(deviceTopic, utils.encrypt(message), function (err) {
     if (err) {
       console.log(err);
