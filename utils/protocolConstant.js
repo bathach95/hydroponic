@@ -1,5 +1,5 @@
 module.exports = {
-    MQTT_BROKER: 'mqtt://13.58.114.56:1883',
+    MQTT_BROKER: 'mqtt://35.197.152.184:1883',
     ACK: {
         MSG_LENGTH: 19,
         CMD_ID : '07',

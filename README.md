@@ -1,1 +1,4 @@
-this app is for hydroponic system
+- Install Nodejs 6.x
+- run: npm install
+- create a folder: public/log
+- run: npm start

@@ -81,14 +81,7 @@ controller.controller('RegisterCtrl', function ($http, $state, $scope, $q, $time
     $('#registerBtn').button('loading');
     var isEmpty = AuthService.checkEmptyReg($scope.user);
     if (!isEmpty.isErr) {
-      //new Promise(function(resolve, reject){
         UserService.register($scope.user).then(function (result) {
-
-        //  resolve(result);
-
-        //});
-      //}).then(function(result){
-
         $scope.message = result.data.message;
         $scope.success = result.data.success;
 

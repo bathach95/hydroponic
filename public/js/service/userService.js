@@ -44,8 +44,8 @@ service.service('AuthService', function ($cookies, $http) {
       message = "Empty password";
     } else if (user.confirm_password === '') {
       message = "Empty confirm password";
-    } else if (user.email === '') {
-      message = "Empty email";
+    } else if (!(/\S+@\S+\.\S+/.test(user.email))) {
+      message = "Wrong email format";
     } else if (user.password !== user.confirm_password) {
       message = "Password does not match";
     } else {
