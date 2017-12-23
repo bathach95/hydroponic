@@ -8,6 +8,7 @@ var utils = require('../utils/utils');
 var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
+var moment = require('moment');
 var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
 var protocolConstant = require('../utils/protocolConstant');
 
@@ -111,6 +112,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
     if (deviceItem) {
       var query = {
         include: models.Schedule,
+        order: [[models.Schedule, 'starttime', 'ASC']]
       }
       deviceItem.getActuators(query).then(function (actuators) {
         var listStrings = [];
@@ -205,79 +207,83 @@ router.get('/sync', user.authenticate(), function (req, res) {
 })
 
 router.post('/add', user.authenticate(), function (req, res) {
-
-  //TODO: format data like numberOfTimeSet_hhmmss(starttime)_hhmmss(endtime)_hhmmss(lasttime)_hhmmss(Delay)
   var scheduleSetting = req.body;
-  models.Schedule.getScheduleByCropId(scheduleSetting.CropId, function (result) {
-    var isOverlapped = false;
-    var newstarttime = new Date('1970-01-01T' + scheduleSetting.starttime + 'Z');
-    var newendtime = new Date('1970-01-01T' + scheduleSetting.endtime + 'Z');
-    for (i = 0; i < result.length; i++) {
-      var itemstarttime = new Date('1970-01-01T' + result[i].starttime + 'Z');
-      var itemendtime = new Date('1970-01-01T' + result[i].endtime + 'Z');
-      if (result[i].ActuatorId == scheduleSetting.ActuatorId) {
-        if (itemstarttime >= newendtime)
-          continue;
-        else {
-          if (itemstarttime <= newstarttime) {
-            if (itemendtime > newstarttime) {
+  if (scheduleSetting.starttime >= scheduleSetting.endtime) {
+    res.json({
+      success: false,
+      message: "start time must before end time"
+    })
+  } else {
+
+    models.Schedule.getScheduleByCropId(scheduleSetting.CropId, function (result) {
+      var isOverlapped = false;
+      var newstarttime = new Date('1970-01-01T' + scheduleSetting.starttime + 'Z');
+      var newendtime = new Date('1970-01-01T' + scheduleSetting.endtime + 'Z');
+      for (i = 0; i < result.length; i++) {
+        var itemstarttime = new Date('1970-01-01T' + result[i].starttime + 'Z');
+        var itemendtime = new Date('1970-01-01T' + result[i].endtime + 'Z');
+        if (result[i].ActuatorId == scheduleSetting.ActuatorId) {
+          if (itemstarttime >= newendtime)
+            continue;
+          else {
+            if (itemstarttime <= newstarttime) {
+              if (itemendtime > newstarttime) {
+                isOverlapped = true;
+                break;
+              }
+              else {
+                isOverlapped = false;
+                continue;
+              }
+            }
+            else {
               isOverlapped = true;
               break;
             }
-            else {
-              isOverlapped = false;
-              continue;
-            }
+          }
+        }
+      };
+      if (isOverlapped) {
+        res.send({
+          success: false,
+          message: "Overlaped new setting time! Please input other time."
+        });
+      }
+      else {
+        models.Schedule.createSchedule(scheduleSetting, function (result) {
+          if (result) {
+            models.Crop.getCropById(scheduleSetting.CropId, function (crop) {
+              if (crop) {
+                crop.updateSynchronized(false, function () {
+                  res.send({
+                    success: true,
+                    message: "Add setting successfully!"
+                  });
+                })
+              }
+              else {
+                res.send({
+                  success: false,
+                  message: "Cannot get crop!"
+                });
+              }
+            })
           }
           else {
-            isOverlapped = true;
-            break;
+            res.send({
+              success: false,
+              message: "Cannot create schedule setting!"
+            });
           }
-        }
-      }
-    };
-    if (isOverlapped) {
+        })
+      };
+    }, function (result) {
       res.send({
         success: false,
-        message: "Overlaped new setting time! Please input other time."
+        message: "Error when get all settings!"
       });
-    }
-    else {
-      models.Schedule.createSchedule(scheduleSetting, function (result) {
-        if (result) {
-          models.Crop.getCropById(scheduleSetting.CropId, function (crop) {
-            if (crop) {
-              crop.updateSynchronized(false, function () {
-                res.send({
-                  success: true,
-                  message: "Add setting successfully!"
-                });
-              })
-            }
-            else {
-              res.send({
-                success: false,
-                message: "Cannot get crop!"
-              });
-            }
-          })
-        }
-        else {
-          res.send({
-            success: false,
-            message: "Cannot create schedule setting!"
-          });
-        }
-      })
-    };
-  }, function (result) {
-    res.send({
-      success: false,
-      message: "Error when get all settings!"
-    });
-  }, models);
-
-
+    }, models);
+  }
 })
 
 module.exports.router = router;

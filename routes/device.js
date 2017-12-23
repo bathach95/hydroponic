@@ -70,28 +70,35 @@ router.get('/running', user.authenticate(), function (req, res) {
                 status: 'running'
               }
             }).then(function (cropResult) {
-              return new Promise(function (result, reject) {
-                cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
-                  if (dataResult[0]) {
-                    var returnValue = {
-                      device: item.dataValues,
-                      crop: cropResult[0].dataValues,
-                      data: dataResult[0].dataValues
-                    };
-                    deviceDataList.push(returnValue);
-                    resolve(dataResult[0]);
-                  }
-                  else {
-                    var returnValue = {
-                      device: item.dataValues,
-                      crop: cropResult[0].dataValues,
-                      data: {}
-                    };
-                    deviceDataList.push(returnValue);
-                    resolve(dataResult[0]);
-                  }
+              if (cropResult) {
+                return new Promise(function (result, reject) {
+                  cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
+                    if (dataResult[0]) {
+                      var returnValue = {
+                        device: item.dataValues,
+                        crop: cropResult[0].dataValues,
+                        data: dataResult[0].dataValues
+                      };
+                      deviceDataList.push(returnValue);
+                      resolve(dataResult[0]);
+                    }
+                    else {
+                      var returnValue = {
+                        device: item.dataValues,
+                        crop: cropResult[0].dataValues,
+                        data: {}
+                      };
+                      deviceDataList.push(returnValue);
+                      resolve(dataResult[0]);
+                    }
+                  });
                 });
-              });
+              } else {
+                res.json({
+                  success: false,
+                  message: "No running crop"
+                })
+              }
             })
           });
         })).then(function (value) {

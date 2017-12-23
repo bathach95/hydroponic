@@ -12,41 +12,67 @@
 
 <body>
   <nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
-  <div class="container">
-  	<!-- Brand and toggle get grouped for better mobile display -->
-  	<div class="navbar-header">
-  		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-  		<span class="sr-only">Toggle navigation</span>
-  		<span class="icon-bar"></span>
-  		<span class="icon-bar"></span>
-  		<span class="icon-bar"></span>
-  		</button>
-  		<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
-  	</div>
-  	<!-- Collect the nav links, forms, and other content for toggling -->
-  	<div class="collapse navbar-collapse navbar-ex1-collapse">
-      <ul class="nav navbar-nav navbar-right">
-  			<li><a ui-sref="home">Home</a></li>
-        <li><a ui-sref="system">Systems</a></li>
-  			<li><a ui-sref="article">Acticle</a></li>
-  			<li><a href="http://35.198.199.4:4567">Forum</a></li>
-  			<li><a ui-sref="about">About</a></li>
-  	    <li ng-show="userLogin" class="dropdown active">
-  				<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
-  				<span class="caret"></span></a>
-  				<ul class="dropdown-menu" ng-controller="LoginCtrl">
-  					<li><a ui-sref="profile">Profile</a></li>
-  					<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
-  					<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
-  					<li><a ui-sref="change_password">Change your password</a></li>
-  					<li><a href="" ng-click="logout()">Log out</a></li>
-  				</ul>
-  			</li>
-        <li><a ui-sref="search"><i class="fa fa-search"></i></a></li>
-  		</ul>
-  	</div>
-  	<!-- /.navbar-collapse -->
-  </div>
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a ui-sref="home">Home</a>
+          </li>
+          <li>
+            <a ui-sref="system">Systems</a>
+          </li>
+          <li>
+            <a ui-sref="article">Acticle</a>
+          </li>
+          <li>
+            <a href="http://35.198.199.4:4567">Forum</a>
+          </li>
+          <li>
+            <a ui-sref="about">About</a>
+          </li>
+          <li ng-show="userLogin" class="dropdown active">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="">
+              <i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" ng-controller="LoginCtrl">
+              <li>
+                <a ui-sref="profile">Profile</a>
+              </li>
+              <li ng-controller="LoginCtrl" ng-if="userRole === 'admin'">
+                <a ui-sref="admin">Administration dashboard</a>
+              </li>
+              <li ng-controller="LoginCtrl" ng-if="userRole === 'mod'">
+                <a ui-sref="mod">Moderator dashboard</a>
+              </li>
+              <li>
+                <a ui-sref="change_password">Change your password</a>
+              </li>
+              <li>
+                <a href="" ng-click="logout()">Log out</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a ui-sref="search">
+              <i class="fa fa-search"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
   </nav>
   <!-- HOMEPAGE -->
 
@@ -56,9 +82,9 @@
       margin: 100px auto 0;
       width: 70px;
       text-align: center;
-      }
+    }
 
-      .spinner > div {
+    .spinner>div {
       width: 18px;
       height: 18px;
       background-color: #fff;
@@ -67,32 +93,42 @@
       display: inline-block;
       -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
       animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-      }
+    }
 
-      .spinner .bounce1 {
+    .spinner .bounce1 {
       -webkit-animation-delay: -0.32s;
       animation-delay: -0.32s;
-      }
+    }
 
-      .spinner .bounce2 {
+    .spinner .bounce2 {
       -webkit-animation-delay: -0.16s;
       animation-delay: -0.16s;
-      }
+    }
 
-      @-webkit-keyframes sk-bouncedelay {
-      0%, 80%, 100% { -webkit-transform: scale(0) }
-      40% { -webkit-transform: scale(1.0) }
+    @-webkit-keyframes sk-bouncedelay {
+      0%,
+      80%,
+      100% {
+        -webkit-transform: scale(0)
       }
+      40% {
+        -webkit-transform: scale(1.0)
+      }
+    }
 
-      @keyframes sk-bouncedelay {
-      0%, 80%, 100% {
+    @keyframes sk-bouncedelay {
+      0%,
+      80%,
+      100% {
         -webkit-transform: scale(0);
         transform: scale(0);
-      } 40% {
+      }
+      40% {
         -webkit-transform: scale(1.0);
         transform: scale(1.0);
       }
     }
+
     .overlay {
       width: 100%;
       height: 100%;
@@ -102,7 +138,7 @@
       right: 0;
       bottom: 0;
       left: 0;
-      background-color: rgba(0,0,0,.4);
+      background-color: rgba(0, 0, 0, .4);
       z-index: 1000;
     }
   </style>
@@ -115,768 +151,787 @@
   </div>
   <section id="Section-1" class="fullbg">
 
-  <div class="section-divider">
-  </div>
-  <style media="screen">
-    .table-list-device thead > tr > th {
-      font-size: 14px;
-    }
-  </style>
-  <style media="screen">
+    <div class="section-divider">
+    </div>
+    <style media="screen">
+      .table-list-device thead>tr>th {
+        font-size: 14px;
+      }
+    </style>
+    <style media="screen">
       /*  bhoechie tab */
-    div.bhoechie-tab-container{
-    z-index: 10;
-    background-color: #ffffff;
-    padding: 0 !important;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    border:1px solid #ddd;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    background-clip: padding-box;
-    opacity: 0.97;
-    filter: alpha(opacity=97);
-    }
-    div.bhoechie-tab-menu{
-    padding-right: 0;
-    padding-left: 0;
-    padding-bottom: 0;
-    }
-    div.bhoechie-tab-menu div.list-group{
 
-    margin-bottom: 0;
-    }
-    div.bhoechie-tab-menu div.list-group>a{
-    margin-bottom: 0;
-    }
-    div.bhoechie-tab-menu div.list-group>a .glyphicon,
-    div.bhoechie-tab-menu div.list-group>a .fa {
-      font-size: 30px;
-    color: #5A55A3;
-    }
-    div.bhoechie-tab-menu div.list-group>a:first-child{
-    border-top-right-radius: 0;
-    -moz-border-top-right-radius: 0;
-    }
-    div.bhoechie-tab-menu div.list-group>a:last-child{
-    border-bottom-right-radius: 0;
-    -moz-border-bottom-right-radius: 0;
-    }
-    div.bhoechie-tab-menu div.list-group>a.active,
-    div.bhoechie-tab-menu div.list-group>a.active .glyphicon,
-    div.bhoechie-tab-menu div.list-group>a.active .fa{
-    background-color: #5A55A3;
-    background-image: #5A55A3;
-    color: #ffffff;
-    }
-    div.bhoechie-tab-menu div.list-group>a.active:after{
-    content: '';
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    margin-top: -13px;
-    border-left: 0;
-    border-bottom: 13px solid transparent;
-    border-top: 13px solid transparent;
-    border-left: 10px solid #5A55A3;
-    }
+      div.bhoechie-tab-container {
+        z-index: 10;
+        background-color: #ffffff;
+        padding: 0 !important;
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        border: 1px solid #ddd;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        background-clip: padding-box;
+        opacity: 0.97;
+        filter: alpha(opacity=97);
+      }
 
-    div.bhoechie-tab-content{
-    background-color: #ffffff;
-    /* border: 1px solid #eeeeee;
+      div.bhoechie-tab-menu {
+        padding-right: 0;
+        padding-left: 0;
+        padding-bottom: 0;
+      }
+
+      div.bhoechie-tab-menu div.list-group {
+
+        margin-bottom: 0;
+      }
+
+      div.bhoechie-tab-menu div.list-group>a {
+        margin-bottom: 0;
+      }
+
+      div.bhoechie-tab-menu div.list-group>a .glyphicon,
+      div.bhoechie-tab-menu div.list-group>a .fa {
+        font-size: 30px;
+        color: #5A55A3;
+      }
+
+      div.bhoechie-tab-menu div.list-group>a:first-child {
+        border-top-right-radius: 0;
+        -moz-border-top-right-radius: 0;
+      }
+
+      div.bhoechie-tab-menu div.list-group>a:last-child {
+        border-bottom-right-radius: 0;
+        -moz-border-bottom-right-radius: 0;
+      }
+
+      div.bhoechie-tab-menu div.list-group>a.active,
+      div.bhoechie-tab-menu div.list-group>a.active .glyphicon,
+      div.bhoechie-tab-menu div.list-group>a.active .fa {
+        background-color: #5A55A3;
+        background-image: #5A55A3;
+        color: #ffffff;
+      }
+
+      div.bhoechie-tab-menu div.list-group>a.active:after {
+        content: '';
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        margin-top: -13px;
+        border-left: 0;
+        border-bottom: 13px solid transparent;
+        border-top: 13px solid transparent;
+        border-left: 10px solid #5A55A3;
+      }
+
+      div.bhoechie-tab-content {
+        background-color: #ffffff;
+        /* border: 1px solid #eeeeee;
     padding-left: 20px;
     padding-top: 10px;*/
-    padding: 10px 20px;
-    }
+        padding: 10px 20px;
+      }
 
-    div.bhoechie-tab div.bhoechie-tab-content:not(.active){
-    display: none;
-    }
-    #Hardware-Settings a > i{
-      color:#4ba2dc;
-    }
-  </style>
-  <script type="text/javascript">
-  $(document).ready(function() {
-  $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
-      e.preventDefault();
-      $(this).siblings('a.active').removeClass("active");
-      $(this).addClass("active");
-      var index = $(this).index();
-      $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
-      $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
-  });
-});
-  </script>
+      div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
+        display: none;
+      }
+
+      #Hardware-Settings a>i {
+        color: #4ba2dc;
+      }
+    </style>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $("div.bhoechie-tab-menu>div.list-group>a").click(function (e) {
+          e.preventDefault();
+          $(this).siblings('a.active').removeClass("active");
+          $(this).addClass("active");
+          var index = $(this).index();
+          $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+          $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+        });
+      });
+    </script>
 
 
-  <div class="container">
+    <div class="container">
 
-  	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeIn">
-  		<h1>Detail of your crop</h1>
-      <p class="lead">See all details of your crop</p>
-  	</div>
-    <div class="">
-          <div class="">
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
-                <div class="list-group">
-                  <a href="#" class="list-group-item active text-center">
-                    <i class="fa fa-refresh"></i><br/>Current Data
-                  </a>
-                  <a href="#" class="list-group-item text-center">
-                    <i class="fa fa-info-circle"></i><br/>Information
-                  </a>
-                  <a href="#" class="list-group-item text-center">
-                    <i class="fa fa-calendar"></i><br/>Settings
-                  </a>
-                  <a href="#" class="list-group-item text-center">
-                    <i class="fa fa-image"></i><br/>Gallery
-                  </a>
-                  <a ui-sref="device_detail({mac: mac})" class="list-group-item text-center">
-                    <i class="fa fa-chevron-left"></i><br/>Back to List Crop
-                  </a>
-                </div>
-              </div>
-              <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 bhoechie-tab">
-                  <!-- flight section -->
-                  <div class="bhoechie-tab-content active">
-                        <div class="animated fadeInUp in active" id="Crop-Detail-Section1">
-                          <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Data from your device</h3>
-                          <br>
-                          <center>
-                          <div ng-controller="DataCtrl">
-                          <div class="row">
-                            <div class="col-md-12" ng-show="data">
-                              <div class="box-unborder box-info">
-                                <i class="fa fa-clock-o"></i>
-                                <h3>{{data.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
-                                </h3>
-                              </div>
-                              <div ng-if="!badStatus.temp" class="boxservice box-status-normal">
-                                <i class="fa fa-thermometer-quarter"></i>
-                                <h3>{{data.temperature}} &deg;C
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Temperature
-                                </p>
-                              </div>
-                              <div ng-if="badStatus.temp" class="boxservice box-status-warning">
-                                <i class="fa fa-thermometer-quarter"></i>
-                                <h3>{{data.temperature}} &deg;C
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Temperature
-                                </p>
-                              </div>
-                              <div ng-if="!badStatus.humidity" class="boxservice rightb box-status-normal">
-                                <i class="fa fa-tint"></i>
-                                <h3>{{data.humidity}} %
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Humidity
-                                </p>
-                              </div>
-                              <div ng-if="badStatus.humidity" class="boxservice rightb box-status-warning">
-                                <i class="fa fa-tint"></i>
-                                <h3>{{data.humidity}} %
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Humidity
-                                </p>
-                              </div>
-                              <div ng-if="!badStatus.ppm " class="boxservice bottomb box-status-normal">
-                                <i class="fa fa-snowflake-o"></i>
-                                <h3>{{data.ppm}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  ppm
-                                </p>
-                              </div>
-                              <div ng-if="badStatus.ppm " class="boxservice bottomb box-status-warning">
-                                <i class="fa fa-snowflake-o"></i>
-                                <h3>{{data.ppm}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  ppm
-                                </p>
-                              </div>
-                              <div ng-if="!badStatus.light" class="boxservice bottomb box-status-normal">
-                                <i class="fa fa-flask"></i>
-                                <h3>{{data.light}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  light
-                                </p>
-                              </div>
-                              <div ng-if="badStatus.light" class="boxservice bottomb box-status-warning">
-                                <i class="fa fa-flask"></i>
-                                <h3>{{data.light}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  light
-                                </p>
-                              </div>
-                              <div ng-if="!status" class="box-unborder box-status-normal">
-                                <i class="fa fa-check-square"></i>
-                                <h3>
-                                  Normal
-                                </h3>
-                                <p>
-                                  Status
-                                </p>
-                              </div>
-                              <div  ng-if="status" class="box-unborder box-status-warning">
-                                <i class="fa fa-exclamation-triangle"></i>
-                                <h3>
-                                  Warning
-                                </h3>
-                                <p>
-                                  Status
-                                </p>
-                              </div>
-                            </div>
-                            <div ng-hide="data">
-                                <p>No data available from your device. </p>
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-6">
-                              <button id="refreshDataButton" ng-click="refreshLatestData()" type="submit" class="button-refesh-data" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Refreshing data"><i class="fa fa-refresh"></i>&nbsp; Refresh</button>
-                            </div>
-                            <div class="col-md-6">
-                              <button type="submit" ui-sref="all_data({devicemac: deviceMac, cropid: crop.id})" class="button-refesh-data" style="text-decoration:none;"><i class="fa fa-list"></i>&nbsp; All data</button>
-                            </div>
-                          </div>
-                          </div>
-                        </center>
-                      </br>
-                      </br>
-                          <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Threshold</h3>
-                          <center>
-                          <div ng-show="threshold" class="row" ng-controller="ThresholdCtrl">
-                            <div class="col-md-12">
-                              <div class="box-unborder">
-                              </div>
-                              <div class="boxservice">
-                                <h3>{{threshold.temperatureLower}} - {{threshold.temperatureUpper}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Temperature (&deg;C)
-                                </p>
-                              </div>
-                              <div class="boxservice rightb">
-                                <h3>{{threshold.humidityLower}} - {{threshold.humidityUpper}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Humidity (%)
-                                </p>
-                              </div>
-                              <div class="boxservice bottomb">
-                                <h3>{{threshold.ppmLower}} - {{threshold.ppmUpper}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  ppm
-                                </p>
-                              </div>
-                              <div class="boxservice bottomb">
-                                <h3>{{threshold.lightLower}} - {{threshold.lightUpper}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  light
-                                </p>
-                              </div>
-                              <div class="box-unborder box-status-normal">
-                              </div>
-                            </div>
-                          </div>
-                						<!-- end row -->
-                          <div ng-hide="threshold">
-                            <p>You haven't set any threshold. Please set it to get alert messages. </p>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12">
-                              <button type="submit" data-toggle="modal" data-target="#editThresholdModal" class="button-refesh-data"><i class="fa fa-cog"></i>&nbsp; Set Threshold</button>
-                            </div>
-                          </div>
+      <div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeIn">
+        <h1>Detail of your crop</h1>
+        <p class="lead">See all details of your crop</p>
+      </div>
+      <div class="">
+        <div class="">
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
+            <div class="list-group">
+              <a href="#" class="list-group-item active text-center">
+                <i class="fa fa-refresh"></i>
+                <br/>Current Data
+              </a>
+              <a href="#" class="list-group-item text-center">
+                <i class="fa fa-info-circle"></i>
+                <br/>Information
+              </a>
+              <a href="#" class="list-group-item text-center">
+                <i class="fa fa-calendar"></i>
+                <br/>Settings
+              </a>
+              <a href="#" class="list-group-item text-center">
+                <i class="fa fa-image"></i>
+                <br/>Gallery
+              </a>
+              <a ui-sref="device_detail({mac: mac})" class="list-group-item text-center">
+                <i class="fa fa-chevron-left"></i>
+                <br/>Back to List Crop
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 bhoechie-tab">
+            <!-- flight section -->
+            <div class="bhoechie-tab-content active">
+              <div class="animated fadeInUp in active" id="Crop-Detail-Section1">
+                <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Data from your device</h3>
+                <br>
+                <center>
+                  <div ng-controller="DataCtrl">
+                    <div class="row">
+                      <div class="col-md-12" ng-show="data">
+                        <div class="box-unborder box-info">
+                          <i class="fa fa-clock-o"></i>
+                          <h3>{{data.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
+                          </h3>
                         </div>
-                      </center>
-                  </div>
-                  <!-- train section -->
-                  <div class="bhoechie-tab-content">
-                      <div class="animated fadeInDown in">
-                        <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Overview information</h3>
-                        <br>
-                        <table class="table table-condensed">
-                          <tbody>
-                            <tr>
-                              <th>MAC</th>
-                              <td>{{mac}}</td>
-                            </tr>
-                            <tr>
-                              <th>Crop name</th>
-                              <td>{{crop.name}}</td>
-                            </tr>
-                            <tr>
-                              <th>Hydroponics type</th>
-                              <td>{{crop.type}}</td>
-                            </tr>
-                            <tr>
-                              <th>Tree type</th>
-                              <td>{{crop.treetype}}</td>
-                            </tr>
-                            <tr>
-                              <th>Start date</th>
-                              <td>{{crop.startdate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-                            </tr>
-                            <tr>
-                              <th>End date</th>
-                              <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
-                            </tr>
-                            <tr>
-                              <th>Report delay time (s)</th>
-                              <td>{{crop.reporttime}} seconds</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <center>
-                        <button type="button" data-toggle="modal" data-target="#editCropModal" class="button-refesh-data animated fadeInLeftBig">
-                          <i class="fa fa-info"></i>&nbsp; Edit Info</button>
+                        <div ng-if="!badStatus.temp" class="boxservice box-status-normal">
+                          <i class="fa fa-thermometer-quarter"></i>
+                          <h3>{{data.temperature}} &deg;C &#10;
+                          </h3>
+                          <p>
+                            Temperature
+                          </p>
                         </div>
-                        <center>
-                  </div>
-
-                  <div class="bhoechie-tab-content" ng-controller="ScheduleCtrl">
-                    <div class="animated fadeInLeft in" id="Hardware-Settings">
-                      <div>
-                        <div class="row" style="padding-bottom:10px; border-bottom: 1px solid;">
-                          <div class="col-md-6">
-                            <h3>Hardware Settings</h3>
-                          </div>
-                          <div class="col-md-6">
-                            <p style="float:right;">Status:
-                              <i ng-if="synchronized" style="color:#4ba2dc; font-size:200%; cursor: pointer;" class='fa fa-check-square-o' data-toggle="tooltip" title="Synchronized!" data-placement="top" tooltip></i>
-                              <i ng-if="!synchronized" style="color:#4ba2dc; font-size:200%; cursor: pointer;" class='fa fa-exclamation-triangle' data-toggle="tooltip" title="Unsynchronized!" data-placement="top" tooltip></i>
-                            </p>
-                          </div>
-                          <div class="col-md-6">
-                          <style media="screen">
-                            #syncButton{
-                              width:20%;
-                              background-color:#fff;
-                              float:right;
-                              padding:4px;
-                              border-radius: 4px;
-                              border: 1px solid #4ba2dc;
-                              color:#4ba2dc;
-                              text-decoration: none !important;
-                            }
-                            #syncButton[disabled], #syncButton[disabled] i{
-                              cursor:not-allowed;
-                              border-color:#BDBDBD;
-                              color:#BDBDBD;
-                            }
-                          </style>
-                            <button ng-disabled="synchronized" id="syncButton" ng-click="syncScheduleSettings(cropId, mac)" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">  <i class="fa fa-refresh"></i> sync</button>
-                          </div>
+                        <div ng-if="badStatus.temp" class="boxservice box-status-warning">
+                          <i class="fa fa-thermometer-quarter"></i>
+                          <h3>{{data.temperature}} &deg;C &#10;
+                          </h3>
+                          <p>
+                            Temperature
+                          </p>
                         </div>
-                        <br>
-                          <div class="table-list-settings-content">
-                            <table ng-if="listSchedule" class="table-list-settings" cellpadding="0" cellspacing="0" border="0" id="membersTable" ui-jq="dataTable" ui-options="dataScheduleTableOpt">
-                              <thead class="table-list-settings-header">
-                                <tr>
-                                  <th>Type</th>
-                                  <th>Name</th>
-                                  <th>Start Time</th>
-                                  <th>End Time</th>
-                                  <th>Duration Time</th>
-                                  <th>Delay Time</th>
-                                  <th>Operation</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr ng-repeat="item in listSchedule">
-                                  <td>{{item.Actuator.type}}</td>
-                                  <td>{{item.Actuator.name}}</td>
-                                  <td>{{item.starttime}}</td>
-                                  <td>{{item.endtime}}</td>
-                                  <td>{{item.intervaltime}}</td>
-                                  <td>{{item.delaytime}}</td>
-                                  <td>
-                                    <a ng-click="deleteSchedule(item.id)" data-toggle="tooltip" title="Delete this setting" data-placement="bottom" tooltip>
-                                      <i class="fa fa-trash"></i>
-                                    </a>
-                                    &nbsp;
-                                    <a href="#">
-                                      <i class="fa fa-cog" data-toggle="tooltip" title="Edit this setting" data-placement="bottom" tooltip></i>
-                                    </a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          <center>
-                            <div class="row">
-                              <div class="col-md-12 add-device-container">
-                                <button type="button" data-toggle="modal" data-target="#addScheduleModal" class="button-refesh-data animated fadeInLeftBig"><i class="fa fa-calendar-plus-o"></i>&nbsp; New setting</button>
-                              </div>
-                            </div>
-                          </center>
+                        <div ng-if="!badStatus.humidity" class="boxservice rightb box-status-normal">
+                          <i class="fa fa-tint"></i>
+                          <h3>{{data.humidity}} % &#10;
+                          </h3>
+                          <p>
+                            Humidity
+                          </p>
+                        </div>
+                        <div ng-if="badStatus.humidity" class="boxservice rightb box-status-warning">
+                          <i class="fa fa-tint"></i>
+                          <h3>{{data.humidity}} % &#10;
+                          </h3>
+                          <p>
+                            Humidity
+                          </p>
+                        </div>
+                        <div ng-if="!badStatus.ppm " class="boxservice bottomb box-status-normal">
+                          <i class="fa fa-snowflake-o"></i>
+                          <h3>{{data.ppm}} &#10;
+                          </h3>
+                          <p>
+                            ppm
+                          </p>
+                        </div>
+                        <div ng-if="badStatus.ppm " class="boxservice bottomb box-status-warning">
+                          <i class="fa fa-snowflake-o"></i>
+                          <h3>{{data.ppm}} &#10;
+                          </h3>
+                          <p>
+                            ppm
+                          </p>
+                        </div>
+                        <div ng-if="!badStatus.light" class="boxservice bottomb box-status-normal">
+                          <i class="fa fa-flask"></i>
+                          <h3>{{data.light}} &#10;
+                          </h3>
+                          <p>
+                            light
+                          </p>
+                        </div>
+                        <div ng-if="badStatus.light" class="boxservice bottomb box-status-warning">
+                          <i class="fa fa-flask"></i>
+                          <h3>{{data.light}} &#10;
+                          </h3>
+                          <p>
+                            light
+                          </p>
+                        </div>
+                        <div ng-if="!status" class="box-unborder box-status-normal">
+                          <i class="fa fa-check-square"></i>
+                          <h3>
+                            Normal
+                          </h3>
+                          <p>
+                            Status
+                          </p>
+                        </div>
+                        <div ng-if="status" class="box-unborder box-status-warning">
+                          <i class="fa fa-exclamation-triangle"></i>
+                          <h3>
+                            Warning
+                          </h3>
+                          <p>
+                            Status
+                          </p>
+                        </div>
+                      </div>
+                      <div ng-hide="data">
+                        <p>No data available from your device. </p>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <button id="refreshDataButton" ng-click="refreshLatestData()" type="submit" class="button-refesh-data" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Refreshing data">
+                          <i class="fa fa-refresh"></i>&nbsp; Refresh</button>
+                      </div>
+                      <div class="col-md-6">
+                        <button type="submit" ui-sref="all_data({devicemac: deviceMac, cropid: crop.id})" class="button-refesh-data" style="text-decoration:none;">
+                          <i class="fa fa-list"></i>&nbsp; All data</button>
                       </div>
                     </div>
                   </div>
-                  <div class="bhoechie-tab-content">
-                      <center>
-                        <div role="tabpanel" class="tab-pane animated fadeInRight in" id="Crop-Detail-Section4">
-                            <h3>Images for this crop</h3>
-                        </div>
-                      </center>
+                </center>
+                </br>
+                </br>
+                <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Threshold</h3>
+                <center>
+                  <div ng-show="threshold" class="row" ng-controller="ThresholdCtrl">
+                    <div class="col-md-12">
+                      <div class="box-unborder">
+                      </div>
+                      <div class="boxservice">
+                        <h3>{{threshold.temperatureLower}} - {{threshold.temperatureUpper}} &#10;
+                        </h3>
+                        <p>
+                          Temperature (&deg;C)
+                        </p>
+                      </div>
+                      <div class="boxservice rightb">
+                        <h3>{{threshold.humidityLower}} - {{threshold.humidityUpper}} &#10;
+                        </h3>
+                        <p>
+                          Humidity (%)
+                        </p>
+                      </div>
+                      <div class="boxservice bottomb">
+                        <h3>{{threshold.ppmLower}} - {{threshold.ppmUpper}} &#10;
+                        </h3>
+                        <p>
+                          ppm
+                        </p>
+                      </div>
+                      <div class="boxservice bottomb">
+                        <h3>{{threshold.lightLower}} - {{threshold.lightUpper}} &#10;
+                        </h3>
+                        <p>
+                          light
+                        </p>
+                      </div>
+                      <div class="box-unborder box-status-normal">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end row -->
+                  <div ng-hide="threshold">
+                    <p>You haven't set any threshold. Please set it to get alert messages. </p>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="submit" data-toggle="modal" data-target="#editThresholdModal" class="button-refesh-data">
+                        <i class="fa fa-cog"></i>&nbsp; Set Threshold</button>
+                    </div>
                   </div>
               </div>
+              </center>
+            </div>
+            <!-- train section -->
+            <div class="bhoechie-tab-content">
+              <div class="animated fadeInDown in">
+                <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Overview information</h3>
+                <br>
+                <table class="table table-condensed">
+                  <tbody>
+                    <tr>
+                      <th>MAC</th>
+                      <td>{{mac}}</td>
+                    </tr>
+                    <tr>
+                      <th>Crop name</th>
+                      <td>{{crop.name}}</td>
+                    </tr>
+                    <tr>
+                      <th>Hydroponics type</th>
+                      <td>{{crop.type}}</td>
+                    </tr>
+                    <tr>
+                      <th>Tree type</th>
+                      <td>{{crop.treetype}}</td>
+                    </tr>
+                    <tr>
+                      <th>Start date</th>
+                      <td>{{crop.startdate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                    </tr>
+                    <tr>
+                      <th>End date</th>
+                      <td>{{crop.closedate | date: 'dd-MM-yyyy HH:mm:ss'}}</td>
+                    </tr>
+                    <tr>
+                      <th>Report delay time (s)</th>
+                      <td>{{crop.reporttime}} seconds</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <center>
+                  <button type="button" data-toggle="modal" data-target="#editCropModal" class="button-refesh-data animated fadeInLeftBig">
+                    <i class="fa fa-info"></i>&nbsp; Edit Info</button>
+              </div>
+              <center>
+            </div>
+
+            <div class="bhoechie-tab-content" ng-controller="ScheduleCtrl">
+              <div class="animated fadeInLeft in" id="Hardware-Settings">
+                <div>
+                  <div class="row" style="padding-bottom:10px; border-bottom: 1px solid;">
+                    <div class="col-md-6">
+                      <h3>Hardware Settings</h3>
+                    </div>
+                    <div class="col-md-6">
+                      <p style="float:right;">Status:
+                        <i ng-if="synchronized" style="color:#4ba2dc; font-size:200%; cursor: pointer;" class='fa fa-check-square-o' data-toggle="tooltip"
+                          title="Synchronized!" data-placement="top" tooltip></i>
+                        <i ng-if="!synchronized" style="color:#4ba2dc; font-size:200%; cursor: pointer;" class='fa fa-exclamation-triangle' data-toggle="tooltip"
+                          title="Unsynchronized!" data-placement="top" tooltip></i>
+                      </p>
+                    </div>
+                    <div class="col-md-6">
+                      <style media="screen">
+                        #syncButton {
+                          width: 20%;
+                          background-color: #fff;
+                          float: right;
+                          padding: 4px;
+                          border-radius: 4px;
+                          border: 1px solid #4ba2dc;
+                          color: #4ba2dc;
+                          text-decoration: none !important;
+                        }
+
+                        #syncButton[disabled],
+                        #syncButton[disabled] i {
+                          cursor: not-allowed;
+                          border-color: #BDBDBD;
+                          color: #BDBDBD;
+                        }
+                      </style>
+                      <button ng-disabled="synchronized" id="syncButton" ng-click="syncScheduleSettings(cropId, mac)" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+                        <i class="fa fa-refresh"></i> sync</button>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="table-list-settings-content">
+                    <table ng-if="listSchedule" class="table-list-settings" cellpadding="0" cellspacing="0" border="0" id="membersTable" ui-jq="dataTable"
+                      ui-options="dataScheduleTableOpt">
+                      <thead class="table-list-settings-header">
+                        <tr>
+                          <th>Type</th>
+                          <th>Name</th>
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                          <th>Duration Time</th>
+                          <th>Delay Time</th>
+                          <th>Operation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="item in listSchedule">
+                          <td>{{item.Actuator.type}}</td>
+                          <td>{{item.Actuator.name}}</td>
+                          <td>{{item.starttime}}</td>
+                          <td>{{item.endtime}}</td>
+                          <td>{{item.intervaltime}}</td>
+                          <td>{{item.delaytime}}</td>
+                          <td>
+                            <a ng-click="deleteSchedule(item.id)" data-toggle="tooltip" title="Delete this setting" data-placement="bottom" tooltip>
+                              <i class="fa fa-trash"></i>
+                            </a>
+                            &nbsp;
+                            <a href="#">
+                              <i class="fa fa-cog" data-toggle="tooltip" title="Edit this setting" data-placement="bottom" tooltip></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <center>
+                    <div class="row">
+                      <div class="col-md-12 add-device-container">
+                        <button type="button" data-toggle="modal" data-target="#addScheduleModal" class="button-refesh-data animated fadeInLeftBig">
+                          <i class="fa fa-calendar-plus-o"></i>&nbsp; New schedule</button>
+                      </div>
+                    </div>
+                  </center>
+                </div>
+              </div>
+            </div>
+            <div class="bhoechie-tab-content">
+              <center>
+                <div role="tabpanel" class="tab-pane animated fadeInRight in" id="Crop-Detail-Section4">
+                  <h3>Images for this crop</h3>
+                </div>
+              </center>
+            </div>
           </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <style media="screen">
-    #editCropModal {
-      font-size: 15px;
-      text-align: center;
-    }
+    <style media="screen">
+      #editCropModal {
+        font-size: 15px;
+        text-align: center;
+      }
 
 
-    #editCropModal input {
-      color: #000;
-      font-size: 15px;
-      border: 1px solid #e3e3e3;
-    }
-  </style>
-  <div class="modal fade" id="editCropModal" role="dialog" ng-controller="CropDetailCtrl">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <form ng-submit="editCrop()">
+      #editCropModal input {
+        color: #000;
+        font-size: 15px;
+        border: 1px solid #e3e3e3;
+      }
+    </style>
+    <div class="modal fade" id="editCropModal" role="dialog" ng-controller="CropDetailCtrl">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <form ng-submit="editCrop()">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Edit this crop information</h4>
+            </div>
+            <div class="modal-body">
+
+              <div class="row">
+                <label for="name" class="col-md-4 col-sm-4">Crop Name</label>
+                <input required ng-model="currentCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
+              </div>
+              <br>
+              <div class="row">
+                <label for="tree-species" class="col-md-4 col-sm-4">Tree Type</label>
+                <input required ng-model="currentCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species" />
+              </div>
+              <br>
+              <div class="row">
+                <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
+                <div class='col-md-7 col-sm-7'>
+                  <div class="form-group">
+                    <div class='input-group date' id='datetimepickerstartdate'>
+                      <input required id="startdate" ng-model="currentCrop.startdate" type='text' name="starting-date" class="form-control" />
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <script type="text/javascript">
+                  $(function () {
+                    $('#datetimepickerstartdate').datetimepicker({
+                      minDate: new Date()
+                    });
+                  });
+                </script>
+              </div>
+              <br>
+              <div class="row">
+                <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
+                <div class='col-md-7 col-sm-7'>
+                  <div class="form-group">
+                    <div class='input-group date' id='datetimepickerclosedate'>
+                      <input required id="closedate" ng-model="currentCrop.closedate" type='text' name="closing-date" class="form-control" />
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <script type="text/javascript">
+                  $(function () {
+                    $('#datetimepickerclosedate').datetimepicker({
+                      minDate: new Date()
+                    });
+                  });
+                </script>
+              </div>
+              <br>
+              <div class="row">
+                <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
+                <input required ng-model="currentCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="seconds"
+                />
+              </div>
+              <br>
+              <div class="row">
+                <label for="type" class="col-md-4 col-sm-4">Type:</label>
+                <select required class="col-md-7 col-sm-7" name="type" ng-model="currentCrop.type">
+                  <option value="">---Please select---</option>
+                  <option value="drip system">Drip System</option>
+                  <option value="ebb-flow">EBB-Flow</option>
+                  <option value="nft">NFT</option>
+                  <option value="water culture">Water Culture</option>
+                  <option value="aeroponics">Aeroponics</option>
+                  <option value="wick system">Wick System</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-1 btn-primary">OK</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+    <!-- Edit threshold modal -->
+    <div ng-controller="ThresholdCtrl" class="modal fade" id="editThresholdModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <form ng-submit="addThreshold()">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Edit threshold</h4>
+            </div>
+            <div class="modal-body">
+              <style media="screen">
+                #editThresholdModal label,
+                #editThresholdModal input {
+                  width: 100%;
+                  margin: 20px 0px;
+                }
+
+                #editThresholdModal input {
+                  padding: 5px 0px;
+                }
+              </style>
+              <center>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <label for="">Lowest</label>
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <label for="">Highest</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                    <label for="">Temperature</label>
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <input required ng-model="newThreshold.temperatureLower" type="number" name="lower-temp" />
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <input required ng-model="newThreshold.temperatureUpper" type="number" name="upper-temp" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                    <label for="">Humidity</label>
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <input required ng-model="newThreshold.humidityLower" type="number" name="lower-humidity" />
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <input required ng-model="newThreshold.humidityUpper" type="number" name="upper-humidity" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                    <label for="">ppm</label>
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <input required ng-model="newThreshold.ppmLower" type="number" name="lower-ppm" />
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <input required ng-model="newThreshold.ppmUpper" type="number" name="upper-ppm" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                    <label for="">light</label>
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <input required ng-model="newThreshold.lightLower" type="number" name="lower-light" />
+                  </div>
+                  <div class="col-md-4 col-sm-4">
+                    <input required ng-model="newThreshold.lightUpper" type="number" name="upper-light" />
+                  </div>
+                </div>
+              </center>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-1 btn-primary">OK</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End edit threshold modal -->
+
+    <!-- Start add schedule modal -->
+
+    <div class="modal fade" id="addScheduleModal" role="dialog" ng-controller="ScheduleSettingCtrl">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <form ng-submit="addSchedule()">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Edit this crop information</h4>
+            <h4 class="modal-title">Add new settings for this device</h4>
           </div>
           <div class="modal-body">
-
-            <div class="row">
-              <label for="name" class="col-md-4 col-sm-4">Crop Name</label>
-              <input required ng-model="currentCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
-            </div>
-            <br>
-            <div class="row">
-              <label for="tree-species" class="col-md-4 col-sm-4">Tree Type</label>
-              <input required ng-model="currentCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species" />
-            </div>
-            <br>
-            <div class="row">
-              <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
-              <div class='col-md-7 col-sm-7'>
-                <div class="form-group">
-                  <div class='input-group date' id='datetimepickerstartdate'>
-                      <input required id="startdate" ng-model="currentCrop.startdate" type='text' name="starting-date" class="form-control" />
-                      <span class="input-group-addon">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
-                  </div>
-                </div>
-              </div>
-              <script type="text/javascript">
-              $(function () {
-                  $('#datetimepickerstartdate').datetimepicker({
-                    minDate: new Date()
-                  });
-              });
-              </script>
-            </div>
-            <br>
-            <div class="row">
-              <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
-              <div class='col-md-7 col-sm-7'>
-                <div class="form-group">
-                  <div class='input-group date' id='datetimepickerclosedate'>
-                      <input required id="closedate" ng-model="currentCrop.closedate" type='text' name="closing-date" class="form-control" />
-                      <span class="input-group-addon">
-                          <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
-                  </div>
-                </div>
-              </div>
-              <script type="text/javascript">
-              $(function () {
-                  $('#datetimepickerclosedate').datetimepicker({
-                    minDate: new Date()
-                  });
-              });
-              </script>
-            </div>
-            <br>
-            <div class="row">
-              <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
-              <input required ng-model="currentCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="seconds"/>
-            </div>
-            <br>
-            <div class="row">
-              <label for="type" class="col-md-4 col-sm-4">Type:</label>
-              <select required class="col-md-7 col-sm-7" name="type" ng-model="currentCrop.type">
-                <option value="">---Please select---</option>
-                <option value="drip system">Drip System</option>
-                <option value="ebb-flow">EBB-Flow</option>
-                <option value="nft">NFT</option>
-                <option value="water culture">Water Culture</option>
-                <option value="aeroponics">Aeroponics</option>
-                <option value="wick system">Wick System</option>
-              </select>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-1 btn-primary">OK</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </form>
-
-    </div>
-  </div>
-
-  <!-- Edit threshold modal -->
-  <div ng-controller="ThresholdCtrl" class="modal fade" id="editThresholdModal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <form ng-submit="addThreshold()">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Edit threshold</h4>
-        </div>
-        <div class="modal-body">
-          <style media="screen">
-            #editThresholdModal label, #editThresholdModal input{
-              width: 100%;
-              margin: 20px 0px;
-            }
-
-            #editThresholdModal input{
-              padding: 5px 0px;
-            }
-          </style>
-          <center>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <label for="">Lowest</label>
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <label for="">Highest</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <label for="">Temperature</label>
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.temperatureLower" type="number" name="lower-temp" />
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.temperatureUpper" type="number" name="upper-temp" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <label for="">Humidity</label>
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.humidityLower" type="number" name="lower-humidity" />
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.humidityUpper" type="number" name="upper-humidity" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <label for="">ppm</label>
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.ppmLower" type="number" name="lower-ppm" />
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.ppmUpper" type="number" name="upper-ppm" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <label for="">light</label>
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.lightLower" type="number" name="lower-light" />
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required ng-model="newThreshold.lightUpper" type="number" name="upper-light" />
-            </div>
-          </div>
-        </center>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-1 btn-primary">OK</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </form>
-      </div>
-    </div>
-  </div>
-  <!-- End edit threshold modal -->
-
-  <!-- Start add schedule modal -->
-  <div class="modal fade" id="addScheduleModal" role="dialog" ng-controller="ScheduleSettingCtrl">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add new settings for this device</h4>
-        </div>
-        <div class="modal-body">
             <style media="screen">
-              input, select{
-                width:100%;
+              input,
+              select {
+                width: 100%;
                 padding: 0px 0px;
-                text-align:center;
+                text-align: center;
                 border: 1px solid #EBE9ED;
                 color: #000;
                 font-size: 15px;
               }
             </style>
             <div class="row">
-            <center>
-            <div class="col-md-4 col-sm-4">
-              <label for="type">Actuator Type</label>
-            </div>
-            </center>
-            <div class="col-md-4 col-sm-4">
-              <select name="type" ng-model="newScheduleType">
-                <option value="Water" selected>Water</option>
-                <option value="Fan">Fan</option>
-                <option value="Lighting">Lighting</option>
-                <option value="Oxygen">Oxygen</option>
-              </select>
-            </div>
-            <div class="col-md-4 col-sm-4">
+              <center>
+                <div class="col-md-4 col-sm-4">
+                  <label for="type">Actuator Type</label>
+                </div>
+              </center>
+              <div class="col-md-4 col-sm-4">
+                <select required name="type" ng-model="newScheduleType">
+                  <option value="Water" selected>Water</option>
+                  <option value="Fan">Fan</option>
+                  <option value="Lighting">Lighting</option>
+                  <option value="Oxygen">Oxygen</option>
+                </select>
+              </div>
+              <div class="col-md-4 col-sm-4">
 
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <center>
-              <label for="name">Actuator Name</label>
-              </center>
+            <div class="row">
+              <div class="col-md-4 col-sm-4">
+                <center>
+                  <label for="name">Actuator Name</label>
+                </center>
+              </div>
+              <div class="col-md-4 col-sm-4">
+                <select required name="name" ng-model="newSchedule.ActuatorId" ng-options="item.id as item.name for item in listActuators| filter: {type: newScheduleType}">
+                </select>
+              </div>
+              <div class="col-md-4 col-sm-4">
+              </div>
             </div>
-            <div class="col-md-4 col-sm-4">
-              <select name="name" ng-model="newSchedule.ActuatorId" ng-options="item.id as item.name for item in listActuators| filter: {type: newScheduleType}">
-              </select>
-            </div>
-            <div class="col-md-4 col-sm-4">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <center>
-              <label for="name" >Start Time</label>
-              </center>
-            </div>
-            <div class="col-md-4 col-sm-4">
+            <div class="row">
+              <div class="col-md-4 col-sm-4">
+                <center>
+                  <label for="name">Start Time</label>
+                </center>
+              </div>
+              <div class="col-md-4 col-sm-4">
                 <div class="form-group">
-                    <div class='input-group date' id='datetimepickerstarttime'>
-                        <input id='starttime' type='text' class="form-control" ng-model="newSchedule.starttime"/>
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                        </span>
-                    </div>
+                  <div class='input-group date' id='datetimepickerstarttime'>
+                    <input required id='starttime' type='text' class="form-control" ng-model="newSchedule.starttime" />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                  </div>
+                </div>
+                <script type="text/javascript">
+                  $(function () {
+                    $('#datetimepickerstarttime').datetimepicker({
+                      format: 'HH:mm'
+                    });
+                  });
+                </script>
+              </div>
+              <div class="col-md-4 col-sm-4">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-sm-4">
+                <center>
+                  <label for="name">End Time</label>
+                </center>
+              </div>
+              <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                  <div class='input-group date' id='datetimepickerendtime'>
+                    <input required id='endtime' type='text' class="form-control" ng-model="newSchedule.endtime" />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                  </div>
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#datetimepickerstarttime').datetimepicker({
-                            format: 'HH:mm'
-                        });
+                      $('#datetimepickerendtime').datetimepicker({
+                        format: 'HH:mm'
+                      });
                     });
                 </script>
-            </div>
-            <div class="col-md-4 col-sm-4">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <center>
-              <label for="name" >End Time</label>
-              </center>
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <div class="form-group">
-                <div class='input-group date' id='datetimepickerendtime'>
-                    <input id='endtime' type='text' class="form-control" ng-model="newSchedule.endtime"/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </span>
-                </div>
               </div>
-              <script type="text/javascript">
-                  $(function () {
-                      $('#datetimepickerendtime').datetimepicker({
-                          format: 'HH:mm'
-                      });
-                  });
-              </script>
+              <div class="col-md-4 col-sm-4">
+              </div>
             </div>
-            <div class="col-md-4 col-sm-4">
+            <div class="row">
+              <div class="col-md-4 col-sm-4">
+                <center>
+                  <label for="name">Duration Time</label>
+                </center>
+              </div>
+              <div class="col-md-4 col-sm-4">
+                <input required type="number" placeholder="seconds" ng-model="newSchedule.intervaltime">
+              </div>
+              <div class="col-md-4 col-sm-4">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-sm-4">
+                <center>
+                  <label for="name">Delay Time</label>
+                </center>
+              </div>
+              <div class="col-md-4 col-sm-4">
+                <input required type="number" placeholder="seconds" ng-model="newSchedule.delaytime">
+              </div>
+              <div class="col-md-4 col-sm-4">
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <center>
-              <label for="name">Duration Time</label>
-              </center>
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input type="number" placeholder="seconds" ng-model="newSchedule.intervaltime">
-            </div>
-            <div class="col-md-4 col-sm-4">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <center>
-              <label for="name">Delay Time</label>
-              </center>
-            </div>
-            <div class="col-md-4 col-sm-4">
-              <input required type="number" placeholder="seconds" ng-model="newSchedule.delaytime">
-            </div>
-            <div class="col-md-4 col-sm-4">
-            </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-1 btn-primary">OK</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
-        <div class="modal-footer">
-          <button ng-click="addSchedule()" type="button" class="btn btn-1 btn-primary">OK</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+        </form>
       </div>
     </div>
-  </div>
 
   </section>
   <script src="/js/libs/moment.js" type="text/javascript"></script>
