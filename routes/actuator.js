@@ -48,9 +48,9 @@ router.post('/addactuator', user.authenticate(), function (req, res) {
           client.on('message', function (topic, payload) {
             var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
             if (ack) {
-              client.end();
               if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                 // if device received message, update database
+                client.end();
                 models.Actuator.createActuator(newActuator, function () {
                   res.json({
                     success: true,
@@ -134,9 +134,9 @@ router.put('/status', user.authenticate(), function (req, res) {
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
         if (ack) {
-          client.end();
           if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
             // if device received message, update database
+            client.end();
             models.Actuator.getActuatorById(req.body.id, function (actuator) {
               actuator.updateStatus(req.body.status, function () {
                 res.json({
@@ -199,9 +199,10 @@ router.put('/priority', user.authenticate(), function (req, res) {
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
         if (ack) {
-          client.end();
+          
           if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
             // if device received message, update database
+            client.end();
             models.Actuator.getActuatorById(req.body.id, function (actuator) {
               actuator.updatePriority(req.body.priority, function () {
                 res.json({
@@ -257,10 +258,9 @@ router.delete('/delete', user.authenticate(), function (req, res) {
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
         if (ack) {
-
-          client.end();
           if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
             // if device received message, update database
+            client.end();
             models.Actuator.deleteActuator(req.query.id, function () {
               res.json({
                 success: true,

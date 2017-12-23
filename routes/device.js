@@ -141,29 +141,31 @@ router.put('/status', user.authenticate(), function (req, res) {
       // wait for ack message from device
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-        client.end();
-        if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-          // if device received message, update database
-          models.Device.getDeviceByMac(deviceMac, function (device) {
-            if (device) {
-              device.updateStatus(req.body.status, function () {
-                res.json({
-                  success: true,
-                  message: 'Update device status success !'
+        if (ack) {
+          if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+            // if device received message, update database
+            client.end();
+            models.Device.getDeviceByMac(deviceMac, function (device) {
+              if (device) {
+                device.updateStatus(req.body.status, function () {
+                  res.json({
+                    success: true,
+                    message: 'Update device status success !'
+                  })
                 })
-              })
-            } else {
-              res.json({
-                success: false,
-                message: 'Device does not exist !'
-              })
-            }
-          })
-        } else {
-          res.json({
-            success: false,
-            message: 'Cannot send MQTT update status message to device'
-          })
+              } else {
+                res.json({
+                  success: false,
+                  message: 'Device does not exist !'
+                })
+              }
+            })
+          } else {
+            res.json({
+              success: false,
+              message: 'Cannot send MQTT update status message to device'
+            })
+          }
         }
       })
     }

@@ -57,8 +57,7 @@ router.get('/searchdetail', function (req, res) {
 
   models.Crop.getSearchCropById(req.query.id, function (result) {
     if (result) {
-      if (result.dataValues.share)
-      {
+      if (result.dataValues.share) {
         res.json({
           success: true,
           data: result.dataValues,
@@ -77,7 +76,7 @@ router.get('/searchdetail', function (req, res) {
         message: 'Crop does not exist !'
       })
     }
-  }, function() {
+  }, function () {
     res.json({
       success: false,
       message: 'Error when getting crop !'
@@ -111,21 +110,21 @@ router.post('/sendreview', user.authenticate(), function (req, res) {
 
 router.get('/newest', user.authenticate(), function (req, res) {
 
-    models.Crop.getNewestRunningCropByDeviceMac(req.query.mac, function (result) {
-      if (result) {
-        res.json({
-          success: true,
-          data: result.dataValues,
-          message: 'Get crop success !'
-        })
-      } else {
-        res.json({
-          success: false,
-          message: 'Crop does not exist !'
-        })
-      }
-    })
+  models.Crop.getNewestRunningCropByDeviceMac(req.query.mac, function (result) {
+    if (result) {
+      res.json({
+        success: true,
+        data: result.dataValues,
+        message: 'Get crop success !'
+      })
+    } else {
+      res.json({
+        success: false,
+        message: 'Crop does not exist !'
+      })
+    }
   })
+})
 
 router.post('/add', user.authenticate(), function (req, res) {
   // check crop name already exist
@@ -141,7 +140,7 @@ router.post('/add', user.authenticate(), function (req, res) {
       var serverTopic = utils.getServerTopic(deviceMac);
       const client = mqtt.connect(protocolConstant.MQTT_BROKER);
 
-      var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
+      var message = req.body.DeviceMac.replace(/:/g, "").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
 
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
@@ -163,21 +162,22 @@ router.post('/add', user.authenticate(), function (req, res) {
           // wait for ack message from device
           client.on('message', function (topic, payload) {
             var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-
-            if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-              client.end();
-              var newCrop = req.body;
-              models.Crop.createCrop(newCrop, function () {
+            if (ack) {
+              if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+                client.end();
+                var newCrop = req.body;
+                models.Crop.createCrop(newCrop, function () {
                   res.json({
                     success: true,
                     message: "Add crop success"
                   })
-              });
-            } else {
-              res.json({
-                success: false,
-                message: 'Cannot send settings to device.'
-              })
+                });
+              } else {
+                res.json({
+                  success: false,
+                  message: 'Cannot send settings to device.'
+                })
+              }
             }
           })
         }
@@ -217,7 +217,7 @@ router.put('/edit', user.authenticate(), function (req, res) {
       var serverTopic = utils.getServerTopic(deviceMac);
       const client = mqtt.connect(protocolConstant.MQTT_BROKER);
 
-      var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
+      var message = req.body.DeviceMac.replace(/:/g, "").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
 
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
@@ -239,21 +239,22 @@ router.put('/edit', user.authenticate(), function (req, res) {
           // wait for ack message from device
           client.on('message', function (topic, payload) {
             var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-
-            if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-              client.end();
-              var newCrop = req.body;
-              models.Crop.createCrop(newCrop, function () {
+            if (ack) {
+              if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+                client.end();
+                var newCrop = req.body;
+                models.Crop.createCrop(newCrop, function () {
                   res.json({
                     success: true,
                     message: "Add crop success"
                   })
-              });
-            } else {
-              res.json({
-                success: false,
-                message: 'Cannot send settings to device.'
-              })
+                });
+              } else {
+                res.json({
+                  success: false,
+                  message: 'Cannot send settings to device.'
+                })
+              }
             }
           })
         }
@@ -316,10 +317,9 @@ router.get('/search', function (req, res) {
       })
     })
   } else {
-    if (req.query.type === 'both')
-    {
+    if (req.query.type === 'both') {
 
-      models.Crop.getCropByBoth(req.query.tree, req.query.month , function (result) {
+      models.Crop.getCropByBoth(req.query.tree, req.query.month, function (result) {
         res.json({
           success: true,
           data: result,
@@ -337,7 +337,7 @@ router.get('/search', function (req, res) {
 })
 
 router.get('/reviews', function (req, res) {
-  models.Review.getReviewsByCropId(req.query.id, function(reviews){
+  models.Review.getReviewsByCropId(req.query.id, function (reviews) {
     res.json({
       success: true,
       data: reviews,

@@ -37,8 +37,7 @@ router.get('/searchall', function (req, res) {
 
   models.Crop.getCropById(cropId, function (result) {
     console.log(result);
-    if (result.dataValues.share)
-    {
+    if (result.dataValues.share) {
       console.log(result.dataValues.share);
       result.getSchedules().then(function (schedules) {
         console.log(schedules);
@@ -73,8 +72,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
   models.Schedule.deleteScheduleSettingById(scheduleId, function (result) {
     models.Crop.getCropById(cropId, function (crop) {
-      if (crop)
-      {
+      if (crop) {
         crop.updateSynchronized(false, function () {
           res.send({
             success: true,
@@ -89,7 +87,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
         });
       }
     })
-  }, function(result){
+  }, function (result) {
 
     res.send({
       success: false,
@@ -105,7 +103,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
   const client = mqtt.connect(protocolConstant.MQTT_BROKER);
   var cropId = req.query.cropId;
   var commandId = '02';
-  var message = deviceMac.replace(/:/g,"").toUpperCase() + commandId;
+  var message = deviceMac.replace(/:/g, "").toUpperCase() + commandId;
   var dataLength = 0;
   //var topic = 'device/' + mac + '/esp';
 
@@ -121,7 +119,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
           if (actuators[i].dataValues.Schedules.length > 0) {
             dataLength = dataLength + (2 + 2 + 6 * 4 * actuators[i].dataValues.Schedules.length);
             //var string = utils.normalizeNumber(i + 1, 2) + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
-            var string = actuators[i].idonboard + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2) ;
+            var string = actuators[i].idonboard + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
             //item.dataValues.Schedules.forEach(function(scheduleItem){
             for (j = 0; j < actuators[i].dataValues.Schedules.length; j++) {
               var starttimeString = utils.timeToMessageString(actuators[i].dataValues.Schedules[j].starttime);
@@ -163,32 +161,32 @@ router.get('/sync', user.authenticate(), function (req, res) {
             // wait for ack message from device
             client.on('message', function (topic, payload) {
               var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-              console.log(ack);
-              if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-                client.end();
-                models.Crop.getCropById(cropId, function (crop) {
-                  if (crop)
-                  {
-                    crop.updateSynchronized(true, function () {
-                      res.json({
-                        success: true,
-                        data: message,
-                        message: "Successfully to synchronized setting with device!"
+              if (ack) {
+                if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+                  client.end();
+                  models.Crop.getCropById(cropId, function (crop) {
+                    if (crop) {
+                      crop.updateSynchronized(true, function () {
+                        res.json({
+                          success: true,
+                          data: message,
+                          message: "Successfully to synchronized setting with device!"
+                        })
                       })
-                    })
-                  }
-                  else {
-                    res.send({
-                      success: false,
-                      message: "Cannot get crop!"
-                    });
-                  }
-                })
-              } else {
-                res.json({
-                  success: false,
-                  message: 'Cannot send settings to device.'
-                })
+                    }
+                    else {
+                      res.send({
+                        success: false,
+                        message: "Cannot get crop!"
+                      });
+                    }
+                  })
+                } else {
+                  res.json({
+                    success: false,
+                    message: 'Cannot send settings to device.'
+                  })
+                }
               }
             })
           }
@@ -245,11 +243,9 @@ router.post('/add', user.authenticate(), function (req, res) {
     }
     else {
       models.Schedule.createSchedule(scheduleSetting, function (result) {
-        if (result)
-        {
+        if (result) {
           models.Crop.getCropById(scheduleSetting.CropId, function (crop) {
-            if (crop)
-            {
+            if (crop) {
               crop.updateSynchronized(false, function () {
                 res.send({
                   success: true,
@@ -265,8 +261,7 @@ router.post('/add', user.authenticate(), function (req, res) {
             }
           })
         }
-        else
-        {
+        else {
           res.send({
             success: false,
             message: "Cannot create schedule setting!"
