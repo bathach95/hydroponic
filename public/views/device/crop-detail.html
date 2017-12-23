@@ -12,7 +12,6 @@
 
 <body>
   <nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
-<<<<<<< HEAD
   <div class="container">
   	<!-- Brand and toggle get grouped for better mobile display -->
   	<div class="navbar-header">
@@ -48,69 +47,6 @@
   	</div>
   	<!-- /.navbar-collapse -->
   </div>
-=======
-    <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#top-section">BK Hydroponics</a>
-      </div>
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a ui-sref="home">Home</a>
-          </li>
-          <li>
-            <a ui-sref="system">Systems</a>
-          </li>
-          <li>
-            <a ui-sref="article">Acticle</a>
-          </li>
-          <li>
-            <a href="http://35.198.199.4:4567">Forum</a>
-          </li>
-          <li>
-            <a ui-sref="about">About</a>
-          </li>
-          <li ng-show="userLogin" class="dropdown active">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="">
-              <i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" ng-controller="LoginCtrl">
-              <li>
-                <a ui-sref="profile">Profile</a>
-              </li>
-              <li ng-controller="LoginCtrl" ng-if="userRole === 'admin'">
-                <a ui-sref="admin">Administration dashboard</a>
-              </li>
-              <li ng-controller="LoginCtrl" ng-if="userRole === 'mod'">
-                <a ui-sref="mod">Moderator dashboard</a>
-              </li>
-              <li>
-                <a ui-sref="change_password">Change your password</a>
-              </li>
-              <li>
-                <a href="" ng-click="logout()">Log out</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a ui-sref="search">
-              <i class="fa fa-search"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- /.navbar-collapse -->
-    </div>
->>>>>>> 426b76b55b16c8165d3a99fe08a524851b1389bf
   </nav>
   <!-- HOMEPAGE -->
 
@@ -267,240 +203,8 @@
 
       div.bhoechie-tab-content {
         background-color: #ffffff;
-        /* border: 1px solid #eeeeee;
-    padding-left: 20px;
-    padding-top: 10px;*/
         padding: 10px 20px;
       }
-
-<<<<<<< HEAD
-    div.bhoechie-tab div.bhoechie-tab-content:not(.active){
-    display: none;
-    }
-    #Hardware-Settings a > i{
-      color:#4ba2dc;
-    }
-  </style>
-  <script type="text/javascript">
-  $(document).ready(function() {
-  $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
-      e.preventDefault();
-      $(this).siblings('a.active').removeClass("active");
-      $(this).addClass("active");
-      var index = $(this).index();
-      $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
-      $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
-  });
-});
-  </script>
-
-
-  <div class="container">
-
-  	<div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeIn">
-  		<h1>Detail of your crop</h1>
-      <p class="lead">See all details of your crop</p>
-  	</div>
-    <div class="">
-          <div class="">
-              <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bhoechie-tab-menu">
-                <div class="list-group">
-                  <a href="#" class="list-group-item active text-center">
-                    <i class="fa fa-refresh"></i><br/>Current Data
-                  </a>
-                  <a href="#" class="list-group-item text-center">
-                    <i class="fa fa-info-circle"></i><br/>Information
-                  </a>
-                  <a href="#" class="list-group-item text-center">
-                    <i class="fa fa-calendar"></i><br/>Settings
-                  </a>
-                  <a href="#" class="list-group-item text-center">
-                    <i class="fa fa-image"></i><br/>Gallery
-                  </a>
-                  <a ui-sref="device_detail({mac: mac})" class="list-group-item text-center">
-                    <i class="fa fa-chevron-left"></i><br/>Back to List Crop
-                  </a>
-                </div>
-              </div>
-              <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 bhoechie-tab">
-                  <!-- flight section -->
-                  <div class="bhoechie-tab-content active">
-                        <div class="animated fadeInUp in active" id="Crop-Detail-Section1">
-                          <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Data from your device</h3>
-                          <br>
-                          <center>
-                          <div ng-controller="DataCtrl">
-                          <div class="row">
-                            <div class="col-md-12" ng-show="data">
-                              <div class="box-unborder box-info">
-                                <i class="fa fa-clock-o"></i>
-                                <h3>{{data.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
-                                </h3>
-                              </div>
-                              <div ng-if="!badStatus.temp" class="boxservice box-status-normal">
-                                <i class="fa fa-thermometer-quarter"></i>
-                                <h3>{{data.temperature}} &deg;C
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Temperature
-                                </p>
-                              </div>
-                              <div ng-if="badStatus.temp" class="boxservice box-status-warning">
-                                <i class="fa fa-thermometer-quarter"></i>
-                                <h3>{{data.temperature}} &deg;C
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Temperature
-                                </p>
-                              </div>
-                              <div ng-if="!badStatus.humidity" class="boxservice rightb box-status-normal">
-                                <i class="fa fa-tint"></i>
-                                <h3>{{data.humidity}} %
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Humidity
-                                </p>
-                              </div>
-                              <div ng-if="badStatus.humidity" class="boxservice rightb box-status-warning">
-                                <i class="fa fa-tint"></i>
-                                <h3>{{data.humidity}} %
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Humidity
-                                </p>
-                              </div>
-                              <div ng-if="!badStatus.ppm " class="boxservice bottomb box-status-normal">
-                                <i class="fa fa-snowflake-o"></i>
-                                <h3>{{data.ppm}} ppm
-                                  &#10;
-                                </h3>
-                                <p>
-                                  TDS
-                                </p>
-                              </div>
-                              <div ng-if="badStatus.ppm " class="boxservice bottomb box-status-warning">
-                                <i class="fa fa-snowflake-o"></i>
-                                <h3>{{data.ppm}} ppm
-                                  &#10;
-                                </h3>
-                                <p>
-                                  TDS
-                                </p>
-                              </div>
-                              <div ng-if="!badStatus.light" class="boxservice bottomb box-status-normal">
-                                <i class="fa fa-flask"></i>
-                                <h3>{{data.light}} lux
-                                  &#10;
-                                </h3>
-                                <p>
-                                  light
-                                </p>
-                              </div>
-                              <div ng-if="badStatus.light" class="boxservice bottomb box-status-warning">
-                                <i class="fa fa-flask"></i>
-                                <h3>{{data.light}} lux
-                                  &#10;
-                                </h3>
-                                <p>
-                                  light
-                                </p>
-                              </div>
-                              <div ng-if="!status" class="box-unborder box-status-normal">
-                                <i class="fa fa-check-square"></i>
-                                <h3>
-                                  Normal
-                                </h3>
-                                <p>
-                                  Status
-                                </p>
-                              </div>
-                              <div  ng-if="status" class="box-unborder box-status-warning">
-                                <i class="fa fa-exclamation-triangle"></i>
-                                <h3>
-                                  Warning
-                                </h3>
-                                <p>
-                                  Status
-                                </p>
-                              </div>
-                            </div>
-                            <div ng-hide="data">
-                                <p>No data available from your device. </p>
-                              </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-6">
-                              <button id="refreshDataButton" ng-click="refreshLatestData()" type="submit" class="button-refesh-data" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Refreshing data"><i class="fa fa-refresh"></i>&nbsp; Refresh</button>
-                            </div>
-                            <div class="col-md-6">
-                              <button type="submit" ui-sref="all_data({devicemac: deviceMac, cropid: crop.id})" class="button-refesh-data" style="text-decoration:none;"><i class="fa fa-list"></i>&nbsp; All data</button>
-                            </div>
-                          </div>
-                          </div>
-                        </center>
-                      </br>
-                      </br>
-                          <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Threshold</h3>
-                          <center>
-                          <div ng-show="threshold" class="row" ng-controller="ThresholdCtrl">
-                            <div id="thresholdValues" class="col-md-12">
-                              <div class="box-unborder">
-                              </div>
-                              <style media="screen">
-                                #thresholdValues > .boxservice > h3 {
-                                  font-size: 16px;
-                                }
-                              </style>
-                              <div class="boxservice">
-                                <h3>{{threshold.temperatureLower}} - {{threshold.temperatureUpper}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Temperature (&deg;C)
-                                </p>
-                              </div>
-                              <div class="boxservice rightb">
-                                <h3>{{threshold.humidityLower}} - {{threshold.humidityUpper}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  Humidity (%)
-                                </p>
-                              </div>
-                              <div class="boxservice bottomb">
-                                <h3>{{threshold.ppmLower}} - {{threshold.ppmUpper}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  TDS (ppm)
-                                </p>
-                              </div>
-                              <div class="boxservice bottomb">
-                                <h3>{{threshold.lightLower}} - {{threshold.lightUpper}}
-                                  &#10;
-                                </h3>
-                                <p>
-                                  light (lux)
-                                </p>
-                              </div>
-                              <div class="box-unborder box-status-normal">
-                              </div>
-                            </div>
-                          </div>
-                						<!-- end row -->
-                          <div ng-hide="threshold">
-                            <p>You haven't set any threshold. Please set it to get alert messages. </p>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12">
-                              <button type="submit" data-toggle="modal" data-target="#editThresholdModal" class="button-refesh-data"><i class="fa fa-cog"></i>&nbsp; Set Threshold</button>
-                            </div>
-                          </div>
-=======
       div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         display: none;
       }
@@ -521,7 +225,6 @@
         });
       });
     </script>
-
 
     <div class="container">
 
@@ -567,9 +270,8 @@
                       <div class="col-md-12" ng-show="data">
                         <div class="box-unborder box-info">
                           <i class="fa fa-clock-o"></i>
-                          <h3>{{data.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
+                          <h3 style="font-size:18px;">{{data.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}
                           </h3>
->>>>>>> 426b76b55b16c8165d3a99fe08a524851b1389bf
                         </div>
                         <div ng-if="!badStatus.temp" class="boxservice box-status-normal">
                           <i class="fa fa-thermometer-quarter"></i>
@@ -675,7 +377,12 @@
                 <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Threshold</h3>
                 <center>
                   <div ng-show="threshold" class="row" ng-controller="ThresholdCtrl">
-                    <div class="col-md-12">
+                    <style media="screen">
+                      #thresholdValues > .boxservice > h3 {
+                        font-size: 16px;
+                      }
+                    </style>
+                    <div id="thresholdValues" class="col-md-12">
                       <div class="box-unborder">
                       </div>
                       <div class="boxservice">
@@ -766,7 +473,6 @@
               </div>
               <center>
             </div>
-
             <div class="bhoechie-tab-content" ng-controller="ScheduleCtrl">
               <div class="animated fadeInLeft in" id="Hardware-Settings">
                 <div>
@@ -842,16 +548,17 @@
                       </tbody>
                     </table>
                   </div>
+                  </div>
                   <center>
-                    <div class="row">
-                      <div class="col-md-12 add-device-container">
-                        <button type="button" data-toggle="modal" data-target="#addScheduleModal" class="button-refesh-data animated fadeInLeftBig">
-                          <i class="fa fa-calendar-plus-o"></i>&nbsp; New schedule</button>
-                      </div>
+                  <div class="row">
+                    <div class="col-md-12 add-device-container">
+                      <button type="submit" data-toggle="modal" data-target="#addScheduleModal" class="button-refesh-data">
+                        <i class="fa fa-calendar-plus-o"></i>&nbsp; New schedule</button>
                     </div>
-                  </center>
-                </div>
+                  </div>
+                </center>
               </div>
+              </center>
             </div>
             <div class="bhoechie-tab-content">
               <center>
@@ -870,14 +577,14 @@
         font-size: 15px;
         text-align: center;
       }
-
-
       #editCropModal input {
         color: #000;
         font-size: 15px;
         border: 1px solid #e3e3e3;
       }
     </style>
+
+    <!-- Edit crop modal -->
     <div class="modal fade" id="editCropModal" role="dialog" ng-controller="CropDetailCtrl">
       <div class="modal-dialog">
         <!-- Modal content-->
@@ -888,7 +595,6 @@
               <h4 class="modal-title">Edit this crop information</h4>
             </div>
             <div class="modal-body">
-
               <div class="row">
                 <label for="name" class="col-md-4 col-sm-4">Crop Name</label>
                 <input required ng-model="currentCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
@@ -970,6 +676,7 @@
 
       </div>
     </div>
+    <!-- End edit crop modal -->
 
     <!-- Edit threshold modal -->
     <div ng-controller="ThresholdCtrl" class="modal fade" id="editThresholdModal" role="dialog">
@@ -1061,7 +768,6 @@
     <!-- End edit threshold modal -->
 
     <!-- Start add schedule modal -->
-
     <div class="modal fade" id="addScheduleModal" role="dialog" ng-controller="ScheduleSettingCtrl">
       <div class="modal-dialog">
         <!-- Modal content-->
@@ -1199,6 +905,7 @@
         </form>
       </div>
     </div>
+    <!-- End add schedule modal -->
 
   </section>
   <script src="/js/libs/moment.js" type="text/javascript"></script>
