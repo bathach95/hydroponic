@@ -136,6 +136,10 @@ controller.controller('CropDetailCtrl', function ($scope, $stateParams, $state, 
 
   $scope.mac = $stateParams.devicemac;
   $scope.cropid = $stateParams.cropid;
+  $scope.currentCrop = {
+    DeviceMac: $stateParams.devicemac,
+    id: $stateParams.cropid,
+  }
 
   CropService.getCropById($stateParams.cropid).then(function (result) {
 
@@ -145,24 +149,33 @@ controller.controller('CropDetailCtrl', function ($scope, $stateParams, $state, 
       flash.error = result.data.message;
     }
 
-    $scope.cropEdit = {
-      DeviceMac: $stateParams.devicemac,
-      id: $stateParams.cropid,
-      name: $scope.crop.name,
-      treetype: $scope.crop.treetype,
-      startdate: new Date($scope.crop.startdate),
-      closedate: new Date($scope.crop.closedate),
-      reporttime: $scope.crop.reporttime
-    }
+    $scope.currentCrop.name = $scope.crop.name;
+    $scope.currentCrop.treetype = $scope.crop.treetype;
+    $scope.currentCrop.startdate = moment($scope.crop.startdate).format("MM/DD/YYYY HH:mm A");
+    $scope.currentCrop.closedate = moment($scope.crop.closedate).format("MM/DD/YYYY HH:mm A");
+    $scope.currentCrop.reporttime = $scope.crop.reporttime;
+    $scope.currentCrop.type = $scope.crop.type;
   })
 
   $scope.editCrop = function () {
     $('#editCropModal').modal('hide');
-    CropService.editCrop($scope.cropEdit).then(function (result) {
+    var newEditCrop = {
+      id: $scope.currentCrop.id,
+      DeviceMac: $scope.currentCrop.DeviceMac,
+      name: $scope.currentCrop.name,
+      treetype: $scope.currentCrop.treetype,
+      type: $scope.currentCrop.type,
+      reporttime: $scope.currentCrop.reporttime,
+      startdate: moment($scope.currentCrop.startdate, "MM/DD/YYYY HH:mm A"),
+      closedate: moment($scope.currentCrop.closedate, "MM/DD/YYYY HH:mm A")
+    }
+    CropService.editCrop(newEditCrop).then(function (result) {
       $scope.editSuccess = result.data.success;
       $scope.editMessage = result.data.message;
       if (result.data.success) {
-        $state.reload();
+        bootbox.alert(result.data.message, function () {
+          $state.reload();
+        })
       }
     }).catch(function (err) {
       console.log(err);

@@ -4,7 +4,6 @@ controller.controller('DeviceCtrl', function ($http, $state, $stateParams, $wind
   // display all devices of user and display on profile.html
   DeviceService.getAllDevicesByUserId().then(function (result) {
 
-    console.log(result.data.data);
     if (result.data.success) {
       $scope.listDevice = result.data.data;
       $scope.dataTableOpt = {
@@ -93,4 +92,3 @@ controller.controller('DeviceDetailCtrl', function ($stateParams, $scope, Device
   });
 
 })
-

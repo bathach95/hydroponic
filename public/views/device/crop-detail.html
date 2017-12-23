@@ -451,7 +451,11 @@
                             </tr>
                           </tbody>
                         </table>
+                        <center>
+                        <button type="button" data-toggle="modal" data-target="#editCropModal" class="button-refesh-data animated fadeInLeftBig">
+                          <i class="fa fa-info"></i>&nbsp; Edit Info</button>
                         </div>
+                        <center>
                   </div>
 
                   <div class="bhoechie-tab-content" ng-controller="ScheduleCtrl">
@@ -546,6 +550,112 @@
           </div>
     </div>
   </div>
+
+  <style media="screen">
+    #editCropModal {
+      font-size: 15px;
+      text-align: center;
+    }
+
+
+    #editCropModal input {
+      color: #000;
+      font-size: 15px;
+      border: 1px solid #e3e3e3;
+    }
+  </style>
+  <div class="modal fade" id="editCropModal" role="dialog" ng-controller="CropDetailCtrl">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <form ng-submit="editCrop()">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Edit this crop information</h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="row">
+              <label for="name" class="col-md-4 col-sm-4">Crop Name</label>
+              <input required ng-model="currentCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
+            </div>
+            <br>
+            <div class="row">
+              <label for="tree-species" class="col-md-4 col-sm-4">Tree Type</label>
+              <input required ng-model="currentCrop.treetype" class="col-md-7 col-sm-7" type="text" name="tree-species" />
+            </div>
+            <br>
+            <div class="row">
+              <label for="starting-date" class="col-md-4 col-sm-4">Starting Date</label>
+              <div class='col-md-7 col-sm-7'>
+                <div class="form-group">
+                  <div class='input-group date' id='datetimepickerstartdate'>
+                      <input required id="startdate" ng-model="currentCrop.startdate" type='text' name="starting-date" class="form-control" />
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <script type="text/javascript">
+              $(function () {
+                  $('#datetimepickerstartdate').datetimepicker({
+                    minDate: new Date()
+                  });
+              });
+              </script>
+            </div>
+            <br>
+            <div class="row">
+              <label for="closing-date" class="col-md-4 col-sm-4">Closing Date</label>
+              <div class='col-md-7 col-sm-7'>
+                <div class="form-group">
+                  <div class='input-group date' id='datetimepickerclosedate'>
+                      <input required id="closedate" ng-model="currentCrop.closedate" type='text' name="closing-date" class="form-control" />
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                </div>
+              </div>
+              <script type="text/javascript">
+              $(function () {
+                  $('#datetimepickerclosedate').datetimepicker({
+                    minDate: new Date()
+                  });
+              });
+              </script>
+            </div>
+            <br>
+            <div class="row">
+              <label for="report-time" class="col-md-4 col-sm-4">Report Time</label>
+              <input required ng-model="currentCrop.reporttime" class="col-md-7 col-sm-7" type="number" name="report-time" placeholder="seconds"/>
+            </div>
+            <br>
+            <div class="row">
+              <label for="type" class="col-md-4 col-sm-4">Type:</label>
+              <select required class="col-md-7 col-sm-7" name="type" ng-model="currentCrop.type">
+                <option value="">---Please select---</option>
+                <option value="drip system">Drip System</option>
+                <option value="ebb-flow">EBB-Flow</option>
+                <option value="nft">NFT</option>
+                <option value="water culture">Water Culture</option>
+                <option value="aeroponics">Aeroponics</option>
+                <option value="wick system">Wick System</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-1 btn-primary">OK</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
   <!-- Edit threshold modal -->
   <div ng-controller="ThresholdCtrl" class="modal fade" id="editThresholdModal" role="dialog">
     <div class="modal-dialog">
@@ -761,14 +871,12 @@
             <div class="col-md-4 col-sm-4">
             </div>
           </div>
-
         </div>
         <div class="modal-footer">
           <button ng-click="addSchedule()" type="button" class="btn btn-1 btn-primary">OK</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-
     </div>
   </div>
 

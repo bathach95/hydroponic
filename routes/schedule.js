@@ -106,7 +106,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
   var message = deviceMac.replace(/:/g, "").toUpperCase() + commandId;
   var dataLength = 0;
   //var topic = 'device/' + mac + '/esp';
-
+  var numOfActuatorsWithSchedules = 0;
   models.Device.getDeviceByMac(deviceMac, function (deviceItem) {
     if (deviceItem) {
       var query = {
@@ -117,6 +117,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
         //actuators.forEach(function(item, index) {
         for (i = 0; i < actuators.length; i++) {
           if (actuators[i].dataValues.Schedules.length > 0) {
+            numOfActuatorsWithSchedules = numOfActuatorsWithSchedules + 1;
             dataLength = dataLength + (2 + 2 + 6 * 4 * actuators[i].dataValues.Schedules.length);
             //var string = utils.normalizeNumber(i + 1, 2) + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
             var string = actuators[i].idonboard + utils.normalizeNumber(actuators[i].dataValues.Schedules.length.toString(), 2);
@@ -136,7 +137,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
         }
         //listStrings.forEach(function(item){
         message = message.concat(utils.normalizeNumber(dataLength + 2, 4));
-        message = message.concat(utils.normalizeNumber(actuators.length, 2))
+        message = message.concat(utils.normalizeNumber(numOfActuatorsWithSchedules, 2))
         for (i = 0; i < listStrings.length; i++) {
           message = message.concat(listStrings[i]);
         }

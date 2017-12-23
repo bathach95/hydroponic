@@ -206,20 +206,23 @@ router.delete('/delete', user.authenticate(), function (req, res) {
 
 router.put('/edit', user.authenticate(), function (req, res) {
   models.Crop.getCropById(req.body.id, function (result) {
-    result.update({
-      name: req.body.name,
-      treetype: req.body.treetype,
-      startdate: req.body.startdate,
-      closedate: req.body.closedate,
-      reporttime: req.body.reporttime
-    }).then(function () {
+    if (!result)
+    {
+      res.json({
+        success: false,
+        message: 'Crop is not existed.'
+      })
+    }
+    else {
       var deviceMac = req.body.DeviceMac;
       var deviceTopic = utils.getDeviceTopic(deviceMac);
       var serverTopic = utils.getServerTopic(deviceMac);
       const client = mqtt.connect(protocolConstant.MQTT_BROKER);
 
-      var message = req.body.DeviceMac.replace(/:/g, "").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
+      var reporttime = utils.secondsToHMS(req.body.reporttime);
+      var message = req.body.DeviceMac.replace(/:/g, "").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + reporttime.hours + reporttime.mins + reporttime.seconds;
 
+      console.log(req.body);
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
         console.log('this line subscribe success to ' + serverTopic)
@@ -243,11 +246,17 @@ router.put('/edit', user.authenticate(), function (req, res) {
             if (ack) {
               if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                 client.end();
-                var newCrop = req.body;
-                models.Crop.createCrop(newCrop, function () {
+                result.update({
+                  name: req.body.name,
+                  treetype: req.body.treetype,
+                  startdate: req.body.startdate,
+                  closedate: req.body.closedate,
+                  reporttime: req.body.reporttime,
+                  type: req.body.type
+                }).then(function () {
                   res.json({
                     success: true,
-                    message: "Add crop success"
+                    message: "Edit crop success"
                   })
                 });
               } else {
@@ -260,18 +269,8 @@ router.put('/edit', user.authenticate(), function (req, res) {
           })
         }
       });
-      /*
-      // send to device
-      sendSettingToDevice(req.body, function () {
-        res.send({
-          success: true,
-          message: "Edit success"
-        })
-      });
-      */
-    });
+    }
   });
-
 })
 
 router.put('/share', user.authenticate(), function (req, res) {

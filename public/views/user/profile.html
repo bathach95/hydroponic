@@ -101,7 +101,6 @@
           <thead class="table-list-device-header">
   	        <tr>
   	          <th>No.</th>
-  	          <th>MAC Address</th>
   	          <th>Device Name</th>
   	          <th>Installation Date</th>
   	          <th>Status</th>
@@ -112,19 +111,11 @@
           <tbody>
   	        <tr ng-repeat="item in listDevice">
   	          <td>{{$index + 1}}</td>
-  	          <td><a class="device-link" ui-sref="device_detail({mac: item.mac})">{{item.mac}}</a></td>
-  	          <td>{{item.name}}</td>
+  	          <td><a class="device-link" ui-sref="device_detail({mac: item.mac})">{{item.name}}</a></td>
   	          <td>{{item.createdAt | date:'dd-MM-yyyy HH:mm:ss'}}</td>
   	          <td>{{item.status}}</td>
   	          <td>{{item.manufacturer}}</td>
   	          <td>
-                <a ng-if="item.status=='running'" ng-click="status($index, item.mac, 'paused')" href="" data-toggle="tooltip" title="Pause this device" data-placement="bottom" tooltip>
-                  <i class="fa fa-pause"></i>
-                </a>
-                <a ng-if="item.status=='paused'" ng-click="status($index, item.mac, 'running')" href="" data-toggle="tooltip" title="Restart this device" data-placement="bottom" tooltip>
-                  <i class="fa fa-play"></i>
-                </a>
-                &nbsp;
   	          	<a ng-click="deleteDevice($index, item.mac)" href="" data-toggle="tooltip" title="Delete this device" data-placement="bottom" tooltip>
   	          		<i class="fa fa-trash"></i>
   	          	</a>
