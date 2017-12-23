@@ -144,7 +144,7 @@ controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, Thres
         var temperaturedata = [];
         var humiditydata = [];
         var ppmdata = [];
-        var phdata = [];
+        var lightdata = [];
         if (result.data.data.length > 10)
         {
           for (i = 0; i < 10; i++)
@@ -153,7 +153,7 @@ controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, Thres
             temperaturedata.unshift(result.data.data[i].temperature);
             humiditydata.unshift(result.data.data[i].humidity);
             ppmdata.unshift(result.data.data[i].ppm);
-            phdata.unshift(result.data.data[i].ph);
+            lightdata.unshift(result.data.data[i].light);
           }
         }
         else {
@@ -163,16 +163,16 @@ controller.controller('AllLogCtrl', function ($http, $stateParams, $scope, Thres
             temperaturedata.unshift(result.data.data[i].temperature);
             humiditydata.unshift(result.data.data[i].humidity);
             ppmdata.unshift(result.data.data[i].ppm);
-            phdata.unshift(result.data.data[i].ph);
+            lightdata.unshift(result.data.data[i].light);
           }
         }
         $scope.labels = labels;
-        $scope.seriesPH = ['pH', 'Threshold'];
+        $scope.seriesLight = ['Light', 'Threshold'];
         $scope.seriesPPM = ['ppm', 'Threshold'];
         $scope.seriesTemperature = ['Temperature', 'Threshold'];
         $scope.seriesHumidity = ['Humidity', 'Threshold'];
-        $scope.dataPH = [
-          phdata
+        $scope.dataLight = [
+          lightdata
         ];
         $scope.dataPPM = [
           ppmdata

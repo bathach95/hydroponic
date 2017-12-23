@@ -21,7 +21,7 @@
   		<span class="icon-bar"></span>
   		<span class="icon-bar"></span>
   		</button>
-  		<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+  		<a class="navbar-brand" ui-sref="home">BK Hydroponics</a>
   	</div>
   	<!-- Collect the nav links, forms, and other content for toggling -->
   	<div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -291,25 +291,25 @@
                               </div>
                               <div ng-if="!badStatus.ppm " class="boxservice bottomb box-status-normal">
                                 <i class="fa fa-snowflake-o"></i>
-                                <h3>{{data.ppm}}
+                                <h3>{{data.ppm}} ppm
                                   &#10;
                                 </h3>
                                 <p>
-                                  ppm
+                                  TDS
                                 </p>
                               </div>
                               <div ng-if="badStatus.ppm " class="boxservice bottomb box-status-warning">
                                 <i class="fa fa-snowflake-o"></i>
-                                <h3>{{data.ppm}}
+                                <h3>{{data.ppm}} ppm
                                   &#10;
                                 </h3>
                                 <p>
-                                  ppm
+                                  TDS
                                 </p>
                               </div>
                               <div ng-if="!badStatus.light" class="boxservice bottomb box-status-normal">
                                 <i class="fa fa-flask"></i>
-                                <h3>{{data.light}}
+                                <h3>{{data.light}} lux
                                   &#10;
                                 </h3>
                                 <p>
@@ -318,7 +318,7 @@
                               </div>
                               <div ng-if="badStatus.light" class="boxservice bottomb box-status-warning">
                                 <i class="fa fa-flask"></i>
-                                <h3>{{data.light}}
+                                <h3>{{data.light}} lux
                                   &#10;
                                 </h3>
                                 <p>
@@ -363,9 +363,14 @@
                           <h3 style="padding-bottom:10px; border-bottom: 1px solid;">Threshold</h3>
                           <center>
                           <div ng-show="threshold" class="row" ng-controller="ThresholdCtrl">
-                            <div class="col-md-12">
+                            <div id="thresholdValues" class="col-md-12">
                               <div class="box-unborder">
                               </div>
+                              <style media="screen">
+                                #thresholdValues > .boxservice > h3 {
+                                  font-size: 16px;
+                                }
+                              </style>
                               <div class="boxservice">
                                 <h3>{{threshold.temperatureLower}} - {{threshold.temperatureUpper}}
                                   &#10;
@@ -387,7 +392,7 @@
                                   &#10;
                                 </h3>
                                 <p>
-                                  ppm
+                                  TDS (ppm)
                                 </p>
                               </div>
                               <div class="boxservice bottomb">
@@ -395,7 +400,7 @@
                                   &#10;
                                 </h3>
                                 <p>
-                                  light
+                                  light (lux)
                                 </p>
                               </div>
                               <div class="box-unborder box-status-normal">

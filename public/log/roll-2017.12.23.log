@@ -208,3 +208,9 @@ SequelizeConnectionError: read ECONNRESET
 13:29:48.372 ERROR Incoming data is not right format 
 13:30:04.534 ERROR Incoming data is not right format 
 13:30:15.024 ERROR Incoming data is not right format 
+13:52:22.369 INFO  subscribe success to device/112233445566/server 
+13:52:22.407 INFO  Admin account was created 
+14:34:14.986 ERROR Incoming data is not right format 
+14:36:25.446 ERROR Incoming data is not right format 
+14:40:40.332 INFO  subscribe success to device/112233445566/server 
+14:40:40.461 INFO  Admin account was created 

@@ -21,7 +21,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#top-section">BK Hydroponics</a>
+			<a class="navbar-brand" ui-sref="home">BK Hydroponics</a>
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -68,38 +68,39 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</div>
 	<div class="container" style="width:90%;">
 		<div class="card">
+			<h3 class="card-title">Lastest 10 data points</h3>
 			<ul class="nav nav-tabs">
 		    <li class="active"><a data-toggle="tab" href="#temperature">Temperature</a></li>
 		    <li><a data-toggle="tab" href="#humidity">Humidity</a></li>
 		    <li><a data-toggle="tab" href="#ppm">PPM</a></li>
-		    <li><a data-toggle="tab" href="#ph">PH</a></li>
+		    <li><a data-toggle="tab" href="#light">Light</a></li>
 		  </ul>
 			<div class="tab-content">
 				<div id="temperature" class="tab-pane fade in active">
-					<h3>Temperature (&deg;C)</h3>
+					<h4>Temperature (&deg;C)</h4>
 					<canvas id="lineTemperature" class="chart chart-line" chart-data="dataTemperature"
 					chart-labels="labels" chart-series="seriesTemperature" chart-options="options"
 					chart-dataset-override="datasetOverride" chart-click="onClick">
 					</canvas>
 				</div>
 				<div id="humidity" class="tab-pane fade">
-					<h3>Humidity (%)</h3>
+					<h4>Humidity (%)</h4>
 					<canvas id="lineHumidity" class="chart chart-line" chart-data="dataHumidity"
 					chart-labels="labels" chart-series="seriesHumidity" chart-options="options"
 					chart-dataset-override="datasetOverride" chart-click="onClick">
 					</canvas>
 				</div>
 				<div id="ppm" class="tab-pane fade">
-					<h3>PPM</h3>
+					<h4>PPM</h4>
 					<canvas id="line" class="chart chart-line" chart-data="dataPPM"
 					chart-labels="labels" chart-series="seriesPPM" chart-options="options"
 					chart-dataset-override="datasetOverride" chart-click="onClick">
 					</canvas>
 				</div>
-				<div id="ph" class="tab-pane fade">
-					<h3>PH</h3>
-					<canvas id="line" class="chart chart-line" chart-data="dataPH"
-					chart-labels="labels" chart-series="seriesPH" chart-options="options"
+				<div id="light" class="tab-pane fade">
+					<h4>Light</h4>
+					<canvas id="line" class="chart chart-line" chart-data="dataLight"
+					chart-labels="labels" chart-series="seriesLight" chart-options="options"
 					chart-dataset-override="datasetOverride" chart-click="onClick">
 					</canvas>
 				</div>
@@ -119,20 +120,20 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	  	          <th>Temperature</th>
 	  	          <th>Humidity</th>
 	  	          <th>ppm</th>
-	  	          <th>light</th>
+	  	          <th>Light</th>
 	  	          <th>Status</th>
 	  	        </tr>
 	  	      </thead>
 	          <tbody>
 							<tr ng-repeat="item in data">
 								<td>{{item.createdAt | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
-								<td ng-attr-style="{{item.badStatus.temp && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.temperature}}</td>
-								<td ng-attr-style="{{item.badStatus.humidity && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.humidity}}</td>
-								<td ng-attr-style="{{item.badStatus.ppm && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.ppm}}</td>
-								<td ng-attr-style="{{item.badStatus.light && 'color: #FFA7A7' || 'color: #6BFF9F;'}}">{{item.light}}</td>
+								<td ng-attr-style="{{item.badStatus.temp && 'color: #E50303' || 'color: #1C7817;'}}">{{item.temperature}}</td>
+								<td ng-attr-style="{{item.badStatus.humidity && 'color: #E50303' || 'color: #1C7817;'}}">{{item.humidity}}</td>
+								<td ng-attr-style="{{item.badStatus.ppm && 'color: #E50303' || 'color: #1C7817;'}}">{{item.ppm}}</td>
+								<td ng-attr-style="{{item.badStatus.light && 'color: #E50303' || 'color: #1C7817;'}}">{{item.light}}</td>
 								<td>
-									<i ng-if="!item.status" class="fa fa-check-square" style="color: #6BFF9F;"></i>
-									<i ng-if="item.status" class="fa fa-exclamation-triangle" style="color: #FFA7A7;"></i>
+									<i ng-if="!item.status" class="fa fa-check-square" style="color: #1C7817;"></i>
+									<i ng-if="item.status" class="fa fa-exclamation-triangle" style="color: #E50303;"></i>
 								</td>
 							</tr>
 						</tbody>
@@ -141,7 +142,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 		</div>
 	</div>
-	<button type="button" ui-sref="crop_detail({devicemac: devicemac, cropid: cropid})" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-arrow-left"></i>&nbsp; Crop Detail</button>
+	<div class="container">
+		<button type="button" ui-sref="crop_detail({devicemac: devicemac, cropid: cropid})" class="button-add-new-device animated fadeInLeftBig"><i class="fa fa-arrow-left"></i>&nbsp; Crop Detail</button>
+	</div>
 </section>
 </body>
 </html>

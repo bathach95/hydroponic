@@ -130,7 +130,7 @@ header#top-section {
 			z-index:2;
 }
 section {
-		padding-bottom:100px;
+		/*padding-bottom:100px;*/
 				min-height:730px;
 		width:100%;
 		min-width:100%;
@@ -238,7 +238,7 @@ section {
 	position:absolute;
 	top:0;
 	left:0;
-	background-image:url(http://unsplash.it/1600/1400?random=6);	 
+	background-image:url(http://unsplash.it/1600/1400?random=6);
 	width:100%;
 	height:100%;
 	opacity:0.04;
@@ -712,8 +712,8 @@ input,button,select,textarea {
 			padding-top: 60px;
 	}
 	.carousel-content {	top: 15% !Important;}
-	
-	
+
+
 }
 /* ==== Carousel ==== */
 .carousel-inner p {
@@ -1163,11 +1163,11 @@ ul.social-icons li a:hover {
 }
 
 .box-status-normal, .box-status-normal h3{
-	color: #6BFF9F;
+	color: #1C7817;
 }
 
 .box-status-warning, .box-status-warning h3{
-	color: #FFA7A7;
+	color: #E50303;
 }
 
 .rightb {
@@ -1661,7 +1661,7 @@ label.highlight {
 
 
 input, textarea {
-  font-size: 22px;
+  font-size: 18px;
   display: block;
   width: 100%;
   height: 100%;
@@ -1688,7 +1688,7 @@ textarea {
 
 .field-wrap {
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 .field-button{
 	margin-top:60px;
@@ -1713,8 +1713,7 @@ textarea {
   outline: none;
   border-radius: 0;
   border: 2px solid #FFFFFF;
-  padding: 15px 0;
-  font-size: 2rem;
+  font-size: 18px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .1em;
@@ -1743,9 +1742,9 @@ textarea {
 .user-info img {
 	display:block;
 	margin: 25px auto;
-	width:240px;
+	width:150px;
 	border-radius:50%;
-	height:240px;
+	height:150px;
 	background:#fff;
 	padding:10px;
 	border:1px solid #ccc;
@@ -1755,9 +1754,9 @@ textarea {
 	margin: 50px auto;
 }
 .profile-item{
-	width:33.33%;
 	float:left;
 	text-align:center;
+	margin-bottom: 30px;
 }
 
 .profile-item i{
@@ -1766,13 +1765,11 @@ textarea {
 }
 .profile-item h3{
 	color:#fff;
+	font-size: 20px;
 }
 
 .profile-item a{
 	text-decoration: none;
-}
-.profile-item-container{
-	margin:45px auto;
 }
 
 
@@ -1781,7 +1778,7 @@ textarea {
   width:100%;
   table-layout: fixed;
 }
-.table-list-device-header{	
+.table-list-device-header{
  	background-color: rgba(255,255,255,0.3);
  }
 
@@ -1803,7 +1800,7 @@ textarea {
   padding: 15px;
   text-align: center;
   vertical-align:middle;
-  font-weight: 300;
+  font-weight: bold;
   font-size: 16px;
   color: #333;
   border-bottom: solid 1px rgba(0,0,0, 0.3);
@@ -1819,7 +1816,7 @@ textarea {
   width:100%;
   table-layout: fixed;
 }
-.table-list-relay-header{	
+.table-list-relay-header{
  	background-color: rgba(0,0,0,0);
  }
 
@@ -1862,7 +1859,7 @@ textarea {
   width:100%;
   table-layout: fixed;
 }
-.table-list-crop-header{	
+.table-list-crop-header{
  	background-color: rgba(0,0,0,0);
  }
 
@@ -1905,7 +1902,7 @@ textarea {
   width:100%;
   table-layout: fixed;
 }
-.table-search-result-header{	
+.table-search-result-header{
  	background-color: rgba(255,255,255,0.3);
  }
 
@@ -1941,7 +1938,7 @@ textarea {
   width:100%;
   table-layout: fixed;
 }
-.table-list-settings-header{	
+.table-list-settings-header{
  	background-color: rgba(255,255,255,0.3);
  }
 
@@ -1973,7 +1970,7 @@ textarea {
 
 
 .device-link, .crop-link{
-	
+
 	font-weight: bold;
 }
 
@@ -1986,14 +1983,14 @@ textarea {
 	width: 10px;
 }
 .table-list-device-content::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.1); 
+    -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.1);
     border-radius: 10px;
 }
- 
+
 .table-list-device-content::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background: rgba(255,255,255,0.4);
-    -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,1); 
+    -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,1);
 }*/
 .add-device-container{
 	margin: 40px auto;
@@ -2002,7 +1999,7 @@ textarea {
 .button-add-new-device {
 	background:#4ba2dc;
 	line-height:40px;
-	
+
 	padding:8px 20px;
 	border: 1px solid rgba(255,255,255,1);
 	border-radius:0;
@@ -2024,7 +2021,7 @@ textarea {
 .button-edit-profile {
 	background:rgba(255,255,255,0.1);
 	line-height:40px;
-	
+
 	padding:8px 20px;
 	border: 1px solid rgba(255,255,255,1);
 	border-radius:0;
@@ -2206,15 +2203,15 @@ textarea {
 		.bx-wrapper .testimonials-carousel-thumbnail {
 						max-width: 70px;
 	}
-	
+
 	.boxservice {width:100%;border:1px solid rgba(255,255,255,0.3);}
-	
+
 	.profile-item {
 		width:100%;
 		margin: 30px auto;
 		text-align:center;
 	}
-	
+
 	.box-unborder{
 		width:100%;
 		text-align:center;
