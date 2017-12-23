@@ -141,7 +141,8 @@ router.post('/add', user.authenticate(), function (req, res) {
       var serverTopic = utils.getServerTopic(deviceMac);
       const client = mqtt.connect('mqtt://13.58.114.56:1883');
 
-      var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
+      var reporttime = utils.secondsToHMS(req.body.reporttime);
+      var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + reporttime.hours + reporttime.mins + reporttime.seconds;
 
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {

@@ -19,23 +19,35 @@ controller
     }
     $scope.addCrop = function () {
     //TODO: create a button for user to end up a crop
-
       $scope.newCrop.startdate = $("#startdate").val();
       $scope.newCrop.closedate = $("#closedate").val();
-      if ($scope.newCrop.startdate > $scope.newCrop.closedate) {
+      var newCrop = {
+        DeviceMac: $scope.newCrop.DeviceMac,
+        status: 'pending',
+        name: $scope.newCrop.name,
+        treetype: $scope.newCrop.treetype,
+        type: $scope.newCrop.type,
+        reporttime: $scope.newCrop.reporttime,
+        synchronized: $scope.newCrop.synchronized,
+        startdate: moment($scope.newCrop.startdate, "MM/DD/YYYY HH:mm A"),
+        closedate: moment($scope.newCrop.closedate, "MM/DD/YYYY HH:mm A")
+      }
+      //$scope.newCrop.startdate = $("#startdate").val(), "MM/DD/YYYY HH:mm A");
+      //$scope.newCrop.closedate = moment($("#closedate").val(), "MM/DD/YYYY HH:mm A");
+      if (newCrop.startdate > newCrop.closedate) {
         flash.error = "Close date must be after start date !";
-      } else if ($scope.newCrop.startdate < new Date()) {
+      } else if (newCrop.startdate < new Date()) {
         flash.error = "Start date cannot before now";
       } else {
         $('#addCropModal').modal('hide');
 
-        if ($scope.newCrop.startdate > new Date()) {
-          $scope.newCrop.status = 'pending';
-        } else if ($scope.newCrop.startdate === new Date()) {
-          $scope.newCrop.status = 'running';
+        if (newCrop.startdate > new Date()) {
+          newCrop.status = 'pending';
+        } else if (newCrop.startdate === new Date()) {
+          newCrop.status = 'running';
         }
 
-        CropService.addCrop($scope.newCrop).then(function (result) {
+        CropService.addCrop(newCrop).then(function (result) {
           if (result.data.success) {
             bootbox.alert(result.data.message, function () {
               $state.reload();
