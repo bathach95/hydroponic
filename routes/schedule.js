@@ -8,7 +8,6 @@ var utils = require('../utils/utils');
 var jsonfile = require('jsonfile');
 var path = require('path');
 var fs = require('fs');
-const client = mqtt.connect('mqtt://13.58.114.56:1883');
 var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
 var protocolConstant = require('../utils/protocolConstant');
 
@@ -103,7 +102,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
   var deviceMac = req.query.mac;
   var deviceTopic = utils.getDeviceTopic(deviceMac);
   var serverTopic = utils.getServerTopic(deviceMac);
-  const client = mqtt.connect('mqtt://13.58.114.56:1883');
+  const client = mqtt.connect(protocolConstant.MQTT_BROKER);
   var cropId = req.query.cropId;
   var commandId = '02';
   var message = deviceMac.replace(/:/g,"").toUpperCase() + commandId;

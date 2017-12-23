@@ -139,7 +139,7 @@ router.post('/add', user.authenticate(), function (req, res) {
       var deviceMac = req.body.DeviceMac;
       var deviceTopic = utils.getDeviceTopic(deviceMac);
       var serverTopic = utils.getServerTopic(deviceMac);
-      const client = mqtt.connect('mqtt://13.58.114.56:1883');
+      const client = mqtt.connect(protocolConstant.MQTT_BROKER);
 
       var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
 
@@ -215,7 +215,7 @@ router.put('/edit', user.authenticate(), function (req, res) {
       var deviceMac = req.body.DeviceMac;
       var deviceTopic = utils.getDeviceTopic(deviceMac);
       var serverTopic = utils.getServerTopic(deviceMac);
-      const client = mqtt.connect('mqtt://13.58.114.56:1883');
+      const client = mqtt.connect(protocolConstant.MQTT_BROKER);
 
       var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + utils.secondsToHMS(req.body.reporttime);
 
