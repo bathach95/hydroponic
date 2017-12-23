@@ -1,0 +1,1347 @@
+14:49:13.071 INFO  Admin account was created 
+14:57:09.913 INFO  Admin account was created 
+14:57:44.569 INFO  subscribe success after add new device 
+14:57:47.483 INFO  No running or pending crop 
+14:57:52.440 INFO  No running or pending crop 
+14:57:54.895 ERROR Incoming data is not right format 
+14:57:55.141 ERROR Incoming data is not right format 
+14:57:57.429 INFO  No running or pending crop 
+14:58:02.416 INFO  No running or pending crop 
+14:58:07.455 INFO  No running or pending crop 
+14:58:12.458 INFO  No running or pending crop 
+14:58:17.433 INFO  No running or pending crop 
+14:58:22.453 INFO  No running or pending crop 
+14:58:27.467 INFO  No running or pending crop 
+14:58:32.432 INFO  No running or pending crop 
+15:00:35.531 INFO  Admin account was created 
+15:02:00.031 ERROR Can't set headers after they are sent.
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:356:11)
+    at ServerResponse.header (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:718:10)
+    at ServerResponse.send (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:163:12)
+    at ServerResponse.json (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:249:15)
+    at .<anonymous> (/home/thach/Documents/TTTN/hydroponic/routes/actuator.js:54:21)
+    at tryCatcher (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:512:31)
+    at Promise._settlePromise (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:569:18)
+    at Promise._settlePromise0 (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:614:10)
+    at Promise._settlePromises (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:693:18)
+    at Async._drainQueue (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:133:16)
+    at Async._drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:143:10)
+    at Immediate.Async.drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:17:14)
+    at runCallback (timers.js:672:20)
+    at tryOnImmediate (timers.js:645:5)
+    at processImmediate [as _immediateCallback] (timers.js:617:5) 
+15:04:16.522 INFO  Admin account was created 
+15:05:25.015 INFO  Admin account was created 
+15:08:13.628 INFO  Admin account was created 
+15:09:49.639 INFO  Admin account was created 
+15:12:55.926 ERROR Can't set headers after they are sent.
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:356:11)
+    at ServerResponse.header (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:718:10)
+    at ServerResponse.send (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:163:12)
+    at ServerResponse.json (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:249:15)
+    at /home/thach/Documents/TTTN/hydroponic/routes/actuator.js:248:17
+    at tryCatcher (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:512:31)
+    at Promise._settlePromise (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:569:18)
+    at Promise._settlePromise0 (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:614:10)
+    at Promise._settlePromises (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:693:18)
+    at Async._drainQueue (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:133:16)
+    at Async._drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:143:10)
+    at Immediate.Async.drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:17:14)
+    at runCallback (timers.js:672:20)
+    at tryOnImmediate (timers.js:645:5)
+    at processImmediate [as _immediateCallback] (timers.js:617:5) 
+15:13:45.593 ERROR Can't set headers after they are sent.
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:356:11)
+    at ServerResponse.header (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:718:10)
+    at ServerResponse.send (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:163:12)
+    at ServerResponse.json (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:249:15)
+    at .<anonymous> (/home/thach/Documents/TTTN/hydroponic/routes/actuator.js:54:21)
+    at tryCatcher (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:512:31)
+    at Promise._settlePromise (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:569:18)
+    at Promise._settlePromise0 (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:614:10)
+    at Promise._settlePromises (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:693:18)
+    at Async._drainQueue (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:133:16)
+    at Async._drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:143:10)
+    at Immediate.Async.drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:17:14)
+    at runCallback (timers.js:672:20)
+    at tryOnImmediate (timers.js:645:5)
+    at processImmediate [as _immediateCallback] (timers.js:617:5) 
+15:14:34.040 INFO  Admin account was created 
+15:14:50.997 ERROR Can't set headers after they are sent.
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:356:11)
+    at ServerResponse.header (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:718:10)
+    at ServerResponse.send (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:163:12)
+    at ServerResponse.json (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:249:15)
+    at /home/thach/Documents/TTTN/hydroponic/routes/actuator.js:247:17
+    at tryCatcher (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:512:31)
+    at Promise._settlePromise (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:569:18)
+    at Promise._settlePromise0 (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:614:10)
+    at Promise._settlePromises (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:693:18)
+    at Async._drainQueue (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:133:16)
+    at Async._drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:143:10)
+    at Immediate.Async.drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:17:14)
+    at runCallback (timers.js:672:20)
+    at tryOnImmediate (timers.js:645:5)
+    at processImmediate [as _immediateCallback] (timers.js:617:5) 
+15:17:21.481 INFO  Admin account was created 
+15:17:29.760 ERROR Can't set headers after they are sent.
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:356:11)
+    at ServerResponse.header (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:718:10)
+    at ServerResponse.send (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:163:12)
+    at ServerResponse.json (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:249:15)
+    at /home/thach/Documents/TTTN/hydroponic/routes/actuator.js:247:17
+    at tryCatcher (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:512:31)
+    at Promise._settlePromise (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:569:18)
+    at Promise._settlePromise0 (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:614:10)
+    at Promise._settlePromises (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:693:18)
+    at Async._drainQueue (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:133:16)
+    at Async._drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:143:10)
+    at Immediate.Async.drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:17:14)
+    at runCallback (timers.js:672:20)
+    at tryOnImmediate (timers.js:645:5)
+    at processImmediate [as _immediateCallback] (timers.js:617:5) 
+15:23:45.990 INFO  Admin account was created 
+15:24:12.584 ERROR Can't set headers after they are sent.
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:356:11)
+    at ServerResponse.header (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:718:10)
+    at ServerResponse.send (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:163:12)
+    at ServerResponse.json (/home/thach/Documents/TTTN/hydroponic/node_modules/express/lib/response.js:249:15)
+    at .<anonymous> (/home/thach/Documents/TTTN/hydroponic/routes/actuator.js:54:21)
+    at tryCatcher (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/util.js:16:23)
+    at Promise._settlePromiseFromHandler (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:512:31)
+    at Promise._settlePromise (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:569:18)
+    at Promise._settlePromise0 (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:614:10)
+    at Promise._settlePromises (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/promise.js:693:18)
+    at Async._drainQueue (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:133:16)
+    at Async._drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:143:10)
+    at Immediate.Async.drainQueues (/home/thach/Documents/TTTN/hydroponic/node_modules/bluebird/js/release/async.js:17:14)
+    at runCallback (timers.js:672:20)
+    at tryOnImmediate (timers.js:645:5)
+    at processImmediate [as _immediateCallback] (timers.js:617:5) 
+15:28:13.288 INFO  Admin account was created 
+15:29:25.573 INFO  Admin account was created 
+15:37:34.458 INFO  Admin account was created 
+15:37:34.714 INFO  subscribe success to device/112233445566/server 
+15:37:38.912 INFO  No running or pending crop 
+15:37:43.873 INFO  No running or pending crop 
+15:37:48.861 INFO  No running or pending crop 
+15:37:53.894 INFO  No running or pending crop 
+15:39:26.182 INFO  Admin account was created 
+15:39:26.705 INFO  subscribe success to device/112233445566/server 
+15:39:28.895 INFO  No running or pending crop 
+15:39:33.867 INFO  No running or pending crop 
+15:39:36.409 ERROR Incoming data is not right format 
+15:39:39.005 INFO  112233445566 update device status success 
+15:39:39.015 INFO  5 update crop status success 
+15:39:44.468 INFO  5 add data success to running crop 
+15:39:49.450 INFO  5 add data success to running crop 
+15:39:54.438 INFO  5 add data success to running crop 
+15:39:59.429 INFO  5 add data success to running crop 
+15:40:04.475 INFO  5 add data success to running crop 
+15:40:09.516 INFO  5 add data success to running crop 
+15:40:14.415 INFO  5 add data success to running crop 
+15:40:19.429 INFO  5 add data success to running crop 
+15:40:24.435 INFO  5 add data success to running crop 
+15:40:29.459 INFO  5 add data success to running crop 
+15:40:34.492 INFO  5 add data success to running crop 
+15:40:39.422 INFO  5 add data success to running crop 
+15:40:44.432 INFO  5 add data success to running crop 
+15:40:49.426 INFO  5 add data success to running crop 
+15:40:54.430 INFO  5 add data success to running crop 
+15:40:59.436 INFO  5 add data success to running crop 
+15:41:04.424 INFO  5 add data success to running crop 
+15:41:16.637 INFO  5 add data success to running crop 
+15:41:21.647 INFO  5 add data success to running crop 
+15:41:22.561 INFO  Notify sucess: {"message_id":6960743589105727455} 
+15:41:22.564 INFO  Notify sucess: {"message_id":6395274308020729608} 
+15:41:26.647 INFO  5 add data success to running crop 
+15:41:27.252 INFO  Notify sucess: {"message_id":7599292541453008609} 
+15:41:27.397 INFO  Notify sucess: {"message_id":6060832838728616863} 
+15:41:31.621 INFO  5 add data success to running crop 
+15:41:32.452 INFO  Notify sucess: {"message_id":7255995784525742533} 
+15:41:32.456 INFO  Notify sucess: {"message_id":8131489169868785218} 
+15:41:36.650 INFO  5 add data success to running crop 
+15:41:37.362 INFO  Notify sucess: {"message_id":8382668269641593391} 
+15:41:37.367 INFO  Notify sucess: {"message_id":6846332323782059836} 
+15:41:41.626 INFO  5 add data success to running crop 
+15:41:42.280 INFO  Notify sucess: {"message_id":6157189306420732328} 
+15:41:42.296 INFO  Notify sucess: {"message_id":7539745423352825715} 
+15:41:46.622 INFO  5 add data success to running crop 
+15:41:47.325 INFO  Notify sucess: {"message_id":6557630914030369925} 
+15:41:47.332 INFO  Notify sucess: {"message_id":9081234093142630382} 
+15:41:51.646 INFO  5 add data success to running crop 
+15:41:52.499 INFO  Notify sucess: {"message_id":9086907570892693311} 
+15:41:52.501 INFO  Notify sucess: {"message_id":7444165074451137989} 
+15:41:56.663 INFO  5 add data success to running crop 
+15:41:57.445 INFO  Notify sucess: {"message_id":8026092534972965178} 
+15:41:57.451 INFO  Notify sucess: {"message_id":4679313104312303220} 
+15:42:01.622 INFO  5 add data success to running crop 
+15:42:02.288 INFO  Notify sucess: {"message_id":8182107461036674599} 
+15:42:02.294 INFO  Notify sucess: {"message_id":5781201716956589869} 
+15:42:06.621 INFO  5 add data success to running crop 
+15:42:07.354 INFO  Notify sucess: {"message_id":7008160482183040240} 
+15:42:07.360 INFO  Notify sucess: {"message_id":9056128469312811701} 
+15:42:11.644 INFO  5 add data success to running crop 
+15:42:12.339 INFO  Notify sucess: {"message_id":6060456993060185729} 
+15:42:12.339 INFO  Notify sucess: {"message_id":5301566063086058064} 
+15:42:16.636 INFO  5 add data success to running crop 
+15:42:17.259 INFO  Notify sucess: {"message_id":7688405758985540032} 
+15:42:17.263 INFO  Notify sucess: {"message_id":6721662342225326526} 
+15:42:21.623 INFO  5 add data success to running crop 
+15:42:22.265 INFO  Notify sucess: {"message_id":5926062540009493280} 
+15:42:22.265 INFO  Notify sucess: {"message_id":8202575281685645209} 
+15:42:26.612 INFO  5 add data success to running crop 
+15:42:27.273 INFO  Notify sucess: {"message_id":7877785868182060340} 
+15:42:27.388 INFO  Notify sucess: {"message_id":9181146855391830633} 
+15:42:31.645 INFO  5 add data success to running crop 
+15:42:32.289 INFO  Notify sucess: {"message_id":6101009199544643793} 
+15:42:32.290 INFO  Notify sucess: {"message_id":5033428236207457650} 
+15:42:36.628 INFO  5 add data success to running crop 
+15:42:37.351 INFO  Notify sucess: {"message_id":7886562707211571432} 
+15:42:37.356 INFO  Notify sucess: {"message_id":6967011885217523546} 
+15:42:42.385 INFO  5 add data success to running crop 
+15:42:43.071 INFO  Notify sucess: {"message_id":7852682946486782236} 
+15:42:43.073 INFO  Notify sucess: {"message_id":8496092084916584785} 
+15:42:46.651 INFO  5 add data success to running crop 
+15:42:47.397 INFO  Notify sucess: {"message_id":5495687646397265875} 
+15:42:47.410 INFO  Notify sucess: {"message_id":8565386562397504699} 
+15:42:51.639 INFO  5 add data success to running crop 
+15:42:52.335 INFO  Notify sucess: {"message_id":7062328946285747745} 
+15:42:52.522 INFO  Notify sucess: {"message_id":8105240213145440750} 
+15:42:56.644 INFO  5 add data success to running crop 
+15:42:57.535 INFO  Notify sucess: {"message_id":7598986832306392546} 
+15:42:57.537 INFO  Notify sucess: {"message_id":5092364646803784926} 
+15:43:01.614 INFO  5 add data success to running crop 
+15:43:02.306 INFO  Notify sucess: {"message_id":7038717964341878793} 
+15:43:02.401 INFO  Notify sucess: {"message_id":8195543254054579119} 
+15:43:06.648 INFO  5 add data success to running crop 
+15:43:07.430 INFO  Notify sucess: {"message_id":8243049382468739239} 
+15:43:07.431 INFO  Notify sucess: {"message_id":7672687942826028860} 
+15:43:11.674 INFO  5 add data success to running crop 
+15:43:12.407 INFO  Notify sucess: {"message_id":8397042750966636060} 
+15:43:12.408 INFO  Notify sucess: {"message_id":5529092477466889554} 
+15:43:16.706 INFO  5 add data success to running crop 
+15:43:17.654 INFO  Notify sucess: {"message_id":6382210105580928068} 
+15:43:17.661 INFO  Notify sucess: {"message_id":8264472928547347564} 
+15:43:21.619 INFO  5 add data success to running crop 
+15:43:22.334 INFO  Notify sucess: {"message_id":8823071404279898783} 
+15:43:22.421 INFO  Notify sucess: {"message_id":8437324773687890532} 
+15:43:26.629 INFO  5 add data success to running crop 
+15:43:27.324 INFO  Notify sucess: {"message_id":5123696185924426745} 
+15:43:27.332 INFO  Notify sucess: {"message_id":8705297637707253130} 
+15:43:31.633 INFO  5 add data success to running crop 
+15:43:32.250 INFO  Notify sucess: {"message_id":8803385623287989340} 
+15:43:32.252 INFO  Notify sucess: {"message_id":4653246179172946721} 
+15:43:36.624 INFO  5 add data success to running crop 
+15:43:37.399 INFO  Notify sucess: {"message_id":7460028759513766987} 
+15:43:37.400 INFO  Notify sucess: {"message_id":7413414279549748128} 
+15:43:41.628 INFO  5 add data success to running crop 
+15:43:42.364 INFO  Notify sucess: {"message_id":8929939859457136870} 
+15:43:42.374 INFO  Notify sucess: {"message_id":8758281372472595828} 
+15:43:46.685 INFO  5 add data success to running crop 
+15:43:47.500 INFO  Notify sucess: {"message_id":7929412159337238993} 
+15:43:47.512 INFO  Notify sucess: {"message_id":8857012157427347711} 
+15:43:51.638 INFO  5 add data success to running crop 
+15:43:52.406 INFO  Notify sucess: {"message_id":8415052434060176761} 
+15:43:52.408 INFO  Notify sucess: {"message_id":5409631753311353535} 
+15:43:56.648 INFO  5 add data success to running crop 
+15:43:57.414 INFO  Notify sucess: {"message_id":6648368852449685168} 
+15:43:57.434 INFO  Notify sucess: {"message_id":7823078247147233461} 
+15:44:01.652 INFO  5 add data success to running crop 
+15:44:02.517 INFO  Notify sucess: {"message_id":5229778312275952785} 
+15:44:02.518 INFO  Notify sucess: {"message_id":6760108405403760287} 
+15:44:06.643 INFO  5 add data success to running crop 
+15:44:07.350 INFO  Notify sucess: {"message_id":8895594719878321338} 
+15:44:07.351 INFO  Notify sucess: {"message_id":8567534859293963046} 
+15:44:11.639 INFO  5 add data success to running crop 
+15:44:12.545 INFO  Notify sucess: {"message_id":6599047630579417161} 
+15:44:12.551 INFO  Notify sucess: {"message_id":7166649789100616796} 
+15:44:16.643 INFO  5 add data success to running crop 
+15:44:17.501 INFO  Notify sucess: {"message_id":6924177152604358997} 
+15:44:17.506 INFO  Notify sucess: {"message_id":8130820867341539309} 
+15:44:21.650 INFO  5 add data success to running crop 
+15:44:22.314 INFO  Notify sucess: {"message_id":6847748502422393872} 
+15:44:22.315 INFO  Notify sucess: {"message_id":8305560574658139502} 
+15:44:26.693 INFO  5 add data success to running crop 
+15:44:27.422 INFO  Notify sucess: {"message_id":8798824063737919745} 
+15:44:27.423 INFO  Notify sucess: {"message_id":5561142980790872238} 
+15:44:31.634 INFO  5 add data success to running crop 
+15:44:32.390 INFO  Notify sucess: {"message_id":9181652286358625802} 
+15:44:32.396 INFO  Notify sucess: {"message_id":5399767988770773723} 
+15:44:36.617 INFO  5 add data success to running crop 
+15:44:37.319 INFO  Notify sucess: {"message_id":7566100193183353054} 
+15:44:37.320 INFO  Notify sucess: {"message_id":9159853996726101323} 
+15:44:41.650 INFO  5 add data success to running crop 
+15:44:42.226 INFO  Notify sucess: {"message_id":6883166127146374232} 
+15:44:42.383 INFO  Notify sucess: {"message_id":6590248153699874846} 
+15:44:46.668 INFO  5 add data success to running crop 
+15:44:47.345 INFO  Notify sucess: {"message_id":7112014890603854552} 
+15:44:47.353 INFO  Notify sucess: {"message_id":7350679712564529048} 
+15:44:51.622 INFO  5 add data success to running crop 
+15:44:52.401 INFO  Notify sucess: {"message_id":6843417279260006926} 
+15:44:52.402 INFO  Notify sucess: {"message_id":6952460730722484006} 
+15:44:56.653 INFO  5 add data success to running crop 
+15:44:57.352 INFO  Notify sucess: {"message_id":7747776431674354004} 
+15:44:57.353 INFO  Notify sucess: {"message_id":8174644563791204023} 
+15:45:01.625 INFO  5 add data success to running crop 
+15:45:02.405 INFO  Notify sucess: {"message_id":7658248740264337290} 
+15:45:02.406 INFO  Notify sucess: {"message_id":9220490673824528302} 
+15:45:06.621 INFO  5 add data success to running crop 
+15:45:07.398 INFO  Notify sucess: {"message_id":4903793516931447451} 
+15:45:07.399 INFO  Notify sucess: {"message_id":6012041611874154665} 
+15:45:11.655 INFO  5 add data success to running crop 
+15:45:12.468 INFO  Notify sucess: {"message_id":6781154816463807253} 
+15:45:12.469 INFO  Notify sucess: {"message_id":6849502913598539185} 
+15:45:16.661 INFO  5 add data success to running crop 
+15:45:17.946 INFO  Notify sucess: {"message_id":8394081093161624242} 
+15:45:17.968 INFO  Notify sucess: {"message_id":5835600278671172134} 
+15:45:21.641 INFO  5 add data success to running crop 
+15:45:22.337 INFO  Notify sucess: {"message_id":8867247958264531523} 
+15:45:22.338 INFO  Notify sucess: {"message_id":7682965416819585340} 
+15:45:26.639 INFO  5 add data success to running crop 
+15:45:27.406 INFO  Notify sucess: {"message_id":5749384432796105034} 
+15:45:27.409 INFO  Notify sucess: {"message_id":5082161183333179301} 
+15:45:31.660 INFO  5 add data success to running crop 
+15:45:32.412 INFO  Notify sucess: {"message_id":5106178075351855025} 
+15:45:32.413 INFO  Notify sucess: {"message_id":5664777518016201761} 
+15:45:36.624 INFO  5 add data success to running crop 
+15:45:37.341 INFO  Notify sucess: {"message_id":8224510869689257559} 
+15:45:37.342 INFO  Notify sucess: {"message_id":4613393079869802928} 
+15:45:41.641 INFO  5 add data success to running crop 
+15:45:42.457 INFO  Notify sucess: {"message_id":7373237370405842324} 
+15:45:42.600 INFO  Notify sucess: {"message_id":6360784974862633323} 
+15:45:46.614 INFO  5 add data success to running crop 
+15:45:47.347 INFO  Notify sucess: {"message_id":8510972599906284142} 
+15:45:47.349 INFO  Notify sucess: {"message_id":7704647160933517936} 
+15:45:51.616 INFO  5 add data success to running crop 
+15:45:52.512 INFO  Notify sucess: {"message_id":7874639735353688892} 
+15:45:52.518 INFO  Notify sucess: {"message_id":8931123058817862506} 
+15:45:56.626 INFO  5 add data success to running crop 
+15:45:57.410 INFO  Notify sucess: {"message_id":7476033788301100911} 
+15:45:57.411 INFO  Notify sucess: {"message_id":9101259784072651383} 
+15:46:01.645 INFO  5 add data success to running crop 
+15:46:02.361 INFO  Notify sucess: {"message_id":8268784535042437288} 
+15:46:02.379 INFO  Notify sucess: {"message_id":7447539389255016440} 
+15:46:06.683 INFO  5 add data success to running crop 
+15:46:07.802 INFO  Notify sucess: {"message_id":5708045085566298639} 
+15:46:08.158 INFO  Notify sucess: {"message_id":5898366502348157091} 
+15:46:11.820 INFO  5 add data success to running crop 
+15:46:12.778 INFO  Notify sucess: {"message_id":8221323279580693446} 
+15:46:12.779 INFO  Notify sucess: {"message_id":8238999506356344299} 
+15:46:16.626 INFO  5 add data success to running crop 
+15:46:17.371 INFO  Notify sucess: {"message_id":5776324608803880909} 
+15:46:17.375 INFO  Notify sucess: {"message_id":8727435018143459655} 
+15:46:21.626 INFO  5 add data success to running crop 
+15:46:22.327 INFO  Notify sucess: {"message_id":5747542719853084289} 
+15:46:22.456 INFO  Notify sucess: {"message_id":5916453604752213621} 
+15:46:26.651 INFO  5 add data success to running crop 
+15:46:27.493 INFO  Notify sucess: {"message_id":9140272222528564516} 
+15:46:27.511 INFO  Notify sucess: {"message_id":6995110227217848229} 
+15:46:31.643 INFO  5 add data success to running crop 
+15:46:32.366 INFO  Notify sucess: {"message_id":5872243594310121309} 
+15:46:32.367 INFO  Notify sucess: {"message_id":5178376037821721090} 
+15:46:36.635 INFO  5 add data success to running crop 
+15:46:37.364 INFO  Notify sucess: {"message_id":8598713743447140191} 
+15:46:37.364 INFO  Notify sucess: {"message_id":9159194052926990924} 
+15:46:41.622 INFO  5 add data success to running crop 
+15:46:42.379 INFO  Notify sucess: {"message_id":5731382016653585013} 
+15:46:42.382 INFO  Notify sucess: {"message_id":5293077780445256751} 
+15:46:46.622 INFO  5 add data success to running crop 
+15:46:47.321 INFO  Notify sucess: {"message_id":8306013347260531760} 
+15:46:47.322 INFO  Notify sucess: {"message_id":7593287271789690104} 
+15:46:51.732 INFO  5 add data success to running crop 
+15:46:52.537 INFO  Notify sucess: {"message_id":5722383677950735125} 
+15:46:52.540 INFO  Notify sucess: {"message_id":4968459432261246493} 
+15:46:56.646 INFO  5 add data success to running crop 
+15:46:57.409 INFO  Notify sucess: {"message_id":7343391282083087939} 
+15:46:57.410 INFO  Notify sucess: {"message_id":8361822735332720441} 
+15:47:01.630 INFO  5 add data success to running crop 
+15:47:02.322 INFO  Notify sucess: {"message_id":5459921698629974742} 
+15:47:02.325 INFO  Notify sucess: {"message_id":6692615389094177393} 
+15:47:06.635 INFO  5 add data success to running crop 
+15:47:07.356 INFO  Notify sucess: {"message_id":5349970618747693649} 
+15:47:07.387 INFO  Notify sucess: {"message_id":8384623094046661060} 
+15:47:11.688 INFO  5 add data success to running crop 
+15:47:12.404 INFO  Notify sucess: {"message_id":7425071251141195955} 
+15:47:12.413 INFO  Notify sucess: {"message_id":6336888802081641973} 
+15:47:16.649 INFO  5 add data success to running crop 
+15:47:17.350 INFO  Notify sucess: {"message_id":5062626614358149766} 
+15:47:17.357 INFO  Notify sucess: {"message_id":6882465304004935958} 
+15:47:21.672 INFO  5 add data success to running crop 
+15:47:22.361 INFO  Notify sucess: {"message_id":4674688058843347127} 
+15:47:22.370 INFO  Notify sucess: {"message_id":7564016507233787125} 
+15:47:26.660 INFO  5 add data success to running crop 
+15:47:27.465 INFO  Notify sucess: {"message_id":9102929744622081727} 
+15:47:27.466 INFO  Notify sucess: {"message_id":6090075414937359909} 
+15:47:31.622 INFO  5 add data success to running crop 
+15:47:32.351 INFO  Notify sucess: {"message_id":5985851799245701751} 
+15:47:32.354 INFO  Notify sucess: {"message_id":5637008372561709810} 
+15:47:36.644 INFO  5 add data success to running crop 
+15:47:37.444 INFO  Notify sucess: {"message_id":7845409355849856956} 
+15:47:37.449 INFO  Notify sucess: {"message_id":8552786199736310688} 
+15:47:41.649 INFO  5 add data success to running crop 
+15:47:42.431 INFO  Notify sucess: {"message_id":5587478816809373797} 
+15:47:42.432 INFO  Notify sucess: {"message_id":7621510763006501189} 
+15:47:46.634 INFO  5 add data success to running crop 
+15:47:47.491 INFO  Notify sucess: {"message_id":5616515120459606720} 
+15:47:47.493 INFO  Notify sucess: {"message_id":7526494394049470777} 
+15:47:51.649 INFO  5 add data success to running crop 
+15:47:52.444 INFO  Notify sucess: {"message_id":7100789832667336404} 
+15:47:52.445 INFO  Notify sucess: {"message_id":8302829171452991475} 
+15:47:56.634 INFO  5 add data success to running crop 
+15:47:57.397 INFO  Notify sucess: {"message_id":7353931618963472874} 
+15:47:57.399 INFO  Notify sucess: {"message_id":4748771785308605569} 
+15:48:01.652 INFO  5 add data success to running crop 
+15:48:02.430 INFO  Notify sucess: {"message_id":8304282092463328126} 
+15:48:02.438 INFO  Notify sucess: {"message_id":6701661337462400889} 
+15:48:06.652 INFO  5 add data success to running crop 
+15:48:07.485 INFO  Notify sucess: {"message_id":5472678883742807652} 
+15:48:07.487 INFO  Notify sucess: {"message_id":8303052051321965254} 
+15:48:11.661 INFO  5 add data success to running crop 
+15:48:12.428 INFO  Notify sucess: {"message_id":7134764941816937440} 
+15:48:12.883 INFO  Notify sucess: {"message_id":5513314067655891198} 
+15:48:16.632 INFO  5 add data success to running crop 
+15:48:17.373 INFO  Notify sucess: {"message_id":4967941410173937444} 
+15:48:17.374 INFO  Notify sucess: {"message_id":5856259805905726729} 
+15:48:21.647 INFO  5 add data success to running crop 
+15:48:22.340 INFO  Notify sucess: {"message_id":5726423008995707781} 
+15:48:22.341 INFO  Notify sucess: {"message_id":7431613061907374014} 
+15:48:26.639 INFO  5 add data success to running crop 
+15:48:27.340 INFO  Notify sucess: {"message_id":7297392660461184654} 
+15:48:27.381 INFO  Notify sucess: {"message_id":8667224972870320150} 
+15:48:31.640 INFO  5 add data success to running crop 
+15:48:32.420 INFO  Notify sucess: {"message_id":8988532491999095556} 
+15:48:32.440 INFO  Notify sucess: {"message_id":5595797859787010746} 
+15:48:36.648 INFO  5 add data success to running crop 
+15:48:37.559 INFO  Notify sucess: {"message_id":6250996270653833572} 
+15:48:37.560 INFO  Notify sucess: {"message_id":6829281939862469481} 
+15:48:41.653 INFO  5 add data success to running crop 
+15:48:42.265 INFO  Notify sucess: {"message_id":9107297769404555668} 
+15:48:42.266 INFO  Notify sucess: {"message_id":6269084686683125706} 
+15:48:46.644 INFO  5 add data success to running crop 
+15:48:47.400 INFO  Notify sucess: {"message_id":6066083809108134885} 
+15:48:47.521 INFO  Notify sucess: {"message_id":6587480083164796540} 
+15:48:51.635 INFO  5 add data success to running crop 
+15:48:52.493 INFO  Notify sucess: {"message_id":8583974666268798475} 
+15:48:52.494 INFO  Notify sucess: {"message_id":5148005465645604018} 
+15:48:56.619 INFO  5 add data success to running crop 
+15:48:57.226 INFO  Notify sucess: {"message_id":6191440835141060171} 
+15:48:57.227 INFO  Notify sucess: {"message_id":7561403720077509066} 
+15:49:01.697 INFO  5 add data success to running crop 
+15:49:02.366 INFO  Notify sucess: {"message_id":7794564040537412094} 
+15:49:02.366 INFO  Notify sucess: {"message_id":8128593218249696315} 
+15:49:06.642 INFO  5 add data success to running crop 
+15:49:07.382 INFO  Notify sucess: {"message_id":5370300285624326351} 
+15:49:07.382 INFO  Notify sucess: {"message_id":7926522244794604047} 
+15:49:11.637 INFO  5 add data success to running crop 
+15:49:12.375 INFO  Notify sucess: {"message_id":7617772875381822888} 
+15:49:12.375 INFO  Notify sucess: {"message_id":7343976664202774737} 
+15:49:16.646 INFO  5 add data success to running crop 
+15:49:17.382 INFO  Notify sucess: {"message_id":7472203422950982825} 
+15:49:17.385 INFO  Notify sucess: {"message_id":8538597775663165110} 
+15:49:21.661 INFO  5 add data success to running crop 
+15:49:22.266 INFO  Notify sucess: {"message_id":5011294616401479187} 
+15:49:22.270 INFO  Notify sucess: {"message_id":7940506843467490727} 
+15:49:26.673 INFO  5 add data success to running crop 
+15:49:27.447 INFO  Notify sucess: {"message_id":6908175547682118956} 
+15:49:27.449 INFO  Notify sucess: {"message_id":5489766700651732021} 
+15:49:31.630 INFO  5 add data success to running crop 
+15:49:32.457 INFO  Notify sucess: {"message_id":5105461849100211668} 
+15:49:32.464 INFO  Notify sucess: {"message_id":5769653093323159286} 
+15:49:36.673 INFO  5 add data success to running crop 
+15:49:37.367 INFO  Notify sucess: {"message_id":6975345294933153994} 
+15:49:37.367 INFO  Notify sucess: {"message_id":5474247303743379778} 
+15:49:41.641 INFO  5 add data success to running crop 
+15:49:42.351 INFO  Notify sucess: {"message_id":7166628473990920658} 
+15:49:42.357 INFO  Notify sucess: {"message_id":8910506378181990647} 
+15:49:46.629 INFO  5 add data success to running crop 
+15:49:47.247 INFO  Notify sucess: {"message_id":5394170696090260264} 
+15:49:47.288 INFO  Notify sucess: {"message_id":7803075123973629759} 
+15:49:51.629 INFO  5 add data success to running crop 
+15:49:52.364 INFO  Notify sucess: {"message_id":9190143149154749307} 
+15:49:52.365 INFO  Notify sucess: {"message_id":5184273875623785428} 
+15:49:56.655 INFO  5 add data success to running crop 
+15:49:57.336 INFO  Notify sucess: {"message_id":5285243504229532333} 
+15:49:57.340 INFO  Notify sucess: {"message_id":7721649831728981820} 
+15:50:01.658 INFO  5 add data success to running crop 
+15:50:02.327 INFO  Notify sucess: {"message_id":8329607903776112601} 
+15:50:02.329 INFO  Notify sucess: {"message_id":8419283836924956487} 
+15:50:06.648 INFO  5 add data success to running crop 
+15:50:07.370 INFO  Notify sucess: {"message_id":9165693383443346057} 
+15:50:07.371 INFO  Notify sucess: {"message_id":8001781524978712112} 
+15:50:11.649 INFO  5 add data success to running crop 
+15:50:12.338 INFO  Notify sucess: {"message_id":8941861523966057731} 
+15:50:12.339 INFO  Notify sucess: {"message_id":8887541314124163493} 
+15:50:16.641 INFO  5 add data success to running crop 
+15:50:17.322 INFO  Notify sucess: {"message_id":7945431680691525558} 
+15:50:17.324 INFO  Notify sucess: {"message_id":5783055508492730008} 
+15:50:21.648 INFO  5 add data success to running crop 
+15:50:22.401 INFO  Notify sucess: {"message_id":6070645797000625322} 
+15:50:22.402 INFO  Notify sucess: {"message_id":8660958665367693789} 
+15:50:26.668 INFO  5 add data success to running crop 
+15:50:27.426 INFO  Notify sucess: {"message_id":4980563635207628132} 
+15:50:27.427 INFO  Notify sucess: {"message_id":8993435371124135264} 
+15:50:31.633 INFO  5 add data success to running crop 
+15:50:32.349 INFO  Notify sucess: {"message_id":7452378214436447257} 
+15:50:32.350 INFO  Notify sucess: {"message_id":7015174487199880670} 
+15:50:36.639 INFO  5 add data success to running crop 
+15:50:37.325 INFO  Notify sucess: {"message_id":7351471962585100904} 
+15:50:37.326 INFO  Notify sucess: {"message_id":5148436626545354858} 
+15:50:41.643 INFO  5 add data success to running crop 
+15:50:42.295 INFO  Notify sucess: {"message_id":7535561565962097261} 
+15:50:42.299 INFO  Notify sucess: {"message_id":8971049107431247314} 
+15:50:46.745 INFO  5 add data success to running crop 
+15:50:47.482 INFO  Notify sucess: {"message_id":6773094192620754171} 
+15:50:47.485 INFO  Notify sucess: {"message_id":7518686647381931179} 
+15:50:51.651 INFO  5 add data success to running crop 
+15:50:52.343 INFO  Notify sucess: {"message_id":4936324136901345839} 
+15:50:52.476 INFO  Notify sucess: {"message_id":8591000172501223527} 
+15:50:56.650 INFO  5 add data success to running crop 
+15:50:57.182 INFO  Notify sucess: {"message_id":5161047028951998919} 
+15:50:57.433 INFO  Notify sucess: {"message_id":6468511741513630016} 
+15:51:01.651 INFO  5 add data success to running crop 
+15:51:02.348 INFO  Notify sucess: {"message_id":8530825327536185848} 
+15:51:02.349 INFO  Notify sucess: {"message_id":6425370361568936466} 
+15:51:06.629 INFO  No running or pending crop 
+15:51:11.627 INFO  No running or pending crop 
+15:51:16.626 INFO  No running or pending crop 
+15:51:21.640 INFO  No running or pending crop 
+15:51:26.624 INFO  No running or pending crop 
+15:51:31.652 INFO  6 update crop status success 
+15:51:33.169 ERROR Incoming data is not right format 
+15:51:51.669 INFO  6 add data success to running crop 
+15:52:11.659 INFO  6 add data success to running crop 
+15:52:31.915 INFO  6 add data success to running crop 
+15:52:32.718 INFO  Notify sucess: {"message_id":7142122204444718437} 
+15:52:51.640 INFO  6 add data success to running crop 
+15:52:52.405 INFO  Notify sucess: {"message_id":5643957234647527316} 
+15:53:19.404 INFO  6 add data success to running crop 
+15:53:20.408 INFO  Notify sucess: {"message_id":6629368546630983940} 
+15:53:39.100 INFO  6 add data success to running crop 
+15:53:39.904 INFO  Notify sucess: {"message_id":6575422403691513813} 
+15:53:59.122 INFO  6 add data success to running crop 
+15:53:59.826 INFO  Notify sucess: {"message_id":5419778763733155565} 
+15:54:41.319 INFO  6 add data success to running crop 
+15:54:41.940 INFO  Notify sucess: {"message_id":8373221163322322951} 
+15:55:01.312 INFO  6 add data success to running crop 
+15:55:02.109 INFO  Notify sucess: {"message_id":6869620570591287729} 
+15:55:21.329 INFO  6 add data success to running crop 
+15:55:22.151 INFO  Notify sucess: {"message_id":8685882103837635003} 
+15:55:41.316 INFO  6 add data success to running crop 
+15:55:41.954 INFO  Notify sucess: {"message_id":5599196853059338837} 
+15:56:01.332 INFO  6 add data success to running crop 
+15:56:02.109 INFO  Notify sucess: {"message_id":6602826745853019746} 
+15:56:21.325 INFO  6 add data success to running crop 
+15:56:21.922 INFO  Notify sucess: {"message_id":7588498355395533866} 
+15:56:41.309 INFO  6 add data success to running crop 
+15:56:42.121 INFO  Notify sucess: {"message_id":4618153670429819251} 
+15:57:01.306 INFO  6 add data success to running crop 
+15:57:02.083 INFO  Notify sucess: {"message_id":7152967272377874114} 
+15:57:21.335 INFO  6 add data success to running crop 
+15:57:22.454 INFO  Notify sucess: {"message_id":8517854781989336446} 
+15:57:41.334 INFO  6 add data success to running crop 
+15:57:42.168 INFO  Notify sucess: {"message_id":9168488236622148002} 
+15:58:02.570 INFO  6 add data success to running crop 
+15:58:03.263 INFO  Notify sucess: {"message_id":5924327563549122819} 
+15:58:21.329 INFO  6 add data success to running crop 
+15:58:22.194 INFO  Notify sucess: {"message_id":7559689255368043576} 
+15:58:41.315 INFO  6 add data success to running crop 
+15:58:42.098 INFO  Notify sucess: {"message_id":5091490282199447011} 
+15:59:01.312 INFO  6 add data success to running crop 
+15:59:02.127 INFO  Notify sucess: {"message_id":4832171942766837109} 
+15:59:21.307 INFO  6 add data success to running crop 
+15:59:21.989 INFO  Notify sucess: {"message_id":8982632914091017741} 
+16:00:04.454 INFO  6 add data success to running crop 
+16:00:05.268 INFO  Notify sucess: {"message_id":5690887328571895730} 
+16:01:02.259 INFO  6 add data success to running crop 
+16:01:03.084 INFO  Notify sucess: {"message_id":5581691820470639219} 
+16:01:22.337 INFO  6 add data success to running crop 
+16:01:23.357 INFO  Notify sucess: {"message_id":5355387067034944246} 
+16:01:46.926 INFO  6 add data success to running crop 
+16:01:47.827 INFO  Notify sucess: {"message_id":7621207325268674285} 
+16:02:06.893 INFO  6 add data success to running crop 
+16:02:07.858 INFO  Notify sucess: {"message_id":8003113907977174427} 
+16:02:26.865 INFO  6 add data success to running crop 
+16:02:27.653 INFO  Notify sucess: {"message_id":5247344256179171134} 
+16:02:46.887 INFO  6 add data success to running crop 
+16:02:47.843 INFO  Notify sucess: {"message_id":7104351387522218445} 
+16:03:06.894 INFO  6 add data success to running crop 
+16:03:07.743 INFO  Notify sucess: {"message_id":8026667804196324454} 
+16:03:26.984 INFO  6 add data success to running crop 
+16:03:27.762 INFO  Notify sucess: {"message_id":7142857647195827242} 
+16:03:46.903 INFO  6 add data success to running crop 
+16:03:47.621 INFO  Notify sucess: {"message_id":5458630135755757269} 
+16:04:06.874 INFO  6 add data success to running crop 
+16:04:07.742 INFO  Notify sucess: {"message_id":7727853380203617677} 
+16:05:23.763 INFO  6 add data success to running crop 
+16:05:24.693 INFO  Notify sucess: {"message_id":8580443402362177550} 
+16:05:43.420 INFO  6 add data success to running crop 
+16:05:44.225 INFO  Notify sucess: {"message_id":8919308353465653564} 
+16:06:18.160 INFO  6 add data success to running crop 
+16:06:18.958 INFO  Notify sucess: {"message_id":5310105841459974614} 
+16:06:42.626 INFO  6 add data success to running crop 
+16:06:43.396 INFO  Notify sucess: {"message_id":4787335654771051139} 
+16:07:14.059 INFO  6 add data success to running crop 
+16:07:14.903 INFO  Notify sucess: {"message_id":8704351837659480415} 
+16:07:34.044 INFO  6 add data success to running crop 
+16:07:34.773 INFO  Notify sucess: {"message_id":8248021971842343203} 
+16:07:54.080 INFO  6 add data success to running crop 
+16:07:55.104 INFO  Notify sucess: {"message_id":7317397150906595741} 
+16:08:14.044 INFO  6 add data success to running crop 
+16:08:14.879 INFO  Notify sucess: {"message_id":8578110749489388525} 
+16:08:34.032 INFO  6 add data success to running crop 
+16:08:35.010 INFO  Notify sucess: {"message_id":8867006186390734428} 
+16:08:54.048 INFO  6 add data success to running crop 
+16:08:54.787 INFO  Notify sucess: {"message_id":7805629383025590762} 
+16:09:14.073 INFO  6 add data success to running crop 
+16:09:14.857 INFO  Notify sucess: {"message_id":6456675686023406652} 
+16:09:34.050 INFO  6 add data success to running crop 
+16:09:34.959 INFO  Notify sucess: {"message_id":6403876915531498689} 
+16:09:54.085 INFO  6 add data success to running crop 
+16:09:54.799 INFO  Notify sucess: {"message_id":7040961331903592414} 
+16:10:14.054 INFO  6 add data success to running crop 
+16:10:14.785 INFO  Notify sucess: {"message_id":8553710859627625168} 
+16:10:34.054 INFO  6 add data success to running crop 
+16:10:34.808 INFO  Notify sucess: {"message_id":8890427883745123938} 
+16:10:54.109 INFO  6 add data success to running crop 
+16:10:54.825 INFO  Notify sucess: {"message_id":4632656505324827766} 
+16:11:14.053 INFO  6 add data success to running crop 
+16:11:14.747 INFO  Notify sucess: {"message_id":4982971010440382312} 
+16:11:34.041 INFO  6 add data success to running crop 
+16:11:34.697 INFO  Notify sucess: {"message_id":8691721406848991526} 
+16:11:54.047 INFO  6 add data success to running crop 
+16:11:54.958 INFO  Notify sucess: {"message_id":8971791700296211241} 
+16:11:54.964 INFO  Notify sucess: {"message_id":8676569762803208544} 
+16:12:14.052 INFO  6 add data success to running crop 
+16:12:14.814 INFO  Notify sucess: {"message_id":7275553649466545042} 
+16:12:14.815 INFO  Notify sucess: {"message_id":5830103808378203058} 
+16:12:34.068 INFO  6 add data success to running crop 
+16:12:34.906 INFO  Notify sucess: {"message_id":5642488307517019174} 
+16:12:34.909 INFO  Notify sucess: {"message_id":8615906277052130574} 
+16:12:54.024 INFO  6 add data success to running crop 
+16:12:54.611 INFO  Notify sucess: {"message_id":8072469791232191636} 
+16:12:54.828 INFO  Notify sucess: {"message_id":8353290103116582333} 
+16:13:14.150 INFO  6 add data success to running crop 
+16:13:15.176 INFO  Notify sucess: {"message_id":5801116626243690778} 
+16:13:15.178 INFO  Notify sucess: {"message_id":6151464463189204629} 
+16:13:34.028 INFO  6 add data success to running crop 
+16:13:34.722 INFO  Notify sucess: {"message_id":6348920511808617240} 
+16:13:34.723 INFO  Notify sucess: {"message_id":5046231644978257152} 
+16:13:54.068 INFO  6 add data success to running crop 
+16:13:54.968 INFO  Notify sucess: {"message_id":6894845866224723423} 
+16:13:55.044 INFO  Notify sucess: {"message_id":4794171170417438659} 
+16:14:35.573 INFO  6 add data success to running crop 
+16:14:36.649 INFO  Notify sucess: {"message_id":8624384245717751063} 
+16:14:36.653 INFO  Notify sucess: {"message_id":9188583351393580323} 
+16:14:55.430 INFO  6 add data success to running crop 
+16:14:56.189 INFO  Notify sucess: {"message_id":8669894247775246380} 
+16:14:56.190 INFO  Notify sucess: {"message_id":7791224007212574818} 
+16:15:15.414 INFO  6 add data success to running crop 
+16:15:16.112 INFO  Notify sucess: {"message_id":7220071797673968606} 
+16:15:16.115 INFO  Notify sucess: {"message_id":5162175623516079034} 
+16:15:35.452 INFO  6 add data success to running crop 
+16:15:36.182 INFO  Notify sucess: {"message_id":5021122872092014764} 
+16:15:36.188 INFO  Notify sucess: {"message_id":4664467492030940888} 
+16:15:55.420 INFO  6 add data success to running crop 
+16:15:56.147 INFO  Notify sucess: {"message_id":5562342946388417941} 
+16:15:56.149 INFO  Notify sucess: {"message_id":7134493678730528802} 
+16:16:15.400 INFO  6 add data success to running crop 
+16:16:16.167 INFO  Notify sucess: {"message_id":5201061538020967277} 
+16:16:16.168 INFO  Notify sucess: {"message_id":6088880579457350887} 
+16:16:35.453 INFO  6 add data success to running crop 
+16:16:36.232 INFO  Notify sucess: {"message_id":8109054423942238421} 
+16:16:36.247 INFO  Notify sucess: {"message_id":6908357122581799395} 
+16:16:55.405 INFO  6 add data success to running crop 
+16:16:56.083 INFO  Notify sucess: {"message_id":8808663873440211753} 
+16:16:56.085 INFO  Notify sucess: {"message_id":7751523379923450963} 
+16:17:15.411 INFO  6 add data success to running crop 
+16:17:16.088 INFO  Notify sucess: {"message_id":5976376763164580904} 
+16:17:16.092 INFO  Notify sucess: {"message_id":8114884230072407068} 
+16:17:35.400 INFO  6 add data success to running crop 
+16:17:36.403 INFO  Notify sucess: {"message_id":5632863637543733794} 
+16:17:36.416 INFO  Notify sucess: {"message_id":5581692294012515946} 
+16:17:55.397 INFO  6 add data success to running crop 
+16:17:56.140 INFO  Notify sucess: {"message_id":6933550687831554324} 
+16:17:56.150 INFO  Notify sucess: {"message_id":5570190977062446675} 
+16:18:15.422 INFO  6 add data success to running crop 
+16:18:16.065 INFO  Notify sucess: {"message_id":7328159182729885443} 
+16:18:16.068 INFO  Notify sucess: {"message_id":8106010582473960394} 
+16:18:35.446 INFO  6 add data success to running crop 
+16:18:36.136 INFO  Notify sucess: {"message_id":6449319134962162741} 
+16:18:36.705 INFO  Notify sucess: {"message_id":8156123993751565979} 
+16:18:55.515 INFO  6 add data success to running crop 
+16:18:56.273 INFO  Notify sucess: {"message_id":5915922728281001157} 
+16:18:56.275 INFO  Notify sucess: {"message_id":8230926852242691545} 
+16:19:15.414 INFO  6 add data success to running crop 
+16:19:16.114 INFO  Notify sucess: {"message_id":9150512426817631003} 
+16:19:16.115 INFO  Notify sucess: {"message_id":8622343429889446123} 
+16:19:42.043 INFO  6 add data success to running crop 
+16:19:42.879 INFO  Notify sucess: {"message_id":4986771332162965862} 
+16:19:42.893 INFO  Notify sucess: {"message_id":7685774047886480206} 
+16:20:26.293 INFO  6 add data success to running crop 
+16:20:26.974 INFO  Notify sucess: {"message_id":8097973746274325435} 
+16:21:07.911 INFO  6 add data success to running crop 
+16:21:08.718 INFO  Notify sucess: {"message_id":9074791584922282647} 
+16:21:46.445 INFO  6 add data success to running crop 
+16:21:47.122 INFO  Notify sucess: {"message_id":8912256126763074838} 
+16:22:06.425 INFO  6 add data success to running crop 
+16:22:07.135 INFO  Notify sucess: {"message_id":8456734746076994925} 
+16:22:26.429 INFO  6 add data success to running crop 
+16:22:27.067 INFO  Notify sucess: {"message_id":8457801282569268163} 
+16:22:46.450 INFO  6 add data success to running crop 
+16:22:47.093 INFO  Notify sucess: {"message_id":7968220745216453949} 
+16:23:06.426 INFO  6 add data success to running crop 
+16:23:07.114 INFO  Notify sucess: {"message_id":7720471117651147060} 
+16:23:26.444 INFO  6 add data success to running crop 
+16:23:27.115 INFO  Notify sucess: {"message_id":6356174764474776783} 
+16:23:46.451 INFO  6 add data success to running crop 
+16:23:47.298 INFO  Notify sucess: {"message_id":8042385744530094562} 
+16:24:06.442 INFO  6 add data success to running crop 
+16:24:07.395 INFO  Notify sucess: {"message_id":8226124191803064120} 
+16:24:26.446 INFO  6 add data success to running crop 
+16:24:27.253 INFO  Notify sucess: {"message_id":9030664247351725978} 
+16:24:35.877 ERROR Incoming data is not right format 
+16:24:46.446 INFO  6 add data success to running crop 
+16:24:47.192 INFO  Notify sucess: {"message_id":7203149292146395475} 
+16:25:06.442 INFO  6 add data success to running crop 
+16:25:07.198 INFO  Notify sucess: {"message_id":9065756582996410492} 
+16:25:26.421 INFO  6 add data success to running crop 
+16:25:27.137 INFO  Notify sucess: {"message_id":8480058735709560727} 
+16:25:46.445 INFO  6 add data success to running crop 
+16:25:47.241 INFO  Notify sucess: {"message_id":7380417527411805469} 
+16:26:06.444 INFO  6 add data success to running crop 
+16:26:07.173 INFO  Notify sucess: {"message_id":8020642860403616585} 
+16:26:26.897 INFO  6 add data success to running crop 
+16:26:28.160 INFO  Notify sucess: {"message_id":7140826975921256802} 
+16:26:58.974 INFO  6 add data success to running crop 
+16:27:00.421 INFO  Notify sucess: {"message_id":7575851230455418001} 
+16:27:06.439 INFO  6 add data success to running crop 
+16:27:07.146 INFO  Notify sucess: {"message_id":7350685264585381567} 
+16:27:26.447 INFO  6 add data success to running crop 
+16:27:27.173 INFO  Notify sucess: {"message_id":8995519102238420704} 
+16:27:46.444 INFO  6 add data success to running crop 
+16:27:47.377 INFO  Notify sucess: {"message_id":7509060084619257165} 
+16:27:47.379 INFO  Notify sucess: {"message_id":5040591055466261242} 
+16:28:06.433 INFO  6 add data success to running crop 
+16:28:07.259 INFO  Notify sucess: {"message_id":6181748453086398928} 
+16:28:07.264 INFO  Notify sucess: {"message_id":6725468342138631719} 
+16:28:26.438 INFO  6 add data success to running crop 
+16:28:27.175 INFO  Notify sucess: {"message_id":8826500736693193392} 
+16:28:27.177 INFO  Notify sucess: {"message_id":8433469342596695898} 
+16:28:46.428 INFO  6 add data success to running crop 
+16:28:47.091 INFO  Notify sucess: {"message_id":8044464071445474107} 
+16:29:06.472 INFO  6 add data success to running crop 
+16:29:07.420 INFO  Notify sucess: {"message_id":6516593654206593169} 
+16:29:26.444 INFO  6 add data success to running crop 
+16:29:27.258 INFO  Notify sucess: {"message_id":6676140757016130493} 
+16:29:28.799 ERROR Incoming data is not right format 
+16:29:46.418 INFO  6 add data success to running crop 
+16:29:47.281 INFO  Notify sucess: {"message_id":7203434206743664954} 
+16:30:06.497 INFO  6 add data success to running crop 
+16:30:07.103 INFO  Notify sucess: {"message_id":6474428702178611877} 
+16:30:26.433 INFO  6 add data success to running crop 
+16:30:27.270 INFO  Notify sucess: {"message_id":8224873476753151861} 
+16:30:46.478 INFO  6 add data success to running crop 
+16:30:47.293 INFO  Notify sucess: {"message_id":8526458491059656433} 
+16:31:06.595 INFO  6 add data success to running crop 
+16:31:07.307 INFO  Notify sucess: {"message_id":7348391793781544599} 
+16:31:26.607 INFO  6 add data success to running crop 
+16:31:27.337 INFO  Notify sucess: {"message_id":7555449957284171605} 
+16:31:41.921 ERROR Incoming data is not right format 
+16:31:46.425 INFO  6 add data success to running crop 
+16:31:47.271 INFO  Notify sucess: {"message_id":5096034953289187336} 
+16:32:06.421 INFO  6 add data success to running crop 
+16:32:07.066 INFO  Notify sucess: {"message_id":7737081074591556737} 
+16:32:26.425 INFO  6 add data success to running crop 
+16:32:27.224 INFO  Notify sucess: {"message_id":5854048745881168244} 
+16:32:46.431 INFO  6 add data success to running crop 
+16:32:47.169 INFO  Notify sucess: {"message_id":4978026646320440177} 
+16:33:06.451 INFO  6 add data success to running crop 
+16:33:07.256 INFO  Notify sucess: {"message_id":6677703924353364352} 
+16:33:26.465 INFO  6 add data success to running crop 
+16:33:27.117 INFO  Notify sucess: {"message_id":7962749548216716705} 
+16:33:35.047 ERROR Incoming data is not right format 
+16:33:46.454 INFO  6 add data success to running crop 
+16:33:47.206 INFO  Notify sucess: {"message_id":5483181407393340542} 
+16:33:47.246 INFO  Notify sucess: {"message_id":8513976316318787666} 
+16:34:06.449 INFO  6 add data success to running crop 
+16:34:07.139 INFO  Notify sucess: {"message_id":8259550207485664268} 
+16:34:26.578 INFO  6 add data success to running crop 
+16:34:27.414 INFO  Notify sucess: {"message_id":4905650170583286340} 
+16:34:42.919 ERROR Incoming data is not right format 
+16:34:46.476 INFO  6 add data success to running crop 
+16:34:47.166 INFO  Notify sucess: {"message_id":7601095335234029932} 
+16:35:06.473 INFO  6 add data success to running crop 
+16:35:07.185 INFO  Notify sucess: {"message_id":8646486172252972282} 
+16:35:26.554 INFO  6 add data success to running crop 
+16:35:27.256 INFO  Notify sucess: {"message_id":6463261512329083855} 
+16:35:46.528 INFO  6 add data success to running crop 
+16:35:47.321 INFO  Notify sucess: {"message_id":8210148924727651003} 
+16:36:06.480 INFO  6 add data success to running crop 
+16:36:07.319 INFO  Notify sucess: {"message_id":4728614205421932529} 
+16:36:26.450 INFO  6 add data success to running crop 
+16:36:27.187 INFO  Notify sucess: {"message_id":5825913655631760245} 
+16:36:46.458 INFO  6 add data success to running crop 
+16:36:47.130 INFO  Notify sucess: {"message_id":6382595160580692508} 
+16:37:05.207 ERROR Incoming data is not right format 
+16:37:06.659 INFO  6 add data success to running crop 
+16:37:07.419 INFO  Notify sucess: {"message_id":8407550358687039333} 
+16:37:26.441 INFO  6 add data success to running crop 
+16:37:27.351 INFO  Notify sucess: {"message_id":8338499681211237257} 
+16:37:46.455 INFO  6 add data success to running crop 
+16:37:47.113 INFO  Notify sucess: {"message_id":8887279726634080645} 
+16:37:58.903 ERROR Incoming data is not right format 
+16:38:06.461 INFO  6 add data success to running crop 
+16:38:07.196 INFO  Notify sucess: {"message_id":6322420043396377059} 
+16:38:26.454 INFO  6 add data success to running crop 
+16:38:27.178 INFO  Notify sucess: {"message_id":8286346527470025244} 
+16:38:42.992 ERROR Incoming data is not right format 
+16:38:46.442 INFO  6 add data success to running crop 
+16:38:47.099 INFO  Notify sucess: {"message_id":8845598491135472482} 
+16:39:06.431 INFO  6 add data success to running crop 
+16:39:07.237 INFO  Notify sucess: {"message_id":8513368819731776834} 
+16:39:26.422 INFO  6 add data success to running crop 
+16:39:27.165 INFO  Notify sucess: {"message_id":8703791098641563630} 
+16:39:46.449 INFO  6 add data success to running crop 
+16:39:47.199 INFO  Notify sucess: {"message_id":5754747728563428485} 
+16:40:06.430 INFO  6 add data success to running crop 
+16:40:07.091 INFO  Notify sucess: {"message_id":6653880474602603165} 
+16:40:23.153 ERROR Incoming data is not right format 
+16:40:26.486 INFO  6 add data success to running crop 
+16:40:27.087 INFO  Notify sucess: {"message_id":6844856968113413012} 
+16:40:27.093 INFO  Notify sucess: {"message_id":5691451745434797140} 
+16:40:46.495 INFO  6 add data success to running crop 
+16:40:47.464 INFO  Notify sucess: {"message_id":6980961819620934792} 
+16:41:06.442 INFO  6 add data success to running crop 
+16:41:07.124 INFO  Notify sucess: {"message_id":5242948021165239249} 
+16:41:26.445 INFO  6 add data success to running crop 
+16:41:27.156 INFO  Notify sucess: {"message_id":4782305540646507314} 
+16:41:32.795 ERROR Incoming data is not right format 
+16:41:46.475 INFO  6 add data success to running crop 
+16:41:47.644 INFO  Notify sucess: {"message_id":7692326398456953125} 
+16:41:48.416 ERROR Incoming data is not right format 
+16:42:06.529 INFO  6 add data success to running crop 
+16:42:07.336 INFO  Notify sucess: {"message_id":8073351448683319676} 
+16:42:26.449 INFO  6 add data success to running crop 
+16:42:27.185 INFO  Notify sucess: {"message_id":8991741221360008201} 
+16:42:46.438 INFO  6 add data success to running crop 
+16:42:47.125 INFO  Notify sucess: {"message_id":7044814928746017428} 
+16:43:06.459 INFO  6 add data success to running crop 
+16:43:07.213 INFO  Notify sucess: {"message_id":6052560667810256658} 
+16:43:26.435 INFO  6 add data success to running crop 
+16:43:27.145 INFO  Notify sucess: {"message_id":6105391971225983242} 
+16:43:46.463 INFO  6 add data success to running crop 
+16:43:47.093 INFO  Notify sucess: {"message_id":5224067975090149785} 
+16:44:06.445 INFO  6 add data success to running crop 
+16:44:07.076 INFO  Notify sucess: {"message_id":5591784160783253406} 
+16:44:26.443 INFO  6 add data success to running crop 
+16:44:27.209 INFO  Notify sucess: {"message_id":7765968553120264953} 
+16:44:46.441 INFO  6 add data success to running crop 
+16:44:47.122 INFO  Notify sucess: {"message_id":9070544280319251172} 
+16:45:06.446 INFO  6 add data success to running crop 
+16:45:07.164 INFO  Notify sucess: {"message_id":6006131157784302301} 
+16:45:26.443 INFO  6 add data success to running crop 
+16:45:27.020 INFO  Notify sucess: {"message_id":6118304267105841832} 
+16:45:46.429 INFO  6 add data success to running crop 
+16:45:47.285 INFO  Notify sucess: {"message_id":4896988698545236369} 
+16:46:06.445 INFO  6 add data success to running crop 
+16:46:07.081 INFO  Notify sucess: {"message_id":6887129712605153527} 
+16:46:26.451 INFO  6 add data success to running crop 
+16:46:27.288 INFO  Notify sucess: {"message_id":8527725537326343015} 
+16:46:46.555 INFO  6 add data success to running crop 
+16:46:47.148 INFO  Notify sucess: {"message_id":8108367942947318604} 
+16:47:06.441 INFO  6 add data success to running crop 
+16:47:07.239 INFO  Notify sucess: {"message_id":8789613349889833287} 
+16:47:26.436 INFO  6 add data success to running crop 
+16:47:27.321 INFO  Notify sucess: {"message_id":7660394025961933769} 
+16:47:46.437 INFO  6 add data success to running crop 
+16:47:47.182 INFO  Notify sucess: {"message_id":8707888596705862286} 
+16:48:06.461 INFO  6 add data success to running crop 
+16:48:07.172 INFO  Notify sucess: {"message_id":5129271724900381794} 
+16:48:26.449 INFO  6 add data success to running crop 
+16:48:27.225 INFO  Notify sucess: {"message_id":8040311284868814399} 
+16:48:42.746 ERROR Incoming data is not right format 
+16:48:46.565 INFO  6 add data success to running crop 
+16:48:47.309 INFO  Notify sucess: {"message_id":4773768222789960258} 
+16:49:06.555 INFO  6 add data success to running crop 
+16:49:07.268 INFO  Notify sucess: {"message_id":6605657333502925076} 
+16:49:26.566 INFO  6 add data success to running crop 
+16:49:27.271 INFO  Notify sucess: {"message_id":8626427917119693681} 
+16:49:46.574 INFO  6 add data success to running crop 
+16:49:47.207 INFO  Notify sucess: {"message_id":7367069422219705719} 
+16:50:06.573 INFO  6 add data success to running crop 
+16:50:07.651 INFO  Notify sucess: {"message_id":6585551003799120467} 
+16:50:26.583 INFO  6 add data success to running crop 
+16:50:27.440 INFO  Notify sucess: {"message_id":5593384665907772591} 
+16:50:46.563 INFO  6 add data success to running crop 
+16:50:47.284 INFO  Notify sucess: {"message_id":6227996905282297086} 
+16:51:06.551 INFO  6 add data success to running crop 
+16:51:07.347 INFO  Notify sucess: {"message_id":4760712749311497706} 
+16:51:20.984 ERROR Incoming data is not right format 
+16:51:26.468 INFO  6 add data success to running crop 
+16:51:27.108 INFO  Notify sucess: {"message_id":8766423655740341695} 
+16:51:46.464 INFO  6 add data success to running crop 
+16:51:47.197 INFO  Notify sucess: {"message_id":8273562278706664961} 
+16:52:06.428 INFO  6 add data success to running crop 
+16:52:07.073 INFO  Notify sucess: {"message_id":8625620570090853639} 
+16:52:26.745 INFO  6 add data success to running crop 
+16:52:27.523 INFO  Notify sucess: {"message_id":7359505269810036928} 
+16:52:45.012 ERROR Incoming data is not right format 
+16:52:46.516 INFO  6 add data success to running crop 
+16:52:48.198 INFO  Notify sucess: {"message_id":5793807210289834328} 
+16:53:06.510 INFO  6 add data success to running crop 
+16:53:07.468 INFO  Notify sucess: {"message_id":5702287755629470293} 
+16:53:26.517 INFO  6 add data success to running crop 
+16:53:27.293 INFO  Notify sucess: {"message_id":6063341009123709633} 
+16:53:46.530 INFO  6 add data success to running crop 
+16:53:47.197 INFO  Notify sucess: {"message_id":8160608524708930381} 
+16:54:06.516 INFO  6 add data success to running crop 
+16:54:07.309 INFO  Notify sucess: {"message_id":7394565907442921685} 
+16:54:26.506 INFO  6 add data success to running crop 
+16:54:27.135 INFO  Notify sucess: {"message_id":7615483386499759496} 
+16:54:46.492 INFO  6 add data success to running crop 
+16:54:47.249 INFO  Notify sucess: {"message_id":8144407257421752452} 
+16:55:06.535 INFO  6 add data success to running crop 
+16:55:07.247 INFO  Notify sucess: {"message_id":7462389869893821337} 
+16:55:26.501 INFO  6 add data success to running crop 
+16:55:27.168 INFO  Notify sucess: {"message_id":5353058807000519288} 
+16:55:47.411 INFO  6 add data success to running crop 
+16:55:48.101 INFO  Notify sucess: {"message_id":7432220226864843809} 
+16:55:59.317 ERROR Incoming data is not right format 
+16:56:06.504 INFO  6 add data success to running crop 
+16:56:07.201 INFO  Notify sucess: {"message_id":6161667110970025040} 
+16:56:25.886 ERROR Incoming data is not right format 
+16:56:26.776 INFO  6 add data success to running crop 
+16:56:27.561 INFO  Notify sucess: {"message_id":8998279321721569428} 
+16:57:03.708 INFO  6 add data success to running crop 
+16:57:04.408 INFO  Notify sucess: {"message_id":8192344186423633178} 
+16:57:10.607 ERROR Incoming data is not right format 
+16:57:23.396 INFO  6 add data success to running crop 
+16:57:24.189 INFO  Notify sucess: {"message_id":5902229345295892040} 
+16:57:35.764 ERROR Incoming data is not right format 
+16:57:43.597 INFO  6 add data success to running crop 
+16:57:44.382 INFO  Notify sucess: {"message_id":5140912280972673918} 
+16:57:55.839 ERROR Incoming data is not right format 
+16:58:03.467 INFO  6 add data success to running crop 
+16:58:04.301 INFO  Notify sucess: {"message_id":7387204896474079098} 
+16:58:23.400 INFO  6 add data success to running crop 
+16:58:24.349 INFO  Notify sucess: {"message_id":5537422272428249872} 
+17:02:43.638 INFO  Admin account was created 
+17:02:43.783 INFO  subscribe success to device/112233445566/server 
+17:02:49.466 INFO  6 add data success to running crop 
+17:02:50.338 INFO  Notify sucess: {"message_id":6067081393011255287} 
+17:03:09.405 INFO  6 add data success to running crop 
+17:03:10.071 INFO  Notify sucess: {"message_id":5510174253626732942} 
+17:03:10.072 INFO  Notify sucess: {"message_id":6604875307996096156} 
+17:03:29.481 INFO  6 add data success to running crop 
+17:03:30.341 INFO  Notify sucess: {"message_id":7712012098183860825} 
+17:03:30.345 INFO  Notify sucess: {"message_id":7780490612671754506} 
+17:03:49.410 INFO  6 add data success to running crop 
+17:03:50.077 INFO  Notify sucess: {"message_id":8279610757574534684} 
+17:03:50.083 INFO  Notify sucess: {"message_id":7361191970053479379} 
+17:04:09.502 INFO  6 add data success to running crop 
+17:04:10.316 INFO  Notify sucess: {"message_id":5151805600932754153} 
+17:04:10.323 INFO  Notify sucess: {"message_id":5830661211543205133} 
+17:04:10.722 ERROR Incoming data is not right format 
+17:04:29.284 INFO  6 add data success to running crop 
+17:04:30.068 INFO  Notify sucess: {"message_id":7168934555404900681} 
+17:04:30.069 INFO  Notify sucess: {"message_id":6927145727399610428} 
+17:04:49.170 INFO  6 add data success to running crop 
+17:04:49.898 INFO  Notify sucess: {"message_id":9054209655957752280} 
+17:04:49.905 INFO  Notify sucess: {"message_id":5530241119996297966} 
+17:05:01.951 ERROR Incoming data is not right format 
+17:05:09.176 INFO  6 add data success to running crop 
+17:05:09.875 INFO  Notify sucess: {"message_id":7162543785746032482} 
+17:05:09.879 INFO  Notify sucess: {"message_id":7002110335117004188} 
+17:05:29.183 INFO  6 add data success to running crop 
+17:05:30.005 INFO  Notify sucess: {"message_id":7320698743486989771} 
+17:05:30.006 INFO  Notify sucess: {"message_id":5581376666950719524} 
+17:05:49.430 ERROR Incoming data is not right format 
+17:27:45.422 INFO  Admin account was created 
+17:27:45.726 INFO  subscribe success to device/112233445566/server 
+17:27:49.511 INFO  6 add data success to running crop 
+17:27:50.403 INFO  Notify sucess: {"message_id":6100538339718763647} 
+17:28:09.440 INFO  6 add data success to running crop 
+17:28:10.076 INFO  Notify sucess: {"message_id":8761359269679213767} 
+17:28:29.514 INFO  6 add data success to running crop 
+17:28:30.236 INFO  Notify sucess: {"message_id":5469177847706619946} 
+17:29:08.137 INFO  Admin account was created 
+17:29:08.335 INFO  subscribe success to device/112233445566/server 
+17:29:09.468 INFO  6 add data success to running crop 
+17:29:10.608 INFO  Notify sucess: {"message_id":6640753957894763565} 
+17:29:29.439 INFO  6 add data success to running crop 
+17:29:30.148 INFO  Notify sucess: {"message_id":5829777709662727914} 
+17:29:47.145 ERROR Incoming data is not right format 
+17:29:49.469 INFO  6 add data success to running crop 
+17:29:50.211 INFO  Notify sucess: {"message_id":6725047181824562553} 
+17:30:09.452 INFO  6 add data success to running crop 
+17:30:10.193 INFO  Notify sucess: {"message_id":5925221133619807987} 
+17:30:29.451 INFO  6 add data success to running crop 
+17:30:30.391 INFO  Notify sucess: {"message_id":7529125964573234010} 
+17:30:49.469 INFO  6 add data success to running crop 
+17:30:50.100 INFO  Notify sucess: {"message_id":7184719671022900576} 
+17:31:09.427 INFO  6 add data success to running crop 
+17:31:10.162 INFO  Notify sucess: {"message_id":5854460675407929824} 
+17:31:29.451 INFO  6 add data success to running crop 
+17:31:30.201 INFO  Notify sucess: {"message_id":8740156405110652542} 
+17:31:49.430 INFO  6 add data success to running crop 
+17:31:50.142 INFO  Notify sucess: {"message_id":8349196676132298440} 
+17:32:21.492 ERROR Incoming data is not right format 
+17:32:27.767 INFO  6 add data success to running crop 
+17:32:28.595 INFO  Notify sucess: {"message_id":9167611350003027249} 
+17:32:47.769 INFO  6 add data success to running crop 
+17:32:48.430 INFO  Notify sucess: {"message_id":9132317127538467097} 
+17:33:07.745 INFO  6 add data success to running crop 
+17:33:08.424 INFO  Notify sucess: {"message_id":4971065446358099907} 
+17:33:27.763 INFO  6 add data success to running crop 
+17:33:28.576 INFO  Notify sucess: {"message_id":5025446181110503138} 
+17:33:47.806 INFO  6 add data success to running crop 
+17:33:48.511 INFO  Notify sucess: {"message_id":8200042711092949138} 
+17:34:07.822 INFO  6 add data success to running crop 
+17:34:08.666 INFO  Notify sucess: {"message_id":4631216725505729752} 
+17:34:27.810 INFO  6 add data success to running crop 
+17:34:28.490 INFO  Notify sucess: {"message_id":5453751245341351401} 
+17:34:28.650 INFO  Notify sucess: {"message_id":7813750080904631684} 
+17:34:47.802 INFO  6 add data success to running crop 
+17:34:48.501 INFO  Notify sucess: {"message_id":7997644789834441771} 
+17:35:07.760 INFO  6 add data success to running crop 
+17:35:08.403 INFO  Notify sucess: {"message_id":5189007033291335909} 
+17:35:27.814 INFO  6 add data success to running crop 
+17:35:28.748 INFO  Notify sucess: {"message_id":8728722296641398920} 
+18:12:54.713 INFO  Admin account was created 
+18:12:54.813 INFO  subscribe success to device/112233445566/server 
+18:13:08.152 INFO  6 add data success to running crop 
+18:13:09.024 INFO  Notify sucess: {"message_id":7114771033187635617} 
+18:13:28.171 INFO  6 add data success to running crop 
+18:13:28.884 INFO  Notify sucess: {"message_id":7160656165474338620} 
+18:13:28.885 INFO  Notify sucess: {"message_id":6037796960717224316} 
+18:13:47.409 ERROR Incoming data is not right format 
+18:13:48.106 INFO  6 add data success to running crop 
+18:13:48.935 INFO  Notify sucess: {"message_id":6623613488637695233} 
+18:13:48.937 INFO  Notify sucess: {"message_id":6391842707843388188} 
+18:14:08.100 INFO  6 add data success to running crop 
+18:14:08.763 INFO  Notify sucess: {"message_id":7952859235050765978} 
+18:14:08.956 INFO  Notify sucess: {"message_id":7288169696090936636} 
+18:14:28.058 INFO  6 add data success to running crop 
+18:14:28.763 INFO  Notify sucess: {"message_id":6878134588747179982} 
+18:14:28.764 INFO  Notify sucess: {"message_id":8592185061938646233} 
+18:14:48.085 INFO  6 add data success to running crop 
+18:14:48.840 INFO  Notify sucess: {"message_id":9024724326069561382} 
+18:14:48.841 INFO  Notify sucess: {"message_id":6814972404037292812} 
+18:15:08.067 INFO  6 add data success to running crop 
+18:15:08.869 INFO  Notify sucess: {"message_id":5157159238837973984} 
+18:15:08.876 INFO  Notify sucess: {"message_id":8969499642815832768} 
+18:15:28.071 INFO  6 add data success to running crop 
+18:15:28.756 INFO  Notify sucess: {"message_id":7144540121408257474} 
+18:15:28.759 INFO  Notify sucess: {"message_id":9068834298967955560} 
+18:15:48.050 INFO  6 add data success to running crop 
+18:15:48.796 INFO  Notify sucess: {"message_id":6109940061444544033} 
+18:15:48.829 INFO  Notify sucess: {"message_id":5127026525112542850} 
+18:16:08.062 INFO  6 add data success to running crop 
+18:16:08.806 INFO  Notify sucess: {"message_id":7856538905752797880} 
+18:16:08.827 INFO  Notify sucess: {"message_id":7429501729256449663} 
+18:16:12.565 ERROR Incoming data is not right format 
+18:16:24.041 ERROR Incoming data is not right format 
+18:16:28.146 INFO  6 add data success to running crop 
+18:16:28.864 INFO  Notify sucess: {"message_id":5291256246750216587} 
+18:16:28.866 INFO  Notify sucess: {"message_id":5981308330656937255} 
+18:16:48.120 INFO  6 add data success to running crop 
+18:16:48.773 INFO  Notify sucess: {"message_id":7169456958489564688} 
+18:16:48.807 INFO  Notify sucess: {"message_id":8627545068572473989} 
+18:17:00.938 ERROR Incoming data is not right format 
+18:17:09.000 ERROR Incoming data is not right format 
+18:17:09.267 INFO  6 add data success to running crop 
+18:17:09.949 INFO  Notify sucess: {"message_id":5518892221078984853} 
+18:17:09.950 INFO  Notify sucess: {"message_id":7700784226070692569} 
+18:17:28.892 INFO  6 add data success to running crop 
+18:17:29.650 INFO  Notify sucess: {"message_id":7839339413047230368} 
+18:17:48.888 INFO  6 add data success to running crop 
+18:17:49.704 INFO  Notify sucess: {"message_id":7315051511085562819} 
+18:18:08.920 INFO  6 add data success to running crop 
+18:18:09.742 INFO  Notify sucess: {"message_id":6565046032955881278} 
+18:18:28.881 INFO  6 add data success to running crop 
+18:18:29.625 INFO  Notify sucess: {"message_id":5168847212800992433} 
+18:18:48.931 INFO  6 add data success to running crop 
+18:18:49.564 INFO  Notify sucess: {"message_id":8595133754433381442} 
+18:19:08.915 INFO  6 add data success to running crop 
+18:19:09.664 INFO  Notify sucess: {"message_id":7501902961890765607} 
+18:19:28.914 INFO  6 add data success to running crop 
+18:19:29.632 INFO  Notify sucess: {"message_id":6317248190169370331} 
+18:19:49.093 ERROR Incoming data is not right format 
+18:19:49.361 INFO  6 add data success to running crop 
+18:19:50.094 INFO  Notify sucess: {"message_id":5476390108549517965} 
+18:20:09.160 INFO  6 add data success to running crop 
+18:20:09.843 INFO  Notify sucess: {"message_id":5813584375834026500} 
+18:20:26.194 ERROR Incoming data is not right format 
+18:20:28.837 INFO  6 add data success to running crop 
+18:20:29.502 INFO  Notify sucess: {"message_id":5434870181747137756} 
+18:20:48.868 INFO  6 add data success to running crop 
+18:20:49.698 INFO  Notify sucess: {"message_id":8482485362694471794} 
+18:21:08.882 INFO  6 add data success to running crop 
+18:21:09.579 INFO  Notify sucess: {"message_id":8195030632064511368} 
+18:21:28.857 INFO  6 add data success to running crop 
+18:21:29.598 INFO  Notify sucess: {"message_id":4663099631401187215} 
+18:21:48.868 INFO  6 add data success to running crop 
+18:21:49.574 INFO  Notify sucess: {"message_id":7168168376124296768} 
+18:22:08.866 INFO  6 add data success to running crop 
+18:22:09.591 INFO  Notify sucess: {"message_id":7850871166439145787} 
+18:22:28.882 INFO  6 add data success to running crop 
+18:22:29.616 INFO  Notify sucess: {"message_id":9110136874443189047} 
+18:22:34.941 ERROR Incoming data is not right format 
+18:22:48.871 INFO  6 add data success to running crop 
+18:22:49.707 INFO  Notify sucess: {"message_id":5045100550929769986} 
+18:23:08.852 INFO  6 add data success to running crop 
+18:23:09.510 INFO  Notify sucess: {"message_id":5589577285280793215} 
+18:23:10.755 ERROR Incoming data is not right format 
+18:23:16.966 ERROR Incoming data is not right format 
+18:23:28.845 INFO  6 add data success to running crop 
+18:23:29.527 INFO  Notify sucess: {"message_id":5381783712543123889} 
+18:23:48.853 INFO  6 add data success to running crop 
+18:23:49.600 INFO  Notify sucess: {"message_id":5578111387280047683} 
+18:24:08.844 INFO  6 add data success to running crop 
+18:24:09.570 INFO  Notify sucess: {"message_id":8194560750715179342} 
+18:24:28.876 INFO  6 add data success to running crop 
+18:24:29.607 INFO  Notify sucess: {"message_id":5781861552548392953} 
+18:24:48.867 INFO  6 add data success to running crop 
+18:24:49.591 INFO  Notify sucess: {"message_id":6825481174952575005} 
+18:25:08.859 INFO  6 add data success to running crop 
+18:25:09.567 INFO  Notify sucess: {"message_id":7108946915335361945} 
+18:25:09.569 INFO  Notify sucess: {"message_id":6999860780108488725} 
+18:25:28.873 INFO  6 add data success to running crop 
+18:25:29.574 INFO  Notify sucess: {"message_id":6940380529443351565} 
+18:25:29.675 INFO  Notify sucess: {"message_id":9200843988951878061} 
+18:25:48.866 INFO  6 add data success to running crop 
+18:25:49.527 INFO  Notify sucess: {"message_id":8069851610871896957} 
+18:25:49.528 INFO  Notify sucess: {"message_id":6759892659301294812} 
+18:26:07.125 ERROR Incoming data is not right format 
+18:26:08.857 INFO  6 add data success to running crop 
+18:26:09.654 INFO  Notify sucess: {"message_id":5649024334913476429} 
+18:26:09.654 INFO  Notify sucess: {"message_id":8029197170659244971} 
+18:26:29.247 ERROR Incoming data is not right format 
+18:26:29.519 INFO  6 add data success to running crop 
+18:26:30.272 INFO  Notify sucess: {"message_id":7898896186873245388} 
+18:26:30.273 INFO  Notify sucess: {"message_id":7733819583651556801} 
+18:26:49.031 INFO  6 add data success to running crop 
+18:26:49.880 INFO  Notify sucess: {"message_id":9195438877646029190} 
+18:26:49.881 INFO  Notify sucess: {"message_id":7062750240704755621} 
+18:27:09.058 INFO  6 add data success to running crop 
+18:27:09.666 INFO  Notify sucess: {"message_id":7137060621871376361} 
+18:27:09.667 INFO  Notify sucess: {"message_id":7361707446462416542} 
+18:27:29.054 INFO  6 add data success to running crop 
+18:27:29.812 INFO  Notify sucess: {"message_id":8041701213136208296} 
+18:27:29.813 INFO  Notify sucess: {"message_id":8387045459844385660} 
+18:27:49.066 INFO  6 add data success to running crop 
+18:27:49.811 INFO  Notify sucess: {"message_id":6430690692860603043} 
+18:27:49.811 INFO  Notify sucess: {"message_id":7910421016472670137} 
+18:28:09.022 INFO  6 add data success to running crop 
+18:28:09.703 INFO  Notify sucess: {"message_id":9126306169616235050} 
+18:28:09.704 INFO  Notify sucess: {"message_id":8723788021223620426} 
+18:28:29.076 INFO  6 add data success to running crop 
+18:28:29.844 INFO  Notify sucess: {"message_id":7029059521752446628} 
+18:28:29.845 INFO  Notify sucess: {"message_id":8528241228229551221} 
+18:28:49.022 INFO  6 add data success to running crop 
+18:28:49.822 INFO  Notify sucess: {"message_id":8569197699301795564} 
+18:28:49.837 INFO  Notify sucess: {"message_id":7475926132624725555} 
+18:29:09.060 INFO  6 add data success to running crop 
+18:29:09.812 INFO  Notify sucess: {"message_id":7432148247528952989} 
+18:29:09.814 INFO  Notify sucess: {"message_id":7118377395404920088} 
+18:29:29.031 INFO  6 add data success to running crop 
+18:29:29.724 INFO  Notify sucess: {"message_id":8115833917215042396} 
+18:29:29.725 INFO  Notify sucess: {"message_id":6828649809622987278} 
+18:29:49.049 INFO  6 add data success to running crop 
+18:29:49.755 INFO  Notify sucess: {"message_id":4622970795980694618} 
+18:29:49.756 INFO  Notify sucess: {"message_id":6641472943996635270} 
+18:30:09.072 INFO  6 add data success to running crop 
+18:30:09.821 INFO  Notify sucess: {"message_id":6941184163250903623} 
+18:30:09.822 INFO  Notify sucess: {"message_id":7594869658936238501} 
+18:30:24.806 ERROR Incoming data is not right format 
+18:30:29.278 INFO  6 add data success to running crop 
+18:30:29.994 INFO  Notify sucess: {"message_id":6875512308915584965} 
+18:30:29.995 INFO  Notify sucess: {"message_id":8150802990546915038} 
+18:30:32.676 ERROR Incoming data is not right format 
+18:30:40.416 ERROR Incoming data is not right format 
+18:30:47.907 ERROR Incoming data is not right format 
+18:30:49.337 INFO  6 add data success to running crop 
+18:30:49.973 INFO  Notify sucess: {"message_id":8614454691096825873} 
+18:30:49.974 INFO  Notify sucess: {"message_id":7991898595749111160} 
+18:31:09.359 INFO  6 add data success to running crop 
+18:31:10.005 INFO  Notify sucess: {"message_id":8693011176390456917} 
+18:31:10.005 INFO  Notify sucess: {"message_id":6485462903866652977} 
+18:31:29.327 INFO  6 add data success to running crop 
+18:31:29.928 INFO  Notify sucess: {"message_id":5221356510725518956} 
+18:31:29.942 INFO  Notify sucess: {"message_id":9104573260970175131} 
+18:31:49.321 INFO  6 add data success to running crop 
+18:31:50.054 INFO  Notify sucess: {"message_id":8564567520197025961} 
+18:31:50.063 INFO  Notify sucess: {"message_id":9207172735200100107} 
+18:31:51.345 ERROR Incoming data is not right format 
+18:32:04.311 ERROR Incoming data is not right format 
+18:32:09.311 INFO  6 add data success to running crop 
+18:32:09.962 INFO  Notify sucess: {"message_id":7980599178100154376} 
+18:32:09.963 INFO  Notify sucess: {"message_id":8456654058828359615} 
+18:32:29.309 INFO  6 add data success to running crop 
+18:32:30.027 INFO  Notify sucess: {"message_id":6495132530215316633} 
+18:32:30.029 INFO  Notify sucess: {"message_id":5948450873953355106} 
+18:32:48.339 ERROR Incoming data is not right format 
+18:32:49.317 INFO  6 add data success to running crop 
+18:32:50.063 INFO  Notify sucess: {"message_id":5606953680341016657} 
+18:32:50.102 INFO  Notify sucess: {"message_id":7484942383610384700} 
+18:33:09.321 INFO  6 add data success to running crop 
+18:33:10.025 INFO  Notify sucess: {"message_id":8379059313539156305} 
+18:33:10.027 INFO  Notify sucess: {"message_id":4648097260434495306} 
+18:33:29.304 INFO  6 add data success to running crop 
+18:33:29.993 INFO  Notify sucess: {"message_id":7484332782793508159} 
+18:33:30.042 INFO  Notify sucess: {"message_id":4718287803836896308} 
+18:33:49.366 INFO  6 add data success to running crop 
+18:33:50.119 INFO  Notify sucess: {"message_id":5849864815407618475} 
+18:33:50.120 INFO  Notify sucess: {"message_id":4765914637548227873} 
+18:34:09.332 INFO  6 add data success to running crop 
+18:34:10.128 INFO  Notify sucess: {"message_id":8653135962048732392} 
+18:34:10.137 INFO  Notify sucess: {"message_id":6179415352139015485} 
+18:34:29.331 INFO  6 add data success to running crop 
+18:34:30.001 INFO  Notify sucess: {"message_id":7276465828640785868} 
+18:34:30.004 INFO  Notify sucess: {"message_id":5257854228534493670} 
+18:34:49.354 INFO  6 add data success to running crop 
+18:34:50.015 INFO  Notify sucess: {"message_id":7901111301717002968} 
+18:47:02.989 INFO  6 add data success to running crop 
+18:47:03.751 INFO  Notify sucess: {"message_id":5278496840966901767} 
+18:47:06.003 INFO  6 add data success to running crop 
+18:47:06.719 INFO  Notify sucess: {"message_id":9157048176484383226} 
+18:47:06.719 INFO  Notify sucess: {"message_id":4646891323669864097} 
+18:47:11.161 INFO  6 add data success to running crop 
+18:47:11.907 INFO  Notify sucess: {"message_id":6720355859145099796} 
+18:47:11.910 INFO  Notify sucess: {"message_id":4687407407688082538} 
+18:47:16.000 INFO  6 add data success to running crop 
+18:47:16.669 INFO  Notify sucess: {"message_id":8239205992547161012} 
+18:47:21.018 INFO  6 add data success to running crop 
+18:47:21.748 INFO  Notify sucess: {"message_id":4624799565840132848} 
+18:47:26.003 INFO  6 add data success to running crop 
+18:47:26.726 INFO  Notify sucess: {"message_id":6109962097717644338} 
+18:47:26.727 INFO  Notify sucess: {"message_id":6213705558642940030} 
+18:47:30.970 INFO  6 add data success to running crop 
+18:47:31.597 INFO  Notify sucess: {"message_id":8437358840318687706} 
+18:47:31.597 INFO  Notify sucess: {"message_id":5941898148857828562} 
+18:47:36.386 INFO  6 add data success to running crop 
+18:47:37.081 INFO  Notify sucess: {"message_id":8913550409160263950} 
+18:47:37.082 INFO  Notify sucess: {"message_id":8740659103178993332} 
+18:47:41.003 INFO  6 add data success to running crop 
+18:47:41.774 INFO  Notify sucess: {"message_id":6456546744981998391} 
+18:47:41.775 INFO  Notify sucess: {"message_id":7782888546486133708} 
+18:47:45.973 INFO  6 add data success to running crop 
+18:47:46.677 INFO  Notify sucess: {"message_id":8268440961054456027} 
+18:47:46.678 INFO  Notify sucess: {"message_id":6369658172796872708} 
+18:47:50.998 INFO  6 add data success to running crop 
+18:47:51.695 INFO  Notify sucess: {"message_id":8280170627653165104} 
+18:47:51.697 INFO  Notify sucess: {"message_id":6237922672314101849} 
+18:47:55.987 INFO  6 add data success to running crop 
+18:47:56.829 INFO  Notify sucess: {"message_id":5093499811057732147} 
+18:47:56.834 INFO  Notify sucess: {"message_id":8516346530840284831} 
+18:48:00.994 INFO  6 add data success to running crop 
+18:48:01.682 INFO  Notify sucess: {"message_id":7563890514297409970} 
+18:48:01.683 INFO  Notify sucess: {"message_id":8303065116739613217} 
+18:48:05.991 INFO  6 add data success to running crop 
+18:48:06.698 INFO  Notify sucess: {"message_id":6515648828870827721} 
+18:48:06.708 INFO  Notify sucess: {"message_id":9043771762307570576} 
+18:48:10.980 INFO  6 add data success to running crop 
+18:48:11.650 INFO  Notify sucess: {"message_id":6112554273628511480} 
+18:48:11.729 INFO  Notify sucess: {"message_id":7364850278677401501} 
+18:48:15.961 INFO  6 add data success to running crop 
+18:48:16.715 INFO  Notify sucess: {"message_id":5681235586968743217} 
+18:48:16.715 INFO  Notify sucess: {"message_id":4840700898353145649} 
+18:48:21.001 INFO  6 add data success to running crop 
+18:48:21.700 INFO  Notify sucess: {"message_id":8169898740994031116} 
+18:48:21.710 INFO  Notify sucess: {"message_id":8063801536907768707} 
+18:48:25.987 INFO  6 add data success to running crop 
+18:48:26.726 INFO  Notify sucess: {"message_id":5147693164555610352} 
+18:48:26.727 INFO  Notify sucess: {"message_id":4742072683099163414} 
+18:48:30.991 INFO  6 add data success to running crop 
+18:48:31.765 INFO  Notify sucess: {"message_id":5289552775816284131} 
+18:48:31.766 INFO  Notify sucess: {"message_id":4855947269279131024} 
+18:48:33.006 ERROR Incoming data is not right format 
+18:48:35.809 INFO  6 add data success to running crop 
+18:48:36.541 INFO  Notify sucess: {"message_id":8326312091255077256} 
+18:48:36.542 INFO  Notify sucess: {"message_id":5727343884267467310} 
+18:48:41.486 INFO  6 add data success to running crop 
+18:48:42.133 INFO  Notify sucess: {"message_id":7328613436368548482} 
+18:48:42.394 INFO  Notify sucess: {"message_id":5287904965735654069} 
+18:48:46.113 INFO  6 add data success to running crop 
+18:48:46.836 INFO  Notify sucess: {"message_id":6554270493532931031} 
+18:48:46.843 INFO  Notify sucess: {"message_id":4968915480561709243} 
+18:48:51.111 INFO  6 add data success to running crop 
+18:48:51.910 INFO  Notify sucess: {"message_id":7701827820452715726} 
+18:48:51.913 INFO  Notify sucess: {"message_id":5974004116828105408} 
+18:48:56.215 INFO  6 add data success to running crop 
+18:48:56.919 INFO  Notify sucess: {"message_id":8217026244677328255} 
+18:48:56.921 INFO  Notify sucess: {"message_id":6594246884012045232} 
+18:49:02.361 INFO  6 add data success to running crop 
+18:49:02.833 ERROR Incoming data is not right format 
+18:49:04.382 INFO  Notify sucess: {"message_id":5604427558910421357} 
+18:49:04.388 INFO  Notify sucess: {"message_id":5720200455706685250} 
+18:49:05.861 INFO  6 add data success to running crop 
+18:49:06.880 INFO  Notify sucess: {"message_id":8961535369848117317} 
+18:49:06.882 INFO  Notify sucess: {"message_id":7482732921467635237} 
+18:49:10.861 INFO  6 add data success to running crop 
+18:49:11.499 INFO  Notify sucess: {"message_id":4941213864084281875} 
+18:49:11.500 INFO  Notify sucess: {"message_id":9216870772271015927} 
+18:49:15.481 ERROR Incoming data is not right format 
+18:49:15.862 INFO  6 add data success to running crop 
+18:49:16.608 INFO  Notify sucess: {"message_id":6136478857426483343} 
+18:49:16.609 INFO  Notify sucess: {"message_id":8660647904190399534} 
+18:49:20.855 INFO  6 add data success to running crop 
+18:49:21.508 INFO  Notify sucess: {"message_id":5457368920031213666} 
+18:49:21.509 INFO  Notify sucess: {"message_id":6241478129765967768} 
+18:49:25.863 INFO  6 add data success to running crop 
+18:49:26.545 INFO  Notify sucess: {"message_id":6223568615704422075} 
+18:49:26.553 INFO  Notify sucess: {"message_id":7801085024692368051} 
+18:49:30.707 ERROR Incoming data is not right format 
+18:49:31.138 INFO  6 add data success to running crop 
+18:49:31.798 INFO  Notify sucess: {"message_id":4639170170502779131} 
+18:49:31.800 INFO  Notify sucess: {"message_id":5602687917989593443} 
+18:49:36.127 INFO  6 add data success to running crop 
+18:49:36.797 INFO  Notify sucess: {"message_id":5649305830341421989} 
+18:49:36.798 INFO  Notify sucess: {"message_id":6725990360972962275} 
+18:49:41.149 INFO  6 add data success to running crop 
+18:49:41.853 INFO  Notify sucess: {"message_id":6778745192230820612} 
+18:49:41.853 INFO  Notify sucess: {"message_id":5861184308335595244} 
+18:49:41.994 ERROR Incoming data is not right format 
+18:49:46.397 INFO  6 add data success to running crop 
+18:49:47.054 INFO  Notify sucess: {"message_id":8458700820621490375} 
+18:49:47.055 INFO  Notify sucess: {"message_id":5439267946476348888} 
+18:49:51.857 ERROR Incoming data is not right format 
+18:49:52.129 INFO  6 add data success to running crop 
+18:49:52.846 INFO  Notify sucess: {"message_id":7352392195354360416} 
+18:49:52.846 INFO  Notify sucess: {"message_id":5967811367037965109} 
+18:49:56.597 INFO  6 add data success to running crop 
+18:49:57.295 INFO  Notify sucess: {"message_id":7399737037754824159} 
+18:49:57.302 INFO  Notify sucess: {"message_id":5787802464147148034} 
+18:50:02.388 INFO  6 add data success to running crop 
+18:50:03.054 INFO  Notify sucess: {"message_id":5339095723089537731} 
+18:50:03.055 INFO  Notify sucess: {"message_id":4794683212148283597} 
+18:50:06.655 INFO  6 add data success to running crop 
+18:50:07.321 INFO  Notify sucess: {"message_id":6929588799869934424} 
+18:50:07.323 INFO  Notify sucess: {"message_id":4631738317013609492} 
+18:50:11.606 INFO  6 add data success to running crop 
+18:50:12.269 INFO  Notify sucess: {"message_id":8675380611608721930} 
+18:50:12.393 INFO  Notify sucess: {"message_id":6870009597570683592} 
+18:50:16.094 ERROR Incoming data is not right format 
+18:50:17.384 INFO  6 add data success to running crop 
+18:50:18.750 INFO  Notify sucess: {"message_id":7576983699028462536} 
+18:50:18.753 INFO  Notify sucess: {"message_id":8021676182848735357} 
+18:50:21.596 INFO  6 add data success to running crop 
+18:50:22.292 INFO  Notify sucess: {"message_id":6400909993688335062} 
+18:50:22.298 INFO  Notify sucess: {"message_id":9155560890887820897} 
+18:50:24.065 ERROR Incoming data is not right format 
+18:50:26.615 INFO  6 add data success to running crop 
+18:50:27.408 INFO  Notify sucess: {"message_id":4759328297381963070} 
+18:50:27.409 INFO  Notify sucess: {"message_id":8339385903271921662} 
+18:50:31.599 INFO  6 add data success to running crop 
