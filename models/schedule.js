@@ -34,7 +34,8 @@ module.exports = function(sequelize, DataTypes) {
           include: models.Actuator,
           where: {
             CropId: cropId
-          }
+          },
+          order: [['starttime', 'ASC']]
         }
         Schedule.findAll(query).then(callback).catch(err);
         //sequelize.query('SELECT * FROM Schedule, Actuator WHERE Schedule.name = Actuator.name').success(callback);

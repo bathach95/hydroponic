@@ -79,6 +79,7 @@ controller.controller('ScheduleSettingCtrl', function($http, $stateParams, $stat
         delaytime: $scope.newSchedule.delaytime
       }
     $('#addScheduleModal').modal('hide');
+    
     ScheduleService.addScheduleSetting(newScheduleItem).then(function(result){
       if (result.data.success)
       {
