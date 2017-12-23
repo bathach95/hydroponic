@@ -64,7 +64,7 @@ controller.controller('UpdateRoleCtrl', function($scope, $state, $stateParams, U
     }
 })
 
-controller.controller('ArticleManagementCtrl', function($scope, ArticleService, ArticleManagementService, flash){
+controller.controller('ArticleManagementCtrl', function($state, $scope, ArticleService, ArticleManagementService, flash){
     ArticleService.getAllArticles().then(function (result) {
         if (result.data.success) {
             $scope.articleList = result.data.data;
@@ -83,7 +83,7 @@ controller.controller('ArticleManagementCtrl', function($scope, ArticleService, 
             if(yes){
                 ArticleManagementService.deleteArticle({articleId: articleId}).then(function(result){
                     if (result.data.success){
-                        $scope.articleList.splice(index, 1);
+                        $state.reload();
                         flash.success = result.data.message;
                     } else {
                         flash.error = result.data.message;
