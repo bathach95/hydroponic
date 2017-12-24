@@ -2,10 +2,6 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Actuator = sequelize.define('Actuator', {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     type: {
       type: DataTypes.STRING,
       allowNull: false

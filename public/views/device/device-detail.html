@@ -228,8 +228,7 @@
           <thead class="table-list-relay-header">
   	        <tr>
   	          <th>No.</th>
-              <th>ID On Board</th>
-  	          <th>Name</th>
+              <th>ID</th>
   	          <th>Type</th>
               <th>Priority</th>
               <th>Status</th>
@@ -240,8 +239,7 @@
           <tbody>
   	        <tr ng-repeat="actuator in listActuators">
   	          <td>{{$index + 1}}</td>
-              <td>{{actuator.idonboard}}</td>
-              <td>{{actuator.name}}
+              <td>{{actuator.idonboard.toString()[1]}}</td>
   	          <td>{{actuator.type}}</td>
               <td>{{actuator.priority}}</td>
   	          <td>{{actuator.status}}</td>
@@ -302,22 +300,40 @@
       padding: 5px 0px;
     }
   </style>
+  
   <!-- Start add actuator modal -->
   <div class="modal fade" id="addActuatorModal" role="dialog" ng-controller="ActuatorCtrl">
     <div class="modal-dialog">
       <!-- Modal content-->
+      <form ng-submit="addActuator()">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Add new actuator for this device</h4>
         </div>
         <div class="modal-body">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                  <label for="type">Type</label>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                  <select required name="type" ng-options="type as type for type in actuatorTypes" ng-model="newActuator.actuator.type">
+                    <!-- <option value="">---Please select---</option>
+                    <option value="Water">Water</option>
+                    <option value="Fan">Fan</option>
+                    <option value="Lighting">Lighting</option>
+                    <option value="Oxygen">Oxygen</option> -->
+                  </select>
+                </div>
+                <div class="col-md-2 col-sm-2">
+                </div>
+            </div>
           <div class="row">
             <div class="col-md-4 col-sm-4">
               <label for="name">ID</label>
             </div>
             <div class="col-md-6 col-sm-6">
-              <input ng-model="newActuator.actuator.idonboard" type="number" name="idonboard" min="11" max="49"/>
+              <input required ng-model="newActuator.actuator.idonboard" type="number" name="idonboard" min="11" max="49"/>
             </div>
             <div class="col-md-2 col-sm-2">
             </div>
@@ -327,7 +343,7 @@
               <label for="type">Priority</label>
             </div>
             <div class="col-md-6 col-sm-6">
-              <select name="type" ng-model="newActuator.actuator.priority">
+              <select required name="type" ng-model="newActuator.actuator.priority">
                 <option value="">---Please select---</option>
                 <option value="Primary">Primary</option>
                 <option value="Secondary">Secondary</option>
@@ -336,42 +352,17 @@
             <div class="col-md-2 col-sm-2">
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <label for="name">Name</label>
-            </div>
-            <div class="col-md-6 col-sm-6">
-              <input ng-model="newActuator.actuator.name" type="text" name="name" />
-            </div>
-            <div class="col-md-2 col-sm-2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 col-sm-4">
-              <label for="type">Type</label>
-            </div>
-            <div class="col-md-6 col-sm-6">
-              <select name="type" ng-model="newActuator.actuator.type">
-                <option value="">---Please select---</option>
-                <option value="Water">Water</option>
-                <option value="Fan">Fan</option>
-                <option value="Lighting">Lighting</option>
-                <option value="Oxygen">Oxygen</option>
-              </select>
-            </div>
-            <div class="col-md-2 col-sm-2">
-            </div>
-          </div>
           <br>
-
         </div>
         <div class="modal-footer">
-          <button ng-click="addActuator()" type="button" class="btn btn-1 btn-primary" data-dismiss="modal">OK</button>
+          <button type="submit" class="btn btn-1 btn-primary">OK</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
+    </form>
     </div>
   </div>
+
   <!-- end row -->
 
 </section>

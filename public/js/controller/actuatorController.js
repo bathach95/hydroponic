@@ -7,17 +7,19 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
   ActuatorService.getAllActuatorsByMac($stateParams.mac).then(function(result){
     $scope.listActuators = result.data.data;
   });
-
+ 
+  $scope.actuatorTypes = ['Water', 'Fan', 'Lighting', 'Oxygen']
   $scope.newActuator = {
     devicemac: $stateParams.mac,
       actuator: {
         status: 'off'
       }
     }
+
   $scope.addActuator = function () {
+    $("#addActuatorModal").modal('hide');
     ActuatorService.addActuator($scope.newActuator).then(function(result){
       if (result.data.success) {
-        $("#addActuatorModal").modal('hide');
         flash.success = result.data.message;
         bootbox.alert(result.data.message, function () {
             $state.reload();
