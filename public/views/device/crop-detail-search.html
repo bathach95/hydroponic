@@ -568,7 +568,7 @@
                               <thead class="table-list-settings-header">
                                 <tr>
                                   <th>Type</th>
-                                  <th>Name</th>
+                                  <th>ID</th>
                                   <th>Start Time</th>
                                   <th>End Time</th>
                                   <th>Duration Time</th>
@@ -578,7 +578,7 @@
                               <tbody>
                                 <tr ng-repeat="item in listSchedule">
                                   <td>{{item.Actuator.type}}</td>
-                                  <td>{{item.Actuator.idonboard[1]}}</td>
+                                  <td>{{item.Actuator.idonboard.toString()[1]}}</td>
                                   <td>{{item.starttime}}</td>
                                   <td>{{item.endtime}}</td>
                                   <td>{{item.intervaltime}}</td>

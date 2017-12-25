@@ -42,3 +42,4 @@ SequelizeDatabaseError: null value in column "name" violates not-null constraint
 22:37:33.742 INFO  subscribe success to device/112233445566/server 
 22:37:33.912 INFO  Admin account was created 
 22:37:47.621 ERROR Incoming data is not right format 
+

@@ -809,11 +809,11 @@
             <div class="row">
               <div class="col-md-4 col-sm-4">
                 <center>
-                  <label for="name">Actuator Name</label>
+                  <label for="name">Actuator ID</label>
                 </center>
               </div>
               <div class="col-md-4 col-sm-4">
-                <select required name="name" ng-model="newSchedule.ActuatorId" ng-options="item.id as item.name for item in listActuators| filter: {type: newScheduleType}">
+                <select required name="name" ng-model="newSchedule.ActuatorId" ng-options="item.id as item.idonboard.toString()[1] for item in listActuators| filter: {type: newScheduleType}">
                 </select>
               </div>
               <div class="col-md-4 col-sm-4">
