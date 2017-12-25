@@ -2,7 +2,6 @@
 controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $scope, DataService, GetTimeService, DataStatusService, ThresholdService) {
   $scope.deviceMac = $stateParams.devicemac;
   $scope.cropId = $stateParams.cropid;
-
   DataService.getNewestDataByCropId($scope.cropId).then(function (dataResult) {
     if (dataResult.data.success) {
 
@@ -12,6 +11,7 @@ controller.controller('DataCtrl', function ($http, $stateParams, $rootScope, $sc
       ThresholdService.getNewestThresholdByCropId($scope.cropId).then(function(thresholdResult) {
         if (thresholdResult.data.data)
         {
+          $scope.threshold = thresholdResult.data.data;
           var status = DataStatusService.getStatus(dataResult.data.data, thresholdResult.data.data);
           $scope.threshold = thresholdResult.data.data;
           $scope.badStatus = status.badStatus;
