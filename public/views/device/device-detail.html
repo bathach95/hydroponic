@@ -318,11 +318,6 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                   <select required name="type" ng-options="type as type for type in actuatorTypes" ng-model="newActuator.actuator.type">
-                    <!-- <option value="">---Please select---</option>
-                    <option value="Water">Water</option>
-                    <option value="Fan">Fan</option>
-                    <option value="Lighting">Lighting</option>
-                    <option value="Oxygen">Oxygen</option> -->
                   </select>
                 </div>
                 <div class="col-md-2 col-sm-2">
@@ -330,10 +325,11 @@
             </div>
           <div class="row">
             <div class="col-md-4 col-sm-4">
-              <label for="name">ID</label>
+              <label for="name">Available ID</label>
             </div>
             <div class="col-md-6 col-sm-6">
-              <input required ng-model="newActuator.actuator.idonboard" type="number" name="idonboard" min="11" max="49"/>
+              <select required ng-model="newActuator.actuator.idonboard" ng-options="item.availableId as item.availableId.toString()[1] for item in actuatorTypesAndAvalableId| filter: {type: newActuator.actuator.type}">
+              </select>
             </div>
             <div class="col-md-2 col-sm-2">
             </div>

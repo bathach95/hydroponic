@@ -4,11 +4,12 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
     "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
   };
 
+  $scope.actuatorTypes = ['Water', 'Fan', 'Lighting', 'Oxygen'];
   ActuatorService.getAllActuatorsByMac($stateParams.mac).then(function(result){
     $scope.listActuators = result.data.data;
+    $scope.actuatorTypesAndAvalableId = ActuatorService.getAvailableActuator(result.data.data);
   });
- 
-  $scope.actuatorTypes = ['Water', 'Fan', 'Lighting', 'Oxygen']
+
   $scope.newActuator = {
     devicemac: $stateParams.mac,
       actuator: {
