@@ -16,7 +16,8 @@ var myApp = angular.module('myApp',
         'myApp.filter',
         'angular-async-validation',
         'angular-loading-bar',
-        'chart.js'
+        'chart.js',
+        'infinite-scroll'
       ]);
 
 myApp.run(function ($rootScope, $cookies, $state, $transitions, $http, AuthService, flash) {

@@ -31,7 +31,9 @@ router.get('/all', function (req, res) {
 router.post('/add', user.authenticate(), function (req, res) {
 
     // check user is active or not. Only activated user can comment
+    console.log(req.body);
     models.User.getUserById(req.user.id, function (user) {
+
         if (user.dataValues.status) {
             var newComment = {
                 content: req.body.content,

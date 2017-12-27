@@ -9,25 +9,82 @@
 </head>
 
 <body>
+  <nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ui-sref="home">BK Hydroponics</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ui-sref="home">Home</a></li>
+        <li><a ui-sref="system">Systems</a></li>
+        <li class="active"><a ui-sref="article">Acticle</a></li>
+        <li><a href="http://35.198.199.4:4567">Forum</a></li>
+        <li><a ui-sref="about">About</a></li>
+        <li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
+        <li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+        <li ng-show="userLogin" class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu" ng-controller="LoginCtrl">
+            <li><a ui-sref="profile">Profile</a></li>
+            <li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+            <li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+            <li><a ui-sref="change_password">Change your password</a></li>
+            <li><a href="" ng-click="logout()">Log out</a></li>
+          </ul>
+        </li>
+        <li><a ui-sref="search"><i class="fa fa-search"></i></a></li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  </nav>
+  <style media="screen">
+    .form-group > div h1, .form-group > div h2{
+      color: #444;
+      text-align: left;
+      font-weight: bold;
+      margin-top:20px;
+      margin-bottom:10px;
+    }
+  </style>
+  <section id="Section-1" class="fullbg">
+    <div class="section-divider">
+    </div>
     <div class="container" ng-controller="WriteArticleCtrl">
-
-
+      <div class="row">
+  			<div class="page-header text-center col-sm-12 col-lg-12 animated fadeInUp">
+  				<h1>Article Writer</h1>
+  			</div>
+  		</div>
+      <div class="card">
         <div class="form-group">
             <label for="title">Title:</label>
             <input required ng-model="article.title" type="text" class="form-control" id="title">
         </div>
-        
+
         <div class="form-group">
             <label>Content:</label>
             <div text-angular ta-min-text="100" ng-model="article.content"></div>
         </div>
 
-        
+
         <div class="col-sm-offset-9">
             <button ui-sref="article" class="btn btn-danger">Cancel</button>
             <button type="submit" ng-click="postArticle()" class="btn btn-primary">Submit</button>
         </div>
+      </div>
     </div>
+  </section>
 </body>
 
 </html>

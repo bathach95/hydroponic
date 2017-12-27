@@ -555,13 +555,15 @@ ul {
 	background-color:#4ba2dc;
 	border:0;
 }
+/*
 .btn {
 	border-radius:0px;
 }
+
 .btn-default:hover {
 	background:#c70f06;
 	color:#fff;
-}
+}*/
 
 input,button,select,textarea {
 	border:1px solid #e3e3e3;
@@ -1220,10 +1222,13 @@ ul.social-icons li a:hover {
 	background:#4ba2dc;
 	color:#fff;
 }
+/*
 .btn:hover,.btn:focus {
 	background:#444;
 	color: #fff;
 }
+*/
+
 /* Individual Caption Styles */
 /* Caption Style 1 */
 .cs-style-1 figcaption {

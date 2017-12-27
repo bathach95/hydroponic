@@ -9,46 +9,104 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            {{article.title}}
-        </div>
-        <div ng-bind-html="article.content">
-        </div>
-
-
-        <div ng-if="userRole === 'mod' || userRole === 'admin'">
-            <div ng-if="!article.checked">
-                <button ng-click="checkArticle(article.id, true)" type="button" class="btn btn-success">Check it</button>
+  <nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ui-sref="home">BK Hydroponics</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ui-sref="home">Home</a></li>
+        <li><a ui-sref="system">Systems</a></li>
+        <li class="active"><a ui-sref="article">Acticle</a></li>
+        <li><a href="http://35.198.199.4:4567">Forum</a></li>
+        <li><a ui-sref="about">About</a></li>
+        <li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
+        <li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+        <li ng-show="userLogin" class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu" ng-controller="LoginCtrl">
+            <li><a ui-sref="profile">Profile</a></li>
+            <li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+            <li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+            <li><a ui-sref="change_password">Change your password</a></li>
+            <li><a href="" ng-click="logout()">Log out</a></li>
+          </ul>
+        </li>
+        <li><a ui-sref="search"><i class="fa fa-search"></i></a></li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  </nav>
+  <section id="Section-1" class="fullbg">
+    <div class="section-divider">
+    </div>
+    <style media="screen">
+      .card-title-w-btn > h2{
+        color: #444;
+        text-align: left;
+        font-weight: bold;
+        margin-top:20px;
+        margin-bottom:10px;
+        margin-left: 20px;
+      }
+    </style>
+    <div class="container card">
+        <div class="card-title-w-btn">
+            <h2>{{article.title}}</h2>
+            <div ng-if="userRole === 'mod' || userRole === 'admin'">
+                <div ng-if="!article.checked">
+                    <button ng-click="checkArticle(article.id, true)" type="button" class="btn btn-success">Verify</button>
+                </div>
+                <div ng-if="article.checked">
+                    <button ng-click="checkArticle(article.id, false)" type="button" class="btn btn-danger">Uncheck it</button>
+                </div>
             </div>
-
-            <div ng-if="article.checked">
-                <button ng-click="checkArticle(article.id, false)" type="button" class="btn btn-danger">Uncheck it</button>
-            </div>
         </div>
-
+        <p style="margin: 20px 20px; font-style:italic;">By <b>{{article.User.name}}</b> on {{article.createdAt | date:'MMM dd, yyyy'}}</p>
+        <div ng-bind-html="article.content" style="overflow-wrap: break-word; padding: 20px 20px;">
+        </div>
         <div ng-controller="CommentCtrl">
-            <div class="list-group">
-                <!-- load all comment from data base -->
-                <div class="list-group-item" ng-repeat="comment in commentList">
-                    <div ng-bind-html="comment.content">
-
-                    </div>
+          <h4>Comment</h4>
+          <div class="list-group" style="margin-bottom:40px;">
+              <!-- load all comment from database -->
+              <div ng-show="commentList.length === 0">
+                <p>No comment for this post.</p>
+              </div>
+              <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
+              <div ng-repeat="comment in commentList">
+                <div class="list-group-item" style="margin-left: 10px; margin-right: 10px;">
+                  <div class="">
+                    <p><i><b>{{comment.User.name}}</b> - {{comment.createdAt | date:'MMM dd, yyyy HH:mm:ss'}}</i></p>
+                    <div ng-bind-html="comment.content"></div>
                     <div ng-if="userRole === 'admin' || userRole === 'mod'">
                         <button ng-click="deleteComment(comment.id, $index)" class="btn btn-danger">Delete</button>
                     </div>
+                  </div>
                 </div>
+              </div>
+              </div>
+          </div>
+            <div ng-hide="userLogin">
+              <p>Please <a style="color:#4ba2dc;" ui-sref="login">sign in</a> to leave your comment.</p>
             </div>
-
-            <h3>Comment: </h3>
-            <div>
+            <div ng-show="userLogin">
+                <p>Leave your comment:</p>
                 <div data-ng-required text-angular ta-min-text="30" ng-model="comment.content"></div>
-                <button ng-click="postComment(article.id)" class="btn btn-primary">Comment</button>
+                <button ng-click="postComment(article.id)" class="btn btn-primary" style="margin-top:20px;">Comment</button>
             </div>
         </div>
-
-
     </div>
+  </section>
 </body>
-
 </html>

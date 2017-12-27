@@ -63,7 +63,7 @@
                       <th>Delete</th>
                     </tr>
                   </thead>
-                  <tbody ng-controller="SingleArticleCtrl">
+                  <tbody>
                     <tr ng-repeat="article in articleList">
                       <td>{{$index + 1}}</td>
                       <td><a ui-sref="single_article({id: article.id})" data-toggle="tooltip" title="Click to preview" data-placement="bottom" tooltip>{{article.title}}</a></td>

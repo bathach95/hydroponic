@@ -1,11 +1,40 @@
 controller.controller('CommentCtrl', function ($scope, $state, $window, $stateParams, CommentService, CommentManagementService, flash) {
-
+    $scope.commentList = [];
+    $scope.all = [];
     /* load all comment by article's id */
     CommentService.getCommentsByArticleId($stateParams.id).then(function (result) {
         if (result.data.success) {
-            $scope.commentList = result.data.data;
+          $scope.all = result.data.data;
+          if ($scope.all.length >= 4)
+          {
+            for(var i = 0; i < 4; i++) {
+              $scope.commentList.push($scope.all[i]);
+            }
+          }
+          else {
+            for(var i = 0; i < $scope.all.length; i++) {
+              $scope.commentList.push($scope.all[i]);
+            }
+          }
         }
     })
+    $scope.loadMore = function() {
+      var last = $scope.commentList.length;
+      if (last <= $scope.all.length - 4)
+      {
+        for(var i = 1; i <= 4; i++) {
+          $scope.commentList.push($scope.all[last + i - 1]);
+        }
+      }
+      else {
+        if (last < $scope.all.length)
+        {
+          for(var i = 1; i <= $scope.all.length - last; i++) {
+            $scope.commentList.push($scope.all[last + i - 1]);
+          }
+        }
+      }
+    };
 
     /* add new comment */
     $scope.comment = {};
@@ -35,12 +64,12 @@ controller.controller('CommentCtrl', function ($scope, $state, $window, $statePa
                     if (result.data.success){
                         $scope.commentList.splice(index, 1);
                         flash.success = result.data.message;
-                    } else {    
+                    } else {
                         flash.error = result.data.message;
                     }
                 })
             }
         })
-        
+
     }
 })

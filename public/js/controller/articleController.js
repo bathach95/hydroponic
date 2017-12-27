@@ -1,13 +1,42 @@
 controller.controller('ArticleCtrl', function ($scope, ArticleService) {
+    $scope.articleList = [];
+    $scope.all = [];
     ArticleService.getAllArticles().then(function (result) {
         if (result.data.success) {
-            $scope.articleList = result.data.data;
+            $scope.all = result.data.data;
+            if ($scope.all.length >= 4)
+            {
+              for(var i = 0; i < 4; i++) {
+                $scope.articleList.push($scope.all[i]);
+              }
+            }
+            else {
+              for(var i = 0; i < $scope.all.length; i++) {
+                $scope.articleList.push($scope.all[i]);
+              }
+            }
         }
     })
+    $scope.loadMore = function() {
+      var last = $scope.articleList.length;
+      if (last <= $scope.all.length - 4)
+      {
+        for(var i = 1; i <= 4; i++) {
+          $scope.articleList.push($scope.all[last + i - 1]);
+        }
+      }
+      else {
+        if (last < $scope.all.length)
+        {
+          for(var i = 1; i <= $scope.all.length - last; i++) {
+            $scope.articleList.push($scope.all[last + i - 1]);
+          }
+        }
+      }
+    };
 })
 
 controller.controller('SingleArticleCtrl', function ($scope, $state, $stateParams, ArticleService, ArticleManagementService, flash) {
-
     ArticleService.getArticleById($stateParams.id).then(function (result) {
         if (result.data.success) {
             $scope.article = result.data.data;

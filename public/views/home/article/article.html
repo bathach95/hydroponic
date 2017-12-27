@@ -11,19 +11,83 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </head>
 
 <body>
+	<nav id="topnav" class="navbar navbar-fixed-top navbar-default" role="navigation">
 	<div class="container">
-
-		<div>
-			<div class="list-group">
-				<a ng-repeat="article in articleList" ui-sref="single_article({id: article.id})" class="list-group-item">{{article.title}}</a>
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" ui-sref="home">BK Hydroponics</a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a ui-sref="home">Home</a></li>
+				<li><a ui-sref="system">Systems</a></li>
+				<li class="active"><a ui-sref="article">Acticle</a></li>
+				<li><a href="http://35.198.199.4:4567">Forum</a></li>
+				<li><a ui-sref="about">About</a></li>
+				<li ng-hide="userLogin"><a ui-sref="login">Sign In</a></li>
+				<li ng-hide="userLogin"><a ui-sref="register">Sign Up</a></li>
+		    <li ng-show="userLogin" class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href=""><i class="fa fa-user-circle"></i>&nbsp; {{userLogin}} &nbsp;
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu" ng-controller="LoginCtrl">
+						<li><a ui-sref="profile">Profile</a></li>
+						<li ng-controller="LoginCtrl" ng-if="userRole === 'admin'"><a ui-sref="admin">Administration dashboard</a></li>
+						<li ng-controller="LoginCtrl" ng-if="userRole === 'mod'" ><a ui-sref="mod" >Moderator dashboard</a></li>
+						<li><a ui-sref="change_password">Change your password</a></li>
+						<li><a href="" ng-click="logout()">Log out</a></li>
+					</ul>
+				</li>
+				<li><a ui-sref="search"><i class="fa fa-search"></i></a></li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+	</div>
+	</nav>
+	<section id="Section-1" class="fullbg">
+		<div class="section-divider">
+		</div>
+		<div class="container">
+		<div class="row">
+			<div class="page-header text-center col-sm-12 col-lg-12 animated fadeInUp">
+				<h1>Article</h1>
+				<button ui-sref="write_article" class="btn btn-primary">Write article</button>
 			</div>
 		</div>
-
-		<div class="col-sm-offset-10">
-			<button ui-sref="write_article" class="btn btn-primary">Write article</button>
-		</div>
+		<style media="screen">
+			.form-group > div h1, .form-group > div h2{
+				color: #444;
+				text-align: left;
+				font-weight: bold;
+				margin-top:20px;
+				margin-bottom:10px;
+			}
+		</style>
+		<div class="row">
+			<div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
+			<div ng-repeat="article in articleList">
+			<div class="col-md-6" style="padding-right:2%;">
+				<div class="card" style="height: 250px;">
+					<div class="card-title-w-btn">
+						<a ui-sref="single_article({id: article.id})" style="color:#444;"><h3 class="title">{{article.title}}</h3></a>
+						<div class="btn-group"><a class="btn btn-info" ui-sref="single_article({id: article.id})"><i class="fa fa-eye"></i>&nbsp; Read</a></div>
+					</div>
+					<div class="card-body">
+						<p><i><b>{{article.User.name}}</b> on {{article.createdAt | date:'MMM dd, yyyy'}}</i></p>
+						<div style="position: relative; overflow-wrap: break-word;" ng-bind-html="(article.content | limitTo: 150) + '...'"></div>
+					</div>
+				</div>
+				</div>
+			</div>
+			</div>
 	</div>
-
+</section>
 </body>
 
 </html>
