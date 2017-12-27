@@ -1,0 +1,45 @@
+10:32:22.679 INFO  Admin account was created 
+10:32:26.193 INFO  subscribe success to device/112233445566/server 
+12:00:49.200 INFO  Admin account was created 
+12:00:51.709 INFO  subscribe success to device/112233445566/server 
+22:31:22.623 INFO  subscribe success to device/112233445566/server 
+22:31:22.791 INFO  Admin account was created 
+22:32:31.133 ERROR Incoming data is not right format 
+22:32:31.165 ERROR null value in column "name" violates not-null constraint
+SequelizeDatabaseError: null value in column "name" violates not-null constraint
+    at Query.formatError (/home/thach/Documents/TTTN/hydroponic/node_modules/sequelize/lib/dialects/postgres/query.js:357:14)
+    at Result.<anonymous> (/home/thach/Documents/TTTN/hydroponic/node_modules/sequelize/lib/dialects/postgres/query.js:88:19)
+    at emitOne (events.js:96:13)
+    at Result.emit (events.js:188:7)
+    at Result.Query.handleError (/home/thach/Documents/TTTN/hydroponic/node_modules/pg/lib/query.js:163:8)
+    at Client.<anonymous> (/home/thach/Documents/TTTN/hydroponic/node_modules/pg/lib/client.js:188:26)
+    at emitOne (events.js:96:13)
+    at Connection.emit (events.js:188:7)
+    at Socket.<anonymous> (/home/thach/Documents/TTTN/hydroponic/node_modules/pg/lib/connection.js:133:12)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20) 
+22:32:31.181 ERROR null value in column "name" violates not-null constraint
+SequelizeDatabaseError: null value in column "name" violates not-null constraint
+    at Query.formatError (/home/thach/Documents/TTTN/hydroponic/node_modules/sequelize/lib/dialects/postgres/query.js:357:14)
+    at Result.<anonymous> (/home/thach/Documents/TTTN/hydroponic/node_modules/sequelize/lib/dialects/postgres/query.js:88:19)
+    at emitOne (events.js:96:13)
+    at Result.emit (events.js:188:7)
+    at Result.Query.handleError (/home/thach/Documents/TTTN/hydroponic/node_modules/pg/lib/query.js:163:8)
+    at Client.<anonymous> (/home/thach/Documents/TTTN/hydroponic/node_modules/pg/lib/client.js:188:26)
+    at emitOne (events.js:96:13)
+    at Connection.emit (events.js:188:7)
+    at Socket.<anonymous> (/home/thach/Documents/TTTN/hydroponic/node_modules/pg/lib/connection.js:133:12)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20) 
+22:33:39.750 INFO  subscribe success to device/112233445566/server 
+22:33:39.908 INFO  Admin account was created 
+22:37:33.742 INFO  subscribe success to device/112233445566/server 
+22:37:33.912 INFO  Admin account was created 
+22:37:47.621 ERROR Incoming data is not right format 
+

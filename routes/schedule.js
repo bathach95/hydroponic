@@ -37,11 +37,8 @@ router.get('/searchall', function (req, res) {
   var cropId = req.query.cropId;
 
   models.Crop.getCropById(cropId, function (result) {
-    console.log(result);
     if (result.dataValues.share) {
-      console.log(result.dataValues.share);
-      result.getSchedules().then(function (schedules) {
-        console.log(schedules);
+      result.getSchedules({include: models.Actuator}).then(function (schedules) {
         var listScheduleSetting = [];
         schedules.forEach(function (item) {
           listScheduleSetting.push(item);

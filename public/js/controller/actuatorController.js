@@ -4,8 +4,10 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
     "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
   };
 
+  $scope.actuatorTypes = ['Water', 'Fan', 'Lighting', 'Oxygen'];
   ActuatorService.getAllActuatorsByMac($stateParams.mac).then(function(result){
     $scope.listActuators = result.data.data;
+    $scope.actuatorTypesAndAvalableId = ActuatorService.getAvailableActuator(result.data.data);
   });
 
   $scope.newActuator = {
@@ -14,10 +16,11 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
         status: 'off'
       }
     }
+
   $scope.addActuator = function () {
+    $("#addActuatorModal").modal('hide');
     ActuatorService.addActuator($scope.newActuator).then(function(result){
       if (result.data.success) {
-        $("#addActuatorModal").modal('hide');
         flash.success = result.data.message;
         bootbox.alert(result.data.message, function () {
             $state.reload();

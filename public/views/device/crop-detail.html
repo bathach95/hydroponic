@@ -230,7 +230,6 @@
 
       <div class="page-header text-center col-sm-12 col-lg-12 color-white animated fadeIn">
         <h1>Detail of your crop</h1>
-        <p class="lead">See all details of your crop</p>
       </div>
       <div class="">
         <div class="">
@@ -519,7 +518,7 @@
                       <thead class="table-list-settings-header">
                         <tr>
                           <th>Type</th>
-                          <th>Name</th>
+                          <th>ID</th>
                           <th>Start Time</th>
                           <th>End Time</th>
                           <th>Duration Time</th>
@@ -530,7 +529,7 @@
                       <tbody>
                         <tr ng-repeat="item in listSchedule">
                           <td>{{item.Actuator.type}}</td>
-                          <td>{{item.Actuator.name}}</td>
+                          <td>{{item.Actuator.idonboard.toString()[1]}}</td>
                           <td>{{item.starttime}}</td>
                           <td>{{item.endtime}}</td>
                           <td>{{item.intervaltime}}</td>
@@ -810,11 +809,11 @@
             <div class="row">
               <div class="col-md-4 col-sm-4">
                 <center>
-                  <label for="name">Actuator Name</label>
+                  <label for="name">Actuator ID</label>
                 </center>
               </div>
               <div class="col-md-4 col-sm-4">
-                <select required name="name" ng-model="newSchedule.ActuatorId" ng-options="item.id as item.name for item in listActuators| filter: {type: newScheduleType}">
+                <select required name="name" ng-model="newSchedule.ActuatorId" ng-options="item.id as item.idonboard.toString()[1] for item in listActuators| filter: {type: newScheduleType}">
                 </select>
               </div>
               <div class="col-md-4 col-sm-4">
