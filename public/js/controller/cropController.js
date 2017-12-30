@@ -18,7 +18,7 @@ controller
       synchronized: true
     }
     $scope.addCrop = function () {
-    //TODO: create a button for user to end up a crop
+      //TODO: create a button for user to end up a crop
       $scope.newCrop.startdate = $("#startdate").val();
       $scope.newCrop.closedate = $("#closedate").val();
       var newCrop = {
@@ -32,18 +32,16 @@ controller
         startdate: moment($scope.newCrop.startdate, "MM/DD/YYYY HH:mm A"),
         closedate: moment($scope.newCrop.closedate, "MM/DD/YYYY HH:mm A")
       }
-      //$scope.newCrop.startdate = $("#startdate").val(), "MM/DD/YYYY HH:mm A");
-      //$scope.newCrop.closedate = moment($("#closedate").val(), "MM/DD/YYYY HH:mm A");
       if (newCrop.startdate > newCrop.closedate) {
         flash.error = "Close date must be after start date !";
-      } else if (newCrop.startdate < new Date()) {
-        flash.error = "Start date cannot before now";
+        // } else if (newCrop.startdate < new Date()) {
+        //   flash.error = "Start date cannot before now";
       } else {
         $('#addCropModal').modal('hide');
 
         if (newCrop.startdate > new Date()) {
           newCrop.status = 'pending';
-        } else if (newCrop.startdate === new Date()) {
+        } else {
           newCrop.status = 'running';
         }
 
@@ -145,50 +143,61 @@ controller.controller('CropDetailCtrl', function ($scope, $stateParams, $state, 
 
     if (result.data.success) {
       $scope.crop = result.data.data;
+
+      $scope.currentCrop.name = $scope.crop.name;
+      $scope.currentCrop.treetype = $scope.crop.treetype;
+      $scope.currentCrop.startdate = moment($scope.crop.startdate).format("MM/DD/YYYY HH:mm A");
+      $scope.currentCrop.closedate = moment($scope.crop.closedate).format("MM/DD/YYYY HH:mm A");
+      $scope.currentCrop.reporttime = $scope.crop.reporttime;
+      $scope.currentCrop.type = $scope.crop.type;
     } else {
       flash.error = result.data.message;
     }
 
-    $scope.currentCrop.name = $scope.crop.name;
-    $scope.currentCrop.treetype = $scope.crop.treetype;
-    $scope.currentCrop.startdate = moment($scope.crop.startdate).format("MM/DD/YYYY HH:mm A");
-    $scope.currentCrop.closedate = moment($scope.crop.closedate).format("MM/DD/YYYY HH:mm A");
-    $scope.currentCrop.reporttime = $scope.crop.reporttime;
-    $scope.currentCrop.type = $scope.crop.type;
   })
 
   $scope.editCrop = function () {
+    var editStartDate = $('#edit-startdate').val();
+    var editCloseDate = $('#edit-closedate').val();
+    var timeFormat = "MM/DD/YYYY HH:mm A";
     $('#editCropModal').modal('hide');
-    var newEditCrop = {
-      id: $scope.currentCrop.id,
-      DeviceMac: $scope.currentCrop.DeviceMac,
-      name: $scope.currentCrop.name,
-      treetype: $scope.currentCrop.treetype,
-      type: $scope.currentCrop.type,
-      reporttime: $scope.currentCrop.reporttime,
-      startdate: moment($scope.currentCrop.startdate, "MM/DD/YYYY HH:mm A"),
-      closedate: moment($scope.currentCrop.closedate, "MM/DD/YYYY HH:mm A")
-    }
-    CropService.editCrop(newEditCrop).then(function (result) {
-      $scope.editSuccess = result.data.success;
-      $scope.editMessage = result.data.message;
-      if (result.data.success) {
-        bootbox.alert(result.data.message, function () {
-          $state.reload();
-        })
+
+    if (moment(editCloseDate, timeFormat) < moment(editStartDate, timeFormat)){
+      flash.error = "Close date must after start date!"
+    } else {
+      var newEditCrop = {
+        id: $scope.currentCrop.id,
+        DeviceMac: $scope.currentCrop.DeviceMac,
+        name: $scope.currentCrop.name,
+        treetype: $scope.currentCrop.treetype,
+        type: $scope.currentCrop.type,
+        reporttime: $scope.currentCrop.reporttime,
+        startdate: moment(editStartDate, timeFormat),
+        closedate: moment(editCloseDate, timeFormat)
       }
-    }).catch(function (err) {
-      console.log(err);
-    })
+      CropService.editCrop(newEditCrop).then(function (result) {
+        $scope.editSuccess = result.data.success;
+        $scope.editMessage = result.data.message;
+        if (result.data.success) {
+          bootbox.alert(result.data.message, function () {
+            $state.reload();
+          })
+        }
+      }).catch(function (err) {
+        flash.error = "Cannot update info"
+        console.log(err);
+      })
+    }
+
   }
 
-  $scope.exportSettingFile = function(){
-    ScheduleService.exportToSettingFile($scope.cropid).then(function(res){
+  $scope.exportSettingFile = function () {
+    ScheduleService.exportToSettingFile($scope.cropid).then(function (res) {
       console.log(res.data)
     })
   }
 
-  $scope.importSettingFile = function(){
+  $scope.importSettingFile = function () {
     console.log("imported")
   }
 })
@@ -224,7 +233,7 @@ controller.controller('CropDetailSearchCtrl', function ($scope, $stateParams, $s
 
 controller.controller('CropReviewCtrl', function ($scope, $stateParams, $state, CropService, PagerService, flash) {
   var vm = this;
-  CropService.getAllReviews($stateParams.cropid).then(function(result){
+  CropService.getAllReviews($stateParams.cropid).then(function (result) {
     vm.allReviews = result.data.data;
     //vm.dummyItems = _.range(1, 151); // dummy array of items to be paged
     vm.pager = {};
@@ -232,41 +241,39 @@ controller.controller('CropReviewCtrl', function ($scope, $stateParams, $state, 
 
     initController();
     var sum = 0;
-    for (i = 0; i < result.data.data.length; i++)
-    {
+    for (i = 0; i < result.data.data.length; i++) {
       sum += result.data.data[i].rating;
     }
-    vm.ratingPoint = Math.round((sum/result.data.data.length)*100)/100;
+    vm.ratingPoint = Math.round((sum / result.data.data.length) * 100) / 100;
   })
 
 
   function initController() {
-      // initialize to page 1
-      vm.setPage(1);
+    // initialize to page 1
+    vm.setPage(1);
   }
 
   function setPage(page) {
-      if (page < 1 || page > vm.pager.totalPages) {
-          return;
-      }
+    if (page < 1 || page > vm.pager.totalPages) {
+      return;
+    }
 
-      // get pager object from service
-      vm.pager = PagerService.GetPager(vm.allReviews.length, page);
+    // get pager object from service
+    vm.pager = PagerService.GetPager(vm.allReviews.length, page);
 
-      // get current page of items
-      vm.reviews = vm.allReviews.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
+    // get current page of items
+    vm.reviews = vm.allReviews.slice(vm.pager.startIndex, vm.pager.endIndex + 1);
   }
 
 
-  $scope.sendNewReview = function() {
+  $scope.sendNewReview = function () {
     var review = {
-      content:  $scope.review.comment,
+      content: $scope.review.comment,
       rating: parseInt($('#newRatingPoint input:checked').val()),
       CropId: parseInt($stateParams.cropid)
     }
-    CropService.sendNewReview(review).then(function(result) {
-      if (result.data.success)
-      {
+    CropService.sendNewReview(review).then(function (result) {
+      if (result.data.success) {
         bootbox.alert(result.data.message, function () {
           $state.reload();
         });

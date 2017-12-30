@@ -199,6 +199,12 @@ router.put('/update', authenticate(), function (req, res) {
           success: true,
           message: 'Update success!'
         });
+      }).catch(function(err){
+        utils.log.error(err);
+        res.json({
+          success: false,
+          message: 'Cannot update profile'
+        });
       });
     } else {
       res.json({

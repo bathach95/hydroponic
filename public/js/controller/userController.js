@@ -32,7 +32,6 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
         };
         $cookies.put('token', result.data.data.token, options);
         $cookies.put('name', result.data.data.name, options);
-        $sessionStorage.user = 'heheeheh';
         flash.success = result.data.message;
         $state.go('home');
       }

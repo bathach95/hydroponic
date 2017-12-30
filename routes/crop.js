@@ -127,6 +127,8 @@ router.get('/newest', user.authenticate(), function (req, res) {
 })
 
 router.post('/add', user.authenticate(), function (req, res) {
+  console.log(req.body.startdate);
+  console.log(req.body.closedate);
   // check crop name already exist
   models.Crop.getCropByName(req.body.name, req.body.DeviceMac, function (result) {
     if (result) {
