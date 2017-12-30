@@ -16,16 +16,20 @@ controller.controller('ThresholdCtrl', function ($http, $state, $stateParams, $r
         lightLower: $scope.threshold.lightLower,
         lightUpper: $scope.threshold.lightUpper
       }
+    } else {
+      $scope.newThreshold = {
+        CropId: $stateParams.cropid
+      }
     }
   });
 
   // add new threshold
   $scope.addThreshold = function () {
-    $("#editThresholdModal").modal('hide');
     var isErr = ThresholdService.checkDataAddThreshold($scope.newThreshold);
     if (isErr.isErr){
       flash.error = isErr.message;
     } else {
+      $("#editThresholdModal").modal('hide');
       ThresholdService.addThreshold($scope.newThreshold).then(function (result) {
         // if success, update view
         if (result.data.success) {
