@@ -24,12 +24,12 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
         //------------------
         var now = new Date();
         // this will set the expiration to 12 months
-        exp = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
-
+        var expDay = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
+        
         var options = {
           domain: "35.198.199.4",
           httpOnly: true,
-          expires: exp
+          expires: expDay
         };
         $cookies.put('token', result.data.data.token, options);
         $cookies.put('name', result.data.data.name, options);
