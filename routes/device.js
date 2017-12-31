@@ -235,7 +235,7 @@ router.post('/add', user.authenticate(), function (req, res) {
         var DATA_ADD = '1';
         var message = deviceMac.replace(/:/g, "") + CMD_ID + DATA_LENGTH + DATA_ADD;
 
-        newClient.subscribe(serverTopic, function(){
+        newClient.subscribe(serverTopic, function () {
           console.log("subscribe success to " + serverTopic + " after add new device")
         })
 
@@ -250,35 +250,39 @@ router.post('/add', user.authenticate(), function (req, res) {
               })
             })
           } else {
-            models.Device.createDevice(newDevice, function () {
+            newClient.on('message', function (topic, payload) {
+              var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+              if (ack && ack.mac === deviceMac) {
+                newClient.end();
+                if (ack.data === protocolConstant.ACK.HANDLED) {
+                  models.Device.createDevice(newDevice, function () {
 
+                    client.subscribe(serverTopic, function () {
+                      utils.log.info("subscribe success after add new device");
+                      console.log("subscribe success after add new device");
+                      res.json({
+                        success: true,
+                        message: "Add device success"
+                      });
+                    });
+
+                  }, function (err) {
+                    utils.log.error(err);
+                    res.json({
+                      success: false,
+                      message: 'Cannot add device.'
+                    })
+                  })
+                } else {
+                  res.json({
+                    success: false,
+                    message: 'Cannot send add device message.'
+                  })
+                }
+              }
             })
           }
         })
-        
-
-        // models.Device.createDevice(newDevice, function () {
-
-        //   // this topic is for send and receive data
-        //   var topic = 'device/' + newDevice.mac + '/server'
-
-        //   client.subscribe(topic, function () {
-        //     utils.log.info("subscribe success after add new device");
-        //     console.log("subscribe success after add new device");
-        //     res.json({
-        //       success: true,
-        //       message: "Add device success"
-        //     });
-        //   });
-        // },
-        //   function (err) {
-        //     utils.log.error(err);
-        //     res.json({
-        //       success: false,
-        //       message: "Cannot add new device"
-        //     });
-        //   }
-        // );
       }
     },
     function (err) {
@@ -293,20 +297,64 @@ router.post('/add', user.authenticate(), function (req, res) {
 });
 
 router.delete('/delete', user.authenticate(), function (req, res) {
-  models.Device.deleteDevice(req.query.mac, function (success) {
-    if (success) {
-      res.send({
-        success: true,
-        message: "Device is deleted"
-      });
-    } else {
-      res.send({
-        success: false,
-        message: "Device is not deleted"
-      });
-    }
+  var deviceMac = req.query.mac.toUpperCase();
+  var deviceTopic = utils.getDeviceTopic(deviceMac);
+  var serverTopic = utils.getServerTopic(deviceMac);
+  const newClient = mqtt.connect(protocolConstant.MQTT_BROKER);
 
-  });
+  var CMD_ID = '08';
+  var DATA_LENGTH = '0001';
+  var DATA_DELETE = '0';
+  var message = deviceMac.replace(/:/g, "") + CMD_ID + DATA_LENGTH + DATA_DELETE;
+
+  newClient.subscribe(serverTopic, function () {
+    console.log("subscribe success to delete device")
+  })
+
+  newClient.publish(deviceTopic, utils.encrypt(message), function (err){
+    if (err){
+      console.log(err);
+      utils.log.err(err);
+      newClient.end(false, function () {
+        res.json({
+          success: false,
+          message: 'Cannot send delete message to device.'
+        })
+      })
+    } else {
+
+      newClient.on('message', function (topic, payload) {
+        var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+        if (ack && ack.mac === deviceMac) {
+          newClient.end();
+          if (ack.data === protocolConstant.ACK.HANDLED) {
+
+            models.Device.deleteDevice(req.query.mac, function (success) {
+              if (success) {
+                client.unsubscribe(utils.getServerTopic(req.query.mac));
+                res.send({
+                  success: true,
+                  message: "Device is deleted"
+                });
+              } else {
+                res.send({
+                  success: false,
+                  message: "Device is not deleted"
+                });
+              }
+            });
+
+          } else {
+            res.json({
+              success: false,
+              message: 'Cannot send delete device message.'
+            })
+          }
+        }
+      })
+
+    }
+  }) 
 });
 
 module.exports.client = client;
