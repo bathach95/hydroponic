@@ -21,6 +21,7 @@ controller
       //TODO: create a button for user to end up a crop
       $scope.newCrop.startdate = $("#startdate").val();
       $scope.newCrop.closedate = $("#closedate").val();
+      var timeFormat = "MM/DD/YYYY HH:mm A";
       var newCrop = {
         DeviceMac: $scope.newCrop.DeviceMac,
         status: 'pending',
@@ -29,10 +30,10 @@ controller
         type: $scope.newCrop.type,
         reporttime: $scope.newCrop.reporttime,
         synchronized: $scope.newCrop.synchronized,
-        startdate: moment($scope.newCrop.startdate, "MM/DD/YYYY HH:mm A"),
-        closedate: moment($scope.newCrop.closedate, "MM/DD/YYYY HH:mm A")
+        startdate: $scope.newCrop.startdate,
+        closedate: $scope.newCrop.closedate
       }
-      if (newCrop.startdate > newCrop.closedate) {
+      if (moment(newCrop.closedate, timeFormat) < moment(newCrop.startdate, timeFormat)) {
         flash.error = "Close date must be after start date !";
         // } else if (newCrop.startdate < new Date()) {
         //   flash.error = "Start date cannot before now";
@@ -160,11 +161,11 @@ controller.controller('CropDetailCtrl', function ($scope, $stateParams, $state, 
     var editStartDate = $('#edit-startdate').val();
     var editCloseDate = $('#edit-closedate').val();
     var timeFormat = "MM/DD/YYYY HH:mm A";
-    $('#editCropModal').modal('hide');
 
-    if (moment(editCloseDate, timeFormat) < moment(editStartDate, timeFormat)){
+    if (moment(editCloseDate, timeFormat) < moment(editStartDate, timeFormat)) {
       flash.error = "Close date must after start date!"
     } else {
+      $('#editCropModal').modal('hide');
       var newEditCrop = {
         id: $scope.currentCrop.id,
         DeviceMac: $scope.currentCrop.DeviceMac,
@@ -172,8 +173,8 @@ controller.controller('CropDetailCtrl', function ($scope, $stateParams, $state, 
         treetype: $scope.currentCrop.treetype,
         type: $scope.currentCrop.type,
         reporttime: $scope.currentCrop.reporttime,
-        startdate: moment(editStartDate, timeFormat),
-        closedate: moment(editCloseDate, timeFormat)
+        startdate: editStartDate,
+        closedate: editCloseDate
       }
       CropService.editCrop(newEditCrop).then(function (result) {
         $scope.editSuccess = result.data.success;
