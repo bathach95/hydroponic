@@ -240,18 +240,20 @@ router.post('/add', user.authenticate(), function (req, res) {
           });
         },
           function (err) {
+            utils.log.error(err);
             res.json({
               success: false,
-              message: err
+              message: "Cannot add new device"
             });
           }
         );
       }
     },
     function (err) {
+      utils.log.error(err);
       res.json({
         success: false,
-        message: err
+        message: "Cannot add new device"
       });
     }
   )
