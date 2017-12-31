@@ -22,13 +22,14 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
         $rootScope.userLogin = result.data.data.name;
         $rootScope.emailLogin = result.data.data.email;
         //------------------
-        var day = new Date();
-        day.setDate(day.getDay() + 30);
+        var now = new Date();
+        // this will set the expiration to 12 months
+        exp = new Date(now.getFullYear()+1, now.getMonth(), now.getDate());
 
         var options = {
           domain: "35.198.199.4",
           httpOnly: true,
-          expires: day
+          expires: exp
         };
         $cookies.put('token', result.data.data.token, options);
         $cookies.put('name', result.data.data.name, options);
