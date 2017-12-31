@@ -127,8 +127,6 @@ router.get('/newest', user.authenticate(), function (req, res) {
 })
 
 router.post('/add', user.authenticate(), function (req, res) {
-  console.log(req.body.startdate);
-  console.log(req.body.closedate);
   // check crop name already exist
   models.Crop.getCropByName(req.body.name, req.body.DeviceMac, function (result) {
     if (result) {
@@ -137,13 +135,18 @@ router.post('/add', user.authenticate(), function (req, res) {
         message: "Crop name has already existed."
       });
     } else {
-      var deviceMac = req.body.DeviceMac;
+      var deviceMac = req.body.DeviceMac.toUpperCase();
       var deviceTopic = utils.getDeviceTopic(deviceMac);
       var serverTopic = utils.getServerTopic(deviceMac);
       const client = mqtt.connect(protocolConstant.MQTT_BROKER);
-
+      var parseTimeFormat = "MM/DD/YYYY HH:mm A";
+      var sendTimeFormat = "YYYYMMDDHHmmss";
+    
       var reporttime = utils.secondsToHMS(req.body.reporttime);
-      var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + reporttime.hours + reporttime.mins + reporttime.seconds;
+      var message = deviceMac.replace(/:/g,"") + '01' + '0034' 
+                    + moment(req.body.startdate, parseTimeFormat).format(sendTimeFormat) 
+                    + moment(req.body.closedate, parseTimeFormat).format(sendTimeFormat) 
+                    + reporttime.hours + reporttime.mins + reporttime.seconds;
 
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
@@ -216,15 +219,19 @@ router.put('/edit', user.authenticate(), function (req, res) {
       })
     }
     else {
-      var deviceMac = req.body.DeviceMac;
+      var deviceMac = req.body.DeviceMac.toUpperCase();
       var deviceTopic = utils.getDeviceTopic(deviceMac);
       var serverTopic = utils.getServerTopic(deviceMac);
       const client = mqtt.connect(protocolConstant.MQTT_BROKER);
+      var timeFormat = "MM/DD/YYYY HH:mm A";
+      var timeSendFormat = "YYYYMMDDHHmmss";
 
       var reporttime = utils.secondsToHMS(req.body.reporttime);
-      var message = req.body.DeviceMac.replace(/:/g, "").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + reporttime.hours + reporttime.mins + reporttime.seconds;
+      var message = deviceMac.replace(/:/g, "") + '01' + '0034' 
+                    + moment(req.body.startdate, timeFormat).format(timeSendFormat) 
+                    + moment(req.body.closedate, timeFormat).format(timeSendFormat)
+                    + reporttime.hours + reporttime.mins + reporttime.seconds;
 
-      console.log(req.body);
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
         console.log('this line subscribe success to ' + serverTopic)
