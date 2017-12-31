@@ -225,28 +225,60 @@ router.post('/add', user.authenticate(), function (req, res) {
           message: "Device has already existed"
         });
       } else {
-        models.Device.createDevice(newDevice, function () {
+        var deviceMac = newDevice.mac.toUpperCase();
+        var deviceTopic = utils.getDeviceTopic(deviceMac);
+        var serverTopic = utils.getServerTopic(deviceMac);
+        const newClient = mqtt.connect(protocolConstant.MQTT_BROKER);
 
-          // this topic is for send and receive data
-          var topic = 'device/' + newDevice.mac + '/server'
+        var CMD_ID = '08';
+        var DATA_LENGTH = '0001';
+        var DATA_ADD = '1';
+        var message = deviceMac.replace(/:/g, "") + CMD_ID + DATA_LENGTH + DATA_ADD;
 
-          client.subscribe(topic, function () {
-            utils.log.info("subscribe success after add new device");
-            console.log("subscribe success after add new device");
-            res.json({
-              success: true,
-              message: "Add device success"
-            });
-          });
-        },
-          function (err) {
-            utils.log.error(err);
-            res.json({
-              success: false,
-              message: "Cannot add new device"
-            });
+        newClient.subscribe(serverTopic, function(){
+          console.log("subscribe success to " + serverTopic + " after add new device")
+        })
+
+        newClient.publish(deviceTopic, utils.encrypt(message), function (err) {
+          if (err) {
+            console.log(err);
+            utils.log.err(err);
+            newClient.end(false, function () {
+              res.json({
+                success: false,
+                message: 'Cannot send settings to device.'
+              })
+            })
+          } else {
+            models.Device.createDevice(newDevice, function () {
+
+            })
           }
-        );
+        })
+        
+
+        // models.Device.createDevice(newDevice, function () {
+
+        //   // this topic is for send and receive data
+        //   var topic = 'device/' + newDevice.mac + '/server'
+
+        //   client.subscribe(topic, function () {
+        //     utils.log.info("subscribe success after add new device");
+        //     console.log("subscribe success after add new device");
+        //     res.json({
+        //       success: true,
+        //       message: "Add device success"
+        //     });
+        //   });
+        // },
+        //   function (err) {
+        //     utils.log.error(err);
+        //     res.json({
+        //       success: false,
+        //       message: "Cannot add new device"
+        //     });
+        //   }
+        // );
       }
     },
     function (err) {

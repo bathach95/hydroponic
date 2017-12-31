@@ -26,7 +26,7 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
         day.setDate(day.getDay() + 30);
 
         var options = {
-          domain: "35.198.199.4",
+          domain: "localhost",
           httpOnly: true,
           expires: day
         };

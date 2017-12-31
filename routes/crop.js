@@ -127,8 +127,6 @@ router.get('/newest', user.authenticate(), function (req, res) {
 })
 
 router.post('/add', user.authenticate(), function (req, res) {
-  console.log(req.body.startdate);
-  console.log(req.body.closedate);
   // check crop name already exist
   models.Crop.getCropByName(req.body.name, req.body.DeviceMac, function (result) {
     if (result) {
@@ -137,13 +135,13 @@ router.post('/add', user.authenticate(), function (req, res) {
         message: "Crop name has already existed."
       });
     } else {
-      var deviceMac = req.body.DeviceMac;
+      var deviceMac = req.body.DeviceMac.toUpperCase();
       var deviceTopic = utils.getDeviceTopic(deviceMac);
       var serverTopic = utils.getServerTopic(deviceMac);
       const client = mqtt.connect(protocolConstant.MQTT_BROKER);
 
       var reporttime = utils.secondsToHMS(req.body.reporttime);
-      var message = req.body.DeviceMac.replace(/:/g,"").toUpperCase() + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + reporttime.hours + reporttime.mins + reporttime.seconds;
+      var message = deviceMac.replace(/:/g,"") + '01' + '0034' + moment(req.body.startdate).format("YYYYMMDDHHmmss") + moment(req.body.closedate).format("YYYYMMDDHHmmss") + reporttime.hours + reporttime.mins + reporttime.seconds;
 
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
