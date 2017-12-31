@@ -183,6 +183,8 @@ controller.controller('CropDetailCtrl', function ($scope, $stateParams, $state, 
           bootbox.alert(result.data.message, function () {
             $state.reload();
           })
+        } else {
+          flash.error = result.data.message;
         }
       }).catch(function (err) {
         flash.error = "Cannot update info"

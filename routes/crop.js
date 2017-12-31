@@ -172,6 +172,8 @@ router.post('/add', user.authenticate(), function (req, res) {
               if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                 client.end();
                 var newCrop = req.body;
+                newCrop.startdate = moment(req.body.startdate, parseTimeFormat);
+                newCrop.closedate = moment(req.body.closedate, parseTimeFormat);
                 models.Crop.createCrop(newCrop, function () {
                   res.json({
                     success: true,
@@ -258,14 +260,20 @@ router.put('/edit', user.authenticate(), function (req, res) {
                 result.update({
                   name: req.body.name,
                   treetype: req.body.treetype,
-                  startdate: req.body.startdate,
-                  closedate: req.body.closedate,
+                  startdate: moment(req.body.startdate, timeFormat),
+                  closedate: moment(req.body.closedate, timeFormat),
                   reporttime: req.body.reporttime,
                   type: req.body.type
                 }).then(function () {
                   res.json({
                     success: true,
                     message: "Edit crop success"
+                  })
+                }).catch(function(err){
+                  console.log(err)
+                  res.json({
+                    success: false,
+                    message: "Cannot update crop to database"
                   })
                 });
               } else {
