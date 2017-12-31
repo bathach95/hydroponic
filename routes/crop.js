@@ -194,18 +194,66 @@ router.post('/add', user.authenticate(), function (req, res) {
 })
 
 router.delete('/delete', user.authenticate(), function (req, res) {
-  models.Crop.deleteCrop(req.query.id, function (success) {
-    if (success) {
-      res.json({
-        success: true,
-        message: "Crop is deleted"
-      });
-    } else {
-      res.json({
-        success: false,
-        message: "Crop can not be deleted"
-      });
-    }
+
+  models.Crop.getCropById(req.query.id, function(crop){
+
+    var deviceMac = crop.dataValues.DeviceMac.toUpperCase();
+    var deviceTopic = utils.getDeviceTopic(deviceMac);
+    var serverTopic = utils.getServerTopic(deviceMac);
+    const newClient = mqtt.connect(protocolConstant.MQTT_BROKER);
+
+    var CMD_ID = '08';
+    var DATA_LENGTH = '0001';
+    var DATA_DELETE = '0';
+    var message = deviceMac.replace(/:/g, "") + CMD_ID + DATA_LENGTH + DATA_DELETE;
+  
+    newClient.subscribe(serverTopic, function () {
+      console.log("subscribe success to delete device")
+    })
+
+    newClient.publish(deviceTopic, utils.encrypt(message), function (err){
+      if (err){
+        console.log(err);
+        utils.log.err(err);
+        newClient.end(false, function () {
+          res.json({
+            success: false,
+            message: 'Cannot send delete message to device.'
+          })
+        })
+      } else {
+  
+        newClient.on('message', function (topic, payload) {
+          var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+          if (ack && ack.mac === deviceMac) {
+            newClient.end();
+            if (ack.data === protocolConstant.ACK.HANDLED) {
+  
+              models.Crop.deleteCrop(req.query.id, function (success) {
+                if (success) {
+                  res.send({
+                    success: true,
+                    message: "Crop is deleted"
+                  });
+                } else {
+                  res.send({
+                    success: false,
+                    message: "Crop is not deleted"
+                  });
+                }
+              });
+  
+            } else {
+              res.json({
+                success: false,
+                message: 'Cannot send delete Crop message.'
+              })
+            }
+          }
+        })
+  
+      }
+    }) 
   })
 })
 
