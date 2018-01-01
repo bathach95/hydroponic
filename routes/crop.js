@@ -141,12 +141,12 @@ router.post('/add', user.authenticate(), function (req, res) {
       const client = mqtt.connect(protocolConstant.MQTT_BROKER);
       var parseTimeFormat = "MM/DD/YYYY HH:mm A";
       var sendTimeFormat = "YYYYMMDDHHmmss";
-    
+
       var reporttime = utils.secondsToHMS(req.body.reporttime);
-      var message = deviceMac.replace(/:/g,"") + '01' + '0034' 
-                    + moment(req.body.startdate, parseTimeFormat).format(sendTimeFormat) 
-                    + moment(req.body.closedate, parseTimeFormat).format(sendTimeFormat) 
-                    + reporttime.hours + reporttime.mins + reporttime.seconds;
+      var message = deviceMac.replace(/:/g, "") + '01' + '0034'
+        + moment(req.body.startdate, parseTimeFormat).format(sendTimeFormat)
+        + moment(req.body.closedate, parseTimeFormat).format(sendTimeFormat)
+        + reporttime.hours + reporttime.mins + reporttime.seconds;
 
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
@@ -197,7 +197,7 @@ router.post('/add', user.authenticate(), function (req, res) {
 
 router.delete('/delete', user.authenticate(), function (req, res) {
 
-  models.Crop.getCropById(req.query.id, function(crop){
+  models.Crop.getCropById(req.query.id, function (crop) {
 
     var deviceMac = crop.dataValues.DeviceMac.toUpperCase();
     var deviceTopic = utils.getDeviceTopic(deviceMac);
@@ -209,17 +209,17 @@ router.delete('/delete', user.authenticate(), function (req, res) {
     var reportInterval = 0;
 
     var reporttime = utils.secondsToHMS(reportInterval);
-    var message = deviceMac.replace(/:/g, "") + '01' + '0034' 
-                  + moment(new Date(), timeFormat).format(timeSendFormat) 
-                  + moment(new Date(), timeFormat).format(timeSendFormat)
-                  + reporttime.hours + reporttime.mins + reporttime.seconds;
-  
+    var message = deviceMac.replace(/:/g, "") + '01' + '0034'
+      + moment(new Date(), timeFormat).format(timeSendFormat)
+      + moment(new Date(), timeFormat).format(timeSendFormat)
+      + reporttime.hours + reporttime.mins + reporttime.seconds;
+
     newClient.subscribe(serverTopic, function () {
       console.log("subscribe success to delete device")
     })
 
-    newClient.publish(deviceTopic, utils.encrypt(message), function (err){
-      if (err){
+    newClient.publish(deviceTopic, utils.encrypt(message), function (err) {
+      if (err) {
         console.log(err);
         utils.log.err(err);
         newClient.end(false, function () {
@@ -229,45 +229,71 @@ router.delete('/delete', user.authenticate(), function (req, res) {
           })
         })
       } else {
-  
+
         newClient.on('message', function (topic, payload) {
           var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
           if (ack && ack.mac === deviceMac) {
-            newClient.end();
+            // newClient.end();
+            // [8C2C15E83A2C][02][0002][00]
             if (ack.data === protocolConstant.ACK.HANDLED) {
-  
-              models.Crop.deleteCrop(req.query.id, function (success) {
-                if (success) {
-                  res.send({
-                    success: true,
-                    message: "Crop is deleted"
-                  });
+              // send package to delete schedule
+              var deleteScheduleMsg = deviceMac.replace(/:/g, "") + '02' + '0002' + '00';
+              newClient.publish(deviceTopic, utils.encrypt(deleteScheduleMsg), function (err) {
+                if (err) {
+                  console.log(err);
+                  utils.log.err(err);
+                  newClient.end(false, function () {
+                    res.json({
+                      success: false,
+                      message: 'Cannot send delete schedule to device.'
+                    })
+                  })
                 } else {
-                  res.send({
-                    success: false,
-                    message: "Crop is not deleted"
-                  });
+                  newClient.on('message', function (topic, payload) {
+                    var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+                    if (ack && ack.mac === deviceMac) {
+                      newClient.end();
+                      if (ack.data === protocolConstant.ACK.HANDLED) {
+                        models.Crop.deleteCrop(req.query.id, function (success) {
+                          if (success) {
+                            res.send({
+                              success: true,
+                              message: "Crop is deleted"
+                            });
+                          } else {
+                            res.send({
+                              success: false,
+                              message: "Crop is not deleted"
+                            });
+                          }
+                        });
+                      } else {
+                        res.json({
+                          success: false,
+                          message: 'Device cannot handle delete schedule message.'
+                        })
+                      }
+                    }
+                  })
                 }
-              });
-  
+              })
             } else {
               res.json({
                 success: false,
-                message: 'Cannot send delete Crop message.'
+                message: 'Device cannot handle delete crop message.'
               })
             }
           }
         })
-  
+
       }
-    }) 
+    })
   })
 })
 
 router.put('/edit', user.authenticate(), function (req, res) {
   models.Crop.getCropById(req.body.id, function (result) {
-    if (!result)
-    {
+    if (!result) {
       res.json({
         success: false,
         message: 'Crop is not existed.'
@@ -282,10 +308,10 @@ router.put('/edit', user.authenticate(), function (req, res) {
       var timeSendFormat = "YYYYMMDDHHmmss";
 
       var reporttime = utils.secondsToHMS(req.body.reporttime);
-      var message = deviceMac.replace(/:/g, "") + '01' + '0034' 
-                    + moment(req.body.startdate, timeFormat).format(timeSendFormat) 
-                    + moment(req.body.closedate, timeFormat).format(timeSendFormat)
-                    + reporttime.hours + reporttime.mins + reporttime.seconds;
+      var message = deviceMac.replace(/:/g, "") + '01' + '0034'
+        + moment(req.body.startdate, timeFormat).format(timeSendFormat)
+        + moment(req.body.closedate, timeFormat).format(timeSendFormat)
+        + reporttime.hours + reporttime.mins + reporttime.seconds;
 
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
@@ -322,7 +348,7 @@ router.put('/edit', user.authenticate(), function (req, res) {
                     success: true,
                     message: "Edit crop success"
                   })
-                }).catch(function(err){
+                }).catch(function (err) {
                   console.log(err)
                   res.json({
                     success: false,
