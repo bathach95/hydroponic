@@ -204,10 +204,15 @@ router.delete('/delete', user.authenticate(), function (req, res) {
     var serverTopic = utils.getServerTopic(deviceMac);
     const newClient = mqtt.connect(protocolConstant.MQTT_BROKER);
 
-    var CMD_ID = '08';
-    var DATA_LENGTH = '0001';
-    var DATA_DELETE = '0';
-    var message = deviceMac.replace(/:/g, "") + CMD_ID + DATA_LENGTH + DATA_DELETE;
+    var timeFormat = "MM/DD/YYYY HH:mm A";
+    var timeSendFormat = "YYYYMMDDHHmmss";
+    var reportInterval = 0;
+
+    var reporttime = utils.secondsToHMS(reportInterval);
+    var message = deviceMac.replace(/:/g, "") + '01' + '0034' 
+                  + moment(new Date(), timeFormat).format(timeSendFormat) 
+                  + moment(new Date(), timeFormat).format(timeSendFormat)
+                  + reporttime.hours + reporttime.mins + reporttime.seconds;
   
     newClient.subscribe(serverTopic, function () {
       console.log("subscribe success to delete device")
