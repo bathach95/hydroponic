@@ -71,7 +71,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</style>
 		<div class="row">
 			<div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
-			<div ng-repeat="article in articleList">
+			<div ng-repeat="article in articleList | filter:{checked:true}">
 			<div class="col-md-6" style="padding-right:2%;">
 				<div class="card" style="height: 250px;">
 					<div class="card-title-w-btn">

@@ -15,7 +15,8 @@ controller
     $scope.newCrop = {
       DeviceMac: $stateParams.mac,
       status: 'pending',
-      synchronized: true
+      synchronized: true,
+      reporttime: 3 // default value of report time is 3 seconds
     }
     $scope.addCrop = function () {
       //TODO: create a button for user to end up a crop
@@ -37,10 +38,11 @@ controller
         flash.error = "Close date must be after start date !";
         // } else if (newCrop.startdate < new Date()) {
         //   flash.error = "Start date cannot before now";
+        console.log(newCrop)
       } else {
         $('#addCropModal').modal('hide');
 
-        if (newCrop.startdate > new Date()) {
+        if (moment(newCrop.startdate, timeFormat) > moment(new Date(), timeFormat)) {
           newCrop.status = 'pending';
         } else {
           newCrop.status = 'running';

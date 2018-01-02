@@ -135,61 +135,90 @@ router.post('/add', user.authenticate(), function (req, res) {
         message: "Crop name has already existed."
       });
     } else {
-      var deviceMac = req.body.DeviceMac.toUpperCase();
-      var deviceTopic = utils.getDeviceTopic(deviceMac);
-      var serverTopic = utils.getServerTopic(deviceMac);
-      const client = mqtt.connect(protocolConstant.MQTT_BROKER);
-      var parseTimeFormat = "MM/DD/YYYY HH:mm A";
-      var sendTimeFormat = "YYYYMMDDHHmmss";
 
-      var reporttime = utils.secondsToHMS(req.body.reporttime);
-      var message = deviceMac.replace(/:/g, "") + '01' + '0034'
-        + moment(req.body.startdate, parseTimeFormat).format(sendTimeFormat)
-        + moment(req.body.closedate, parseTimeFormat).format(sendTimeFormat)
-        + reporttime.hours + reporttime.mins + reporttime.seconds;
+      models.Crop.getNewestRunningCropByDeviceMac(req.body.DeviceMac, function(runningCrop){
 
-      // subscribe to server topic to get ACK package from device
-      client.subscribe(serverTopic, function () {
-        console.log('this line subscribe success to ' + serverTopic)
-      })
-      // send update status message to device
-      client.publish(deviceTopic, utils.encrypt(message), function (err) {
-        if (err) {
-          console.log(err);
-          utils.log.err(err);
-          client.end(false, function () {
-            res.json({
-              success: false,
-              message: 'Cannot send settings to device.'
-            })
-          })
-
+        if (runningCrop){
+          res.json({
+            success: false,
+            message: "There is a current running crop. You cannot add more. This feature is in development"
+          });
         } else {
-          // wait for ack message from device
-          client.on('message', function (topic, payload) {
-            var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-            if (ack) {
-              if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-                client.end();
-                var newCrop = req.body;
-                newCrop.startdate = moment(req.body.startdate, parseTimeFormat);
-                newCrop.closedate = moment(req.body.closedate, parseTimeFormat);
-                models.Crop.createCrop(newCrop, function () {
-                  res.json({
-                    success: true,
-                    message: "Add crop success"
+
+          models.Crop.getOldestPendingCropByDeviceMac(req.body.DeviceMac, function(pendingCrop){
+
+            if (pendingCrop){
+              res.json({
+                success: false,
+                message: "There is a current pending crop. You cannot add more. This feature is in development"
+              });
+            } else {
+
+              var deviceMac = req.body.DeviceMac.toUpperCase();
+              var deviceTopic = utils.getDeviceTopic(deviceMac);
+              var serverTopic = utils.getServerTopic(deviceMac);
+              const client = mqtt.connect(protocolConstant.MQTT_BROKER);
+              var parseTimeFormat = "MM/DD/YYYY HH:mm A";
+              var sendTimeFormat = "YYYYMMDDHHmmss";
+        
+              var reporttime = utils.secondsToHMS(req.body.reporttime);
+              var message = deviceMac.replace(/:/g, "") + '01' + '0034'
+                + moment(req.body.startdate, parseTimeFormat).format(sendTimeFormat)
+                + moment(req.body.closedate, parseTimeFormat).format(sendTimeFormat)
+                + reporttime.hours + reporttime.mins + reporttime.seconds;
+        
+              // subscribe to server topic to get ACK package from device
+              client.subscribe(serverTopic, function () {
+                console.log('this line subscribe success to ' + serverTopic)
+              })
+              // send update status message to device
+              client.publish(deviceTopic, utils.encrypt(message), function (err) {
+                if (err) {
+                  console.log(err);
+                  utils.log.err(err);
+                  client.end(false, function () {
+                    res.json({
+                      success: false,
+                      message: 'Cannot send settings to device.'
+                    })
                   })
-                });
-              } else {
-                res.json({
-                  success: false,
-                  message: 'Cannot send settings to device.'
-                })
-              }
+        
+                } else {
+                  // wait for ack message from device
+                  client.on('message', function (topic, payload) {
+                    var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+                    if (ack) {
+                      if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+                        client.end();
+                        var newCrop = req.body;
+                        newCrop.startdate = moment(req.body.startdate, parseTimeFormat);
+                        newCrop.closedate = moment(req.body.closedate, parseTimeFormat);
+                        models.Crop.createCrop(newCrop, function () {
+                          res.json({
+                            success: true,
+                            message: "Add crop success"
+                          })
+                        });
+                      } else {
+                        res.json({
+                          success: false,
+                          message: 'Cannot send settings to device.'
+                        })
+                      }
+                    }
+                  })
+                }
+              });
+        
+        
             }
+
           })
+
         }
-      });
+
+      })
+
     }
   });
 

@@ -70,7 +70,7 @@ router.get('/running', user.authenticate(), function (req, res) {
                 status: 'running'
               }
             }).then(function (cropResult) {
-              if (cropResult) {
+              if (cropResult[0]) {
                 return new Promise(function (result, reject) {
                   cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
                     if (dataResult[0]) {
