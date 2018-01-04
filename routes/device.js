@@ -5,9 +5,13 @@ var models = require('../models');
 var utils = require('../utils/utils');
 var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
 var protocolConstant = require('../utils/protocolConstant');
+var Timer = require('../utils/timer');
+var TimerCounter = require('../utils/timerCounter');
 const mqtt = require('mqtt');
 const client = mqtt.connect(protocolConstant.MQTT_BROKER);
 
+// array of timer for each device
+var timerArray = [];
 //====== auto query mac from database and subscribe to that chanel =======
 
 models.Device.findAll({
@@ -19,6 +23,23 @@ models.Device.findAll({
       utils.log.info("subscribe success to " + topic)
       console.log("subscribe success to " + topic);
     });
+  });
+})
+
+//====== auto query mac from database and create a timer counter for that device =======
+models.Device.findAll().then(function (result) {
+  result.forEach(function (item) {
+
+  var mac = item.dataValues.mac;
+      // ======= create timer for device =======
+  var callback = function () {
+    console.log("sensor data timeout for device: " + mac)
+    var msg = "Your device "+ item.dataValues.name + " maybe died";
+    utils.sendNotifyToMobile(mac, msg);
+  }
+  var timeout = new Timer(protocolConstant.TIME_OUT_DATA, callback)
+  var sensorDataTimeout = new TimerCounter(timeout);
+  timerArray[mac] = sensorDataTimeout;
   });
 })
 
@@ -133,7 +154,7 @@ router.put('/status', user.authenticate(), function (req, res) {
     console.log('this line subscribe success to ' + serverTopic)
   })
   // send update status message to device
-  client.publish(deviceTopic, utils.encrypt(statusMessageToDevice), function (err) {
+  client.publish(deviceTopic, utils.encrypt(statusMessageToDevice), protocolConstant.MQTT_OPTIONS, function (err) {
     if (err) {
       console.log(err);
       utils.log.err(err);
@@ -192,31 +213,23 @@ router.get('/one', user.authenticate(), function (req, res) {
   );
 })
 
-// ------- success -----
-router.post('/addtest', user.authenticate(), function (req, res) {
-  var newDevice = req.body;
-  models.User.getUserById(req.user.id, function (user) {
-    user.createDevice(newDevice).then(function () {
-      utils.log.info('Created device' + newDevice)
-
-      res.json({
-        success: true,
-        message: "add success !!!!"
-      })
-    }).catch(function (err) {
-      utils.log.error(err)
-
-      res.json({
-        success: false,
-        message: "Deviced has already existed !"
-      })
-    })
-  })
-});
 
 router.post('/add', user.authenticate(), function (req, res) {
   var newDevice = req.body;
   newDevice.UserId = req.user.id;
+
+  // ======= create timer for device =======
+  var callback = function () {
+    console.log("sensor data timeout for device: " + newDevice.mac)
+    var msg = "Your device maybe died";
+    utils.sendNotifyToMobile(newDevice.mac, msg);
+  }
+  var timeout = new Timer(protocolConstant.TIME_OUT_DATA, callback)
+  
+  var sensorDataTimeout = new TimerCounter(timeout);
+  timerArray[newDevice.mac] = sensorDataTimeout;
+  // =======================================
+  
   models.Device.getDeviceByMac(newDevice.mac,
     function (result) {
       if (result) {
@@ -239,7 +252,7 @@ router.post('/add', user.authenticate(), function (req, res) {
           console.log("subscribe success to " + serverTopic + " after add new device")
         })
 
-        newClient.publish(deviceTopic, utils.encrypt(message), function (err) {
+        newClient.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
           if (err) {
             console.log(err);
             utils.log.err(err);
@@ -311,7 +324,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
     console.log("subscribe success to delete device")
   })
 
-  newClient.publish(deviceTopic, utils.encrypt(message), function (err){
+  newClient.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err){
     if (err){
       console.log(err);
       utils.log.err(err);
@@ -331,6 +344,8 @@ router.delete('/delete', user.authenticate(), function (req, res) {
 
             models.Device.deleteDevice(req.query.mac, function (success) {
               if (success) {
+                // deactive timer of this device
+                timerArray[req.query.mac].deactive();
                 client.unsubscribe(utils.getServerTopic(req.query.mac));
                 res.send({
                   success: true,
@@ -359,3 +374,4 @@ router.delete('/delete', user.authenticate(), function (req, res) {
 
 module.exports.client = client;
 module.exports.router = router;
+module.exports.timerArray = timerArray;

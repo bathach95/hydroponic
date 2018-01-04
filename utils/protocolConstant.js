@@ -1,5 +1,8 @@
 module.exports = {
-    MQTT_BROKER: 'mqtt://35.198.199.4:1883',
+    MQTT_BROKER: 'mqtt://13.58.114.56:1883',
+    MQTT_OPTIONS: {
+        qos: 2
+    },
     ACK: {
         MSG_LENGTH: 19,
         CMD_ID : '07',
@@ -11,5 +14,6 @@ module.exports = {
         MSG_LENGTH: 30,
         CMD_ID: '04',
         DATA_LENGTH: '0012'
-    }
+    },
+    TIME_OUT_DATA: 10
 }

@@ -126,6 +126,31 @@ function secondsToHMS(d) {
   }
 }
 
+// ==================== send message to mobile phone ==================
+var FCM = require('fcm-node');
+var serverKey = 'AIzaSyD0XtvqNAw6kTO34Ot50WsJkQF568kDuR4';
+var fcm = new FCM(serverKey);
+
+// send notify to mobile
+function sendNotifyToMobile(topicMac, msg) {
+  var message = {
+    to: '/topics/' + topicMac,
+    notification: {
+      title: 'BK Hydroponic',
+      body: msg
+    }
+  };
+
+  fcm.send(message, function (err, response) {
+    if (err) {
+      log.error("Notify err: " + err);
+      console.log("Notify err: " + err)
+    } else {
+      log.info("Notify sucess: " + response);
+      console.log("Notify sucess: " + response);
+    }
+  });
+}
 
 module.exports = {
   getDateFromGMT: getDateFromGMT,
@@ -139,5 +164,6 @@ module.exports = {
   getDeviceTopic: getDeviceTopic,
   timeToMessageString: timeToMessageString,
   normalizeNumber: normalizeNumber,
-  secondsToHMS: secondsToHMS
+  secondsToHMS: secondsToHMS,
+  sendNotifyToMobile: sendNotifyToMobile
 }
