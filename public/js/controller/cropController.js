@@ -36,9 +36,8 @@ controller
       }
       if (moment(newCrop.closedate, timeFormat) < moment(newCrop.startdate, timeFormat)) {
         flash.error = "Close date must be after start date !";
-        // } else if (newCrop.startdate < new Date()) {
-        //   flash.error = "Start date cannot before now";
-        console.log(newCrop)
+      } else if ($scope.newCrop.reporttime > 5){
+        flash.error = "Report time should less than 5 second !";
       } else {
         $('#addCropModal').modal('hide');
 

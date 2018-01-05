@@ -17,7 +17,16 @@ router.get('/all', user.authenticate(), function (req, res) {
         var cropList = [];
 
         result.forEach(function (item) {
-          cropList.push(item.dataValues);
+          var crop = item.dataValues;
+          var today = new Date();
+          if (crop.startdate > today){
+            crop.status = "pending";
+          } else if (crop.startdate <= today && today <= crop.closedate){
+            crop.status = "running";
+          } else {
+            crop.status = "end";
+          }
+          cropList.push(crop);
         })
 
         res.json({
@@ -110,20 +119,27 @@ router.post('/sendreview', user.authenticate(), function (req, res) {
 
 router.get('/newest', user.authenticate(), function (req, res) {
 
-  models.Crop.getNewestRunningCropByDeviceMac(req.query.mac, function (result) {
-    if (result) {
-      res.json({
-        success: true,
-        data: result.dataValues,
-        message: 'Get crop success !'
-      })
-    } else {
+  models.Crop.getNewestRunningCropByDeviceMac(req.query.mac,
+    function (result) {
+      if (result) {
+        res.json({
+          success: true,
+          data: result.dataValues,
+          message: 'Get crop success !'
+        })
+      } else {
+        res.json({
+          success: false,
+          message: 'Crop does not exist !'
+        })
+      }
+    }, function (err) {
+      utils.log.error(err);
       res.json({
         success: false,
-        message: 'Crop does not exist !'
+        message: 'Error when get crop'
       })
-    }
-  })
+    })
 })
 
 router.post('/add', user.authenticate(), function (req, res) {
@@ -136,18 +152,18 @@ router.post('/add', user.authenticate(), function (req, res) {
       });
     } else {
 
-      models.Crop.getNewestRunningCropByDeviceMac(req.body.DeviceMac, function(runningCrop){
+      models.Crop.getNewestRunningCropByDeviceMac(req.body.DeviceMac, function (runningCrop) {
 
-        if (runningCrop){
+        if (runningCrop) {
           res.json({
             success: false,
             message: "There is a current running crop. You cannot add more. This feature is in development"
           });
         } else {
 
-          models.Crop.getOldestPendingCropByDeviceMac(req.body.DeviceMac, function(pendingCrop){
+          models.Crop.getOldestPendingCropByDeviceMac(req.body.DeviceMac, function (pendingCrop) {
 
-            if (pendingCrop){
+            if (pendingCrop) {
               res.json({
                 success: false,
                 message: "There is a current pending crop. You cannot add more. This feature is in development"
@@ -160,19 +176,19 @@ router.post('/add', user.authenticate(), function (req, res) {
               const client = mqtt.connect(protocolConstant.MQTT_BROKER);
               var parseTimeFormat = "MM/DD/YYYY HH:mm A";
               var sendTimeFormat = "YYYYMMDDHHmmss";
-        
+
               var reporttime = utils.secondsToHMS(req.body.reporttime);
               var message = deviceMac.replace(/:/g, "") + '01' + '0034'
                 + moment(req.body.startdate, parseTimeFormat).format(sendTimeFormat)
                 + moment(req.body.closedate, parseTimeFormat).format(sendTimeFormat)
                 + reporttime.hours + reporttime.mins + reporttime.seconds;
-        
+
               // subscribe to server topic to get ACK package from device
               client.subscribe(serverTopic, function () {
                 console.log('this line subscribe success to ' + serverTopic)
               })
               // send update status message to device
-              client.publish(deviceTopic, utils.encrypt(message), function (err) {
+              client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
                 if (err) {
                   console.log(err);
                   utils.log.err(err);
@@ -182,7 +198,7 @@ router.post('/add', user.authenticate(), function (req, res) {
                       message: 'Cannot send settings to device.'
                     })
                   })
-        
+
                 } else {
                   // wait for ack message from device
                   client.on('message', function (topic, payload) {
@@ -209,14 +225,20 @@ router.post('/add', user.authenticate(), function (req, res) {
                   })
                 }
               });
-        
-        
+
+
             }
 
           })
 
         }
 
+      }, function(err){
+        utils.log.error(err);
+        res.json({
+          success: false,
+          message: "Error when get running crop"
+        })
       })
 
     }
@@ -247,7 +269,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
       console.log("subscribe success to delete device")
     })
 
-    newClient.publish(deviceTopic, utils.encrypt(message), function (err) {
+    newClient.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
       if (err) {
         console.log(err);
         utils.log.err(err);
@@ -267,7 +289,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
             if (ack.data === protocolConstant.ACK.HANDLED) {
               // send package to delete schedule
               var deleteScheduleMsg = deviceMac.replace(/:/g, "") + '02' + '0002' + '00';
-              newClient.publish(deviceTopic, utils.encrypt(deleteScheduleMsg), function (err) {
+              newClient.publish(deviceTopic, utils.encrypt(deleteScheduleMsg), protocolConstant.MQTT_OPTIONS, function (err) {
                 if (err) {
                   console.log(err);
                   utils.log.err(err);
@@ -347,7 +369,7 @@ router.put('/edit', user.authenticate(), function (req, res) {
         console.log('this line subscribe success to ' + serverTopic)
       })
       // send update status message to device
-      client.publish(deviceTopic, utils.encrypt(message), function (err) {
+      client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
         if (err) {
           console.log(err);
           utils.log.err(err);

@@ -126,6 +126,51 @@ function secondsToHMS(d) {
   }
 }
 
+// ==================== send message to mobile phone ==================
+var FCM = require('fcm-node');
+var serverKey = 'AIzaSyD0XtvqNAw6kTO34Ot50WsJkQF568kDuR4';
+var fcm = new FCM(serverKey);
+
+// send notify to mobile
+function sendNotifyToMobile(topicMac, msg) {
+  var message = {
+    to: '/topics/' + topicMac,
+    notification: {
+      title: 'BK Hydroponic',
+      body: msg
+    }
+  };
+
+  fcm.send(message, function (err, response) {
+    if (err) {
+      log.error("Notify err: " + err);
+      console.log("Notify err: " + err)
+    } else {
+      log.info("Notify sucess: " + response);
+      console.log("Notify sucess: " + response);
+    }
+  });
+}
+
+// update device status function
+var models = require('../models');
+function updateDeviceStatus(mac, oldStatus, newStatus) {
+  models.Device.getDeviceByMac(mac, function (device) {
+    if (device && device.dataValues.status === oldStatus) {
+      device.update({
+        status: newStatus
+      }).then(function (res) {
+        if (res) {
+          log.info(mac + " update device status success")
+          console.log("update device status success");
+        } else {
+          log.error(mac + " update device status fail")
+          console.log("update device status fail");
+        }
+      });
+    }
+  });
+}
 
 module.exports = {
   getDateFromGMT: getDateFromGMT,
@@ -139,5 +184,7 @@ module.exports = {
   getDeviceTopic: getDeviceTopic,
   timeToMessageString: timeToMessageString,
   normalizeNumber: normalizeNumber,
-  secondsToHMS: secondsToHMS
+  secondsToHMS: secondsToHMS,
+  sendNotifyToMobile: sendNotifyToMobile,
+  updateDeviceStatus: updateDeviceStatus
 }

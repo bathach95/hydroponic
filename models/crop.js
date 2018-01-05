@@ -67,16 +67,20 @@ module.exports = function (sequelize, DataTypes) {
 
           Crop.destroy(query).then(callback);
         },
-        getNewestRunningCropByDeviceMac: function (deviceMac, callback) {
+        getNewestRunningCropByDeviceMac: function (deviceMac, callback, err) {
           var query = {
             where: {
               DeviceMac: deviceMac,
-              status: 'running'
-            },
-            order: [['closedate', 'DESC']]
+              startdate: {
+                $lte: new Date()
+              },
+              closedate: {
+                $gte: new Date()
+              }
+            }
           }
 
-          Crop.findOne(query).then(callback);
+          Crop.findOne(query).then(callback).catch(err);
         },
         getOldestPendingCropByDeviceMac: function (deviceMac, callback) {
           var query = {

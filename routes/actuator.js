@@ -34,7 +34,7 @@ router.post('/addactuator', user.authenticate(), function (req, res) {
         console.log('this line subscribe success to ' + serverTopic)
       })
 
-      client.publish(deviceTopic, utils.encrypt(message), function (err) {
+      client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
         if (err) {
           utils.log.error(err);
           console.log(err);
@@ -119,7 +119,7 @@ router.put('/status', user.authenticate(), function (req, res) {
 
   var status = req.body.status === 'on' ? '0' : '1';
   var message = deviceMac.replace(/:/g, "").toUpperCase() + '03' + '0003' + req.body.idonboard.toString() + status;
-  client.publish(deviceTopic, utils.encrypt(message), function (err) {
+  client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
     if (err) {
       console.log(err);
       utils.log.err(err);
@@ -184,7 +184,7 @@ router.put('/priority', user.authenticate(), function (req, res) {
   var message = deviceMac.replace(/:/g, "").toUpperCase() + '06' + '0004' + req.body.idonboard.toString() + '2' + priority;
 
   console.log(message);
-  client.publish(deviceTopic, utils.encrypt(message), function (err) {
+  client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
     if (err) {
       console.log(err);
       utils.log.err(err);
@@ -243,7 +243,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
   var priority = req.query.priority === 'Primary' ? '0' : '1';
   var message = deviceMac.replace(/:/g, "").toUpperCase() + '06' + '0004' + req.query.idonboard + '1' + priority;
 
-  client.publish(deviceTopic, utils.encrypt(message), function (err) {
+  client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
     if (err) {
       utils.log.error(err);
       console.log(err);

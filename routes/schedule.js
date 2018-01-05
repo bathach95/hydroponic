@@ -146,7 +146,7 @@ router.get('/sync', user.authenticate(), function (req, res) {
           console.log('this line subscribe success to ' + serverTopic)
         })
         // send update status message to device
-        client.publish(deviceTopic, utils.encrypt(message), function (err) {
+        client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
           if (err) {
             console.log(err);
             utils.log.err(err);
