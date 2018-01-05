@@ -18,7 +18,7 @@ router.get('/all', user.authenticate(), function (req, res) {
 
         result.forEach(function (item) {
           var crop = item.dataValues;
-          var today = new Date();
+          var today = moment(new Date()).utcOffset(protocolConstant.TIME_ZONE);
           if (crop.startdate > today){
             crop.status = "pending";
           } else if (crop.startdate <= today && today <= crop.closedate){
@@ -143,6 +143,7 @@ router.get('/newest', user.authenticate(), function (req, res) {
 })
 
 router.post('/add', user.authenticate(), function (req, res) {
+
   // check crop name already exist
   models.Crop.getCropByName(req.body.name, req.body.DeviceMac, function (result) {
     if (result) {
@@ -207,8 +208,8 @@ router.post('/add', user.authenticate(), function (req, res) {
                       if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                         client.end();
                         var newCrop = req.body;
-                        newCrop.startdate = moment(req.body.startdate, parseTimeFormat);
-                        newCrop.closedate = moment(req.body.closedate, parseTimeFormat);
+                        newCrop.startdate = moment(req.body.startdate, parseTimeFormat).utcOffset(protocolConstant.TIME_ZONE);
+                        newCrop.closedate = moment(req.body.closedate, parseTimeFormat).utcOffset(protocolConstant.TIME_ZONE);
                         models.Crop.createCrop(newCrop, function () {
                           res.json({
                             success: true,
@@ -292,7 +293,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
               newClient.publish(deviceTopic, utils.encrypt(deleteScheduleMsg), protocolConstant.MQTT_OPTIONS, function (err) {
                 if (err) {
                   console.log(err);
-                  utils.log.err(err);
+                  utils.log.error(err);
                   newClient.end(false, function () {
                     res.json({
                       success: false,

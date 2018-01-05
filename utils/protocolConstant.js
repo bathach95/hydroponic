@@ -17,5 +17,6 @@ module.exports = {
     },
     TIME_OUT_DATA: 10,
     DEVICE_STATUS_NO_CONNECTION: "no connection",
-    DEVICE_STATUS_RUNNING: "running"
+    DEVICE_STATUS_RUNNING: "running",
+    TIME_ZONE: "+07:00"
 }
