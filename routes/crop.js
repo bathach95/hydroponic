@@ -17,7 +17,16 @@ router.get('/all', user.authenticate(), function (req, res) {
         var cropList = [];
 
         result.forEach(function (item) {
-          cropList.push(item.dataValues);
+          var crop = item.dataValues;
+          var today = new Date();
+          if (crop.startdate > today){
+            crop.status = "pending";
+          } else if (crop.startdate <= today && today <= crop.closedate){
+            crop.status = "running";
+          } else {
+            crop.status = "end";
+          }
+          cropList.push(crop);
         })
 
         res.json({
@@ -110,20 +119,27 @@ router.post('/sendreview', user.authenticate(), function (req, res) {
 
 router.get('/newest', user.authenticate(), function (req, res) {
 
-  models.Crop.getNewestRunningCropByDeviceMac(req.query.mac, function (result) {
-    if (result) {
-      res.json({
-        success: true,
-        data: result.dataValues,
-        message: 'Get crop success !'
-      })
-    } else {
+  models.Crop.getNewestRunningCropByDeviceMac(req.query.mac,
+    function (result) {
+      if (result) {
+        res.json({
+          success: true,
+          data: result.dataValues,
+          message: 'Get crop success !'
+        })
+      } else {
+        res.json({
+          success: false,
+          message: 'Crop does not exist !'
+        })
+      }
+    }, function (err) {
+      utils.log.error(err);
       res.json({
         success: false,
-        message: 'Crop does not exist !'
+        message: 'Error when get crop'
       })
-    }
-  })
+    })
 })
 
 router.post('/add', user.authenticate(), function (req, res) {
@@ -217,6 +233,12 @@ router.post('/add', user.authenticate(), function (req, res) {
 
         }
 
+      }, function(err){
+        utils.log.error(err);
+        res.json({
+          success: false,
+          message: "Error when get running crop"
+        })
       })
 
     }

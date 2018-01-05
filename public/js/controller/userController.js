@@ -27,7 +27,7 @@ controller.controller('LoginCtrl', function ($http, $state, $sessionStorage, $co
         var expDay = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
         
         var options = {
-          domain: "localhost",
+          domain: "13.58.114.56",
           httpOnly: true,
           expires: expDay
         };

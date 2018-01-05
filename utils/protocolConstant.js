@@ -15,5 +15,7 @@ module.exports = {
         CMD_ID: '04',
         DATA_LENGTH: '0012'
     },
-    TIME_OUT_DATA: 10
+    TIME_OUT_DATA: 10,
+    DEVICE_STATUS_NO_CONNECTION: "no connection",
+    DEVICE_STATUS_RUNNING: "running"
 }

@@ -152,6 +152,26 @@ function sendNotifyToMobile(topicMac, msg) {
   });
 }
 
+// update device status function
+var models = require('../models');
+function updateDeviceStatus(mac, oldStatus, newStatus) {
+  models.Device.getDeviceByMac(mac, function (device) {
+    if (device && device.dataValues.status === oldStatus) {
+      device.update({
+        status: newStatus
+      }).then(function (res) {
+        if (res) {
+          log.info(mac + " update device status success")
+          console.log("update device status success");
+        } else {
+          log.error(mac + " update device status fail")
+          console.log("update device status fail");
+        }
+      });
+    }
+  });
+}
+
 module.exports = {
   getDateFromGMT: getDateFromGMT,
   getDataStatus: getDataStatus,
@@ -165,5 +185,6 @@ module.exports = {
   timeToMessageString: timeToMessageString,
   normalizeNumber: normalizeNumber,
   secondsToHMS: secondsToHMS,
-  sendNotifyToMobile: sendNotifyToMobile
+  sendNotifyToMobile: sendNotifyToMobile,
+  updateDeviceStatus: updateDeviceStatus
 }

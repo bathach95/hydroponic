@@ -223,10 +223,12 @@ router.post('/add', user.authenticate(), function (req, res) {
     console.log("sensor data timeout for device: " + newDevice.mac)
     var msg = "Your device maybe died";
     utils.sendNotifyToMobile(newDevice.mac, msg);
+    utils.updateDeviceStatus(newDevice.mac, protocolConstant.DEVICE_STATUS_RUNNING, protocolConstant.DEVICE_STATUS_NO_CONNECTION);
   }
   var timeout = new Timer(protocolConstant.TIME_OUT_DATA, callback)
   
   var sensorDataTimeout = new TimerCounter(timeout);
+  sensorDataTimeout.reset();
   timerArray[newDevice.mac] = sensorDataTimeout;
   // =======================================
   
@@ -263,13 +265,13 @@ router.post('/add', user.authenticate(), function (req, res) {
               })
             })
           } else {
-            newClient.on('message', function (topic, payload) {
-              var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-              if (ack && ack.mac === deviceMac) {
+            // newClient.on('message', function (topic, payload) {
+              // var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+              // if (ack && ack.mac === deviceMac) {
                 newClient.end();
-                if (ack.data === protocolConstant.ACK.HANDLED) {
-                  models.Device.createDevice(newDevice, function () {
+                // if (ack.data === protocolConstant.ACK.HANDLED) {
 
+                  models.Device.createDevice(newDevice, function () {
                     client.subscribe(serverTopic, function () {
                       utils.log.info("subscribe success after add new device");
                       console.log("subscribe success after add new device");
@@ -286,14 +288,17 @@ router.post('/add', user.authenticate(), function (req, res) {
                       message: 'Cannot add device.'
                     })
                   })
-                } else {
-                  res.json({
-                    success: false,
-                    message: 'Cannot send add device message.'
-                  })
-                }
-              }
-            })
+
+
+
+                // } else {
+                //   res.json({
+                //     success: false,
+                //     message: 'Cannot send add device message.'
+                //   })
+                // }
+              // }
+            // })
           }
         })
       }
