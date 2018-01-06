@@ -208,8 +208,8 @@ router.post('/add', user.authenticate(), function (req, res) {
                       if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                         client.end();
                         var newCrop = req.body;
-                        newCrop.startdate = moment(req.body.startdate, parseTimeFormat)
-                        newCrop.closedate = moment(req.body.closedate, parseTimeFormat)
+                        newCrop.startdate = moment(req.body.startdate, parseTimeFormat).utcOffset(protocolConstant.TIME_ZONE)
+                        newCrop.closedate = moment(req.body.closedate, parseTimeFormat).utcOffset(protocolConstant.TIME_ZONE)
                         models.Crop.createCrop(newCrop, function () {
                           res.json({
                             success: true,
