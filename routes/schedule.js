@@ -146,6 +146,8 @@ router.get('/sync', user.authenticate(), function (req, res) {
           console.log('this line subscribe success to ' + serverTopic)
         })
         // send update status message to device
+        var startSendMsg = new Date();
+        console.log("send time: " + startSendMsg);
         client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
           if (err) {
             console.log(err);
@@ -163,6 +165,9 @@ router.get('/sync', user.authenticate(), function (req, res) {
               var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
               if (ack) {
                 if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+                  var endReceivedMsg = new Date();
+                  console.log("receive time: " + endReceivedMsg);
+                  console.log("send msg time is: " + (endReceivedMsg - startSendMsg));
                   client.end();
                   models.Crop.getCropById(cropId, function (crop) {
                     if (crop) {
