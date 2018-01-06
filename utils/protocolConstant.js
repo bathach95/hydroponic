@@ -18,5 +18,7 @@ module.exports = {
     TIME_OUT_DATA: 10,
     DEVICE_STATUS_NO_CONNECTION: "no connection",
     DEVICE_STATUS_RUNNING: "running",
-    TIME_ZONE: "Asia/Ho_Chi_Minh"
+    TIME_ZONE: "Asia/Ho_Chi_Minh",
+    PARSE_TIME_FORMAT: "MM/DD/YYYY HH:mm A",
+    SEND_TIME_FORMAT: "YYYYMMDDHHmmss"
 }

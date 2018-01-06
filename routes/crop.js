@@ -175,13 +175,11 @@ router.post('/add', user.authenticate(), function (req, res) {
               var deviceTopic = utils.getDeviceTopic(deviceMac);
               var serverTopic = utils.getServerTopic(deviceMac);
               const client = mqtt.connect(protocolConstant.MQTT_BROKER);
-              var parseTimeFormat = "MM/DD/YYYY HH:mm A";
-              var sendTimeFormat = "YYYYMMDDHHmmss";
 
               var reporttime = utils.secondsToHMS(req.body.reporttime);
               var message = deviceMac.replace(/:/g, "") + '01' + '0034'
-                + moment(req.body.startdate, parseTimeFormat).format(sendTimeFormat)
-                + moment(req.body.closedate, parseTimeFormat).format(sendTimeFormat)
+                + moment(req.body.startdate, protocolConstant.PARSE_TIME_FORMAT).format(protocolConstant.SEND_TIME_FORMAT)
+                + moment(req.body.closedate, protocolConstant.PARSE_TIME_FORMAT).format(protocolConstant.SEND_TIME_FORMAT)
                 + reporttime.hours + reporttime.mins + reporttime.seconds;
 
               // subscribe to server topic to get ACK package from device
@@ -208,8 +206,8 @@ router.post('/add', user.authenticate(), function (req, res) {
                       if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                         client.end();
                         var newCrop = req.body;
-                        newCrop.startdate = moment.tz(req.body.startdate, parseTimeFormat, protocolConstant.TIME_ZONE).format()
-                        newCrop.closedate = moment.tz(req.body.closedate, parseTimeFormat, protocolConstant.TIME_ZONE).format()
+                        newCrop.startdate = moment.tz(req.body.startdate, protocolConstant.PARSE_TIME_FORMAT, protocolConstant.TIME_ZONE).format()
+                        newCrop.closedate = moment.tz(req.body.closedate, protocolConstant.PARSE_TIME_FORMAT, protocolConstant.TIME_ZONE).format()
                         models.Crop.createCrop(newCrop, function () {
                           res.json({
                             success: true,
@@ -226,8 +224,6 @@ router.post('/add', user.authenticate(), function (req, res) {
                   })
                 }
               });
-
-
             }
 
           })
@@ -256,14 +252,12 @@ router.delete('/delete', user.authenticate(), function (req, res) {
     var serverTopic = utils.getServerTopic(deviceMac);
     const newClient = mqtt.connect(protocolConstant.MQTT_BROKER);
 
-    var timeFormat = "MM/DD/YYYY HH:mm A";
-    var timeSendFormat = "YYYYMMDDHHmmss";
     var reportInterval = 0;
 
     var reporttime = utils.secondsToHMS(reportInterval);
     var message = deviceMac.replace(/:/g, "") + '01' + '0034'
-      + moment(new Date(), timeFormat).format(timeSendFormat)
-      + moment(new Date(), timeFormat).format(timeSendFormat)
+      + moment(new Date(), protocolConstant.PARSE_TIME_FORMAT).format(protocolConstant.SEND_TIME_FORMAT)
+      + moment(new Date(), protocolConstant.PARSE_TIME_FORMAT).format(protocolConstant.SEND_TIME_FORMAT)
       + reporttime.hours + reporttime.mins + reporttime.seconds;
 
     newClient.subscribe(serverTopic, function () {
@@ -356,13 +350,11 @@ router.put('/edit', user.authenticate(), function (req, res) {
       var deviceTopic = utils.getDeviceTopic(deviceMac);
       var serverTopic = utils.getServerTopic(deviceMac);
       const client = mqtt.connect(protocolConstant.MQTT_BROKER);
-      var timeFormat = "MM/DD/YYYY HH:mm A";
-      var timeSendFormat = "YYYYMMDDHHmmss";
 
       var reporttime = utils.secondsToHMS(req.body.reporttime);
       var message = deviceMac.replace(/:/g, "") + '01' + '0034'
-        + moment(req.body.startdate, timeFormat).format(timeSendFormat)
-        + moment(req.body.closedate, timeFormat).format(timeSendFormat)
+        + moment(req.body.startdate, protocolConstant.PARSE_TIME_FORMAT).format(protocolConstant.SEND_TIME_FORMAT)
+        + moment(req.body.closedate, protocolConstant.PARSE_TIME_FORMAT).format(protocolConstant.SEND_TIME_FORMAT)
         + reporttime.hours + reporttime.mins + reporttime.seconds;
 
       // subscribe to server topic to get ACK package from device
@@ -391,8 +383,8 @@ router.put('/edit', user.authenticate(), function (req, res) {
                 result.update({
                   name: req.body.name,
                   treetype: req.body.treetype,
-                  startdate: moment(req.body.startdate, timeFormat),
-                  closedate: moment(req.body.closedate, timeFormat),
+                  startdate: moment.tz(req.body.startdate, protocolConstant.PARSE_TIME_FORMAT, protocolConstant.TIME_ZONE).format(),
+                  closedate: moment.tz(req.body.closedate, protocolConstant.PARSE_TIME_FORMAT, protocolConstant.TIME_ZONE).format(),
                   reporttime: req.body.reporttime,
                   type: req.body.type
                 }).then(function () {
