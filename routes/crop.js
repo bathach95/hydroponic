@@ -7,7 +7,7 @@ var utils = require('../utils/utils');
 const mqtt = require('mqtt');
 var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
 var protocolConstant = require('../utils/protocolConstant');
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 router.get('/all', user.authenticate(), function (req, res) {
   var mac = req.query.mac;
@@ -208,8 +208,8 @@ router.post('/add', user.authenticate(), function (req, res) {
                       if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                         client.end();
                         var newCrop = req.body;
-                        newCrop.startdate = moment(req.body.startdate, parseTimeFormat).utcOffset(protocolConstant.TIME_ZONE)
-                        newCrop.closedate = moment(req.body.closedate, parseTimeFormat).utcOffset(protocolConstant.TIME_ZONE)
+                        newCrop.startdate = moment.tz(req.body.startdate, parseTimeFormat, protocolConstant.TIME_ZONE).format()
+                        newCrop.closedate = moment.tz(req.body.closedate, parseTimeFormat, protocolConstant.TIME_ZONE).format()
                         models.Crop.createCrop(newCrop, function () {
                           res.json({
                             success: true,
