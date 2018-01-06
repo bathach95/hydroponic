@@ -29,6 +29,18 @@ router.post('/addactuator', user.authenticate(), function (req, res) {
       var priority = newActuator.priority === 'Primary' ? '0' : '1';
       var message = deviceMac.replace(/:/g, "").toUpperCase() + '06' + '0004' + newActuator.idonboard + '0' + priority;
 
+      // ============ create timer ============
+      var callback = function () {
+        console.log("timeout for request: add actuator")
+        client.end();
+        res.json({
+          success: false,
+          message: "Send message to device timeout. Cannot receive ack from device"
+        })
+      }
+      var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+      // ========================================
+
       // subscribe to server topic to get ACK package from device
       client.subscribe(serverTopic, function () {
         console.log('this line subscribe success to ' + serverTopic)
@@ -45,10 +57,12 @@ router.post('/addactuator', user.authenticate(), function (req, res) {
             });
           })
         } else {
+          mqttMsgTimeout.resetForOneTime(); // reset timer when publish mesage
           client.on('message', function (topic, payload) {
             var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-            if (ack) {
-              if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+            if (ack && ack.mac === deviceMac) {
+              mqttMsgTimeout.deactive();
+              if (ack.data === protocolConstant.ACK.HANDLED) {
                 // if device received message, update database
                 client.end();
                 models.Actuator.createActuator(newActuator, function () {
@@ -107,7 +121,7 @@ router.get('/all', user.authenticate(), function (req, res) {
 
 router.put('/status', user.authenticate(), function (req, res) {
 
-  var deviceMac = req.body.mac;
+  var deviceMac = req.body.mac.toUpperCase();
   var deviceTopic = utils.getDeviceTopic(deviceMac);
   var serverTopic = utils.getServerTopic(deviceMac);
   const client = mqtt.connect(protocolConstant.MQTT_BROKER);
@@ -117,8 +131,21 @@ router.put('/status', user.authenticate(), function (req, res) {
     console.log('this line subscribe success to ' + serverTopic)
   })
 
+
+  // ============ create timer ============
+  var callback = function () {
+    console.log("timeout for request: change actuator status")
+    client.end();
+    res.json({
+      success: false,
+      message: "Send message to device timeout. Cannot receive ack from device"
+    })
+  }
+  var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+  // ========================================
+
   var status = req.body.status === 'on' ? '0' : '1';
-  var message = deviceMac.replace(/:/g, "").toUpperCase() + '03' + '0003' + req.body.idonboard.toString() + status;
+  var message = deviceMac.replace(/:/g, "") + '03' + '0003' + req.body.idonboard.toString() + status;
   client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
     if (err) {
       console.log(err);
@@ -130,11 +157,13 @@ router.put('/status', user.authenticate(), function (req, res) {
         })
       })
     } else {
+      mqttMsgTimeout.resetForOneTime();
       // wait for ack message from device
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-        if (ack) {
-          if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+        if (ack && ack.mac === deviceMac) {
+          mqttMsgTimeout.deactive();
+          if (ack.data === protocolConstant.ACK.HANDLED) {
             // if device received message, update database
             client.end();
             models.Actuator.getActuatorById(req.body.id, function (actuator) {
@@ -164,7 +193,7 @@ router.put('/status', user.authenticate(), function (req, res) {
 
 router.put('/priority', user.authenticate(), function (req, res) {
 
-  var deviceMac = req.body.mac;
+  var deviceMac = req.body.mac.toUpperCase();
   var deviceTopic = utils.getDeviceTopic(deviceMac);
   var serverTopic = utils.getServerTopic(deviceMac);
   const client = mqtt.connect(protocolConstant.MQTT_BROKER);
@@ -174,16 +203,21 @@ router.put('/priority', user.authenticate(), function (req, res) {
     console.log('this line subscribe success to ' + serverTopic)
   })
 
-  var priority;
-  if (req.body.priority === 'Primary')
-  {
-    priority = '0';
-  }else {
-    priority =  '1';
+  // ============ create timer ============
+  var callback = function () {
+    console.log("timeout for request: change actuator prority")
+    client.end();
+    res.json({
+      success: false,
+      message: "Send message to device timeout. Cannot receive ack from device"
+    })
   }
-  var message = deviceMac.replace(/:/g, "").toUpperCase() + '06' + '0004' + req.body.idonboard.toString() + '2' + priority;
+  var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+  // ========================================
 
-  console.log(message);
+  var priority = req.body.priority === 'Primary' ? '0' : '1';
+  var message = deviceMac.replace(/:/g, "") + '06' + '0004' + req.body.idonboard.toString() + '2' + priority;
+
   client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
     if (err) {
       console.log(err);
@@ -195,12 +229,13 @@ router.put('/priority', user.authenticate(), function (req, res) {
         })
       })
     } else {
+      mqttMsgTimeout.resetForOneTime();
       // wait for ack message from device
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-        if (ack) {
-          
-          if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+        if (ack && ack.mac === deviceMac) {
+          mqttMsgTimeout.deactive();
+          if (ack.data === protocolConstant.ACK.HANDLED) {
             // if device received message, update database
             client.end();
             models.Actuator.getActuatorById(req.body.id, function (actuator) {
@@ -230,7 +265,7 @@ router.put('/priority', user.authenticate(), function (req, res) {
 })
 
 router.delete('/delete', user.authenticate(), function (req, res) {
-  var deviceMac = req.query.mac;
+  var deviceMac = req.query.mac.toUpperCase();
   var deviceTopic = utils.getDeviceTopic(deviceMac);
   var serverTopic = utils.getServerTopic(deviceMac);
   const client = mqtt.connect(protocolConstant.MQTT_BROKER);
@@ -240,8 +275,20 @@ router.delete('/delete', user.authenticate(), function (req, res) {
     console.log('this line subscribe success to ' + serverTopic)
   })
 
+  // ============ create timer ============
+  var callback = function () {
+    console.log("timeout for request: delete actuator")
+    client.end();
+    res.json({
+      success: false,
+      message: "Send message to device timeout. Cannot receive ack from device"
+    })
+  }
+  var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+  // ========================================
+
   var priority = req.query.priority === 'Primary' ? '0' : '1';
-  var message = deviceMac.replace(/:/g, "").toUpperCase() + '06' + '0004' + req.query.idonboard + '1' + priority;
+  var message = deviceMac.replace(/:/g, "") + '06' + '0004' + req.query.idonboard + '1' + priority;
 
   client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
     if (err) {
@@ -254,11 +301,13 @@ router.delete('/delete', user.authenticate(), function (req, res) {
         })
       })
     } else {
+      mqttMsgTimeout.resetForOneTime();
       // wait for ack message from device
       client.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-        if (ack) {
-          if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+        if (ack && ack.mac === deviceMac) {
+          mqttMsgTimeout.deactive();
+          if (ack.data === protocolConstant.ACK.HANDLED) {
             // if device received message, update database
             client.end();
             models.Actuator.deleteActuator(req.query.id, function () {

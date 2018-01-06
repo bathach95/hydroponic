@@ -15,7 +15,8 @@ module.exports = {
         CMD_ID: '04',
         DATA_LENGTH: '0012'
     },
-    TIME_OUT_DATA: 10,
+    TIME_OUT_DATA: 10, // second
+    TIME_OUT_REQUEST_MQTT: 5, // second
     DEVICE_STATUS_NO_CONNECTION: "no connection",
     DEVICE_STATUS_RUNNING: "running",
     TIME_ZONE: "Asia/Ho_Chi_Minh",

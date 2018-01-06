@@ -19,9 +19,9 @@ router.get('/all', user.authenticate(), function (req, res) {
         result.forEach(function (item) {
           var crop = item.dataValues;
           var today = new Date();
-          if (crop.startdate > today){
+          if (crop.startdate > today) {
             crop.status = "pending";
-          } else if (crop.startdate <= today && today <= crop.closedate){
+          } else if (crop.startdate <= today && today <= crop.closedate) {
             crop.status = "running";
           } else {
             crop.status = "end";
@@ -186,6 +186,18 @@ router.post('/add', user.authenticate(), function (req, res) {
               client.subscribe(serverTopic, function () {
                 console.log('this line subscribe success to ' + serverTopic)
               })
+
+              // ============ create timer ============
+              var callback = function () {
+                console.log("timeout for request: add crop")
+                client.end();
+                res.json({
+                  success: false,
+                  message: "Send message to device timeout. Cannot receive ack from device"
+                })
+              }
+              var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+              // ========================================
               // send update status message to device
               client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
                 if (err) {
@@ -199,11 +211,14 @@ router.post('/add', user.authenticate(), function (req, res) {
                   })
 
                 } else {
+                  mqttMsgTimeout.resetForOneTime();
                   // wait for ack message from device
                   client.on('message', function (topic, payload) {
                     var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-                    if (ack) {
-                      if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+                    if (ack && ack.mac === deviceMac) {
+                      mqttMsgTimeout.deactive();
+                      if (ack.data === protocolConstant.ACK.HANDLED) {
+                        mqttMsgTimeout
                         client.end();
                         var newCrop = req.body;
                         newCrop.startdate = moment.tz(req.body.startdate, protocolConstant.PARSE_TIME_FORMAT, protocolConstant.TIME_ZONE).format()
@@ -230,7 +245,7 @@ router.post('/add', user.authenticate(), function (req, res) {
 
         }
 
-      }, function(err){
+      }, function (err) {
         utils.log.error(err);
         res.json({
           success: false,
@@ -264,6 +279,18 @@ router.delete('/delete', user.authenticate(), function (req, res) {
       console.log("subscribe success to delete device")
     })
 
+    // ============ create timer ============
+    var callback = function () {
+      console.log("timeout for request: delete crop")
+      newClient.end();
+      res.json({
+        success: false,
+        message: "Send message to device timeout. Cannot receive ack from device"
+      })
+    }
+    var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+    // ========================================
+
     newClient.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
       if (err) {
         console.log(err);
@@ -275,12 +302,11 @@ router.delete('/delete', user.authenticate(), function (req, res) {
           })
         })
       } else {
-
+        mqttMsgTimeout.resetForOneTime();
         newClient.on('message', function (topic, payload) {
           var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
           if (ack && ack.mac === deviceMac) {
-            // newClient.end();
-            // [8C2C15E83A2C][02][0002][00]
+            mqttMsgTimeout.deactive();
             if (ack.data === protocolConstant.ACK.HANDLED) {
               // send package to delete schedule
               var deleteScheduleMsg = deviceMac.replace(/:/g, "") + '02' + '0002' + '00';
@@ -361,6 +387,18 @@ router.put('/edit', user.authenticate(), function (req, res) {
       client.subscribe(serverTopic, function () {
         console.log('this line subscribe success to ' + serverTopic)
       })
+
+      // ============ create timer ============
+      var callback = function () {
+        console.log("timeout for request: delete crop")
+        client.end();
+        res.json({
+          success: false,
+          message: "Send message to device timeout. Cannot receive ack from device"
+        })
+      }
+      var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+      // ========================================
       // send update status message to device
       client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
         if (err) {
@@ -374,11 +412,13 @@ router.put('/edit', user.authenticate(), function (req, res) {
           })
 
         } else {
+          mqttMsgTimeout.resetForOneTime();
           // wait for ack message from device
           client.on('message', function (topic, payload) {
             var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-            if (ack) {
-              if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+            if (ack && ack.mac === deviceMac) {
+              mqttMsgTimeout.deactive();
+              if (ack.data === protocolConstant.ACK.HANDLED) {
                 client.end();
                 result.update({
                   name: req.body.name,

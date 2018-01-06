@@ -171,6 +171,15 @@ function updateDeviceStatus(mac, oldStatus, newStatus) {
     }
   });
 }
+// ======== get timer for send mqtt message request =====
+var Timer = require('./timer');
+var TimerCounter = require('./timerCounter');
+var protocolConstant = require('./protocolConstant');
+
+function getMqttMsgTimer(callback){
+  var timer = new Timer(protocolConstant.TIME_OUT_REQUEST_MQTT, callback)
+  return new TimerCounter(timer);
+}
 
 module.exports = {
   getDateFromGMT: getDateFromGMT,
@@ -186,5 +195,6 @@ module.exports = {
   normalizeNumber: normalizeNumber,
   secondsToHMS: secondsToHMS,
   sendNotifyToMobile: sendNotifyToMobile,
-  updateDeviceStatus: updateDeviceStatus
+  updateDeviceStatus: updateDeviceStatus,
+  getMqttMsgTimer: getMqttMsgTimer
 }

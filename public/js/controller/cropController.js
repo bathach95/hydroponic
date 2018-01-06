@@ -54,7 +54,7 @@ controller
             });
           }
           else {
-            bootbox.alert(result.data.message);
+            flash.error = result.data.message;
           }
 
         })

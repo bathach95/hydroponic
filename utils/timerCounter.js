@@ -2,6 +2,7 @@ var events = require('events');
 
 module.exports = class TimerCounter {
     constructor(timer) {
+        this.loop = 1;
         this.timer = timer;
         this.eventEmitter = new events.EventEmitter();
         this.init();
@@ -18,8 +19,15 @@ module.exports = class TimerCounter {
         console.log("timer reset");
         this.timer.setElapsed(0);
         this.timer.setActive(1);
-
+        this.loop = 1;
     }
+    resetForOneTime() {
+        console.log("timer reset one time");
+        this.timer.setElapsed(0);
+        this.timer.setActive(1);
+        this.loop = 0;
+    }
+
     active() {
         this.timer.setActive(1);
     }
@@ -34,6 +42,9 @@ module.exports = class TimerCounter {
             if (this.timer.getElapsed() >= this.timer.getTimeStamp()) {
                 this.eventEmitter.emit('timeout');
                 this.timer.setElapsed(0);
+                if(this.loop !== 1){
+                    this.deactive();
+                }
             }
         }
 

@@ -30,16 +30,16 @@ models.Device.findAll({
 models.Device.findAll().then(function (result) {
   result.forEach(function (item) {
 
-  var mac = item.dataValues.mac;
-      // ======= create timer for device =======
-  var callback = function () {
-    console.log("sensor data timeout for device: " + mac)
-    var msg = "Your device "+ item.dataValues.name + " maybe died";
-    utils.sendNotifyToMobile(mac, msg);
-  }
-  var timeout = new Timer(protocolConstant.TIME_OUT_DATA, callback)
-  var sensorDataTimeout = new TimerCounter(timeout);
-  timerArray[mac] = sensorDataTimeout;
+    var mac = item.dataValues.mac;
+    // ======= create timer for device =======
+    var callback = function () {
+      console.log("sensor data timeout for device: " + mac)
+      var msg = "Your device " + item.dataValues.name + " maybe died";
+      utils.sendNotifyToMobile(mac, msg);
+    }
+    var timeout = new Timer(protocolConstant.TIME_OUT_DATA, callback)
+    var sensorDataTimeout = new TimerCounter(timeout);
+    timerArray[mac] = sensorDataTimeout;
   });
 })
 
@@ -141,24 +141,38 @@ router.get('/running', user.authenticate(), function (req, res) {
 })
 
 router.put('/status', user.authenticate(), function (req, res) {
-  var deviceMac = req.body.mac;
+  var deviceMac = req.body.mac.toUpperCase();
   var deviceTopic = utils.getDeviceTopic(deviceMac);
   var serverTopic = utils.getServerTopic(deviceMac);
-  const client = mqtt.connect(protocolConstant.MQTT_BROKER);
+  const newClient = mqtt.connect(protocolConstant.MQTT_BROKER);
 
   var newStatusCode = req.body.status === 'running' ? '1' : '0';
-  var statusMessageToDevice = deviceMac.toUpperCase() + '03' + '0003' + '00' + newStatusCode;
+  var statusMessageToDevice = deviceMac + '03' + '0003' + '00' + newStatusCode;
 
   // subscribe to server topic to get ACK package from device
-  client.subscribe(serverTopic, function () {
+  newClient.subscribe(serverTopic, function () {
     console.log('this line subscribe success to ' + serverTopic)
   })
+
+
+  // ============ create timer ============
+  var callback = function () {
+    console.log("timeout for request: change device status")
+    newClient.end();
+    res.json({
+      success: false,
+      message: "Send message to device timeout. Cannot receive ack from device"
+    })
+  }
+  var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+  // ========================================
+
   // send update status message to device
-  client.publish(deviceTopic, utils.encrypt(statusMessageToDevice), protocolConstant.MQTT_OPTIONS, function (err) {
+  newClient.publish(deviceTopic, utils.encrypt(statusMessageToDevice), protocolConstant.MQTT_OPTIONS, function (err) {
     if (err) {
       console.log(err);
       utils.log.err(err);
-      client.end(false, function () {
+      newClient.end(false, function () {
         res.json({
           success: false,
           message: 'Cannot send MQTT update status message to device'
@@ -166,13 +180,15 @@ router.put('/status', user.authenticate(), function (req, res) {
       })
 
     } else {
+      mqttMsgTimeout.resetForOneTime();
       // wait for ack message from device
-      client.on('message', function (topic, payload) {
+      newClient.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
         if (ack) {
           if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
+            mqttMsgTimeout.deactive();
             // if device received message, update database
-            client.end();
+            newClient.end();
             models.Device.getDeviceByMac(deviceMac, function (device) {
               if (device) {
                 device.updateStatus(req.body.status, function () {
@@ -226,12 +242,12 @@ router.post('/add', user.authenticate(), function (req, res) {
     utils.updateDeviceStatus(newDevice.mac, protocolConstant.DEVICE_STATUS_RUNNING, protocolConstant.DEVICE_STATUS_NO_CONNECTION);
   }
   var timeout = new Timer(protocolConstant.TIME_OUT_DATA, callback)
-  
+
   var sensorDataTimeout = new TimerCounter(timeout);
   sensorDataTimeout.reset();
   timerArray[newDevice.mac] = sensorDataTimeout;
   // =======================================
-  
+
   models.Device.getDeviceByMac(newDevice.mac,
     function (result) {
       if (result) {
@@ -266,38 +282,38 @@ router.post('/add', user.authenticate(), function (req, res) {
             })
           } else {
             // newClient.on('message', function (topic, payload) {
-              // var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
-              // if (ack && ack.mac === deviceMac) {
-                newClient.end();
-                // if (ack.data === protocolConstant.ACK.HANDLED) {
+            // var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
+            // if (ack && ack.mac === deviceMac) {
+            newClient.end();
+            // if (ack.data === protocolConstant.ACK.HANDLED) {
 
-                  models.Device.createDevice(newDevice, function () {
-                    client.subscribe(serverTopic, function () {
-                      utils.log.info("subscribe success after add new device");
-                      console.log("subscribe success after add new device");
-                      res.json({
-                        success: true,
-                        message: "Add device success"
-                      });
-                    });
+            models.Device.createDevice(newDevice, function () {
+              client.subscribe(serverTopic, function () {
+                utils.log.info("subscribe success after add new device");
+                console.log("subscribe success after add new device");
+                res.json({
+                  success: true,
+                  message: "Add device success"
+                });
+              });
 
-                  }, function (err) {
-                    utils.log.error(err);
-                    res.json({
-                      success: false,
-                      message: 'Cannot add device.'
-                    })
-                  })
+            }, function (err) {
+              utils.log.error(err);
+              res.json({
+                success: false,
+                message: 'Cannot add device.'
+              })
+            })
 
 
 
-                // } else {
-                //   res.json({
-                //     success: false,
-                //     message: 'Cannot send add device message.'
-                //   })
-                // }
-              // }
+            // } else {
+            //   res.json({
+            //     success: false,
+            //     message: 'Cannot send add device message.'
+            //   })
+            // }
+            // }
             // })
           }
         })
@@ -329,8 +345,20 @@ router.delete('/delete', user.authenticate(), function (req, res) {
     console.log("subscribe success to delete device")
   })
 
-  newClient.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err){
-    if (err){
+  // ============ create timer ============
+  var callback = function () {
+    console.log("timeout for request: delete device")
+    newClient.end();
+    res.json({
+      success: false,
+      message: "Send message to device timeout. Cannot receive ack from device"
+    })
+  }
+  var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+  // ========================================
+
+  newClient.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
+    if (err) {
       console.log(err);
       utils.log.err(err);
       newClient.end(false, function () {
@@ -340,10 +368,11 @@ router.delete('/delete', user.authenticate(), function (req, res) {
         })
       })
     } else {
-
+      mqttMsgTimeout.resetForOneTime();
       newClient.on('message', function (topic, payload) {
         var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
         if (ack && ack.mac === deviceMac) {
+          mqttMsgTimeout.deactive();
           newClient.end();
           if (ack.data === protocolConstant.ACK.HANDLED) {
 
@@ -374,7 +403,7 @@ router.delete('/delete', user.authenticate(), function (req, res) {
       })
 
     }
-  }) 
+  })
 });
 
 module.exports.client = client;

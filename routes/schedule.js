@@ -11,6 +11,8 @@ var fs = require('fs');
 var moment = require('moment');
 var parseMqttMsgUtils = require('../utils/parseMqttMsgUtils');
 var protocolConstant = require('../utils/protocolConstant');
+var Timer = require('../utils/timer');
+var TimerCounter = require('../utils/timerCounter');
 
 router.get('/all', user.authenticate(), function (req, res) {
   var cropId = req.query.cropId;
@@ -38,7 +40,7 @@ router.get('/searchall', function (req, res) {
 
   models.Crop.getCropById(cropId, function (result) {
     if (result.dataValues.share) {
-      result.getSchedules({include: models.Actuator}).then(function (schedules) {
+      result.getSchedules({ include: models.Actuator }).then(function (schedules) {
         var listScheduleSetting = [];
         schedules.forEach(function (item) {
           listScheduleSetting.push(item);
@@ -63,7 +65,6 @@ router.get('/searchall', function (req, res) {
     });
   })
 })
-
 
 router.delete('/delete', user.authenticate(), function (req, res) {
   var scheduleId = req.query.scheduleId;
@@ -103,8 +104,20 @@ router.get('/sync', user.authenticate(), function (req, res) {
   var commandId = '02';
   var message = deviceMac.replace(/:/g, "").toUpperCase() + commandId;
   var dataLength = 0;
-  //var topic = 'device/' + mac + '/esp';
   var numOfActuatorsWithSchedules = 0;
+
+  // ============ create timer ============
+  var callback = function () {
+    console.log("timeout for request: sync")
+    client.end();
+    res.json({
+      success: false,
+      message: "Send message to device timeout. Cannot receive ack from device"
+    })
+  }
+  var mqttMsgTimeout = utils.getMqttMsgTimer(callback);
+  // ========================================
+
   models.Device.getDeviceByMac(deviceMac, function (deviceItem) {
     if (deviceItem) {
       var query = {
@@ -140,14 +153,11 @@ router.get('/sync', user.authenticate(), function (req, res) {
         for (i = 0; i < listStrings.length; i++) {
           message = message.concat(listStrings[i]);
         }
-        console.log(message);
         // subscribe to server topic to get ACK package from device
         client.subscribe(serverTopic, function () {
           console.log('this line subscribe success to ' + serverTopic)
         })
         // send update status message to device
-        var startSendMsg = new Date();
-        console.log("send time: " + startSendMsg);
         client.publish(deviceTopic, utils.encrypt(message), protocolConstant.MQTT_OPTIONS, function (err) {
           if (err) {
             console.log(err);
@@ -160,14 +170,13 @@ router.get('/sync', user.authenticate(), function (req, res) {
             })
 
           } else {
+            mqttMsgTimeout.resetForOneTime(); // reset timer when publish mesage
             // wait for ack message from device
             client.on('message', function (topic, payload) {
               var ack = parseMqttMsgUtils.parseAckMsg(utils.decrypt(payload));
               if (ack) {
                 if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
-                  var endReceivedMsg = new Date();
-                  console.log("receive time: " + endReceivedMsg);
-                  console.log("send msg time is: " + (endReceivedMsg - startSendMsg));
+                  mqttMsgTimeout.deactive();
                   client.end();
                   models.Crop.getCropById(cropId, function (crop) {
                     if (crop) {
