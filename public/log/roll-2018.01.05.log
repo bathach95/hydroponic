@@ -1,0 +1,237 @@
+22:37:47.549 INFO  Admin account was created 
+22:37:48.207 INFO  subscribe success to device/8C2C15E83A2C/server 
+22:37:48.598 INFO  subscribe success to device/BAB760940160/server 
+22:37:48.600 INFO  subscribe success to device/112233445566/server 
+22:37:51.837 INFO  34 add data success to running crop 
+22:37:56.799 INFO  34 add data success to running crop 
+22:38:01.835 INFO  34 add data success to running crop 
+22:38:06.801 INFO  34 add data success to running crop 
+22:38:11.813 INFO  34 add data success to running crop 
+22:38:14.717 ERROR Incoming data is not right format 
+22:38:16.424 ERROR Incoming data is not right format 
+22:38:16.861 INFO  No running crop 
+22:38:17.184 ERROR Incoming data is not right format 
+22:38:22.375 INFO  No running crop 
+22:38:26.852 INFO  No running crop 
+22:38:31.499 ERROR Incoming data is not right format 
+22:38:32.165 INFO  35 add data success to running crop 
+22:38:36.842 INFO  35 add data success to running crop 
+22:38:41.872 INFO  35 add data success to running crop 
+22:38:46.869 INFO  35 add data success to running crop 
+22:38:51.849 INFO  35 add data success to running crop 
+22:38:56.867 INFO  35 add data success to running crop 
+22:39:02.396 INFO  35 add data success to running crop 
+22:39:06.882 INFO  35 add data success to running crop 
+22:39:11.884 INFO  35 add data success to running crop 
+22:39:16.840 INFO  35 add data success to running crop 
+22:39:21.834 INFO  35 add data success to running crop 
+22:39:26.834 INFO  35 add data success to running crop 
+22:39:31.857 INFO  35 add data success to running crop 
+22:39:36.847 INFO  35 add data success to running crop 
+22:39:41.887 INFO  35 add data success to running crop 
+22:39:46.918 INFO  35 add data success to running crop 
+22:39:51.935 INFO  35 add data success to running crop 
+22:39:56.936 INFO  35 add data success to running crop 
+22:40:01.895 INFO  35 add data success to running crop 
+22:40:06.892 INFO  35 add data success to running crop 
+22:40:11.862 INFO  35 add data success to running crop 
+22:40:16.875 INFO  35 add data success to running crop 
+22:40:21.904 INFO  35 add data success to running crop 
+22:40:26.924 INFO  35 add data success to running crop 
+22:40:31.926 INFO  35 add data success to running crop 
+22:40:36.910 INFO  35 add data success to running crop 
+22:40:41.932 INFO  35 add data success to running crop 
+22:40:46.956 INFO  35 add data success to running crop 
+22:40:51.975 INFO  35 add data success to running crop 
+22:40:56.948 INFO  35 add data success to running crop 
+22:41:01.921 INFO  35 add data success to running crop 
+22:41:06.906 INFO  35 add data success to running crop 
+22:41:11.931 INFO  35 add data success to running crop 
+22:41:16.993 INFO  35 add data success to running crop 
+22:41:22.078 INFO  35 add data success to running crop 
+22:41:27.010 INFO  35 add data success to running crop 
+22:41:31.986 INFO  35 add data success to running crop 
+22:41:36.974 INFO  35 add data success to running crop 
+22:41:41.983 INFO  35 add data success to running crop 
+22:41:46.988 INFO  35 add data success to running crop 
+22:41:51.959 INFO  35 add data success to running crop 
+22:41:56.977 INFO  35 add data success to running crop 
+22:47:24.207 INFO  Admin account was created 
+22:47:24.835 INFO  subscribe success to device/8C2C15E83A2C/server 
+22:47:25.205 INFO  subscribe success to device/BAB760940160/server 
+22:47:25.207 INFO  subscribe success to device/112233445566/server 
+22:47:27.268 INFO  35 add data success to running crop 
+22:47:32.279 INFO  35 add data success to running crop 
+22:47:36.408 ERROR Incoming data is not right format 
+22:47:37.238 INFO  35 add data success to running crop 
+22:47:37.541 ERROR Incoming data is not right format 
+22:47:38.815 ERROR Incoming data is not right format 
+22:47:42.218 INFO  No running crop 
+22:47:47.249 INFO  No running crop 
+22:47:52.840 INFO  No running crop 
+22:47:57.265 INFO  No running crop 
+22:48:02.252 INFO  No running crop 
+22:48:03.301 ERROR Incoming data is not right format 
+22:51:30.248 INFO  Admin account was created 
+22:51:30.916 INFO  subscribe success to device/8C2C15E83A2C/server 
+22:51:31.312 INFO  subscribe success to device/BAB760940160/server 
+22:51:31.314 INFO  subscribe success to device/112233445566/server 
+22:51:32.450 INFO  36 add data success to running crop 
+22:51:37.464 INFO  36 add data success to running crop 
+22:51:40.576 ERROR Incoming data is not right format 
+22:51:41.640 ERROR Incoming data is not right format 
+22:51:42.445 INFO  No running crop 
+22:51:42.768 ERROR client disconnecting
+Error: client disconnecting
+    at MqttClient._checkDisconnecting (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:333:16)
+    at MqttClient.publish (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:373:12)
+    at MqttClient.<anonymous> (/home/thach/Documents/TTTN/hydroponic/routes/crop.js:295:25)
+    at emitThree (events.js:121:20)
+    at MqttClient.emit (events.js:194:7)
+    at MqttClient._handlePublish (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:886:12)
+    at MqttClient._handlePacket (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:301:12)
+    at process (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:257:12)
+    at MqttClient.handleMessage (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:905:3)
+    at MqttClient._handlePublish (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:887:12)
+    at MqttClient._handlePacket (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:301:12)
+    at process (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:257:12)
+    at Writable.writable._write (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/lib/client.js:267:5)
+    at doWrite (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/node_modules/readable-stream/lib/_stream_writable.js:406:64)
+    at writeOrBuffer (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/node_modules/readable-stream/lib/_stream_writable.js:395:5)
+    at Writable.write (/home/thach/Documents/TTTN/hydroponic/node_modules/mqtt/node_modules/readable-stream/lib/_stream_writable.js:322:11)
+    at Socket.ondata (_stream_readable.js:555:20)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20) 
+22:51:42.780 ERROR Incoming data is not right format 
+22:51:47.425 INFO  No running crop 
+22:51:52.399 INFO  No running crop 
+22:51:57.456 INFO  No running crop 
+22:52:02.365 INFO  No running crop 
+22:52:05.787 ERROR Incoming data is not right format 
+22:52:07.470 INFO  37 add data success to running crop 
+22:52:12.473 INFO  37 add data success to running crop 
+22:52:17.480 INFO  37 add data success to running crop 
+22:52:22.475 INFO  37 add data success to running crop 
+22:52:27.451 INFO  37 add data success to running crop 
+22:52:32.450 INFO  37 add data success to running crop 
+22:52:37.457 INFO  37 add data success to running crop 
+22:52:42.496 INFO  37 add data success to running crop 
+22:52:47.511 INFO  37 add data success to running crop 
+22:52:52.486 INFO  37 add data success to running crop 
+22:52:57.460 INFO  37 add data success to running crop 
+22:53:02.424 INFO  37 add data success to running crop 
+22:53:08.014 INFO  37 add data success to running crop 
+22:53:12.514 INFO  37 add data success to running crop 
+22:53:17.518 INFO  37 add data success to running crop 
+22:53:22.498 INFO  37 add data success to running crop 
+22:53:27.459 INFO  37 add data success to running crop 
+22:53:32.467 INFO  37 add data success to running crop 
+22:53:37.542 INFO  37 add data success to running crop 
+22:53:42.558 INFO  37 add data success to running crop 
+22:53:47.492 INFO  37 add data success to running crop 
+22:53:52.503 INFO  37 add data success to running crop 
+22:53:57.500 INFO  37 add data success to running crop 
+22:54:02.511 INFO  37 add data success to running crop 
+22:54:07.553 INFO  37 add data success to running crop 
+22:54:12.555 INFO  37 add data success to running crop 
+22:54:17.527 INFO  37 add data success to running crop 
+22:54:22.522 INFO  37 add data success to running crop 
+22:54:27.545 INFO  37 add data success to running crop 
+22:54:33.058 INFO  37 add data success to running crop 
+22:54:37.543 INFO  37 add data success to running crop 
+22:54:42.563 INFO  37 add data success to running crop 
+22:54:47.507 INFO  37 add data success to running crop 
+22:54:52.503 INFO  37 add data success to running crop 
+22:54:57.575 INFO  37 add data success to running crop 
+22:55:02.614 INFO  37 add data success to running crop 
+22:55:07.548 INFO  37 add data success to running crop 
+22:55:12.555 INFO  37 add data success to running crop 
+22:55:17.525 INFO  37 add data success to running crop 
+22:55:22.559 INFO  37 add data success to running crop 
+22:55:27.600 INFO  37 add data success to running crop 
+22:55:33.124 INFO  37 add data success to running crop 
+22:55:37.592 INFO  37 add data success to running crop 
+22:55:42.532 INFO  37 add data success to running crop 
+22:55:47.579 INFO  37 add data success to running crop 
+22:55:52.615 INFO  37 add data success to running crop 
+22:55:58.105 INFO  37 add data success to running crop 
+22:56:02.574 INFO  37 add data success to running crop 
+22:56:07.554 INFO  37 add data success to running crop 
+22:56:12.612 INFO  37 add data success to running crop 
+22:56:17.610 INFO  37 add data success to running crop 
+22:56:22.651 INFO  37 add data success to running crop 
+22:56:27.604 INFO  37 add data success to running crop 
+22:56:33.165 INFO  37 add data success to running crop 
+22:56:37.630 INFO  37 add data success to running crop 
+22:56:42.614 INFO  37 add data success to running crop 
+22:56:47.620 INFO  37 add data success to running crop 
+22:56:52.651 INFO  37 add data success to running crop 
+22:56:58.146 INFO  37 add data success to running crop 
+22:57:02.677 INFO  37 add data success to running crop 
+22:57:07.651 INFO  37 add data success to running crop 
+22:57:12.650 INFO  37 add data success to running crop 
+22:57:17.634 INFO  37 add data success to running crop 
+22:57:22.680 INFO  37 add data success to running crop 
+22:57:28.198 INFO  37 add data success to running crop 
+22:57:32.662 INFO  37 add data success to running crop 
+22:57:37.635 INFO  37 add data success to running crop 
+22:57:42.710 INFO  37 add data success to running crop 
+22:57:47.710 INFO  37 add data success to running crop 
+22:57:52.702 INFO  37 add data success to running crop 
+22:57:57.647 INFO  37 add data success to running crop 
+22:58:02.677 INFO  37 add data success to running crop 
+22:58:07.700 INFO  37 add data success to running crop 
+22:58:13.193 INFO  37 add data success to running crop 
+22:58:17.722 INFO  37 add data success to running crop 
+22:58:22.712 INFO  37 add data success to running crop 
+22:58:27.692 INFO  37 add data success to running crop 
+22:58:32.687 INFO  37 add data success to running crop 
+22:58:37.752 INFO  37 add data success to running crop 
+22:58:42.762 INFO  37 add data success to running crop 
+22:58:47.747 INFO  37 add data success to running crop 
+22:58:52.404 ERROR Incoming data is not right format 
+22:58:53.032 ERROR Incoming data is not right format 
+22:58:53.592 INFO  37 add data success to running crop 
+22:58:53.928 ERROR Incoming data is not right format 
+22:58:57.728 INFO  37 add data success to running crop 
+22:59:02.729 INFO  37 add data success to running crop 
+22:59:08.256 INFO  37 add data success to running crop 
+22:59:12.764 INFO  37 add data success to running crop 
+22:59:17.703 INFO  37 add data success to running crop 
+22:59:22.686 INFO  37 add data success to running crop 
+22:59:27.780 INFO  37 add data success to running crop 
+22:59:32.773 INFO  37 add data success to running crop 
+22:59:37.712 ERROR Incoming data is not right format 
+22:59:38.121 INFO  37 add data success to running crop 
+22:59:42.789 INFO  37 add data success to running crop 
+22:59:47.778 INFO  37 add data success to running crop 
+22:59:52.787 INFO  37 add data success to running crop 
+22:59:57.733 INFO  37 add data success to running crop 
+23:00:02.770 INFO  37 add data success to running crop 
+23:00:07.757 INFO  37 add data success to running crop 
+23:00:12.799 INFO  37 add data success to running crop 
+23:00:18.286 INFO  37 add data success to running crop 
+23:00:23.300 INFO  37 add data success to running crop 
+23:00:27.750 INFO  37 add data success to running crop 
+23:00:32.764 INFO  37 add data success to running crop 
+23:00:37.802 INFO  37 add data success to running crop 
+23:00:42.797 INFO  37 add data success to running crop 
+23:00:47.800 INFO  37 add data success to running crop 
+23:00:53.313 INFO  37 add data success to running crop 
+23:00:57.786 INFO  37 add data success to running crop 
+23:01:02.757 INFO  37 add data success to running crop 
+23:01:07.822 INFO  37 add data success to running crop 
+23:01:12.843 INFO  37 add data success to running crop 
+23:01:17.843 INFO  37 add data success to running crop 
+23:01:22.808 INFO  37 add data success to running crop 
+23:01:27.841 INFO  37 add data success to running crop 
+23:01:32.826 INFO  37 add data success to running crop 
+23:01:37.827 INFO  37 add data success to running crop 
+09:11:52.680 ERROR Notify err: Error: getaddrinfo ENOTFOUND fcm.googleapis.com fcm.googleapis.com:443 
+09:12:04.004 INFO  Notify sucess: {"message_id":5475483902100561231} 
+09:12:13.858 INFO  Notify sucess: {"message_id":7087732830554046819} 
+10:20:14.651 ERROR Notify err: Error: getaddrinfo ENOTFOUND fcm.googleapis.com fcm.googleapis.com:443 
+

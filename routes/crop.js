@@ -18,7 +18,7 @@ router.get('/all', user.authenticate(), function (req, res) {
 
         result.forEach(function (item) {
           var crop = item.dataValues;
-          var today = moment(new Date()).utcOffset(protocolConstant.TIME_ZONE);
+          var today = new Date();
           if (crop.startdate > today){
             crop.status = "pending";
           } else if (crop.startdate <= today && today <= crop.closedate){
@@ -208,8 +208,8 @@ router.post('/add', user.authenticate(), function (req, res) {
                       if (ack.mac === deviceMac && ack.data === protocolConstant.ACK.HANDLED) {
                         client.end();
                         var newCrop = req.body;
-                        newCrop.startdate = moment(req.body.startdate, parseTimeFormat).utcOffset(protocolConstant.TIME_ZONE);
-                        newCrop.closedate = moment(req.body.closedate, parseTimeFormat).utcOffset(protocolConstant.TIME_ZONE);
+                        newCrop.startdate = moment(req.body.startdate, parseTimeFormat)
+                        newCrop.closedate = moment(req.body.closedate, parseTimeFormat)
                         models.Crop.createCrop(newCrop, function () {
                           res.json({
                             success: true,
