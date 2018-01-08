@@ -123,7 +123,15 @@
             <h4 class="modal-title">Add new crop for this device</h4>
           </div>
           <div class="modal-body">
-
+            <style media="screen">
+              .bootstrap-datetimepicker-widget .btn{
+                color: #0A1B2A;
+                border: 1px solid #A4A4A4;
+              }
+              .bootstrap-datetimepicker-widget a{
+                color: #0A1B2A;
+              }
+            </style>
             <div class="row">
               <label for="name" class="col-md-4 col-sm-4">Crop Name</label>
               <input required ng-model="newCrop.name" class="col-md-7 col-sm-7" type="text" name="name" />
@@ -300,7 +308,7 @@
       padding: 5px 0px;
     }
   </style>
-  
+
   <!-- Start add actuator modal -->
   <div class="modal fade" id="addActuatorModal" role="dialog" ng-controller="ActuatorCtrl">
     <div class="modal-dialog">
