@@ -237,7 +237,7 @@ router.post('/add', user.authenticate(), function (req, res) {
   // ======= create timer for device =======
   var callback = function () {
     console.log("sensor data timeout for device: " + newDevice.mac)
-    var msg = "Your device maybe died";
+    var msg = "Your device " + newDevice.name + " maybe died";
     utils.sendNotifyToMobile(newDevice.mac, msg);
     utils.updateDeviceStatus(newDevice.mac, protocolConstant.DEVICE_STATUS_RUNNING, protocolConstant.DEVICE_STATUS_NO_CONNECTION);
   }
