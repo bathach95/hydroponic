@@ -14,6 +14,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
+    mode: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     idonboard: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -23,6 +27,11 @@ module.exports = function(sequelize, DataTypes) {
       updateStatus: function (newStatus, callback, err) {
         this.update({
           status: newStatus
+        }).then(callback).catch(err);
+      },
+      updateMode: function (newMode, callback, err) {
+        this.update({
+          mode: newMode
         }).then(callback).catch(err);
       },
       updatePriority: function (newPriority, callback, err) {

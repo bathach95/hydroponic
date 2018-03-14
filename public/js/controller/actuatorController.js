@@ -1,29 +1,29 @@
-controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $window, $scope, $timeout, $q, ActuatorService, GetTimeService, flash){
+controller.controller('ActuatorCtrl', function ($http, $state, $stateParams, $window, $scope, $timeout, $q, ActuatorService, GetTimeService, flash) {
 
   $scope.dataTableOpt = {
-    "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50,'All']],
+    "aLengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50, 'All']],
   };
 
   $scope.actuatorTypes = ['Water', 'Fan', 'Lighting', 'Oxygen'];
-  ActuatorService.getAllActuatorsByMac($stateParams.mac).then(function(result){
+  ActuatorService.getAllActuatorsByMac($stateParams.mac).then(function (result) {
     $scope.listActuators = result.data.data;
     $scope.actuatorTypesAndAvalableId = ActuatorService.getAvailableActuator(result.data.data);
   });
 
   $scope.newActuator = {
     devicemac: $stateParams.mac,
-      actuator: {
-        status: 'off'
-      }
+    actuator: {
+      status: 'off'
     }
+  }
 
   $scope.addActuator = function () {
     $("#addActuatorModal").modal('hide');
-    ActuatorService.addActuator($scope.newActuator).then(function(result){
+    ActuatorService.addActuator($scope.newActuator).then(function (result) {
       if (result.data.success) {
         flash.success = result.data.message;
         bootbox.alert(result.data.message, function () {
-            $state.reload();
+          $state.reload();
         })
 
       } else {
@@ -54,16 +54,9 @@ controller.controller('ActuatorCtrl', function($http, $state, $stateParams, $win
     });
   }
 
-  $scope.changeActuatorPriority = function(index, idonboard, id, priority){
-    var newPriority;
-    // = priority === 'Primary'? 'Secondary' : 'Primary';
-    if (priority === 'Primary')
-    {
-      newPriority = 'Secondary';
-    }
-    else {
-      newPriority = 'Primary';
-    }
+  $scope.changeActuatorPriority = function (index, idonboard, id, priority) {
+    var newPriority = priority === 'Primary' ? 'Secondary' : 'Primary';
+
     bootbox.confirm('Do you want to change priority of this device to \'' + newPriority + '\' ?', function (yes) {
       if (yes) {
         var actuator = {
