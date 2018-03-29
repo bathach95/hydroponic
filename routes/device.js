@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var user = require('./user.js');
 var models = require('../models');
+var multer = require('multer');
 const mqtt = require('mqtt');
 const client = mqtt.connect('mqtt://13.58.114.56:1883');
 
@@ -27,11 +28,49 @@ function sendDeviceStatusToDevice(mac, newStatusMessageToDevice) {
 
 //================================ end ===================================
 
+var storage = multer.diskStorage({ //multers disk storage settings
+  destination: function (req, file, cb) {
+    cb(null, './upload/');
+  },
+  filename: function (req, file, cb) {
+    var datetimestamp = Date.now();
+    cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+  }
+});
+
+var upload = multer({ //multer settings
+  storage: storage
+}).single('file');
+
+router.get('/firmware', function(req, res) {
+  
+})
+
+router.post('/upload', user.authenticate(), function (req, res) {
+  upload(req, res, function (err) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err
+      });
+      return;
+    }
+    res.json({
+      success: true,
+      message: "Upload file success"
+    });
+  });
+})
+
 router.get('/all', user.authenticate(), function (req, res) {
 
   models.User.getUserById(req.user.id, function (user) {
     if (user) {
-      user.getDevices({ order: [['createdAt', 'DESC']] }).then(function (result) {
+      user.getDevices({
+        order: [
+          ['createdAt', 'DESC']
+        ]
+      }).then(function (result) {
         var deviceList = [];
 
         result.forEach(function (item) {
@@ -56,28 +95,31 @@ router.get('/all', user.authenticate(), function (req, res) {
 
 })
 
-router.get('/running', user.authenticate(), function(req, res){
+router.get('/running', user.authenticate(), function (req, res) {
   models.User.getUserById(req.user.id, function (user) {
     if (user) {
       user.getDevices({
-        where:{
+        where: {
           status: 'running'
         }
       }).then(function (result) {
         var deviceDataList = [];
 
-        Promise.all(result.map(function(item){
+        Promise.all(result.map(function (item) {
           console.log(item);
-          return new Promise(function(resolve, reject) {
+          return new Promise(function (resolve, reject) {
             item.getCrops({
-              where:{
+              where: {
                 status: true
               }
             }).then(function (cropResult) {
-              return new Promise(function(result, reject){
-                cropResult[0].getData({ order: [['createdAt', 'DESC']] }).then(function (dataResult) {
-                  if (dataResult[0])
-                  {
+              return new Promise(function (result, reject) {
+                cropResult[0].getData({
+                  order: [
+                    ['createdAt', 'DESC']
+                  ]
+                }).then(function (dataResult) {
+                  if (dataResult[0]) {
                     var returnValue = {
                       device: item.dataValues,
                       crop: cropResult[0].dataValues,
@@ -85,8 +127,7 @@ router.get('/running', user.authenticate(), function(req, res){
                     };
                     deviceDataList.push(returnValue);
                     resolve(dataResult[0]);
-                  }
-                  else {
+                  } else {
                     var returnValue = {
                       device: item.dataValues,
                       crop: cropResult[0].dataValues,
@@ -99,7 +140,7 @@ router.get('/running', user.authenticate(), function(req, res){
               });
             })
           });
-        })).then(function(value) {
+        })).then(function (value) {
           res.json({
             success: true,
             data: deviceDataList,
@@ -107,9 +148,7 @@ router.get('/running', user.authenticate(), function(req, res){
           });
         })
       })
-    }
-    else
-    {
+    } else {
       res.json({
         success: false,
         message: 'User does not exist!'
@@ -119,17 +158,15 @@ router.get('/running', user.authenticate(), function(req, res){
   });
 })
 
-router.put('/status', user.authenticate(), function(req, res){
+router.put('/status', user.authenticate(), function (req, res) {
   setTimeout(function () {
     models.Device.getDeviceByMac(req.body.mac, function (device) {
       if (device) {
         device.updateStatus(req.body.status, function () {
           var newStatusCode;
-          if (req.body.status == 'running')
-          {
+          if (req.body.status == 'running') {
             newStatusCode = '1';
-          }
-          else {
+          } else {
             newStatusCode = '0';
           }
           var statusMessageToDevice = req.body.mac + '03' + '0003' + '00' + newStatusCode;

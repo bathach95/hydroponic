@@ -1,84 +1,128 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css">
 <div class="sidebar-mini fixed">
-    <div class="wrapper">
-      <!-- Navbar-->
-      <header class="main-header hidden-print"><a class="logo" href="index-hydroponics.html">BK Hydroponics</a>
-        <nav class="navbar navbar-static-top">
-          <!-- Sidebar toggle button--><a class="sidebar-toggle" href="#" data-toggle="offcanvas"></a>
-          <!-- Navbar Right Menu-->
-          <div class="navbar-custom-menu">
-            <ul class="top-nav">
-              <!-- User Menu-->
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i></a>
-                <ul class="dropdown-menu settings-menu">
-                  <li><a ui-sref="home"><i class="fa fa-home fa-lg"></i> Back to Home Page</a></li>
-                  <li><a href="" ng-click="logout()"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
-      <!-- Side-Nav-->
-      <aside class="main-sidebar hidden-print">
-        <section class="sidebar">
-          <div class="user-panel">
-            <div class="pull-left image"><img class="img-circle" src="/images/profile-images/default.jpg" alt="User Image"></div>
-            <div class="pull-left info">
-              <p>{{userLogin}}</p>
-              <p class="designation">{{emailLogin}}</p>
-            </div>
-          </div>
-          <!-- Sidebar Menu-->
-          <ul class="sidebar-menu">
-            <li class="treeview"><a ui-sref="home"><i class="fa fa-home"></i><span>Back to Home Page</span></a></li>
-            <li class="active"><a><i class="fa fa-server"></i><span>Administration</span></a></li>
-            <li class="treeview"><a ui-sref="user_manager"><i class="fa fa-user-circle"></i><span>Manage Users</span></a></li>
-            <li class="treeview"><a ui-sref="article_manager_admin"><i class="fa fa-newspaper-o"></i><span>Manage Articles</span></a></li>
+  <div class="wrapper">
+    <!-- Navbar-->
+    <header class="main-header hidden-print">
+      <a class="logo" href="index-hydroponics.html">BK Hydroponics</a>
+      <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a class="sidebar-toggle" href="#" data-toggle="offcanvas"></a>
+        <!-- Navbar Right Menu-->
+        <div class="navbar-custom-menu">
+          <ul class="top-nav">
+            <!-- User Menu-->
+            <li class="dropdown">
+              <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user fa-lg"></i>
+              </a>
+              <ul class="dropdown-menu settings-menu">
+                <li>
+                  <a ui-sref="home">
+                    <i class="fa fa-home fa-lg"></i> Back to Home Page</a>
+                </li>
+                <li>
+                  <a href="" ng-click="logout()">
+                    <i class="fa fa-sign-out fa-lg"></i> Logout</a>
+                </li>
+              </ul>
+            </li>
           </ul>
-        </section>
-      </aside>
-      <div class="content-wrapper">
-        <div class="page-title">
-          <div>
-            <h1><i class="fa fa-home"></i> Home</h1>
-            <p>Administration dashboard.</p>
+        </div>
+      </nav>
+    </header>
+    <!-- Side-Nav-->
+    <aside class="main-sidebar hidden-print">
+      <section class="sidebar">
+        <div class="user-panel">
+          <div class="pull-left image">
+            <img class="img-circle" src="/images/profile-images/default.jpg" alt="User Image">
           </div>
-          <div>
-            <ul class="breadcrumb">
-              <li><i class="fa fa-home fa-lg"></i></li>
-              <li><a href="#">Dashboard</a></li>
-            </ul>
+          <div class="pull-left info">
+            <p>{{userLogin}}</p>
+            <p class="designation">{{emailLogin}}</p>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-4">
-          <a ui-sref="home">
-            <div class="card" style="text-align:center;">
-              <h3 class="card-title">Back to Home Page</h3>
-              <i class="fa fa-home" style="font-size: 80px;"></i>
-            </div>
-          </a>
-          </div>
-          <div class="col-md-4">
+        <!-- Sidebar Menu-->
+        <ul class="sidebar-menu">
+          <li class="treeview">
+            <a ui-sref="home">
+              <i class="fa fa-home"></i>
+              <span>Back to Home Page</span>
+            </a>
+          </li>
+          <li class="active">
+            <a>
+              <i class="fa fa-server"></i>
+              <span>Administration</span>
+            </a>
+          </li>
+          <li class="treeview">
+            <a ui-sref="user_manager">
+              <i class="fa fa-user-circle"></i>
+              <span>Manage Users</span>
+            </a>
+          </li>
+          <li class="treeview">
+            <a ui-sref="article_manager_admin">
+              <i class="fa fa-newspaper-o"></i>
+              <span>Manage Articles</span>
+            </a>
+          </li>
+          <li class="treeview">
+            <a ui-sref="device_manager_admin">
+              <i class="fa fa-newspaper-o"></i>
+              <span>Manage Devices</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </aside>
+    <div class="content-wrapper">
+      <div class="page-title">
+        <div>
+          <h1>
+            <i class="fa fa-home"></i> Home</h1>
+          <p>Administration dashboard.</p>
+        </div>
+        <div>
+          <ul class="breadcrumb">
+            <li>
+              <i class="fa fa-home fa-lg"></i>
+            </li>
+            <li>
+              <a href="#">Dashboard</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
           <a ui-sref="user_manager">
             <div class="card" style="text-align:center;">
               <h3 class="card-title">Manage Users</h3>
               <i class="fa fa-user-circle" style="font-size: 80px;"></i>
             </div>
           </a>
-          </div>
-          <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
           <a ui-sref="article_manager_admin">
             <div class="card" style="text-align:center;">
               <h3 class="card-title">Manage Articles</h3>
               <i class="fa fa-newspaper-o" style="font-size: 80px;"></i>
             </div>
           </a>
-          </div>
+        </div>
+        <div class="col-md-4">
+          <a ui-sref="device_manager_admin">
+            <div class="card" style="text-align:center;">
+              <h3 class="card-title">Manage Devices</h3>
+              <i class="fa fa-newspaper-o" style="font-size: 80px;"></i>
+            </div>
+          </a>
         </div>
       </div>
     </div>
   </div>
-    <!-- Javascripts-->
-    <script src="/js/main.js"></script>
+</div>
+<!-- Javascripts-->
+<script src="/js/main.js"></script>

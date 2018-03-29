@@ -303,6 +303,15 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: true
             }
         })
+        .state('device_manager_admin', {
+            url: '/admin/manager_device.html',
+            templateUrl: '/views/private/device/manager_device.html',
+            controller: 'DeviceManageCtrl',
+            access: {
+                roles: ['admin'],
+                requiredLogin: true
+            }
+        })
         .state('404', {
             url: '/404.html',
             templateUrl: 'views/404.html',
@@ -310,4 +319,5 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
                 requiredLogin: false
             }
         })
+        
 });
