@@ -35,6 +35,25 @@ router.get('/all', user.authenticate(), function (req, res) {
   }, models)
 })
 
+router.get('/crop/:cropId/actuator/:actuatorId', user.authenticate(), function(req, res) {
+  models.Schedule.getScheduleByCropIdAndActuatorId(req.params.cropId, req.params.actuatorId, function(result) {
+    var listScheduleSetting = [];
+    result.forEach(function (item) {
+      listScheduleSetting.push(item);
+    });
+    res.send({
+      success: true,
+      data: listScheduleSetting,
+      message: "Get schedule successfully!"
+    });
+  }, function(err) {
+    res.json({
+      success: false,
+      message: err
+    });
+  });
+});
+
 router.get('/searchall', function (req, res) {
   var cropId = req.query.cropId;
 
@@ -64,7 +83,7 @@ router.get('/searchall', function (req, res) {
       message: "Error when getting crop info!"
     });
   })
-})
+});
 
 router.delete('/delete', user.authenticate(), function (req, res) {
   var scheduleId = req.query.scheduleId;

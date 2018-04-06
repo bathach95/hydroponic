@@ -40,6 +40,16 @@ module.exports = function(sequelize, DataTypes) {
         Schedule.findAll(query).then(callback).catch(err);
         //sequelize.query('SELECT * FROM Schedule, Actuator WHERE Schedule.name = Actuator.name').success(callback);
       },
+      getScheduleByCropIdAndActuatorId: function(cropId, actuatorId, callback, err) {
+        var query = {
+          where: {
+            CropId: cropId,
+            ActuatorId: actuatorId
+          },
+          order: [['starttime', 'ASC']]
+        };
+        Schedule.findAll(query).then(callback).catch(err);
+      },
       deleteScheduleSettingById: function(scheduleId, callback, err){
         var query = {
           where: {
